@@ -1,0 +1,12 @@
+Package: itertools
+Type: Package
+Title: Iterator Tools
+Version: 0.1
+Author: Steve Weston
+Maintainer: Steve Weston <stephen.b.weston@gmail.com>
+Description: Various tools for creating iterators, many patterned after
+        functions in the Python itertools module.
+Depends: R (>= 2.5.0), iterators(>= 1.0.0)
+Suggests: foreach
+Enhances: foreach, iterators
+License: GPL-2

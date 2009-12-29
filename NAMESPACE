@@ -1,0 +1,5 @@
+export(product, ihasNext, ilimit, izip, enumerate, chain,
+       ifilter, ifilterfalse, irep, recycle)
+export(hasNext)
+S3method("hasNext", "ihasNext")
+import(iterators)
