@@ -16,7 +16,8 @@ cat('Starting test at', date(), '\n')
 
 tests <- c('productTest.R', 'ihasNextTest.R', 'izipTest.R',
            'enumerateTest.R', 'ilimitTest.R', 'chainTest.R',
-           'ifilterTest.R', 'irepTest.R', 'recycleTest.R')
+           'ifilterTest.R', 'irepTest.R', 'recycleTest.R',
+           'ichunkTest.R')
 
 errcase <- list()
 for (f in tests) {
