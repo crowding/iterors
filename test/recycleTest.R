@@ -15,3 +15,8 @@ test02 <- function() {
     checkEquals(actual, expected)
   }
 }
+
+# Test with no arguments
+test03 <- function() {
+  checkException(recycle())
+}

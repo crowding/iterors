@@ -17,6 +17,12 @@
 # USA
 
 recycle <- function(iterable) {
+  # Manually check for a missing argument since "inherits" issues
+  # a cryptic error message in that case
+  if (missing(iterable)) {
+    stop('argument "iterable" is missing, with no default')
+  }
+
   if (! inherits(iterable, 'iter')) {
     buffer <- iterable
     buffer.iter <- iter(buffer)
