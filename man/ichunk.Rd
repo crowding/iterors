@@ -13,6 +13,9 @@ ichunk(iterable, chunkSize)
   \item{chunkSize}{Maximum number of values from \code{iterable} to
   return in each value issued by the resulting iterator.}
 }
+\seealso{
+  \code{\link{isplitVector}}
+}
 \examples{
 # Split the vector 1:10 into "chunks" with a maximum length of three
 it <- ihasNext(ichunk(1:10, 3))
