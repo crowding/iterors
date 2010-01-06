@@ -22,10 +22,21 @@ ichunk <- function(iterable, chunkSize) {
   it <- iter(iterable)
 
   nextEl <- function() {
-    r <- as.list(it, n=chunkSize)
-    if (length(r) == 0) {
-      stop('StopIteration', call.=FALSE)
-    }
+    r <- vector('list', chunkSize)
+    i <- 0L
+
+    tryCatch({
+      while (i < chunkSize) {
+        r[i + 1L] <- list(nextElem(it))
+        i <- i + 1L
+      }
+    },
+    error=function(e) {
+      if (!identical(conditionMessage(e), 'StopIteration') || i == 0L)
+        stop(e)
+      length(r) <<- i
+    })
+
     r
   }
 
