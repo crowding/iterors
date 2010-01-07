@@ -38,6 +38,7 @@ More information is available on the following topics:
 \code{izip} \tab zip together multiple iterators\cr
 \code{product} \tab zip together multiple iterators in cartesian product fashion\cr
 \code{recycle} \tab recycle values from an iterator repeatedly\cr
+\code{timeout} \tab iterate for a specified number of seconds\cr
 \code{is.iterator} \tab indicates if an object is an iterator\cr
 \code{end_iteration} \tab throws an exception to signal end of iteration\cr
 \code{iteration_has_ended} \tab tests an exception to see if iteration has ended\cr

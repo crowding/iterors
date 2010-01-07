@@ -4,7 +4,8 @@ NEWS/ChangeLog for itertools
 0.1-1   2010-1-XX
     o	added ichunk function
     o	added utility functions written by Hadley Wickham
-    o	added new "split" functions
+    o	added "isplit" functions
+    o	added timeout function
 
 0.1	2009-12-29
     o	project created on r-forge
