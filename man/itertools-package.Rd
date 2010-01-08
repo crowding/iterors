@@ -34,6 +34,7 @@ More information is available on the following topics:
 \code{ifilter} \tab only return values for which a predicate function returns true\cr
 \code{ifilterfalse} \tab only return values for which a predicate function returns false\cr
 \code{ilimit} \tab limit, or truncate, an iterator\cr
+\code{ireadBin} \tab create an iterator to read a binary connection\cr
 \code{irep} \tab create a repeating iterator\cr
 \code{izip} \tab zip together multiple iterators\cr
 \code{product} \tab zip together multiple iterators in cartesian product fashion\cr

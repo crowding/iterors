@@ -2,10 +2,11 @@ NEWS/ChangeLog for itertools
 ----------------------------
 
 0.1-1   2010-1-XX
-    o	added ichunk function
+    o	added ichunk function to aid in manual chunking
     o	added utility functions written by Hadley Wickham
-    o	added "isplit" functions
-    o	added timeout function
+    o	added "isplit" functions for iterating over data structures
+    o	added timeout function for creating iterator timeouts
+    o	added ireadBin function for iterating over binary connections
 
 0.1	2009-12-29
     o	project created on r-forge
