@@ -16,9 +16,8 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
-ireadBin <- function(con, what, n=1L, ..., ipos) {
-  force(what)
-
+ireadBin <- function(con, what='raw', n=1L, size=NA_integer_,
+                     signed=TRUE, endian=.Platform$endian, ipos=NULL) {
   # Sanity check "n"
   if (!is.numeric(n) || length(n) != 1 || n < 1) {
     stop('n must be a numeric value >= 1')
@@ -35,13 +34,11 @@ ireadBin <- function(con, what, n=1L, ..., ipos) {
     FALSE
   }
 
-  ipos <- if (missing(ipos)) {
-    NULL
-  } else {
+  if (!is.null(ipos)) {
     if (!isSeekable(con)) {
       stop('ipos cannot be specified unless con is seekable')
     }
-    iter(ipos)
+    ipos <- iter(ipos)
   }
 
   nextEl <- function() {
@@ -50,10 +47,17 @@ ireadBin <- function(con, what, n=1L, ..., ipos) {
       stop('StopIteration', call.=FALSE)
     }
 
+    # "local" arguments to readBin that may be modified by "ipos"
+    lwhat <- what
+    ln <- n
+    lsize <- size
+    lsigned <- signed
+    lendian <- endian
+
     # Seek on the connection if a position iterator has been specified
     if (!is.null(ipos)) {
       tryCatch({
-        where <- nextElem(ipos)
+        p <- nextElem(ipos)
       },
       error=function(e) {
         # Close the connection if necessary and propagate the exception
@@ -64,11 +68,30 @@ ireadBin <- function(con, what, n=1L, ..., ipos) {
         stop(e)
       })
 
-      seek(con, where=where)
+      # default value of "origin"
+      origin <- 'start'
+
+      if (is.list(p)) {
+        # XXX should check for illegal element names in "p"
+        # Don't do a "seek" unless a "where" value is specified
+        if (!is.null(p$where)) {
+          where <- p$where
+          if (!is.null(p$origin)) origin <- p$origin
+          seek(con, where=where, origin=origin, rw='read')
+        }
+        if (!is.null(p$what)) lwhat <- p$what
+        if (!is.null(p$n)) ln <- p$n
+        if (!is.null(p$size)) lsize <- p$size
+        if (!is.null(p$signed)) lsigned <- p$signed
+        if (!is.null(p$endian)) lendian <- p$endian
+      } else {
+        where <- p
+        seek(con, where=where, origin=origin, rw='read')
+      }
     }
 
     # Read the next "n" items
-    d <- readBin(con, what, n=n, ...)
+    d <- readBin(con, what=lwhat, n=ln, size=lsize, signed=lsigned, endian=lendian)
 
     # Check if we've hit EOF
     if (length(d) == 0) {
