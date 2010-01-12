@@ -14,6 +14,15 @@ test01 <- function() {
   }
 
   checkEquals(actual, expected)
+
+  # Try it again with an "ipos" iterator that doesn't really do anything
+  it <- irep(list(where=0, origin='current'), n)
+  it <- ireadBin("testbin", double(), n=n, ipos=it)
+  actual <- foreach(x=it) %do% {
+    mean(x)
+  }
+
+  checkEquals(actual, expected)
 }
 
 # Test the ipos argument
@@ -35,6 +44,15 @@ test02 <- function() {
 
   # Modify expected to contain the first value "n" times
   expected <- rep(expected[1], n)
+
+  checkEquals(actual, expected)
+
+  # Try it again, but specifying "where" in a list
+  it <- irep(list(where=0, origin='start'), n)
+  it <- ireadBin("testbin", double(), n=n, ipos=it)
+  actual <- foreach(x=it) %do% {
+    mean(x)
+  }
 
   checkEquals(actual, expected)
 }
