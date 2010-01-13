@@ -61,3 +61,16 @@ test06 <- function() {
   checkTrue(is.list(actual))
   checkTrue(length(actual) == 0)
 }
+
+# Test against expand.grid
+test07 <- function() {
+  x <- 1:3
+  y <- rnorm(5)
+  z <- letters[1:4]
+  it <- product(a=x, b=y, c=z)
+  actual <- foreach(d=it, .combine='rbind') %do% {
+    as.data.frame(d, stringsAsFactors=FALSE)
+  }
+  expected <- expand.grid(c=z, b=y, a=x, stringsAsFactors=FALSE)[3:1]
+  checkEquals(actual, expected)
+}
