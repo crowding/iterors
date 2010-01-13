@@ -20,3 +20,13 @@ test02 <- function() {
 test03 <- function() {
   checkException(recycle())
 }
+
+# Test the recycle "times" argument
+test04 <- function() {
+  x <- 1:3
+  for (n in c(1, 2, 3, 9)) {
+    actual <- as.list(recycle(x, times=n))
+    expected <- rep(as.list(x), times=n)
+    checkEquals(actual, expected)
+  }
+}
