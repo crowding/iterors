@@ -1,7 +1,7 @@
 NEWS/ChangeLog for itertools
 ----------------------------
 
-0.1-1   2010-1-XX
+0.1-1   2010-1-14
     o	added ichunk function to aid in manual chunking
     o	added utility functions written by Hadley Wickham
     o	added "isplit" functions for iterating over data structures
