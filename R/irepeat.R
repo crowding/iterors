@@ -16,7 +16,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
-irep <- function(x, times) {
+irepeat <- function(x, times) {
   if (missing(times)) {
     nextEl <- function() {
       x

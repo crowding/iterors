@@ -16,7 +16,7 @@ xit <- irunif(n=n, min=-0.5, max=0.5)
 yit <- irunif(n=n, min=-0.5, max=0.5)
 
 # Create a timeout iterator that just happens to return zeros
-timer <- timeout(irep(0), time=t)
+timer <- timeout(irepeat(0), time=t)
 
 # Define a ".final" function that calculates pi from estimates of pi/4
 calc.pi <- function(x) {

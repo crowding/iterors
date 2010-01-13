@@ -16,7 +16,7 @@ test01 <- function() {
   checkEquals(actual, expected)
 
   # Try it again with an "ipos" iterator that doesn't really do anything
-  it <- irep(list(where=0, origin='current'), n)
+  it <- irepeat(list(where=0, origin='current'), n)
   it <- ireadBin("testbin", double(), n=n, ipos=it)
   actual <- foreach(x=it) %do% {
     mean(x)
@@ -36,7 +36,7 @@ test02 <- function() {
   }
   close(zz)
 
-  it <- irep(0, n)  # Always seek to the beginning of the file
+  it <- irepeat(0, n)  # Always seek to the beginning of the file
   it <- ireadBin("testbin", "double", n=n, ipos=it)
   actual <- foreach(x=it) %do% {
     mean(x)
@@ -48,7 +48,7 @@ test02 <- function() {
   checkEquals(actual, expected)
 
   # Try it again, but specifying "where" in a list
-  it <- irep(list(where=0, origin='start'), n)
+  it <- irepeat(list(where=0, origin='start'), n)
   it <- ireadBin("testbin", double(), n=n, ipos=it)
   actual <- foreach(x=it) %do% {
     mean(x)
