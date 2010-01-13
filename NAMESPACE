@@ -1,5 +1,5 @@
-export(product, ihasNext, ilimit, izip, enumerate, chain,
-       ifilter, ifilterfalse, irepeat, recycle, ichunk, timeout, ireadBin,
+export(product, ihasNext, ilimit, izip, enumerate, chain, ifilter,
+       ifilterfalse, irepeat, recycle, ichunk, timeout, ireadBin, irep,
        isplitVector, isplitRows, isplitCols, isplitIndices,
        end_iteration, iteration_has_ended, new_iterator, is.iterator)
 export(hasNext)

@@ -7,6 +7,8 @@ NEWS/ChangeLog for itertools
     o	added "isplit" functions for iterating over data structures
     o	added timeout function for creating iterator timeouts
     o	added ireadBin function for iterating over binary connections
+    o	made irep much more like the rep function, and added new irepeat
+	to be like the old irep function
 
 0.1	2009-12-29
     o	project created on r-forge

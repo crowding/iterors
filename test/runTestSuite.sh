@@ -18,6 +18,7 @@ tests <- c('productTest.R', 'ihasNextTest.R', 'izipTest.R',
            'enumerateTest.R', 'ilimitTest.R', 'chainTest.R',
            'ifilterTest.R', 'irepeatTest.R', 'recycleTest.R',
            'ichunkTest.R', 'timeoutTest.R', 'ireadBinTest.R',
+           'irepTest.R',
            'isplitVectorTest.R', 'isplitIndicesTest.R',
            'isplitRowsTest.R', 'isplitColsTest.R')
 
