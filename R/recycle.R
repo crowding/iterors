@@ -16,23 +16,33 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
-recycle <- function(iterable) {
+recycle <- function(iterable, times=NA_integer_) {
   # Manually check for a missing argument since "inherits" issues
   # a cryptic error message in that case
   if (missing(iterable)) {
     stop('argument "iterable" is missing, with no default')
   }
 
-  if (! inherits(iterable, 'iter')) {
-    buffer <- iterable
-    buffer.iter <- iter(buffer)
-  } else {
+  if (!is.numeric(times) || length(times) != 1 || (!is.na(times) && times < 0)) {
+    stop('argument "times" must be a non-negative numeric value')
+  }
+
+  times <- as.integer(times)
+
+  if (is.na(times) || times > 1) {
+    if (! inherits(iterable, 'iter')) {
+      buffer <- iterable
+      buffer.iter <- iter(buffer)
+    } else {
+      iterable.iter <- iter(iterable)
+      bsize <- 256  # allocated size of buffer
+      bsize.max <- 2 ^ 31 - 1  # maximum allowable allocated size of buffer
+      buffer <- vector('list', length=bsize)
+      blen <- 0  # number of values currently in buffer
+      buffer.iter <- NULL  # will become an iterator over buffer
+    }
+  } else if (times > 0) {
     iterable.iter <- iter(iterable)
-    bsize <- 256  # allocated size of buffer
-    bsize.max <- 2 ^ 31 - 1  # maximum allowable allocated size of buffer
-    buffer <- vector('list', length=bsize)
-    blen <- 0  # number of values currently in buffer
-    buffer.iter <- NULL  # will become an iterator over buffer
   }
 
   # This is used until the underlying iterator runs out
@@ -55,6 +65,7 @@ recycle <- function(iterable) {
     },
     error=function(e) {
       if (identical(conditionMessage(e), 'StopIteration')) {
+        times <<- times - 1L  # will still be greater than zero
         length(buffer) <<- blen
         iterable <<- NULL
         iterable.iter <<- NULL
@@ -74,6 +85,11 @@ recycle <- function(iterable) {
     },
     error=function(e) {
       if (identical(conditionMessage(e), 'StopIteration')) {
+        if (!is.na(times) && times <= 1) {
+          times <<- 0L
+          stop(e)
+        }
+        times <<- times - 1L
         buffer.iter <<- iter(buffer)
         # If this throws 'StopIteration', we're done
         nextElem(buffer.iter)
@@ -83,8 +99,24 @@ recycle <- function(iterable) {
     })
   }
 
+  # This handles the case when "times" is one (pretty useless case)
+  nextEl.one <- function() {
+    nextElem(iterable.iter)
+  }
+
+  # This handles the case when "times" is zero
+  nextEl.zero <- function() {
+    stop('StopIteration', call.=FALSE)
+  }
+
   # Set the initial value of nextEl.pointer
-  nextEl.pointer <- if (is.null(buffer.iter)) nextEl.buffering else nextEl.cycling
+  if (is.na(times) || times > 1) {
+    nextEl.pointer <- if (is.null(buffer.iter)) nextEl.buffering else nextEl.cycling
+  } else if (times == 1) {
+    nextEl.pointer <- nextEl.one
+  } else {
+    nextEl.pointer <- nextEl.zero
+  }
 
   # This is the function that will be stored in the iterator object,
   # which will call either nextEl.buffering of nextEl.cycling, depending
