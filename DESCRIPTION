@@ -1,7 +1,7 @@
 Package: itertools
 Type: Package
 Title: Iterator Tools
-Version: 0.1-1
+Version: 0.1-2
 Author: Steve Weston, Hadley Wickham
 Maintainer: Steve Weston <stephen.b.weston@gmail.com>
 Description: Various tools for creating iterators, many patterned after
