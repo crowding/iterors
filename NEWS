@@ -1,6 +1,11 @@
 NEWS/ChangeLog for itertools
 ----------------------------
 
+0.1-2	2012-6-20
+    o	added irecord and ireplay functions for recording and
+	replaying iterables
+    o	added iter.connection method
+
 0.1-1   2010-1-14
     o	added ichunk function to aid in manual chunking
     o	added utility functions written by Hadley Wickham
