@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2009-2010, Stephen B. Weston
+# Copyright (c) 2009-2013, Stephen B. Weston
 #
 # This is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as published
@@ -16,12 +16,17 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
-ichunk <- function(iterable, chunkSize) {
+ichunk <- function(iterable, chunkSize, mode='list') {
   force(iterable)
   force(chunkSize)
   it <- iter(iterable)
 
-  nextEl <- function() {
+  legal.modes <- c('list', 'logical', 'integer', 'numeric', 'double',
+                   'complex', 'character', 'raw')
+  if (! mode %in% legal.modes)
+    stop(sprintf("cannot make a vector of mode '%s'", mode))
+
+  nextEl.list <- function() {
     r <- vector('list', chunkSize)
     i <- 0L
 
@@ -40,7 +45,29 @@ ichunk <- function(iterable, chunkSize) {
     r
   }
 
-  object <- list(nextElem=nextEl)
+  nextEl.vector <- function() {
+    r <- vector(mode, chunkSize)
+    i <- 0L
+
+    tryCatch({
+      while (i < chunkSize) {
+        r[i + 1L] <- nextElem(it)
+        i <- i + 1L
+      }
+    },
+    error=function(e) {
+      if (!identical(conditionMessage(e), 'StopIteration') || i == 0L)
+        stop(e)
+      length(r) <<- i
+    })
+
+    r
+  }
+
+  object <- if (mode == 'list')
+    list(nextElem=nextEl.list)
+  else
+    list(nextElem=nextEl.vector)
   class(object) <- c('abstractiter', 'iter')
   object
 }
