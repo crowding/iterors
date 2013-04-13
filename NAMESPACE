@@ -2,6 +2,7 @@ export(product, ihasNext, ilimit, izip, enumerate, chain, ifilter,
        ifilterfalse, irepeat, recycle, ichunk, timeout, ireadBin, irep,
        isplitVector, isplitRows, isplitCols, isplitIndices,
        irecord, ireplay, iRNGStream, iRNGSubStream,
+       ireaddf, writedf.combiner,
        end_iteration, iteration_has_ended, new_iterator, is.iterator)
 export(hasNext)
 S3method("hasNext", "ihasNext")
