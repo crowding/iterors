@@ -1,4 +1,4 @@
-iarray <- function (X, MARGIN, ...) {
+iarray <- function (X, MARGIN) {
   i <- 0L
   xdim <- dim(X)
   mdim <- xdim[MARGIN]
