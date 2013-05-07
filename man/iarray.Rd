@@ -24,7 +24,8 @@ iarray(X, MARGIN, ..., chunks, chunkSize, drop,
      This can be a single value or a vector the same length as \code{MARGIN}.
      A single value will be recycled for each dimension if \code{MARGIN}
      has more than one value.}
-  \item{drop}{Should dimensions of length 1 be dropped in the generated values?}
+  \item{drop}{Should dimensions of length 1 be dropped in the generated
+     values?}
   \item{idx}{List of indices used internally.}
 }
 \seealso{
@@ -39,6 +40,18 @@ iarray(X, MARGIN, ..., chunks, chunkSize, drop,
   as.list(iarray(x, 3, chunks=2))
 
   x <- array(1:64, c(4,4,4))
-  as.list(iarray(x, c(3,2), chunks=c(2,2)))
+  it <- iarray(x, c(3,2), chunks=c(2,1))
+  jt <- nextElem(it)
+  nextElem(jt)
+  jt <- nextElem(it)
+  nextElem(jt)
+
+  it <- iarray(x, c(3,2), chunks=c(2,2))
+  jt <- nextElem(it)
+  nextElem(jt)
+  nextElem(jt)
+  jt <- nextElem(it)
+  nextElem(jt)
+  nextElem(jt)
 }
 \keyword{utilities}
