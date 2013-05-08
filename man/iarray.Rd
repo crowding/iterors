@@ -41,13 +41,13 @@ iarray(X, MARGIN, ..., chunks, chunkSize, drop,
   as.list(iarray(x, 3, chunks=2))
 
   x <- array(1:64, c(4,4,4))
-  it <- iarray(x, c(3,2), chunks=c(2,1))
+  it <- iarray(x, c(2,3), chunks=c(1,2))
   jt <- nextElem(it)
   nextElem(jt)
   jt <- nextElem(it)
   nextElem(jt)
 
-  it <- iarray(x, c(3,2), chunks=c(2,2))
+  it <- iarray(x, c(2,3), chunks=c(2,2))
   jt <- nextElem(it)
   nextElem(jt)
   nextElem(jt)
