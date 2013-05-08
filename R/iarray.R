@@ -1,5 +1,5 @@
 iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
-                   idx=as.list(rep(TRUE, length(dim(X))))) {
+                   idx=lapply(dim(X), function(i) TRUE)) {
   # Check for unknown arguments
   if (length(list(...)) > 0) {
     nms <- names(list(...))

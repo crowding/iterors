@@ -6,7 +6,7 @@ Create an iterator over an array.
 }
 \usage{
 iarray(X, MARGIN, ..., chunks, chunkSize, drop,
-       idx=as.list(rep(TRUE, length(dim(X)))))
+       idx=lapply(dim(X), function(i) TRUE))
 }
 \arguments{
   \item{X}{Array to iterate over.}
@@ -25,8 +25,9 @@ iarray(X, MARGIN, ..., chunks, chunkSize, drop,
      A single value will be recycled for each dimension if \code{MARGIN}
      has more than one value.}
   \item{drop}{Should dimensions of length 1 be dropped in the generated
-     values?}
-  \item{idx}{List of indices used internally.}
+     values?  It defaults to \code{FALSE} if either \code{chunks} or
+     \code{chunkSize} is specified, otherwise to \code{TRUE}.}
+  \item{idx}{List of indices used to generate a call object.}
 }
 \seealso{
   \code{\link[base]{apply}}
