@@ -1,5 +1,11 @@
 iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
                    idx=lapply(dim(X), function(i) TRUE)) {
+  dimx <- dim(X)
+
+  # Verify that X has the dim attribute set and length > 0
+  if (length(dimx) == 0)
+    stop('dim(X) must have a positive length')
+
   # Check for unknown arguments
   if (length(list(...)) > 0) {
     nms <- names(list(...))
@@ -16,7 +22,7 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
   # Get the number of value this iterator will return
   i <- 0
   mlen <- length(MARGIN)
-  n <- dim(X)[MARGIN[mlen]]
+  n <- dimx[MARGIN[mlen]]
 
   # Create an iterator based on chunking
   if (! missing(chunks)) {
