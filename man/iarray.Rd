@@ -27,7 +27,11 @@ iarray(X, MARGIN, ..., chunks, chunkSize, drop,
   \item{drop}{Should dimensions of length 1 be dropped in the generated
      values?  It defaults to \code{FALSE} if either \code{chunks} or
      \code{chunkSize} is specified, otherwise to \code{TRUE}.}
-  \item{idx}{List of indices used to generate a call object.}
+  \item{idx}{List of length \code{length(dim(X))} containing indices
+     used to create the expression that generates the iteration values.
+     The default value contains all \code{TRUE} values,
+     but you can use other values in order to iterate over a subset of \code{X}.
+     See the example below for one way to do that.}
 }
 \seealso{
   \code{\link[base]{apply}}
@@ -54,5 +58,12 @@ iarray(X, MARGIN, ..., chunks, chunkSize, drop,
   jt <- nextElem(it)
   nextElem(jt)
   nextElem(jt)
+
+  # Use idx to iterate over only the middle four columns of a matrix
+  x <- matrix(1:18, nrow=3, ncol=6)
+  it <- iarray(x, 1, idx=list(TRUE, quote(2:5)))
+  nextElem(it)
+  nextElem(it)
+  nextElem(it)
 }
 \keyword{utilities}
