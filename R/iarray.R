@@ -1,5 +1,7 @@
 iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
-                   idx=lapply(dim(X), function(i) TRUE)) {
+                   idx=lapply(dim(X), function(i) TRUE), quote=FALSE) {
+  mcall <- match.call(expand.dots=FALSE)
+  mcall$... <- NULL
   dimx <- dim(X)
 
   # Verify that X has the dim attribute set and length > 0
@@ -49,18 +51,33 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
 
   # Create a call object if this is the final dimension
   if (mlen == 1) {
-    q <- as.call(c(list(as.name('['), as.name('X')), idx, list(drop=drop)))
+    q <- if (quote)
+      as.call(c(list(as.name('['), substitute(X)), idx, list(drop=drop)))
+    else
+      as.call(c(list(as.name('['), as.name('X')), idx, list(drop=drop)))
+    # iq is the index into q used to modify the appropriate element of idx.
+    # Note that in this case, MARGIN contains a single value.
     iq <- MARGIN + 2L
   }
 
   # Define the "nextElem" function
   nextEl <- if (mlen == 1) {
-    function() {
-      m <- nextElem(it)
-      j <- i + m
-      q[[iq]] <- if (m > 1) call(':', i + 1, j) else j
-      i <<- j
-      eval(q)
+    if (quote) {
+      function() {
+        m <- nextElem(it)
+        j <- i + m
+        q[[iq]] <- if (m > 1) call(':', i + 1, j) else j
+        i <<- j
+        q
+      }
+    } else {
+      function() {
+        m <- nextElem(it)
+        j <- i + m
+        q[[iq]] <- if (m > 1) call(':', i + 1, j) else j
+        i <<- j
+        eval(q)
+      }
     }
   } else if (! missing(chunks)) {
     function() {
@@ -68,7 +85,11 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
       j <- i + m
       idx[[MARGIN[mlen]]] <- if (m > 1) call(':', i + 1, j) else j
       i <<- j
-      iarray(X, MARGIN[-mlen], chunks=chunks[-mlen], drop=drop, idx=idx)
+      mcall$MARGIN <- MARGIN[-mlen]
+      mcall$chunks <- chunks[-mlen]
+      mcall$drop <- drop
+      mcall$idx <- idx
+      eval(mcall, parent.frame())
     }
   } else if (! missing(chunkSize)) {
     function() {
@@ -76,14 +97,21 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
       j <- i + m
       idx[[MARGIN[mlen]]] <- if (m > 1) call(':', i + 1, j) else j
       i <<- j
-      iarray(X, MARGIN[-mlen], chunkSize=chunkSize[-mlen], drop=drop, idx=idx)
+      mcall$MARGIN <- MARGIN[-mlen]
+      mcall$chunkSize <- chunkSize[-mlen]
+      mcall$drop <- drop
+      mcall$idx <- idx
+      eval(mcall, parent.frame())
     }
   } else {
     function() {
       nextElem(it)  # returns 1 or throws 'StopIteration'
       i <<- i + 1
       idx[[MARGIN[mlen]]] <- i
-      iarray(X, MARGIN[-mlen], drop=drop, idx=idx)
+      mcall$MARGIN <- MARGIN[-mlen]
+      mcall$drop <- drop
+      mcall$idx <- idx
+      eval(mcall, parent.frame())
     }
   }
 
