@@ -2,11 +2,13 @@
 \alias{iarray}
 \title{Create an iterator over an array}
 \description{
-Create an iterator over an array.
+Create an iterator over an array. It is similar to the \code{iapply}
+function from the iterators package, but it has special support for nested
+foreach loops.
 }
 \usage{
 iarray(X, MARGIN, ..., chunks, chunkSize, drop,
-       idx=lapply(dim(X), function(i) TRUE))
+       idx=lapply(dim(X), function(i) TRUE), quote=FALSE)
 }
 \arguments{
   \item{X}{Array to iterate over.}
@@ -30,11 +32,16 @@ iarray(X, MARGIN, ..., chunks, chunkSize, drop,
   \item{idx}{List of length \code{length(dim(X))} containing indices
      used to create the expression that generates the iteration values.
      The default value contains all \code{TRUE} values,
-     but you can use other values in order to iterate over a subset of \code{X}.
-     See the example below for one way to do that.}
+     but you can use other values in order to iterate over a subset
+     of \code{X}.
+     See the example below for ways to do that.}
+  \item{quote}{A logical value indicating whether the final iteration
+     values should be quoted or not. This can be useful in a parallel
+     context because it can be much more efficient to send call objects
+     to parallel workers than the objects that they evaluate to.}
 }
 \seealso{
-  \code{\link[base]{apply}}
+  \code{\link[base]{apply}}, \code{\link[iterators]{iapply}}
 }
 \examples{
   # Iterate over matrices in a 3D array
@@ -65,5 +72,17 @@ iarray(X, MARGIN, ..., chunks, chunkSize, drop,
   nextElem(it)
   nextElem(it)
   nextElem(it)
+
+  # It can also be done using alist:
+  it <- iarray(x, 1, idx=alist(, 2:5))
+  nextElem(it)
+  nextElem(it)
+  nextElem(it)
+
+  x <- matrix(1:1800, nrow=3, ncol=600)
+  it <- iarray(x, 1, idx=alist(, 10:600), quote=TRUE)
+  (yq <- nextElem(it))
+  object.size(yq)
+  object.size(eval(yq))
 }
 \keyword{utilities}
