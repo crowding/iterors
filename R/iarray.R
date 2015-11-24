@@ -19,7 +19,7 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
   if (! missing(chunks) && ! missing(chunkSize)) 
     stop('chunks and chunkSize cannot both be specified')
 
-  # Get the number of value this iterator will return
+  # Get the number of values this iterator will return
   i <- 0
   mlen <- length(MARGIN)
   n <- dimx[MARGIN[mlen]]
