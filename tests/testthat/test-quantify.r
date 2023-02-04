@@ -9,6 +9,6 @@ test_that("quantify functions properly with a logical vector", {
 test_that("quantify functions properly with an iterator from a logical vector", {
   set.seed(42)
   x <- sample(c(TRUE, FALSE), size=10, replace=TRUE)
-  it <- iterators::iter(x)
+  it <- iteror(x)
   expect_equal(quantify(it), sum(x))
 })

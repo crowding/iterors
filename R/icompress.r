@@ -7,13 +7,12 @@
 #' The iterator stops when either \code{object} or \code{selectors} has been
 #' exhausted.
 #'
-#' @importFrom iterators iter nextElem
 #' @export
 #' @param object an iterable object
 #' @param selectors an iterable that determines whether the corresponding
 #' element in \code{object} is returned.
 #' @return iterator object
-#' 
+#'
 #' @examples
 #' # Filters out odd numbers and retains only even numbers
 #' n <- 10
@@ -32,16 +31,14 @@
 icompress <- function(object, selectors) {
   iter_izip <- izip(obj=object, select=selectors)
 
-  nextElem <- function() {
+  nextElemOr_ <- function(or) {
     repeat {
-      next_elem <- iterators::nextElem(iter_izip)
+      next_elem <- nextElemOr(iter_izip, return(or))
       if (next_elem$select) {
         return(next_elem$obj)
       }
     }
   }
 
-  it <- list(nextElem=nextElem)
-  class(it) <- c("abstractiter", "iter")
-  it
+  iteror(nextElemOr_)
 }

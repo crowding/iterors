@@ -1,38 +1,36 @@
-#' Iterator that returns elements of an object in triplets
-#' 
+#' Iterator that returns adjacent triplets from an iterator
+#'
 #' Constructs an iterator of an iterable \code{object} that returns its elements
-#' in pairs.
-#' 
+#' in a sliding window three elements wide.
+#'
 #' @importFrom iterators nextElem iter
 #' @export
 #' @param object an iterable object
 #' @return an iterator that returns tripletwise elements
-#' 
+#'
 #' @examples
-#' it <- itripletwise(iterators::iter(letters[1:4]))
-#' iterators::nextElem(it) # list("a", "b", "c")
-#' iterators::nextElem(it) # list("b", "c", "d")
+#' it <- itripletwise(iteror(letters[1:4]))
+#' nextElemOr(it) # list("a", "b", "c")
+#' nextElemOr(it) # list("b", "c", "d")
 #'
 #' it2 <- itripletwise(1:5)
-#' iterators::nextElem(it2) # list(1, 2, 3)
-#' iterators::nextElem(it2) # list(2, 3, 4)
-#' iterators::nextElem(it2) # list(3, 4, 5)
+#' nextElemOr(it2) # list(1, 2, 3)
+#' nextElemOr(it2) # list(2, 3, 4)
+#' nextElemOr(it2) # list(3, 4, 5)
 #'
 itripletwise <- function(object) {
-  it_tee <- itee(object, n=3)
-  # Skips second iterator ahead one
-  dev_null <- iterators::nextElem(it_tee[[2]])
+  object <- iteror(object)
 
-  # Skips second iterator ahead two
-  dev_null <- iterators::nextElem(it_tee[[3]])
-  dev_null <- iterators::nextElem(it_tee[[3]])
-  
-  nextElement <- function() {
-    lapply(it_tee, iterators::nextElem)
+  last_2 <- nextElemOr(object, NULL)
+  last_1 <- nextElemOr(object, NULL)
+  nextElemOr_ <- function(or) {
+    value <- list(last_2,
+                  last_1,
+                  nextElemOr(object, return(or)))
+    last_2 <<- last_1
+    last_1 <<- value[[3]]
+    value
   }
 
-  it <- list(nextElem=nextElement)
-  class(it) <- c("abstractiter", "iter")
-  it
+  iteror(nextElemOr_)
 }
-

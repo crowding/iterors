@@ -1,4 +1,4 @@
-#' Iterator that replicates elements of an iterable object
+#' Iteror that replicates elements of an iterable object
 #'
 #' Constructs an iterator that replicates the values of an \code{object}.
 #'
@@ -12,11 +12,11 @@
 #' @param length.out non-negative integer. The desired length of the iterator
 #' @param each non-negative integer. Each element is repeated \code{each} times
 #' @return iterator that returns \code{object}
-#' 
+#'
 #' @examples
 #' it <- irep(1:3, 2)
 #' unlist(as.list(it)) == rep(1:3, 2)
-#' 
+#'
 #' it2 <- irep(1:3, each=2)
 #' unlist(as.list(it2)) == rep(1:3, each=2)
 #'
@@ -52,20 +52,18 @@ irep_len <- function(object, length.out=NULL) {
 
 irep_each <- function(object, each=1) {
   each <- as.integer(each)
-  iter_obj <- iterators::iter(object)
-  
-  iter_repeat <- irepeat(iterators::nextElem(iter_obj), times=each)
+  iter_obj <- iteror(object)
 
-  nextElem <- function() {
-    next_elem <- try(iterators::nextElem(iter_repeat), silent=TRUE)
-    if (stop_iteration(next_elem)) {
-      iter_repeat <<- irepeat(iterators::nextElem(iter_obj), times=each)
-      next_elem <- iterators::nextElem(iter_repeat)
+  iter_repeat <- irepeat(nextElemOr(iter_obj, NA), times=each)
+
+  nextElemOr_ <- function(or) {
+    repeat {
+      return(nextElemOr(iter_repeat, or={
+        iter_repeat <<- irepeat(nextElemOr(iter_obj, return(or)), times=each)
+        next
+      }))
     }
-    next_elem
   }
 
-  it <- list(nextElem=nextElem)
-  class(it) <- c("abstractiter", "iter")
-  it
+  iteror(nextElemOr_)
 }

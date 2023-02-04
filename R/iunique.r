@@ -25,16 +25,13 @@
 #' as.list(it_unique) # 1 2 3 4 5
 #'
 iunique <- function(object) {
-  iter_object <- iterators::iter(object)
+  iter_object <- iteror(object)
   unique_elems <- list()
   i <- 1
 
-  nextElem <- function() {
+  nextElemOr_ <- function(or) {
     repeat {
-      next_elem <- try(iterators::nextElem(iter_object), silent=TRUE)
-      if (stop_iteration(next_elem)) {
-        stop("StopIteration", call.=FALSE)
-      }
+      next_elem <- nextElemOr(iter_object, return(or))
 
       if (!(next_elem %in% unique_elems)) {
         unique_elems[[i]] <<- next_elem
@@ -44,9 +41,7 @@ iunique <- function(object) {
     }
   }
 
-  it <- list(nextElem=nextElem)
-  class(it) <- c("abstractiter", "iter")
-  it
+  iteror(nextElemOr_)
 }
 
 #' Iterator that extracts the just-seen unique elements from an iterable object
@@ -66,18 +61,18 @@ iunique <- function(object) {
 #' it_iunique <- iunique_justseen(it)
 #' as.list(it_iunique) # 1 2 4 5 6 7 2
 #'
-#' it2 <- iterators::iter(c('a', 'a', "A", 'a', 'a', "V"))
+#' it2 <- iteror(c('a', 'a', "A", 'a', 'a', "V"))
 #' it2_iunique <- iunique_justseen(it2)
 #' as.list(it2_iunique) # a A a V
 #'
 iunique_justseen <- function(object) {
-  iter_object <- iterators::iter(object)
+  iter_object <- iteror(object)
   prev_elem <- NULL
   first_seen <- FALSE
 
-  nextElem <- function() {
+  nextElemOr_ <- function(or) {
     repeat {
-      next_elem <- iterators::nextElem(iter_object)
+      next_elem <- nextElemOr(iter_object, return(or))
       if (!first_seen || next_elem != prev_elem) {
         first_seen <<- TRUE
         prev_elem <<- next_elem
@@ -87,7 +82,5 @@ iunique_justseen <- function(object) {
     }
   }
 
-  it <- list(nextElem=nextElem)
-  class(it) <- c("abstractiter", "iter")
-  it
+  iteror(nextElemOr_)
 }

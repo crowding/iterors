@@ -1,8 +1,8 @@
 context("dotproduct")
 
 test_that("dotproduct functions properly with two iterators", {
-  it <- iterators::iter(1:5)
-  it2 <- iterators::iter(1:5)
+  it <- iteror(1:5)
+  it2 <- iteror(1:5)
   expect_equal(dotproduct(it, it2), 55)
 })
 

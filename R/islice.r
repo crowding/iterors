@@ -1,6 +1,6 @@
-#' Iterator that returns selected elements from an iterable.
+#' Iteror that returns selected elements from an iterable.
 #'
-#' Constructs an iterator that returns elements from an iterable following the
+#' Constructs an iteror that returns elements from an iterable following the
 #' given sequence with starting value \code{start} and ending value \code{end}.
 #' The sequence's step size is given by \code{step}.
 #'
@@ -11,24 +11,23 @@
 #' \code{step} size is greater than 1, elements in \code{object} are skipped.
 #'
 #' If \code{stop} is \code{NULL} (default), the iteration continues until the
-#' iterator is exhausted unless \code{end} is specified. In this case,
+#' iteror is exhausted unless \code{end} is specified. In this case,
 #' \code{end} specifies the sequence position to stop iteration.
 #'
-#' @importFrom iterators iter nextElem
 #' @export
 #' @param object iterable object through which this function iterates
 #' @param start the index of the first element to return from \code{object}
 #' @param end the index of the last element to return from \code{object}
 #' @param step the step size of the sequence
-#' @return iterator that returns \code{object} in sequence
-#' 
+#' @return iteror that returns \code{object} in sequence
+#'
 #' @examples
 #' it <- islice(1:5, start=2)
-#' iterators::nextElem(it) # 2
-#' iterators::nextElem(it) # 3
-#' iterators::nextElem(it) # 4
-#' iterators::nextElem(it) # 5
-#' 
+#' nextElemOr(it, NULL) # 2
+#' nextElemOr(it, NULL) # 3
+#' nextElemOr(it, NULL) # 4
+#' nextElemOr(it, NULL) # 5
+#'
 #' it2 <- islice(1:10, start=2, end=5)
 #' unlist(as.list(it2)) == 2:5
 #'
@@ -53,22 +52,17 @@ islice <- function(object, start=1, end=NULL, step=1) {
   iter_ienum <- ienumerate(object)
   iter_icount <- icount(start=start, step=step)
 
-  nextElem <- function() {
-    i <- iterators::nextElem(iter_icount)
-    if (!is.null(end) && i > end) {
-      stop("StopIteration", call.=FALSE)
-    }
+  nextElem <- function(or) {
+    i <- nextElemOr(iter_icount, return(or))
+    if (!is.null(end) && i > end) return(or)
 
     repeat {
-      next_ienum <- iterators::nextElem(iter_ienum)
+      next_ienum <- nextElemOr(iter_ienum, return(or))
       if (i == next_ienum$index) {
         return(next_ienum$value)
       }
     }
   }
 
-  it <- list(nextElem=nextElem)
-  class(it) <- c("abstractiter", "iter")
-  it
+  iteror(nextElem)
 }
-

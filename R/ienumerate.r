@@ -20,8 +20,8 @@
 #' @export
 #' @param object object to return indefinitely.
 #' @return iterator that returns the values of \code{object} along with the
-#' index of the object. 
-#' 
+#' index of the object.
+#'
 #' @examples
 #' set.seed(42)
 #' it <- ienumerate(rnorm(5))
@@ -29,11 +29,11 @@
 #'
 #' # Iterates through the columns of the iris data.frame
 #' it2 <- ienum(iris)
-#' iterators::nextElem(it2)
-#' iterators::nextElem(it2)
-#' iterators::nextElem(it2)
-#' iterators::nextElem(it2)
-#' iterators::nextElem(it2)
+#' nextElemOr(it2, NA)
+#' nextElemOr(it2, NA)
+#' nextElemOr(it2, NA)
+#' nextElemOr(it2, NA)
+#' nextElemOr(it2, NA)
 ienumerate <- function(object) {
   izip(index=icount(start=1), value=object)
 }

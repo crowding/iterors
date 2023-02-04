@@ -10,8 +10,8 @@
 #'
 #' @examples
 #' ilength(1:5) == length(1:5)
-#' 
-#' it <- iterators::iter(1:5)
+#'
+#' it <- iteror(1:5)
 #' ilength(it) == length(1:5)
 #'
 #' it2 <- ichain(1:3, 4:5, 6)
@@ -21,14 +21,11 @@
 #' ilength(it3)
 #'
 ilength <- function(object) {
-  it <- iterators::iter(object)
+  it <- iteror(object)
 
   i <- 0
   repeat{
-    next_elem <- try(iterators::nextElem(it), silent=TRUE)
-    if (stop_iteration(next_elem)) {
-      break
-    }
+    nextElemOr(it, break)
     i <- i + 1
   }
   i

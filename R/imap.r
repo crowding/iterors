@@ -13,13 +13,12 @@
 #' arguments together before applying the given function. The choice is a matter
 #' of style and convenience.
 #'
-#' @importFrom iterators nextElem
 #' @export
 #' @param f a function
 #' @param ... multiple arguments to iterate through in sequence
 #' @return iterator that returns the values of \code{object} along with the
-#' index of the object. 
-#' 
+#' index of the object.
+#'
 #' @examples
 #' pow <- function(x, y) {
 #'   x^y
@@ -34,18 +33,21 @@
 #'
 #' # Another similar example but with lists instead of vectors
 #' it3 <- imap(pow, list(2, 3, 10), list(5, 2, 3))
-#' iterators::nextElem(it3) # 32
-#' iterators::nextElem(it3) # 9
-#' iterators::nextElem(it3) # 1000
+#' nextElemOr(it3, NA) # 32
+#' nextElemOr(it3, NA) # 9
+#' nextElemOr(it3, NA) # 1000
 imap <- function(f, ...) {
   f <- match.fun(f)
   iter_obj <- izip(...)
 
-  nextElem <- function() {
-    do.call(f, iterators::nextElem(iter_obj))
+  wrap <- function(l) {
+    lapply(l, function(x) if (is.language(x)) call("quote", x) else x)
   }
 
-  it <- list(nextElem=nextElem)
-  class(it) <- c("abstractiter", "iter")
-  it
+  nextElemOr_ <- function(or) {
+    elem <- nextElemOr(iter_obj, return(or))
+    do.call(f, wrap(elem))
+  }
+
+  iteror(nextElemOr_)
 }

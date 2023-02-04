@@ -1,4 +1,7 @@
-#' Returns a list of n independent iterators from a single iterable object
+#' (Deprecated) Returns a list of n independent iterators from a single iterable object
+#'
+#' (PBM) Note that this relies on [iter_deepcopy]() which only works for
+#' a subset of iterators, as described in the note on that page.
 #'
 #' Constructs a list of \code{n} iterators, each of which iterates through an
 #' iterable \code{object}.
@@ -11,7 +14,7 @@
 #' @param object an iterable object
 #' @param n the number of iterables to return
 #' @return a list of \code{n} iterators
-#' 
+#'
 #' @examples
 #' # Creates a list of three iterators.
 #' # Each iterator iterates through 1:5 independently.
@@ -21,19 +24,19 @@
 #' unlist(as.list(iter_list[[1]])) == 1:5
 #'
 #' # We can iterate through the remaining two iterators in any order.
-#' iterators::nextElem(iter_list[[2]]) # 1
-#' iterators::nextElem(iter_list[[2]]) # 2
-#' 
-#' iterators::nextElem(iter_list[[3]]) # 1
-#' iterators::nextElem(iter_list[[3]]) # 2
+#' nextElemOr(iter_list[[2]], NA) # 1
+#' nextElemOr(iter_list[[2]], NA) # 2
 #'
-#' iterators::nextElem(iter_list[[2]]) # 3
-#' iterators::nextElem(iter_list[[2]]) # 4
-#' iterators::nextElem(iter_list[[2]]) # 5
+#' nextElemOr(iter_list[[3]], NA) # 1
+#' nextElemOr(iter_list[[3]], NA) # 2
 #'
-#' iterators::nextElem(iter_list[[3]]) # 3
-#' iterators::nextElem(iter_list[[3]]) # 4
-#' iterators::nextElem(iter_list[[3]]) # 5
+#' nextElemOr(iter_list[[2]], NA) # 3
+#' nextElemOr(iter_list[[2]], NA) # 4
+#' nextElemOr(iter_list[[2]], NA) # 5
+#'
+#' nextElemOr(iter_list[[3]], NA) # 3
+#' nextElemOr(iter_list[[3]], NA) # 4
+#' nextElemOr(iter_list[[3]], NA) # 5
 itee <- function(object, n=2) {
   n <- as.integer(n)
   if (length(n) != 1) {
@@ -48,16 +51,15 @@ itee <- function(object, n=2) {
 
   # If the 'object' is an iterator, n deep copies of 'object' are returned.
   # Otherwise, 'object' is passed to iterators::iter 'n' times.
-  if (inherits(object, "iter")) {
+  if (inherits(object, "iteror")) {
     itee_list <- replicate(n=n,
                            expr=iter_deepcopy(object),
                            simplify=FALSE)
   } else {
     itee_list <- replicate(n=n,
-                           expr=iterators::iter(object),
+                           expr=iteror(object),
                            simplify=FALSE)
   }
 
   itee_list
 }
-

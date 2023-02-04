@@ -25,7 +25,7 @@
 #' @param along_with the length of the sequence will match the length of this
 #' argument
 #' @return sequence's iterator
-#' 
+#'
 #' @examples
 #' it <- iseq(from=2, to=5)
 #' unlist(as.list(it)) == 2:5
@@ -66,17 +66,14 @@ iseq <- function(from=1, to=1, by=(to - from)/(length_out - 1),
   }
 
   current_val <- from - by
-  nextElem <- function() {
+  nextElemOr_ <- function(or) {
     current_val <<- current_val + by
-    if ((by > 0 && current_val > to) || ((by < 0) && current_val < to)) {
-      stop("StopIteration", call.=FALSE)
-    }
-    current_val
+    if ((by > 0 && current_val > to) || ((by < 0) && current_val < to))
+      or
+    else current_val
   }
 
-  it <- list(nextElem=nextElem)
-  class(it) <- c("abstractiter", "iter")
-  it
+  iteror.function(nextElemOr_)
 }
 
 #' @export
@@ -90,19 +87,13 @@ iseq_len <- function(length_out=NULL) {
   }
 
   i <- 0
-  nextElem <- function() {
+  nextElemOr_ <- function(or) {
     i <<- i + 1
 
-    if (i > length_out) {
-      stop("StopIteration", call.=FALSE)
-    }
-
-    i
+    if (i > length_out) or else i
   }
 
-  it <- list(nextElem=nextElem)
-  class(it) <- c("abstractiter", "iter")
-  it
+  iteror.function(nextElemOr_)
 }
 
 #' @export
@@ -111,17 +102,11 @@ iseq_along <- function(along_with=NULL) {
   length_out <- length(along_with)
 
   i <- 0
-  nextElem <- function() {
+  nextElemOr_ <- function(or) {
     i <<- i + 1
 
-    if (i > length_out) {
-      stop("StopIteration", call.=FALSE)
-    }
-
-    i
+    if (i > length_out) or else i
   }
 
-  it <- list(nextElem=nextElem)
-  class(it) <- c("abstractiter", "iter")
-  it
+  iteror.function(nextElemOr_)
 }

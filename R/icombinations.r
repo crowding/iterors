@@ -11,7 +11,6 @@
 #' function from Python's itertools. Combinations with replacement are based on
 #' \code{combinations_with_replacement} from the same Python library.
 #'
-#' @importFrom iterators iter nextElem
 #' @export
 #' @param object vector
 #' @param m the length of each combination
@@ -22,26 +21,26 @@
 #' # Combinations without replacement
 #' it <- icombinations(1:4, m=2)
 #'
-#' iterators::nextElem(it) # c(1, 2)
-#' iterators::nextElem(it) # c(1, 3)
-#' iterators::nextElem(it) # c(1, 4)
-#' iterators::nextElem(it) # c(2, 3)
-#' iterators::nextElem(it) # c(2, 4)
-#' iterators::nextElem(it) # c(3, 4)
+#' nextElemOr(it, NA) # c(1, 2)
+#' nextElemOr(it, NA) # c(1, 3)
+#' nextElemOr(it, NA) # c(1, 4)
+#' nextElemOr(it, NA) # c(2, 3)
+#' nextElemOr(it, NA) # c(2, 4)
+#' nextElemOr(it, NA) # c(3, 4)
 #'
 #' # Combinations without replacement
 #' it <- icombinations(1:4, m=2, replacement=TRUE)
 #'
-#' iterators::nextElem(it) # c(1, 1)
-#' iterators::nextElem(it) # c(1, 2)
-#' iterators::nextElem(it) # c(1, 3)
-#' iterators::nextElem(it) # c(1, 4)
-#' iterators::nextElem(it) # c(2, 2)
-#' iterators::nextElem(it) # c(2, 3)
-#' iterators::nextElem(it) # c(2, 4)
-#' iterators::nextElem(it) # c(3, 3)
-#' iterators::nextElem(it) # c(3, 4)
-#' iterators::nextElem(it) # c(4, 4)
+#' nextElemOr(it, NA) # c(1, 1)
+#' nextElemOr(it, NA) # c(1, 2)
+#' nextElemOr(it, NA) # c(1, 3)
+#' nextElemOr(it, NA) # c(1, 4)
+#' nextElemOr(it, NA) # c(2, 2)
+#' nextElemOr(it, NA) # c(2, 3)
+#' nextElemOr(it, NA) # c(2, 4)
+#' nextElemOr(it, NA) # c(3, 3)
+#' nextElemOr(it, NA) # c(3, 4)
+#' nextElemOr(it, NA) # c(4, 4)
 #'
 #' it3 <- icombinations(1:5, m=2)
 #' as.list(it3)
@@ -57,23 +56,21 @@ icombinations <- function(object, m, replacement=FALSE) {
   # This approach is similar to how Python's itertools works
   if (!replacement) {
     # Combinations without replacement
-    iter_object <- itertools2::ipermutations(object, m=m)
+    iter_object <- ipermutations(object, m=m)
   } else {
     # Combinations with replacement
     replicate_n <- replicate(n=m, seq_len(n), simplify=FALSE)
-    iter_object <- do.call(itertools2::iproduct, replicate_n)
+    iter_object <- do.call(iproduct, replicate_n)
   }
 
-  nextElem <- function() {
+  nextElemOr_ <- function(or) {
     repeat {
-      indices <- unlist(iterators::nextElem(iter_object))
+      indices <- unlist(nextElemOr(iter_object, return(or)))
       if (all(sort(indices) == indices)) {
         return(object[indices])
       }
     }
   }
 
-  it <- list(nextElem=nextElem)
-  class(it) <- c("abstractiter", "iter")
-  it
+  iteror(nextElemOr_)
 }

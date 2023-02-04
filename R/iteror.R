@@ -135,9 +135,7 @@ nextElemOr.funiteror <- function(obj, or, ...) {
   obj$nextElemOr(or, ...)
 }
 
-#' @importFrom iterators nextElem
-NULL
-#' @exportS3Method
+# @exportS3Method iterators::nextElem
 nextElem.iteror <- function(obj, ...) {
   nextElemOr(obj, stop("StopIteration"), ...)
 }

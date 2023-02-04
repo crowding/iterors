@@ -8,7 +8,6 @@
 #' This function corresponds to Python's \code{grouper} function. We chose the
 #' name \code{ichunk} because it more explicitly defines the function's purpose.
 #'
-#' @importFrom iterators nextElem iter
 #' @export
 #' @param object an iterable object
 #' @param chunk_size the number of elements returned per chunk
@@ -20,13 +19,13 @@
 #' @examples
 #' it <- ichunk(iterators::iter(1:5), chunk_size=2)
 #' # List: list(1, 2, 3)
-#' iterators::nextElem(it)
+#' nextElemOr(it, NA)
 #' # List: list(4, 5, NA)
-#' iterators::nextElem(it)
+#' nextElemOr(it, NA)
 #'
 #' it2 <- ichunk(levels(iris$Species), chunk_size=4, "weeee")
 #' # Returns: list("setosa", "versicolor", "virginica", "weeee")
-#' iterators::nextElem(it2)
+#' nextElemOr(it2, NA)
 #'
 ichunk <- function(object, chunk_size=1, fill=NA) {
   if (chunk_size <= 0 | !is.numeric(chunk_size) | length(chunk_size) != 1) {
@@ -34,14 +33,16 @@ ichunk <- function(object, chunk_size=1, fill=NA) {
   }
   chunk_size <- as.integer(chunk_size)
 
-  it <- iterators::iter(object)
+  it <- iteror(object)
   it_replicate <- replicate(n=chunk_size, it, simplify=FALSE)
 
-  nextElem <- function() {
-    Map(try_nextElem, it_replicate, default=fill)
+  nextElemOr_ <- function(or) {
+    out <- vector("list", chunk_size)
+    for (i in seq_len(chunk_size)) {
+      out[i] <- list(nextElemOr(it, if (i == 1) return(or) else fill))
+    }
+    out
   }
 
-  it_chunk <- list(nextElem=nextElem)
-  class(it_chunk) <- c("abstractiter", "iter")
-  it_chunk
+  iteror(nextElemOr_)
 }
