@@ -1,19 +1,21 @@
-Package: itertools2
-Title: Iterators for efficient looping
-Version: 0.1.3
-Date: 2015-07-31
+Package: iterors
+Title: Rebooted iterators package with greater efficiency and more compact code
+Version: 0.2
+Date: 2023-02-01
 Author: John A. Ramey <johnramey@gmail.com>,
-    Kayla Schaefer <kschaefer.tx@gmail.com>
-Maintainer: John A. Ramey <johnramey@gmail.com>
-Description: A port of Python's excellent itertools module to R for efficient
-    looping.
+    Kayla Schaefer <kschaefer.tx@gmail.com>,
+    Peter Meilstrup <peter.meilstrup@gmail.com>
+Maintainer: Peter Meilstrup <peter.meilstrup@gmail.com>
+Description: Iterators with a more efficient and compact calling convention. Includes a port of `itertools2`, itself a port of Python's excellent itertools module. 
 Depends:
     R (>= 3.0.2)
+Encoding: UTF-8
 Imports:
     iterators (>= 1.0.7)
 Suggests:
     combinat,
     testthat (>= 0.8.1)
 License: MIT + file LICENSE
-URL: https://github.com/ramhiser/itertools2,
-    http://ramhiser.com
+URL: https://github.com/crowding/iterors,
+     http://ramhiser.com
+RoxygenNote: 7.2.1
