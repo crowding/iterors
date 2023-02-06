@@ -1,31 +1,28 @@
-# itertools2
+# iterors
 
-The R package `itertools2` is a port of [Python's excellent itertools
+The R package `iterors` is a replacement for both `iterators` and `itertools2`, it uses
+a slightly different calling convention that turns out to be more efficient as well as usually resulting in more compact code.
+
+It includes a port of the R package `itertools2` is a port of [Python's excellent itertools
 module](https://docs.python.org/2/library/itertools.html) to R for efficient
 looping and is a replacement for the existing [itertools R
 package](https://r-forge.r-project.org/projects/itertools/).
 
 ## Installation
 
-You can install the stable version on [CRAN](http://cran.r-project.org/package=itertools2):
+For the time being, run the following after installing [devtools](https://github.com/hadley/devtools):
 
 ```r
-install.packages('itertools2', dependencies=TRUE)
+devtools::install_github('crowding/iterors')
 ```
 
-If you prefer to download the latest version, instead run the following after
-installing [devtools](https://github.com/hadley/devtools):
+When the package is released, you will be able to install the stable version from [CRAN](http://cran.r-project.org/package=iterors):
 
 ```r
-devtools::install_github('ramhiser/itertools2')
+install.packages('iteror', dependencies=TRUE)
 ```
 
 ## License
 
-The `itertools2` R package is licensed under the [MIT
-License](http://opensource.org/licenses/MIT). However, this package depends on the [iterators R
-package](http://cran.r-project.org/web/packages/iterators/index.html),
-which is licensed under the [Apache License, Version
-2.0](http://www.apache.org/licenses/LICENSE-2.0). Both packages are freely
-available for commercial and non-commerical usage. Please consult the licensing
-terms for more details.
+The `iterors` R package is licensed under the [MIT
+License](http://opensource.org/licenses/MIT).

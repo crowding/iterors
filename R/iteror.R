@@ -1,22 +1,21 @@
-#' An efficient and succinct iteration protocol
+#' An efficient and compact iteration protocol.
 #'
-#' The "iterators" package uses stop("StopIteration") and tryCatch to
-#' signal end of iteration, but tryCatch has a not-insiginificant
-#' amount of overhead. In the context of a generator, when you are in a
-#' "for" loop over an iterator, you have to be setting up and tearing
-#' .down the trycatch on each iteration. so that you can return control
-#' from the generator.
+#' To create an iteror, call the constructor `iteror` providing either
+#' a vector or a function as argument. The returned object will
+#' support the method [nextElemOr(obj, or)] to extract successive
+#' values.
 #'
 #' The main method for "iteror" is "nextElemOr" rather than
-#' "nextElem". Instead of exceptions, "nextElemOr" uses a lazily
+#' "nextElem". Instead of using exceptions, "nextElemOr" uses a lazily
 #' evaluated "or" argument to signal the end of iteration.  The "or"
-#' argument is lazily evaluated, and will only be forced at the stop of
-#' iteration; this means the consumer can provide a "break" or "return"
-#' to respond to the end of the loop.
+#' argument will only be forced when end of iteration is reached; this
+#' means the consumer can provide an action like "break", "next" or
+#' "return" to take at the the end of iteration. Summing over an
+#' iteror this way looks like:
 #'
 #' ```
 #' sum <- 0
-#' it <- iterors::iteror(in)
+#' it <- iteror(in)
 #' repeat {
 #'   val <- nextElemOr(iter, break)
 #'   sum <- sum + val;
@@ -24,30 +23,36 @@
 #' ```
 #'
 #' Another way to use the "or" argument is to give it a sigil value;
-#' that is, a value that you know will not appear in the values
-#' yielded by the generator. If the result of `nextElemOr` is this sigil
-#' value, then you know the iterator has ended. In R it is commonplace
-#' to use `NULL` or NA, as a sigil, but you do sometimes want to have
-#' an iterator return those values literally. A generally safer
-#' pattern is to use a one-shot sigil value; the result of `new.env()`
-#' will work, as it returns a value that by construction is not
-#' [identical]() to any other object in the R session.
+#' that is, a special value that will be interpreted as end of
+#' iteration.  If the result of calling `nextElemOr` is `identical()`
+#' to the sigil value you provided, then you know the iterator has
+#' ended. In R it is commonplace to use `NULL` or `NA`, in the role of
+#' a sigil, but that only works until you have an iterator that needs
+#' to yield NULL. A safer alternative is to use a one-shot sigil
+#' value; the result of `new.env()` will work, as it returns a value
+#' that by construction is not [identical] to any other object in
+#' the R session. This pattern looks like:
 #'
 #' ```
-#' stopped <- new.env()
 #' sum <- 0
+#' stopped <- new.env()
 #' repeat {
-#'   i <- nextElemOr(iter, stopped)
-#'   if (identical(i, stopped)) break
-#'   sum <- sum + i
+#'   val <- nextElemOr(iter, stopped)
+#'   if (identical(val, stopped)) break
+#'   sum <- sum + val
 #' }
 #' ```
 #'
 #' @export
-#' @param obj An object to turn into an iteror. If it is a function
-#'   with a leading argument named `or` this is turned directly into
-#'   an iterator. Otherwise you must specify. If `obj` is a vector the
-#'   iterator will go over the elements of that vector
+#' @param obj An object to iterate with. If `obj` is a vector, the
+#'   iterator will go over the elements of that vector and you can use
+#'   `recycle`.  If `obj` is a function, the function will be called
+#'   to compute successive elements. The function should have a leading
+#'   argument `or` and behave accordingly (only forcing and returning
+#'   `or` to signal end of iteration.)  If you provide a function that
+#'   does not have an `or` argument, you need to specify either `catch`
+#'   or `sigil`.
+#' @return an object of classes 'iteror' and 'iter'.
 iteror <- function(obj, ...) {
   UseMethod("iteror")
 }
@@ -60,12 +65,12 @@ iteror.iter <- identity
 
 #' @exportS3Method iteror "function"
 #' @rdname iteror
-#' @param catch If `obj` is a function with no arguments, specify
-#'   e.g. `catch="stopIteration"` to interpret errors with that
+#' @param catch If `obj` is a function without an `or` argument, specify
+#'   e.g. `catch="StopIteration"` to interpret errors with that
 #'   message as end of iteration.
-#' @param sigil If `obj` is a function with no arguments, specify
+#' @param sigil If `obj` is a function without an `or` argument, specify
 #'   which value to watch for end of iteration. Stop will be signaled
-#'   if the function result is [identical]() to `sigil`.
+#'   if the function result is [identical()] to `sigil`.
 iteror.function <- function(obj, ..., catch, sigil) {
   if ("or" %in% names(formals(obj))) {
     fn <- obj
