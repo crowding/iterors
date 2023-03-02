@@ -29,11 +29,11 @@
 #'
 #' # Iterates through the columns of the iris data.frame
 #' it2 <- ienum(iris)
-#' nextElemOr(it2, NA)
-#' nextElemOr(it2, NA)
-#' nextElemOr(it2, NA)
-#' nextElemOr(it2, NA)
-#' nextElemOr(it2, NA)
+#' nextOr(it2, NA)
+#' nextOr(it2, NA)
+#' nextOr(it2, NA)
+#' nextOr(it2, NA)
+#' nextOr(it2, NA)
 ienumerate <- function(object) {
   izip(index=icount(start=1), value=object)
 }

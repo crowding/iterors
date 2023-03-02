@@ -26,30 +26,30 @@ memory savings compared to \code{\link[base]{expand.grid}}.
 }
 \examples{
 it <- iproduct(x=1:3, y=4:5)
-nextElemOr(it, NA) # list(x=1, y=4)
-nextElemOr(it, NA) # list(x=1, y=5)
-nextElemOr(it, NA) # list(x=2, y=4)
-nextElemOr(it, NA) # list(x=2, y=5)
-nextElemOr(it, NA) # list(x=3, y=4)
-nextElemOr(it, NA) # list(x=3, y=5)
+nextOr(it, NA) # list(x=1, y=4)
+nextOr(it, NA) # list(x=1, y=5)
+nextOr(it, NA) # list(x=2, y=4)
+nextOr(it, NA) # list(x=2, y=5)
+nextOr(it, NA) # list(x=3, y=4)
+nextOr(it, NA) # list(x=3, y=5)
 
 # Repeats the Cartesian product twice
 it <- iproduct(x=1:3, y=4:5, times=2)
 # First Cartesian product
-nextElemOr(it, NA) # list(x=1, y=4)
-nextElemOr(it, NA) # list(x=1, y=5)
-nextElemOr(it, NA) # list(x=2, y=4)
-nextElemOr(it, NA) # list(x=2, y=5)
-nextElemOr(it, NA) # list(x=3, y=4)
-nextElemOr(it, NA) # list(x=3, y=5)
+nextOr(it, NA) # list(x=1, y=4)
+nextOr(it, NA) # list(x=1, y=5)
+nextOr(it, NA) # list(x=2, y=4)
+nextOr(it, NA) # list(x=2, y=5)
+nextOr(it, NA) # list(x=3, y=4)
+nextOr(it, NA) # list(x=3, y=5)
 
 # Second Cartesian product
-nextElemOr(it, NA) # list(x=1, y=4)
-nextElemOr(it, NA) # list(x=1, y=5)
-nextElemOr(it, NA) # list(x=2, y=4)
-nextElemOr(it, NA) # list(x=2, y=5)
-nextElemOr(it, NA) # list(x=3, y=4)
-nextElemOr(it, NA) # list(x=3, y=5)
+nextOr(it, NA) # list(x=1, y=4)
+nextOr(it, NA) # list(x=1, y=5)
+nextOr(it, NA) # list(x=2, y=4)
+nextOr(it, NA) # list(x=2, y=5)
+nextOr(it, NA) # list(x=3, y=4)
+nextOr(it, NA) # list(x=3, y=5)
 
 # iproduct is a replacement for base::expand.grid()
 # Large data.frames are not created unless the iterator is manually consumed

@@ -15,13 +15,13 @@
 #' # Skips the first 5 elements
 #' consume(it, n=5)
 #' # Returns 6
-#' nextElemOr(it, NA)
+#' nextOr(it, NA)
 #'
 #' it2 <- iteror(letters)
 #' # Skips the first 4 elements
 #' consume(it2, 4)
 #' # Returns 'e'
-#' nextElemOr(it2, NA)
+#' nextOr(it2, NA)
 #'
 consume <- function(iteror, n=0) {
   if (!is_iteror(iteror)) {
@@ -33,10 +33,10 @@ consume <- function(iteror, n=0) {
   }
   n <- as.integer(n)
   if (n == 0) {
-    repeat nextElemOr(iteror, break)
+    repeat nextOr(iteror, break)
   } else {
     for (i in seq_len(n)) {
-      nextElemOr(iteror, break)
+      nextOr(iteror, break)
     }
   }
 
@@ -85,5 +85,5 @@ nth <- function(iteror, n, or) {
   n <- as.integer(n)
 
   it <- islice(iteror, start=n)
-  nextElemOr(it, or)
+  nextOr(it, or)
 }

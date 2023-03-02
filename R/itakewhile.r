@@ -24,9 +24,9 @@ itakewhile <- function(predicate, object) {
   iter_obj <- iteror(object)
 
   stop_iterating <- FALSE
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     if (stop_iterating) return(or)
-    next_elem <- nextElemOr(iter_obj, return(or))
+    next_elem <- nextOr(iter_obj, return(or))
     if (predicate(next_elem)) {
       return(next_elem)
     } else {
@@ -35,5 +35,5 @@ itakewhile <- function(predicate, object) {
     }
   }
 
-  iteror.function(nextElemOr_)
+  iteror.function(nextOr_)
 }

@@ -35,17 +35,17 @@ iter_list <- itee(1:5, n=3)
 unlist(as.list(iter_list[[1]])) == 1:5
 
 # We can iterate through the remaining two iterators in any order.
-nextElemOr(iter_list[[2]], NA) # 1
-nextElemOr(iter_list[[2]], NA) # 2
+nextOr(iter_list[[2]], NA) # 1
+nextOr(iter_list[[2]], NA) # 2
 
-nextElemOr(iter_list[[3]], NA) # 1
-nextElemOr(iter_list[[3]], NA) # 2
+nextOr(iter_list[[3]], NA) # 1
+nextOr(iter_list[[3]], NA) # 2
 
-nextElemOr(iter_list[[2]], NA) # 3
-nextElemOr(iter_list[[2]], NA) # 4
-nextElemOr(iter_list[[2]], NA) # 5
+nextOr(iter_list[[2]], NA) # 3
+nextOr(iter_list[[2]], NA) # 4
+nextOr(iter_list[[2]], NA) # 5
 
-nextElemOr(iter_list[[3]], NA) # 3
-nextElemOr(iter_list[[3]], NA) # 4
-nextElemOr(iter_list[[3]], NA) # 5
+nextOr(iter_list[[3]], NA) # 3
+nextOr(iter_list[[3]], NA) # 4
+nextOr(iter_list[[3]], NA) # 5
 }

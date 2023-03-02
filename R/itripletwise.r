@@ -10,27 +10,27 @@
 #'
 #' @examples
 #' it <- itripletwise(iteror(letters[1:4]))
-#' nextElemOr(it) # list("a", "b", "c")
-#' nextElemOr(it) # list("b", "c", "d")
+#' nextOr(it) # list("a", "b", "c")
+#' nextOr(it) # list("b", "c", "d")
 #'
 #' it2 <- itripletwise(1:5)
-#' nextElemOr(it2) # list(1, 2, 3)
-#' nextElemOr(it2) # list(2, 3, 4)
-#' nextElemOr(it2) # list(3, 4, 5)
+#' nextOr(it2) # list(1, 2, 3)
+#' nextOr(it2) # list(2, 3, 4)
+#' nextOr(it2) # list(3, 4, 5)
 #'
 itripletwise <- function(object) {
   object <- iteror(object)
 
-  last_2 <- nextElemOr(object, NULL)
-  last_1 <- nextElemOr(object, NULL)
-  nextElemOr_ <- function(or) {
+  last_2 <- nextOr(object, NULL)
+  last_1 <- nextOr(object, NULL)
+  nextOr_ <- function(or) {
     value <- list(last_2,
                   last_1,
-                  nextElemOr(object, return(or)))
+                  nextOr(object, return(or)))
     last_2 <<- last_1
     last_1 <<- value[[3]]
     value
   }
 
-  iteror(nextElemOr_)
+  iteror(nextOr_)
 }

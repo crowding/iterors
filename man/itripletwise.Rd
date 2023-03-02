@@ -18,12 +18,12 @@ in a sliding window three elements wide.
 }
 \examples{
 it <- itripletwise(iteror(letters[1:4]))
-nextElemOr(it) # list("a", "b", "c")
-nextElemOr(it) # list("b", "c", "d")
+nextOr(it) # list("a", "b", "c")
+nextOr(it) # list("b", "c", "d")
 
 it2 <- itripletwise(1:5)
-nextElemOr(it2) # list(1, 2, 3)
-nextElemOr(it2) # list(2, 3, 4)
-nextElemOr(it2) # list(3, 4, 5)
+nextOr(it2) # list(1, 2, 3)
+nextOr(it2) # list(2, 3, 4)
+nextOr(it2) # list(3, 4, 5)
 
 }

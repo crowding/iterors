@@ -21,26 +21,26 @@
 #' # Combinations without replacement
 #' it <- icombinations(1:4, m=2)
 #'
-#' nextElemOr(it, NA) # c(1, 2)
-#' nextElemOr(it, NA) # c(1, 3)
-#' nextElemOr(it, NA) # c(1, 4)
-#' nextElemOr(it, NA) # c(2, 3)
-#' nextElemOr(it, NA) # c(2, 4)
-#' nextElemOr(it, NA) # c(3, 4)
+#' nextOr(it, NA) # c(1, 2)
+#' nextOr(it, NA) # c(1, 3)
+#' nextOr(it, NA) # c(1, 4)
+#' nextOr(it, NA) # c(2, 3)
+#' nextOr(it, NA) # c(2, 4)
+#' nextOr(it, NA) # c(3, 4)
 #'
 #' # Combinations without replacement
 #' it <- icombinations(1:4, m=2, replacement=TRUE)
 #'
-#' nextElemOr(it, NA) # c(1, 1)
-#' nextElemOr(it, NA) # c(1, 2)
-#' nextElemOr(it, NA) # c(1, 3)
-#' nextElemOr(it, NA) # c(1, 4)
-#' nextElemOr(it, NA) # c(2, 2)
-#' nextElemOr(it, NA) # c(2, 3)
-#' nextElemOr(it, NA) # c(2, 4)
-#' nextElemOr(it, NA) # c(3, 3)
-#' nextElemOr(it, NA) # c(3, 4)
-#' nextElemOr(it, NA) # c(4, 4)
+#' nextOr(it, NA) # c(1, 1)
+#' nextOr(it, NA) # c(1, 2)
+#' nextOr(it, NA) # c(1, 3)
+#' nextOr(it, NA) # c(1, 4)
+#' nextOr(it, NA) # c(2, 2)
+#' nextOr(it, NA) # c(2, 3)
+#' nextOr(it, NA) # c(2, 4)
+#' nextOr(it, NA) # c(3, 3)
+#' nextOr(it, NA) # c(3, 4)
+#' nextOr(it, NA) # c(4, 4)
 #'
 #' it3 <- icombinations(1:5, m=2)
 #' as.list(it3)
@@ -63,14 +63,14 @@ icombinations <- function(object, m, replacement=FALSE) {
     iter_object <- do.call(iproduct, replicate_n)
   }
 
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     repeat {
-      indices <- unlist(nextElemOr(iter_object, return(or)))
+      indices <- unlist(nextOr(iter_object, return(or)))
       if (all(sort(indices) == indices)) {
         return(object[indices])
       }
     }
   }
 
-  iteror(nextElemOr_)
+  iteror(nextOr_)
 }

@@ -28,14 +28,14 @@
 idropwhile <- function(predicate, object) {
   iter_obj <- iteror(object)
 
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     repeat {
-      next_elem <- nextElemOr(iter_obj, return(or))
+      next_elem <- nextOr(iter_obj, return(or))
       if (!predicate(next_elem)) {
         return(next_elem)
       }
     }
   }
 
-  iteror(nextElemOr_)
+  iteror(nextOr_)
 }

@@ -39,12 +39,12 @@ an object of classes 'iteror' and 'iter'.
 \description{
 To create an iteror, call the constructor \code{iteror} providing either
 a vector or a function as argument. The returned object will
-support the method \link{nextElemOr(obj, or)} to extract successive
+support the method \link{nextOr(obj, or)} to extract successive
 values.
 }
 \details{
-The main method for "iteror" is "nextElemOr" rather than
-"nextElem". Instead of using exceptions, "nextElemOr" uses a lazily
+The main method for "iteror" is "nextOr" rather than
+"nextElem". Instead of using exceptions, "nextOr" uses a lazily
 evaluated "or" argument to signal the end of iteration.  The "or"
 argument will only be forced when end of iteration is reached; this
 means the consumer can provide an action like "break", "next" or
@@ -54,14 +54,14 @@ iteror this way looks like:
 \if{html}{\out{<div class="sourceCode">}}\preformatted{sum <- 0
 it <- iteror(in)
 repeat \{
-  val <- nextElemOr(iter, break)
+  val <- nextOr(iter, break)
   sum <- sum + val;
 \}
 }\if{html}{\out{</div>}}
 
 Another way to use the "or" argument is to give it a sigil value;
 that is, a special value that will be interpreted as end of
-iteration.  If the result of calling \code{nextElemOr} is \code{identical()}
+iteration.  If the result of calling \code{nextOr} is \code{identical()}
 to the sigil value you provided, then you know the iterator has
 ended. In R it is commonplace to use \code{NULL} or \code{NA}, in the role of
 a sigil, but that only works until you have an iterator that needs
@@ -73,7 +73,7 @@ the R session. This pattern looks like:
 \if{html}{\out{<div class="sourceCode">}}\preformatted{sum <- 0
 stopped <- new.env()
 repeat \{
-  val <- nextElemOr(iter, stopped)
+  val <- nextOr(iter, stopped)
   if (identical(val, stopped)) break
   sum <- sum + val
 \}

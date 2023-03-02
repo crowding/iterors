@@ -20,11 +20,11 @@
 #' # Similar idea here but anonymous function is used to filter out even
 #' # numbers
 #' it2 <- ifilter(function(x) x %% 2 == 1, 1:10)
-#' nextElemOr(it2, NA) # 1
-#' nextElemOr(it2, NA) # 3
-#' nextElemOr(it2, NA) # 5
-#' nextElemOr(it2, NA) # 7
-#' nextElemOr(it2, NA) # 9
+#' nextOr(it2, NA) # 1
+#' nextOr(it2, NA) # 3
+#' nextOr(it2, NA) # 5
+#' nextOr(it2, NA) # 7
+#' nextOr(it2, NA) # 9
 #'
 #' is_vowel <- function(x) {
 #'   x %in% c('a', 'e', 'i', 'o', 'u')
@@ -38,16 +38,16 @@ ifilter <- function(predicate, iterable) {
 
   iter_obj <- iteror(iterable)
 
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     repeat {
-      next_elem <- nextElemOr(iter_obj, return(or))
+      next_elem <- nextOr(iter_obj, return(or))
       if (predicate(next_elem)) {
         return(next_elem)
       }
     }
   }
 
-  iteror(nextElemOr_)
+  iteror(nextOr_)
 }
 
 #' Iterator that filters elements not satisfying a predicate function
@@ -73,12 +73,12 @@ ifilter <- function(predicate, iterable) {
 #'   x %in% c('a', 'e', 'i', 'o', 'u')
 #' }
 #' it3 <- ifilterfalse(is_vowel, letters)
-#' nextElemOr(it3, NA) # b
-#' nextElemOr(it3, NA) # c
-#' nextElemOr(it3, NA) # d
-#' nextElemOr(it3, NA) # f
-#' nextElemOr(it3, NA) # g
-#' # nextElemOr(it, NA) continues through the rest of the consonants
+#' nextOr(it3, NA) # b
+#' nextOr(it3, NA) # c
+#' nextOr(it3, NA) # d
+#' nextOr(it3, NA) # f
+#' nextOr(it3, NA) # g
+#' # nextOr(it, NA) continues through the rest of the consonants
 #'
 #' @rdname ifilter
 ifilterfalse <- function(predicate, iterable) {
@@ -88,14 +88,14 @@ ifilterfalse <- function(predicate, iterable) {
 
   iter_obj <- iteror(iterable)
 
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     repeat {
-      next_elem <- nextElemOr(iter_obj, return(or))
+      next_elem <- nextOr(iter_obj, return(or))
       if (!predicate(next_elem)) {
         return(next_elem)
       }
     }
   }
 
-  iteror(nextElemOr_)
+  iteror(nextOr_)
 }

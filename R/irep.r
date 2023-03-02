@@ -54,16 +54,16 @@ irep_each <- function(object, each=1) {
   each <- as.integer(each)
   iter_obj <- iteror(object)
 
-  iter_repeat <- irepeat(nextElemOr(iter_obj, NA), times=each)
+  iter_repeat <- irepeat(nextOr(iter_obj, NA), times=each)
 
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     repeat {
-      return(nextElemOr(iter_repeat, or={
-        iter_repeat <<- irepeat(nextElemOr(iter_obj, return(or)), times=each)
+      return(nextOr(iter_repeat, or={
+        iter_repeat <<- irepeat(nextOr(iter_obj, return(or)), times=each)
         next
       }))
     }
   }
 
-  iteror(nextElemOr_)
+  iteror(nextOr_)
 }

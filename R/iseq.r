@@ -66,14 +66,16 @@ iseq <- function(from=1, to=1, by=(to - from)/(length_out - 1),
   }
 
   current_val <- from - by
-  nextElemOr_ <- function(or) {
-    current_val <<- current_val + by
-    if ((by > 0 && current_val > to) || ((by < 0) && current_val < to))
-      or
-    else current_val
-  }
-
-  iteror.function(nextElemOr_)
+  if (by > 0L)
+    iteror.function(function(or) {
+      current_val <<- current_val + by
+      if (current_val > to) or else current_val
+    })
+  else
+    iteror.function(function(or) {
+      current_val <<- current_val + by
+      if (current_val < to) or else current_val
+    })
 }
 
 #' @export
@@ -87,13 +89,13 @@ iseq_len <- function(length_out=NULL) {
   }
 
   i <- 0
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     i <<- i + 1
 
     if (i > length_out) or else i
   }
 
-  iteror.function(nextElemOr_)
+  iteror.function(nextOr_)
 }
 
 #' @export
@@ -102,11 +104,11 @@ iseq_along <- function(along_with=NULL) {
   length_out <- length(along_with)
 
   i <- 0
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     i <<- i + 1
 
     if (i > length_out) or else i
   }
 
-  iteror.function(nextElemOr_)
+  iteror.function(nextOr_)
 }

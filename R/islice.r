@@ -23,10 +23,10 @@
 #'
 #' @examples
 #' it <- islice(1:5, start=2)
-#' nextElemOr(it, NULL) # 2
-#' nextElemOr(it, NULL) # 3
-#' nextElemOr(it, NULL) # 4
-#' nextElemOr(it, NULL) # 5
+#' nextOr(it, NULL) # 2
+#' nextOr(it, NULL) # 3
+#' nextOr(it, NULL) # 4
+#' nextOr(it, NULL) # 5
 #'
 #' it2 <- islice(1:10, start=2, end=5)
 #' unlist(as.list(it2)) == 2:5
@@ -53,11 +53,11 @@ islice <- function(object, start=1, end=NULL, step=1) {
   iter_icount <- icount(start=start, step=step)
 
   nextElem <- function(or) {
-    i <- nextElemOr(iter_icount, return(or))
+    i <- nextOr(iter_icount, return(or))
     if (!is.null(end) && i > end) return(or)
 
     repeat {
-      next_ienum <- nextElemOr(iter_ienum, return(or))
+      next_ienum <- nextOr(iter_ienum, return(or))
       if (i == next_ienum$index) {
         return(next_ienum$value)
       }

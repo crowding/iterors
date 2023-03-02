@@ -26,13 +26,13 @@ iroundrobin <- function(...) {
   has_elems <- rep(TRUE, num_iters)
   it_cycle <- icycle(seq_len(num_iters))
 
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     repeat {
       if (!any(has_elems)) {
         return(or)
       }
-      which_iter <- nextElemOr(it_cycle)
-      next_elem <- nextElemOr(iter_list[[which_iter]], {
+      which_iter <- nextOr(it_cycle)
+      next_elem <- nextOr(iter_list[[which_iter]], {
         has_elems[which_iter] <<- FALSE
         next
       })
@@ -40,5 +40,5 @@ iroundrobin <- function(...) {
     }
   }
 
-  iteror(nextElemOr_)
+  iteror(nextOr_)
 }

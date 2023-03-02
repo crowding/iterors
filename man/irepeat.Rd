@@ -26,21 +26,21 @@ fields in a tuple record.
 }
 \examples{
 it <- irepeat(42)
-nextElemOr(it, NA)
-nextElemOr(it, NA)
-nextElemOr(it, NA)
-# Further calls to nextElemOr(it, NA) will repeat 42
+nextOr(it, NA)
+nextOr(it, NA)
+nextOr(it, NA)
+# Further calls to nextOr(it, NA) will repeat 42
 
 it2 <- irepeat(42, times=4)
-nextElemOr(it2, NA)
-nextElemOr(it2, NA)
-nextElemOr(it2, NA)
-nextElemOr(it2, NA)
+nextOr(it2, NA)
+nextOr(it2, NA)
+nextOr(it2, NA)
+nextOr(it2, NA)
 
 # The object can be a data.frame, matrix, etc
 it3 <- irepeat(iris, times=4)
-nextElemOr(it3, NA)
-nextElemOr(it3, NA)
-nextElemOr(it3, NA)
-nextElemOr(it3, NA)
+nextOr(it3, NA)
+nextOr(it3, NA)
+nextOr(it3, NA)
+nextOr(it3, NA)
 }

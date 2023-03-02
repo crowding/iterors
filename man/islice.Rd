@@ -36,10 +36,10 @@ iteror is exhausted unless \code{end} is specified. In this case,
 }
 \examples{
 it <- islice(1:5, start=2)
-nextElemOr(it, NULL) # 2
-nextElemOr(it, NULL) # 3
-nextElemOr(it, NULL) # 4
-nextElemOr(it, NULL) # 5
+nextOr(it, NULL) # 2
+nextOr(it, NULL) # 3
+nextOr(it, NULL) # 4
+nextOr(it, NULL) # 5
 
 it2 <- islice(1:10, start=2, end=5)
 unlist(as.list(it2)) == 2:5

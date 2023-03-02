@@ -13,23 +13,23 @@
 #'
 #' @examples
 #' it <- icycle(1:3)
-#' nextElemOr(it, NA) # 1
-#' nextElemOr(it, NA) # 2
-#' nextElemOr(it, NA) # 3
-#' nextElemOr(it, NA) # 1
-#' nextElemOr(it, NA) # 2
-#' nextElemOr(it, NA) # 3
-#' nextElemOr(it, NA) # 1
+#' nextOr(it, NA) # 1
+#' nextOr(it, NA) # 2
+#' nextOr(it, NA) # 3
+#' nextOr(it, NA) # 1
+#' nextOr(it, NA) # 2
+#' nextOr(it, NA) # 3
+#' nextOr(it, NA) # 1
 #'
 #' it2 <- icycle(1:3, times=2)
 #' as.list(it2)
 #'
 #' # Can return the results from a function.
 #' it3 <- icycle(function() rnorm(1))
-#' nextElemOr(it, NA)
-#' nextElemOr(it, NA)
-#' nextElemOr(it, NA)
-#' nextElemOr(it, NA)
+#' nextOr(it, NA)
+#' nextOr(it, NA)
+#' nextOr(it, NA)
+#' nextOr(it, NA)
 icycle <- function(object, times=NULL) {
   if (!is.null(times)) {
     times <- as.numeric(times)
@@ -55,7 +55,7 @@ icycle <- function(object, times=NULL) {
   num_exhausted <- 0
   i <- 0
 
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     i <<- i + 1
     if (i > iter_len) {
       num_exhausted <<- num_exhausted + 1
@@ -64,9 +64,9 @@ icycle <- function(object, times=NULL) {
     if (!is.null(times) && num_exhausted >= times) {
       or
     } else {
-      nextElemOr(iter_obj, or)
+      nextOr(iter_obj, or)
     }
   }
 
-  it <- iteror(nextElemOr_)
+  it <- iteror(nextOr_)
 }

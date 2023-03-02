@@ -3,17 +3,17 @@ context("consume iterator")
 test_that("consume consumes an iterator when n < length(iterator)", {
   it <- iteror(letters)
   consume(it, n=4)
-  expect_equal(nextElemOr(it, NA), "e")
+  expect_equal(nextOr(it, NA), "e")
 })
 
 test_that("consume consumes an iterator when n=0 or n > length(iterator)", {
   it <- iteror(letters)
   consume(it, n=0)
-  expect_equal(nextElemOr(it, "stop"), "stop")
+  expect_equal(nextOr(it, "stop"), "stop")
 
   it2 <- iteror(letters)
   consume(it2, n=27)
-  expect_equal(nextElemOr(it, "stop"), "stop")
+  expect_equal(nextOr(it, "stop"), "stop")
 })
 
 test_that("consume rejects non-positive or non-integer n", {

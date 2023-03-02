@@ -30,18 +30,18 @@ generate consecutive data points.
 }
 \examples{
 it <- icount()
-nextElemOr(it, NULL)
-nextElemOr(it, NULL)
-nextElemOr(it, NULL)
+nextOr(it, NULL)
+nextOr(it, NULL)
+nextOr(it, NULL)
 
 it2 <- icount(start=5.5, step=1.5)
-nextElemOr(it2, NULL)
-nextElemOr(it2, NULL)
-nextElemOr(it2, NULL)
+nextOr(it2, NULL)
+nextOr(it2, NULL)
+nextOr(it2, NULL)
 
 it3 <- icount(start=1, stop=3)
-nextElemOr(it3, NULL)
-nextElemOr(it3, NULL)
-nextElemOr(it3, NULL)
+nextOr(it3, NULL)
+nextOr(it3, NULL)
+nextOr(it3, NULL)
 
 }

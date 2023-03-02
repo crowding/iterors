@@ -33,9 +33,9 @@
 #'
 #' # Another similar example but with lists instead of vectors
 #' it3 <- imap(pow, list(2, 3, 10), list(5, 2, 3))
-#' nextElemOr(it3, NA) # 32
-#' nextElemOr(it3, NA) # 9
-#' nextElemOr(it3, NA) # 1000
+#' nextOr(it3, NA) # 32
+#' nextOr(it3, NA) # 9
+#' nextOr(it3, NA) # 1000
 imap <- function(f, ...) {
   f <- match.fun(f)
   iter_obj <- izip(...)
@@ -44,10 +44,10 @@ imap <- function(f, ...) {
     lapply(l, function(x) if (is.language(x)) call("quote", x) else x)
   }
 
-  nextElemOr_ <- function(or) {
-    elem <- nextElemOr(iter_obj, return(or))
+  nextOr_ <- function(or) {
+    elem <- nextOr(iter_obj, return(or))
     do.call(f, wrap(elem))
   }
 
-  iteror(nextElemOr_)
+  iteror(nextOr_)
 }

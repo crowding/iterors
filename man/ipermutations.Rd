@@ -26,12 +26,12 @@ The implementation is loosely based on that of Python's itertools.
 \examples{
 it <- ipermutations(1:3)
 
-nextElemOr(it, NA) # c(1, 2, 3)
-nextElemOr(it, NA) # c(1, 3, 2)
-nextElemOr(it, NA) # c(3, 1, 2)
-nextElemOr(it, NA) # c(3, 2, 1)
-nextElemOr(it, NA) # c(2, 3, 1)
-nextElemOr(it, NA) # c(2, 1, 3)
+nextOr(it, NA) # c(1, 2, 3)
+nextOr(it, NA) # c(1, 3, 2)
+nextOr(it, NA) # c(3, 1, 2)
+nextOr(it, NA) # c(3, 2, 1)
+nextOr(it, NA) # c(2, 3, 1)
+nextOr(it, NA) # c(2, 1, 3)
 
 it2 <- ipermutations(letters[1:4])
 # 24 = 4! permutations of the letters a, b, c, and d

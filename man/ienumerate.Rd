@@ -42,9 +42,9 @@ as.list(it)
 
 # Iterates through the columns of the iris data.frame
 it2 <- ienum(iris)
-nextElemOr(it2, NA)
-nextElemOr(it2, NA)
-nextElemOr(it2, NA)
-nextElemOr(it2, NA)
-nextElemOr(it2, NA)
+nextOr(it2, NA)
+nextOr(it2, NA)
+nextOr(it2, NA)
+nextOr(it2, NA)
+nextOr(it2, NA)
 }

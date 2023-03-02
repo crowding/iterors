@@ -63,7 +63,7 @@ iter_deepcopy <- function(iterator) {
     iter_copy$state[[var_i]] <- iterator$state[[var_i]]
   }
 
-  environment(iter_copy$nextElemOr) <- iter_copy$state
+  environment(iter_copy$nextOr) <- iter_copy$state
 
   iter_copy
 }

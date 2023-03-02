@@ -18,14 +18,14 @@ in pairs.
 }
 \examples{
 it <- ipairwise(iterators::iter(letters[1:4]))
-nextElemOr(it, NA) # list("a", "b")
-nextElemOr(it, NA) # list("b", "c")
-nextElemOr(it, NA) # list("c", "d")
+nextOr(it, NA) # list("a", "b")
+nextOr(it, NA) # list("b", "c")
+nextOr(it, NA) # list("c", "d")
 
 it2 <- ipairwise(1:5)
-nextElemOr(it2, NA) # list(1, 2)
-nextElemOr(it2, NA) # list(2, 3)
-nextElemOr(it2, NA) # list(3, 4)
-nextElemOr(it2, NA) # list(4, 5)
+nextOr(it2, NA) # list(1, 2)
+nextOr(it2, NA) # list(2, 3)
+nextOr(it2, NA) # list(3, 4)
+nextOr(it2, NA) # list(4, 5)
 
 }

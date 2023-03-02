@@ -31,12 +31,12 @@ name \code{ichunk} because it more explicitly defines the function's purpose.
 \examples{
 it <- ichunk(iterators::iter(1:5), chunk_size=2)
 # List: list(1, 2, 3)
-nextElemOr(it, NA)
+nextOr(it, NA)
 # List: list(4, 5, NA)
-nextElemOr(it, NA)
+nextOr(it, NA)
 
 it2 <- ichunk(levels(iris$Species), chunk_size=4, "weeee")
 # Returns: list("setosa", "versicolor", "virginica", "weeee")
-nextElemOr(it2, NA)
+nextOr(it2, NA)
 
 }

@@ -24,21 +24,21 @@ Runs indefinitely unless the \code{times} argument is specified.
 }
 \examples{
 it <- icycle(1:3)
-nextElemOr(it, NA) # 1
-nextElemOr(it, NA) # 2
-nextElemOr(it, NA) # 3
-nextElemOr(it, NA) # 1
-nextElemOr(it, NA) # 2
-nextElemOr(it, NA) # 3
-nextElemOr(it, NA) # 1
+nextOr(it, NA) # 1
+nextOr(it, NA) # 2
+nextOr(it, NA) # 3
+nextOr(it, NA) # 1
+nextOr(it, NA) # 2
+nextOr(it, NA) # 3
+nextOr(it, NA) # 1
 
 it2 <- icycle(1:3, times=2)
 as.list(it2)
 
 # Can return the results from a function.
 it3 <- icycle(function() rnorm(1))
-nextElemOr(it, NA)
-nextElemOr(it, NA)
-nextElemOr(it, NA)
-nextElemOr(it, NA)
+nextOr(it, NA)
+nextOr(it, NA)
+nextOr(it, NA)
+nextOr(it, NA)
 }

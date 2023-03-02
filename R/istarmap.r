@@ -45,12 +45,12 @@ istarmap <- function(f, x) {
   f <- match.fun(f)
   iter_list <- lapply(x, iteror)
 
-  nextElemOr_ <- function(or) {
-    next_args <- lapply(iter_list, nextElemOr, or=return(or))
+  nextOr_ <- function(or) {
+    next_args <- lapply(iter_list, nextOr, or=return(or))
     do.call(f, next_args)
   }
 
-  iteror.function(nextElemOr_)
+  iteror.function(nextOr_)
 }
 
 #' @rdname istarmap

@@ -19,13 +19,13 @@
 #' @examples
 #' it <- ichunk(iterators::iter(1:5), chunk_size=2)
 #' # List: list(1, 2, 3)
-#' nextElemOr(it, NA)
+#' nextOr(it, NA)
 #' # List: list(4, 5, NA)
-#' nextElemOr(it, NA)
+#' nextOr(it, NA)
 #'
 #' it2 <- ichunk(levels(iris$Species), chunk_size=4, "weeee")
 #' # Returns: list("setosa", "versicolor", "virginica", "weeee")
-#' nextElemOr(it2, NA)
+#' nextOr(it2, NA)
 #'
 ichunk <- function(object, chunk_size=1, fill=NA) {
   if (chunk_size <= 0 | !is.numeric(chunk_size) | length(chunk_size) != 1) {
@@ -36,13 +36,13 @@ ichunk <- function(object, chunk_size=1, fill=NA) {
   it <- iteror(object)
   it_replicate <- replicate(n=chunk_size, it, simplify=FALSE)
 
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     out <- vector("list", chunk_size)
     for (i in seq_len(chunk_size)) {
-      out[i] <- list(nextElemOr(it, if (i == 1) return(or) else fill))
+      out[i] <- list(nextOr(it, if (i == 1) return(or) else fill))
     }
     out
   }
 
-  iteror(nextElemOr_)
+  iteror(nextOr_)
 }

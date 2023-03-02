@@ -31,14 +31,14 @@
 icompress <- function(object, selectors) {
   iter_izip <- izip(obj=object, select=selectors)
 
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     repeat {
-      next_elem <- nextElemOr(iter_izip, return(or))
+      next_elem <- nextOr(iter_izip, return(or))
       if (next_elem$select) {
         return(next_elem$obj)
       }
     }
   }
 
-  iteror(nextElemOr_)
+  iteror(nextOr_)
 }

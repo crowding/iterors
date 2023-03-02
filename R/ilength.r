@@ -25,7 +25,7 @@ ilength <- function(object) {
 
   i <- 0
   repeat{
-    nextElemOr(it, break)
+    nextOr(it, break)
     i <- i + 1
   }
   i

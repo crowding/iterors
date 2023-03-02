@@ -20,7 +20,7 @@ quantify <- function(object) {
   it <- iteror(object)
   i <- 0
   repeat{
-    next_elem <- nextElemOr(it, break)
+    next_elem <- nextOr(it, break)
     if (next_elem) {
       i <- i + 1
     }

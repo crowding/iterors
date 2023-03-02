@@ -29,9 +29,9 @@ iunique <- function(object) {
   unique_elems <- list()
   i <- 1
 
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     repeat {
-      next_elem <- nextElemOr(iter_object, return(or))
+      next_elem <- nextOr(iter_object, return(or))
 
       if (!(next_elem %in% unique_elems)) {
         unique_elems[[i]] <<- next_elem
@@ -41,7 +41,7 @@ iunique <- function(object) {
     }
   }
 
-  iteror(nextElemOr_)
+  iteror(nextOr_)
 }
 
 #' Iterator that extracts the just-seen unique elements from an iterable object
@@ -70,9 +70,9 @@ iunique_justseen <- function(object) {
   prev_elem <- NULL
   first_seen <- FALSE
 
-  nextElemOr_ <- function(or) {
+  nextOr_ <- function(or) {
     repeat {
-      next_elem <- nextElemOr(iter_object, return(or))
+      next_elem <- nextOr(iter_object, return(or))
       if (!first_seen || next_elem != prev_elem) {
         first_seen <<- TRUE
         prev_elem <<- next_elem
@@ -82,5 +82,5 @@ iunique_justseen <- function(object) {
     }
   }
 
-  iteror(nextElemOr_)
+  iteror(nextOr_)
 }

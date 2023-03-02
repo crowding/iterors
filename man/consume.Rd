@@ -26,12 +26,12 @@ it <- iteror(1:10)
 # Skips the first 5 elements
 consume(it, n=5)
 # Returns 6
-nextElemOr(it, NA)
+nextOr(it, NA)
 
 it2 <- iteror(letters)
 # Skips the first 4 elements
 consume(it2, 4)
 # Returns 'e'
-nextElemOr(it2, NA)
+nextOr(it2, NA)
 
 }
