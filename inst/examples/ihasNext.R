@@ -19,7 +19,7 @@ hasNext.ihasNext <- function(obj, ...) {
 # method of the iterator, since you don't have to worry about catching
 # the "StopIteration" exception.
 ihasNext <- function(it) {
-  it <- iter(it)
+  it <- iteror(it)
 
   # If "it" already has a hasNext function, return it unchanged
   if (!is.null(it$hasNext))

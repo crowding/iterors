@@ -2,20 +2,18 @@ library(iterators)
 
 # Returns a filtering iterator
 ifilter <- function(it, FUN, ...) {
-  it <- iter(it)
+  it <- iteror(it)
 
   nextEl <- function() {
     repeat {
-      x <- nextElem(it)
+      x <- nextOr(it)
       if (FUN(x, ...))
         break
     }
     x
   }
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('ifilter', 'abstractiter', 'iter')
-  obj
+  iteror.function(nextElem)
 }
 
 # Simple example use

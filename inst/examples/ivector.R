@@ -7,16 +7,14 @@ ivector <- function(x, ...) {
  i <- 1
  it <- idiv(length(x), ...)
 
- nextEl <- function() {
-   n <- nextElem(it)
+ nextOr_ <- function(or) {
+   n <- nextOr(it, return(or))
    ix <- seq(i, length=n)
    i <<- i + n
    x[ix]
  }
 
- obj <- list(nextElem=nextEl)
- class(obj) <- c('ivector', 'abstractiter', 'iter')
- obj
+ iteror(nextOr_)
 }
 
 # create a vector iterator that returns three subvectors

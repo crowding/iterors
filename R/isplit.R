@@ -26,32 +26,25 @@ icountn <- function(vn) {
     nextVal <- NULL
   }
 
-  nextEl <- if (n == 1) {
-    function() nextElem(icar)
-  } else {
-    function() {
-      repeat {
-        if (!hasVal) {
-          nextVal <<- nextElem(icar)
-          hasVal <<- TRUE
-        }
+  if (n == 1) return (icar)
 
-        tryCatch({
-          return(c(nextElem(icdr), nextVal))
-        },
-        error=function(e) {
-          if (identical(conditionMessage(e), 'StopIteration')) {
-            icdr <<- icountn(vn[-n])
-            hasVal <<- FALSE
-          } else {
-            stop(e)
-          }
-        })
+  nextEl <- function(or) {
+    repeat {
+      if (!hasVal) {
+        nextVal <<- nextOr(icar, return(or))
+        hasVal <<- TRUE
       }
+
+      val <- nextOr(icdr, {
+        icdr <<- icountn(vn[-n])
+        hasVal <<- FALSE
+        next
+      })
+      return(c(val, nextVal))
     }
   }
 
-  structure(list(nextElem=nextEl), class=c('abstractiter', 'iter'))
+  iteror.function(nextEl)
 }
 
 iwhich <- function(nf, ind) {
@@ -65,9 +58,6 @@ iwhich <- function(nf, ind) {
 
   which(x)
 }
-
-# define the generic function
-
 
 #' Split Iterator
 #'
@@ -110,9 +100,9 @@ isplit.default <- function(x, f, drop=FALSE, ...) {
   flevels <- lapply(f, function(a) if (is.factor(a)) levels(a) else sort(unique.default(a)))
   it <- icountn(unlist(lapply(cf, nlevels)))
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     repeat {
-      i <- nextElem(it)
+      i <- nextOr(it, return(or))
       j <- iwhich(nf, i)
       if (!drop || length(j) > 0)
         break
@@ -123,16 +113,16 @@ isplit.default <- function(x, f, drop=FALSE, ...) {
     list(value=x[j], key=key)
   }
 
-  structure(list(nextElem=nextEl), class=c('abstractiter', 'iter'))
+  iteror.function(nextOr_)
 }
 
 # define the data frame method which uses the default method
 #' @exportS3Method isplit data.frame
 isplit.data.frame <- function(x, f, drop=FALSE, ...) {
   it <- isplit(seq_len(nrow(x)), f, drop=drop, ...)
-  nextEl <- function() {
-    i <- nextElem(it)
+  nextOr_ <- function(or) {
+    i <- nextOr(it, return(or))
     list(value=x[i$value,, drop=FALSE], key=i$key)
   }
-  structure(list(nextElem=nextEl), class=c('abstractiter', 'iter'))
+  iteror.function(nextOr_)
 }

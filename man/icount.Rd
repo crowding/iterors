@@ -23,10 +23,10 @@ Returns an iterator that counts starting from one.
 
 # create an iterator that counts from 1 to 3.
 it <- icount(3)
-nextElem(it)
-nextElem(it)
-nextElem(it)
-try(nextElem(it))  # expect a StopIteration exception
+nextOr(it)
+nextOr(it)
+nextOr(it)
+nextOr(it, NULL)  # expect NULL
 
 }
 \keyword{utilities}

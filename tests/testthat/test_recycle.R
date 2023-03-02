@@ -3,7 +3,7 @@ test_that("simple test of recycle", {
     nr <- 21
     nc <- 17
     x <- rnorm(nr)
-    it <- iter(x, recycle=TRUE)
+    it <- iteror(x, recycle=TRUE)
     actual <- foreach(y=it, icount(nr*nc), .combine='c') %do% y
     dim(actual) <- c(nr, nc)
     expected <- matrix(x, nr, nc)

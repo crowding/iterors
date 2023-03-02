@@ -22,15 +22,15 @@
 
 
 #' Iterator Maker Generator
-#' 
+#'
 #' The \code{makeIwrapper} function makes iterator makers.  The resulting
 #' iterator makers all take an optional \code{count} argument which specifies
 #' the number of times the resulting iterator should fire.  The iterators are
 #' wrappers around functions that return different values each time they are
 #' called. The \code{isample} function is an example of one such iterator maker
 #' (as are \code{irnorm}, \code{irunif}, etc.).
-#' 
-#' 
+#'
+#'
 #' @aliases makeIwrapper isample
 #' @param FUN a character string naming a function that generates different
 #' values each time it is called; typically one of the standard random number
@@ -41,27 +41,27 @@
 #' @return An iterator that is a wrapper around the corresponding function.
 #' @keywords utilities
 #' @examples
-#' 
+#'
 #' # create an iterator maker for the sample function
 #' mysample <- makeIwrapper("sample")
 #' # use this iterator maker to generate an iterator that will generate three five
 #' # member samples from the sequence 1:100
 #' it <- mysample(1:100, 5, count = 3)
-#' nextElem(it)
-#' nextElem(it)
-#' nextElem(it)
-#' try(nextElem(it))  # expect a StopIteration exception
-#' 
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it, NULL)  # NULL
+#'
 #' @export makeIwrapper
 makeIwrapper <- function(FUN) {
   function(..., count) {
     if (!missing(count) && (!is.numeric(count) || length(count) != 1))
       stop('count must be a numeric value')
 
-    # construct the call object to put into the nextElem function
+    # construct the call object to put into the nextOr function
     m <- as.call(c(as.name(FUN), list(...)))
 
-    # construct the body of the nextElem function
+    # construct the body of the nextOr function
     fbody <- if (missing(count)) {
       m
     } else {
@@ -70,32 +70,26 @@ makeIwrapper <- function(FUN) {
           count <<- count - 1L
           REPLACETHIS
         } else {
-          stop('StopIteration', call.=FALSE)
+          return(or)
         }
       }, list(REPLACETHIS=m))
     }
 
-    # create the nextElem function using fbody
-    nextEl <- function() NULL
-    body(nextEl) <- fbody
+    # create the nextOr function using fbody
+    nextOr_ <- function(or) NULL
+    body(nextOr_) <- fbody
 
     # create and return the iterator object
-    it <- list(nextElem=nextEl)
-    class(it) <- c('abstractiter', 'iter')
-    it
+    iteror.function(nextOr_)
   }
 }
 
-# define some iterator makers using makeIwrapper
-irunif <- makeIwrapper('runif')
-
-
 #' Random Number Iterators
-#' 
+#'
 #' These function returns an iterators that return random numbers of various
 #' distributions.  Each one is a wrapper around a standard \code{R} function.
-#' 
-#' 
+#'
+#'
 #' @aliases irnorm irunif irbinom irnbinom irpois
 #' @param count number of times that the iterator will fire.  If not specified,
 #' it will fire values forever.
@@ -104,29 +98,28 @@ irunif <- makeIwrapper('runif')
 #' generator function.
 #' @keywords utilities
 #' @examples
-#' 
+#'
 #' # create an iterator that returns three random numbers
 #' it <- irnorm(1, count = 3)
-#' nextElem(it)
-#' nextElem(it)
-#' nextElem(it)
-#' try(nextElem(it))  # expect a StopIteration exception
-#' 
-#' @export irnorm
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it, NULL)  # expect a StopIteration exception
+#'
+#' @export irnorm irbinom irnbinom irpois isample irunif
 irnorm <- makeIwrapper('rnorm')
 irbinom <- makeIwrapper('rbinom')
 irnbinom <- makeIwrapper('rnbinom')
 irpois <- makeIwrapper('rpois')
 isample <- makeIwrapper('sample')
-
-# a counting iterator
+irunif <- makeIwrapper('runif')
 
 
 #' Counting Iterators
-#' 
+#'
 #' Returns an iterator that counts starting from one.
-#' 
-#' 
+#'
+#'
 #' @aliases icount icountn
 #' @param count number of times that the iterator will fire.  If not specified,
 #' it will count forever.
@@ -134,15 +127,15 @@ isample <- makeIwrapper('sample')
 #' @return The counting iterator.
 #' @keywords utilities
 #' @examples
-#' 
+#'
 #' # create an iterator that counts from 1 to 3.
 #' it <- icount(3)
-#' nextElem(it)
-#' nextElem(it)
-#' nextElem(it)
-#' try(nextElem(it))  # expect a StopIteration exception
-#' 
-#' @export icount
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it, NULL)  # expect NULL
+#'
+#' @export icount icountn
 icount <- function(count) {
   if (missing(count))
     count <- NULL
@@ -151,26 +144,26 @@ icount <- function(count) {
 
   i <- 0L
 
-  nextEl <- function() {
-    if (is.null(count) || i < count)
+  if (is.null(count))
+    nextOr_ <- function(or) {
       (i <<- i + 1L)
-    else
-      stop('StopIteration', call.=FALSE)
-  }
+    }
+  else
+    nextOr_ <- function(or) {
+      if (i < count)
+        (i <<- i + 1L)
+      else
+        or
+    }
 
-  it <- list(nextElem=nextEl)
-  class(it) <- c('abstractiter', 'iter')
-  it
+  iteror.function(nextOr_)
 }
 
-# an iterator over pieces of a number
-
-
 #' Dividing Iterator
-#' 
+#'
 #' Returns an iterator that returns pieces of numeric value.
-#' 
-#' 
+#'
+#'
 #' @param n number of times that the iterator will fire.  If not specified, it
 #' will count forever.
 #' @param \dots unused.
@@ -183,22 +176,22 @@ icount <- function(count) {
 #' @return The dividing iterator.
 #' @keywords utilities
 #' @examples
-#' 
+#'
 #' # divide the value 10 into 3 pieces
 #' it <- idiv(10, chunks = 3)
-#' nextElem(it)
-#' nextElem(it)
-#' nextElem(it)
-#' try(nextElem(it))  # expect a StopIteration exception
-#' 
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it, NULL)  # expect NULL
+#'
 #' # divide the value 10 into pieces no larger than 3
 #' it <- idiv(10, chunkSize = 3)
-#' nextElem(it)
-#' nextElem(it)
-#' nextElem(it)
-#' nextElem(it)
-#' try(nextElem(it))  # expect a StopIteration exception
-#' 
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it, NULL)  # end of iterator
+#'
 #' @export idiv
 idiv <- function(n, ..., chunks, chunkSize) {
   if (!is.numeric(n) || length(n) != 1)
@@ -217,9 +210,9 @@ idiv <- function(n, ..., chunks, chunkSize) {
     chunks <- ceiling(n / chunkSize)
   }
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     if (chunks <= 0 || n <= 0)
-      stop('StopIteration', call.=FALSE)
+      return(or)
 
     m <- ceiling(n / chunks)
     n <<- n - m
@@ -227,20 +220,16 @@ idiv <- function(n, ..., chunks, chunkSize) {
     m
   }
 
-  it <- list(nextElem=nextEl)
-  class(it) <- c('abstractiter', 'iter')
-  it
+  iteror.function(nextOr_)
 }
-
-# an iterator over text lines from a connection
 
 
 #' Iterator over Lines of Text from a Connection
-#' 
+#'
 #' Returns an iterator over the lines of text from a connection.  It is a
 #' wrapper around the standard \code{readLines} function.
-#' 
-#' 
+#'
+#'
 #' @param con a connection object or a character string.
 #' @param n integer.  The maximum number of lines to read.  Negative values
 #' indicate that one should read up to the end of the connection.  The default
@@ -250,13 +239,13 @@ idiv <- function(n, ..., chunks, chunkSize) {
 #' @seealso \code{\link[base]{readLines}}
 #' @keywords utilities
 #' @examples
-#' 
+#'
 #' # create an iterator over the lines of COPYING
 #' it <- ireadLines(file.path(R.home(), "COPYING"))
-#' nextElem(it)
-#' nextElem(it)
-#' nextElem(it)
-#' 
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it)
+#'
 #' @export ireadLines
 ireadLines <- function(con, n=1, ...) {
   if (!is.numeric(n) || length(n) != 1 || n < 1)
@@ -269,34 +258,30 @@ ireadLines <- function(con, n=1, ...) {
     doClose <- FALSE
   }
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     if (is.null(con))
-      stop('StopIteration', call.=FALSE)
+      return(or)
 
     r <- readLines(con, n=n, ...)
     if (length(r) == 0) {
       if (doClose)
         close(con)
       con <<- NULL
-      stop('StopIteration', call.=FALSE)
+      return(or)
     }
     r
   }
 
-  it <- list(nextElem=nextEl)
-  class(it) <- c('abstractiter', 'iter')
-  it
+  iteror.function(nextOr_)
 }
-
-# an iterator over rows of a data frame read from a file
 
 
 #' Iterator over Rows of a Data Frame Stored in a File
-#' 
+#'
 #' Returns an iterator over the rows of a data frame stored in a file in table
 #' format.  It is a wrapper around the standard \code{read.table} function.
-#' 
-#' 
+#'
+#'
 #' @param file the name of the file to read the data from.
 #' @param \dots all additional arguments are passed on to the \code{read.table}
 #' function.  See the documentation for \code{read.table} for more information.
@@ -355,12 +340,12 @@ iread.table <- function(file, ..., verbose=FALSE) {
   irow <- 1
   errmsg <- NULL
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     if (!is.null(errmsg))
       stop(paste('iterator failed previously:', errmsg), call.=FALSE)
 
     if (is.null(file))
-      stop('StopIteration', call.=FALSE)
+      return(or)
 
     if (gotrownames) {
       rem <- rnlen - irow + 1  # remaining strings in row.names
@@ -424,7 +409,7 @@ iread.table <- function(file, ..., verbose=FALSE) {
       if (doClose)
         close(file)
       file <<- NULL
-      stop('StopIteration', call.=FALSE)
+      return(or)
     }
 
     if (gotrownames) {
@@ -439,7 +424,5 @@ iread.table <- function(file, ..., verbose=FALSE) {
     r
   }
 
-  it <- list(nextElem=nextEl)
-  class(it) <- c('abstractiter', 'iter')
-  it
+  iteror.function(nextOr_)
 }

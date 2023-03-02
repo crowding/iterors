@@ -70,36 +70,36 @@
 \thispagestyle{empty}
 \section{Introduction}
 
-An {\em iterator} is a special type of object that generalizes the notion of 
-a looping variable. When passed as an argument to a function that knows what 
-to do with it, the iterator supplies a sequence of values. The iterator also 
+An {\em iterator} is a special type of object that generalizes the notion of
+a looping variable. When passed as an argument to a function that knows what
+to do with it, the iterator supplies a sequence of values. The iterator also
 maintains information about its state, in particular its current index. The
-\texttt{iterators} package includes a number of functions for creating 
-iterators, the simplest of which is \texttt{iter}, which takes
-virtually any R object and turns it into an iterator object. The simplest 
-function that operates on iterators is the \texttt{nextElem} function, which 
-when given an iterator, returns the next value of the iterator. For example, 
-here we create an iterator object from the sequence 1 to 10, and then use 
-\texttt{nextElem} to iterate through the values:
+\texttt{iterators} package includes a number of functions for creating
+iterators, the simplest of which is \texttt{iteror}, which takes
+virtually any R object and turns it into an iterator object. The simplest
+function that operates on iterators is the \texttt{nextOr} function, which
+when given an iterator, returns the next value of the iterator. For example,
+here we create an iterator object from the sequence 1 to 10, and then use
+\texttt{nextOr} to iterate through the values:
 <<ex1>>=
 library(iterators)
-i1 <- iter(1:10)
-nextElem(i1)
-nextElem(i1)
+i1 <- iteror(1:10)
+nextOr(i1)
+nextOr(i1)
 @
 
 You can create iterators from matrices and data frames, using the \texttt{by} argument to specify whether to iterate by row or column:
 <<ex2>>=
-istate <- iter(state.x77, by='row')
-nextElem(istate)
-nextElem(istate)
+istate <- iteror(state.x77, by='row')
+nextOr(istate)
+nextOr(istate)
 @
 
 Iterators can also be created from functions, in which case the iterator can be an endless source of values:
 <<ex3>>=
-ifun <- iter(function() sample(0:9, 4, replace=TRUE))
-nextElem(ifun)
-nextElem(ifun)
+ifun <- iteror(function(or) sample(0:9, 4, replace=TRUE))
+nextOr(ifun)
+nextOr(ifun)
 @
 
 For practical applications, iterators can be paired with \texttt{foreach} to obtain parallel results quite easily:
@@ -114,7 +114,7 @@ http://www.revolutionanalytics.com
 \end{Soutput}
 \begin{Sinput}
 > x <- matrix(rnorm(1e+06), ncol = 10000)
-> itx <- iter(x, by = "row")
+> itx <- iteror(x, by = "row")
 > foreach(i = itx, .combine = c) %dopar% mean(i)
 \end{Sinput}
 \begin{Soutput}
@@ -145,34 +145,34 @@ http://www.revolutionanalytics.com
 
 The notion of an iterator is new to R, but should be familiar to users of
 languages such as Python. The \texttt{iterators} package includes a number of
-special functions that generate iterators for some common scenarios. For 
+special functions that generate iterators for some common scenarios. For
 example, the
 \texttt{irnorm} function creates an iterator for which each value is drawn
 from a specified random normal distribution:
 <<ex5>>=
 library(iterators)
 itrn <- irnorm(10)
-nextElem(itrn)
-nextElem(itrn)
+nextOr(itrn)
+nextOr(itrn)
 @
 
 Similarly, the \texttt{irunif}, \texttt{irbinom}, and \texttt{irpois} functions
-create iterators which drawn their values from uniform, binomial, and Poisson
+create iterators which draw their values from uniform, binomial, and Poisson
 distributions, respectively.
 
 We can then use these functions just as we used \texttt{irnorm}:
 <<ex6>>=
 itru <- irunif(10)
-nextElem(itru)
-nextElem(itru)
+nextOr(itru)
+nextOr(itru)
 @
 
 The \texttt{icount} function returns an iterator that counts starting from one:
 <<ex7>>=
 it <- icount(3)
-nextElem(it)
-nextElem(it)
-nextElem(it)
+nextOr(it)
+nextOr(it)
+nextOr(it)
 @
 
 \end{document}

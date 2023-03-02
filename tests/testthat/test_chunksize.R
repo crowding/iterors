@@ -6,7 +6,7 @@ test_that("test that various values of chunksize", {
   mat <- matrix(rnorm(nr * nc), nr)
 
   for (n in 1:(nc+2)) {
-    it <- iter(mat, by='col', chunksize=n)
+    it <- iteror(mat, by='col', chunksize=n)
     bcols <- as.list(it)
     for (bcol in bcols) {
       expect_true(nrow(bcol) == nr)
@@ -17,7 +17,7 @@ test_that("test that various values of chunksize", {
   }
 
   for (n in 1:(nr+2)) {
-    it <- iter(mat, by='row', chunksize=n)
+    it <- iteror(mat, by='row', chunksize=n)
     brows <- as.list(it)
     for (brow in brows) {
       expect_true(ncol(bcol) == nc)

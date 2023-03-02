@@ -1,7 +1,7 @@
 test_that("icountn", {
   if (require(foreach, quietly=TRUE)) {
     xcountn <- function(x) {
-      iter(do.call('expand.grid', lapply(x, seq_len)), by='row')
+      iteror(do.call('expand.grid', lapply(x, seq_len)), by='row')
     }
 
     vv <- list(0, 1, 2, 10, 100,

@@ -35,10 +35,10 @@ mysample <- makeIwrapper("sample")
 # use this iterator maker to generate an iterator that will generate three five
 # member samples from the sequence 1:100
 it <- mysample(1:100, 5, count = 3)
-nextElem(it)
-nextElem(it)
-nextElem(it)
-try(nextElem(it))  # expect a StopIteration exception
+nextOr(it)
+nextOr(it)
+nextOr(it)
+nextOr(it, NULL)  # NULL
 
 }
 \keyword{utilities}

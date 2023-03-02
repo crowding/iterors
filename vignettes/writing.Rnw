@@ -119,11 +119,11 @@ write your own custom iterator.  Fortunately, that is fairly easy to do.
 \section{What methods are needed for an iterator?}
 
 Basically, an iterator is an S3 object whose base class is \texttt{iter}, and
-has \texttt{iter} and \texttt{nextElem} methods.  The purpose of the
+has \texttt{iter} and \texttt{nextOr} methods.  The purpose of the
 \texttt{iter} method is to return an iterator for the specified object.
 For iterators, that usually just means returning itself, which seems odd
 at first.  But the \texttt{iter} method can be defined for other objects
-that don't define a \texttt{nextElem} method.  We call those objects
+that don't define a \texttt{nextOr} method.  We call those objects
 {\em iterables}, meaning that you can iterate over them.  The
 \texttt{iterators} package defines \texttt{iter} methods for vectors,
 lists, matrices, and data frames, making those objects iterables.  By
@@ -137,8 +137,8 @@ choose.  Thus, we can pass vectors, lists, or iterators to
 \texttt{foreach}, and they are all processed by \texttt{foreach} in
 exactly the same way.
 
-The \texttt{iterators} package comes with an \texttt{iter} method
-defined for the \texttt{iter} class that simply returns itself.  That is
+The \texttt{iterators} package comes with an \texttt{iteror} method
+defined for the \texttt{iteror} class that simply returns itself.  That is
 usually all that is needed for an iterator.  However, if you want to
 create an iterator for some existing class, you can do that by writing
 an \texttt{iter} method that returns an appropriate iterator.  That
@@ -147,27 +147,27 @@ which will automatically convert it into an iterator.  The alternative
 is to write your own function that takes arbitrary arguments, and
 returns an iterator.  You can choose whichever method is most natural.
 
-The most important method required for iterators is \texttt{nextElem}.
+The most important method required for iterators is \texttt{nextOr}.
 This simply returns the next value, or throws an error.  Calling the
 \texttt{stop} function with the string \texttt{'StopIteration'} indicates that
 there are no more values available in the iterator.
 
 Now before we write our own iterator, let's try calling the
-\texttt{iter} and \texttt{nextElem} methods on an existing one.
+\texttt{iteror} and \texttt{nextOr} methods on an existing one.
 Since a list is an iterable, we can create an iterator for that list
 by calling \texttt{iter} on it:
 
 <<iterable1>>=
-it <- iter(list(1:2, 3:4))
+it <- iteror(list(1:2, 3:4))
 @
 
-We can now call \texttt{nextElem} on the resulting iterator to get the
+We can now call \texttt{nextOr} on the resulting iterator to get the
 values from the list:
 
 <<iterable2>>=
-nextElem(it)
-nextElem(it)
-tryCatch(nextElem(it), error=function(e) e)
+nextOr(it)
+nextOr(it)
+tryCatch(nextOr(it), error=function(e) e)
 @
 
 As you can see, it is possible to call these methods manually, but it's
@@ -178,17 +178,17 @@ general, you don't call these method explicitly.
 \section{A simple iterator}
 
 It's time to show the implementation of a very simple iterator.  Although I've
-made it sound like you have to write your own \texttt{iter} and
-\texttt{nextElem} methods, you can inherit them.  In fact, that's what
+made it sound like you have to write your own \texttt{iteror} and
+\texttt{nextOr} methods, you can inherit them.  In fact, that's what
 all of the following examples do.  I do that by inheriting
-from the \texttt{abstractiter} class.  The \texttt{abstractiter} class uses 
-the standard \texttt{iter} method which returns itself, and defines a 
-\texttt{nextElem} method that calls the \texttt{nextElem} element of the object.
+from the \texttt{iteror} class.  The \texttt{abstractiter} class uses
+the standard \texttt{iteror} method which returns itself, and defines a
+\texttt{nextOr} method that calls the \texttt{nextOr} element of the object.
 Let's take a look at the implementation of these two methods:
 
-<<nextElem.abstractiter>>=
-iterators:::iter.iter
-iterators:::nextElem.abstractiter
+<<nextOr.abstractiter>>=
+iterators:::iteror.iteror
+iterators:::nextOr.iteror
 @
 
 Now here's a function that creates a very simple iterator that uses
@@ -196,27 +196,25 @@ these two methods:
 
 <<iter1>>=
 iforever <- function(x) {
-  nextEl <- function() x
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('iforever', 'abstractiter', 'iter')
-  obj
+  nextOr_ <- function(or) x
+  iteror(nextOr_)
 }
 @
 
-Note that I called the internal function \texttt{nextEl} rather than
-\texttt{nextElem}.  I do that by convention to avoid masking the standard
-\texttt{nextElem} generic function.  That causes problems when you want your
-iterator to call the \texttt{nextElem} method of another iterator, which
+Note that I called the internal function \texttt{nextOr\_} with an underscore, rather than
+\texttt{nextOr}.  I do that by convention to avoid masking the standard
+\texttt{nextOr} generic function.  That causes problems when you want your
+iterator to call the \texttt{nextOr} method of another iterator, which
 can be quite useful, as we'll see in a later example.
 
 We create an instance of this iterator by calling the \texttt{iforever}
-function, and then use it by calling the \texttt{nextElem} method on the
+function, and then use it by calling the \texttt{nextOr} method on the
 resulting object:
 
 <<runiter1>>=
 it <- iforever(42)
-nextElem(it)
-nextElem(it)
+nextOr(it)
+nextOr(it)
 @
 
 You can also get values from an iterator using \texttt{as.list}.  But
@@ -239,9 +237,9 @@ to \texttt{foreach}, it will result in an infinite loop unless you pair
 it with a non-infinite iterator.  Also, {\em never} pass this to the
 \texttt{as.list} function without the \texttt{n} argument.} The iterator
 returned by \texttt{iforever} is a list that has a single element named
-\texttt{nextElem}, whose value is a function that returns the value of
+\texttt{nextOr}, whose value is a function that returns the value of
 \texttt{x}.  Because we are subclassing \texttt{abstractiter}, we inherit a
-\texttt{nextElem} method that will call this function, and because we
+\texttt{nextOr} method that will call this function, and because we
 are subclassing \texttt{iter}, we inherit an \texttt{iter} method that will
 return itself.
 
@@ -258,18 +256,16 @@ another argument called \texttt{times}:
 
 <<iter2>>=
 irep <- function(x, times) {
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     if (times > 0)
       times <<- times - 1
     else
-      stop('StopIteration')
+      return(or)
 
     x
   }
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('irep', 'abstractiter', 'iter')
-  obj
+  iteror(nextOr_)
 }
 @
 
@@ -281,18 +277,18 @@ unlist(as.list(it))
 @
 
 The real difference between \texttt{iforever} and \texttt{irep} is in the
-function that gets called by the \texttt{nextElem} method.  This function not
-only accesses the values of the variables \texttt{x} and \texttt{times}, but 
-it also modifies the value of \texttt{times}.  This is accomplished by means 
-of the ``\verb=<<-='' \footnote{It's commonly believed that ``$<<-$'' is only 
-used to set variables in the global environment, but that isn't true.  I think 
-of it as an {\em inheriting} assignment operator.} operator, and the magic of 
-lexical scoping.  Technically, this kind of function is called a 
-{\em closure}, and is a somewhat advanced feature of \texttt{R}.  The 
-important thing to remember is that \texttt{nextEl} is able to get the value 
-of variables that were passed as arguments to \texttt{irep}, and it can modify 
-those values using the ``\verb=<<-='' operator.  These are {\em not} global 
-variables: they are defined in the enclosing environment of the 
+function that gets called by the \texttt{nextOr} method.  This function not
+only accesses the values of the variables \texttt{x} and \texttt{times}, but
+it also modifies the value of \texttt{times}.  This is accomplished by means
+of the ``\verb=<<-='' \footnote{It's commonly believed that ``$<<-$'' is only
+used to set variables in the global environment, but that isn't true.  I think
+of it as an {\em inheriting} assignment operator.} operator, and the magic of
+lexical scoping.  Technically, this kind of function is called a
+{\em closure}, and is a somewhat advanced feature of \texttt{R}.  The
+important thing to remember is that \texttt{nextEl} is able to get the value
+of variables that were passed as arguments to \texttt{irep}, and it can modify
+those values using the ``\verb=<<-='' operator.  These are {\em not} global
+variables: they are defined in the enclosing environment of the
 \texttt{nextEl} function.  You can create as many
 iterators as you want using the \texttt{irep} function, and they will all work
 as expected without conflicts.
@@ -316,16 +312,14 @@ ivector <- function(x, ...) {
  i <- 1
  it <- idiv(length(x), ...)
 
- nextEl <- function() {
-   n <- nextElem(it)
+ nextOr_ <- function(or) {
+   n <- nextOr(it, return(or))
    ix <- seq(i, length=n)
    i <<- i + n
    x[ix]
  }
 
- obj <- list(nextElem=nextEl)
- class(obj) <- c('ivector', 'abstractiter', 'iter')
- obj
+ iteror(nextOr_)
 }
 @
 
@@ -345,7 +339,7 @@ as.list(it)
 
 Note that the \texttt{nextEl} function doesn't seem to throw a
 \texttt{StopIteration} exception.  It is actually throwing it
-indirectly, by calling \texttt{nextElem} on the iterator created via the
+indirectly, by calling \texttt{nextOr} on the iterator created via the
 \texttt{idiv} function.  This function is fairly simple, because most of
 the tricky stuff is handled by \texttt{idiv}.  \texttt{ivector} focuses
 on operating on the vector.
@@ -377,14 +371,14 @@ We also need to define \texttt{hasNext} method for a iterator class
 that we'll call \texttt{ihasNext}:
 
 <<hasnextmethod>>=
-hasNext.ihasNext <- function(obj, ...) {
+hasNext.ihasNextOr <- function(obj, ...) {
   obj$hasNext()
 }
 @
 
-As you can see, an \texttt{ihasNext} object must be a list with a 
-\texttt{hasNext} element that is a function.  That's the same technique that 
-the \texttt{abstractiter} class uses to implement the \texttt{nextElem} method.
+As you can see, an \texttt{ihasNext} object must be a list with a
+\texttt{hasNext} element that is a function.  That's the same technique that
+the \texttt{abstractiter} class uses to implement the \texttt{nextOr} method.
 
 Now we'll define a function, called \texttt{ihasNext}, that takes an
 arbitrary iterator and returns returns an \texttt{ihasNext} iterator that
@@ -396,46 +390,40 @@ function, along with \texttt{hasNext} and \texttt{hasNext.ihasNext} in
 the examples directory of the iterators packages.}
 
 <<ihasnext>>=
-ihasNext <- function(it) {
-  if (!is.null(it$hasNext)) return(it)
-  cache <- NULL
-  has_next <- NA
-
-  nextEl <- function() {
-    if (!hasNx())
-      stop('StopIteration', call.=FALSE)
-    has_next <<- NA
-    cache
+ihasNext <- function(iter, ...) {
+  noValue <- new.env()
+  endIter <- new.env()
+  last <- noValue
+  nextOr_ <- function(or, ...) {
+    if (identical(last, noValue))
+      last <<- nextOr(iter, endIter)
+    if (identical(last, endIter))
+      or
+    else {
+      tmp <- last
+      last <<- noValue
+      tmp
+    }
   }
 
-  hasNx <- function() {
-    if (!is.na(has_next)) return(has_next)
-    tryCatch({
-      cache <<- nextElem(it)
-      has_next <<- TRUE
-    },
-    error=function(e) {
-      if (identical(conditionMessage(e), 'StopIteration')) {
-        has_next <<- FALSE
-      } else {
-        stop(e)
-      }
-    })
-    has_next
+  hasNext_ <- function() {
+    if (identical(last, noValue))
+      last <<- nextOr(iter, endIter)
+    !identical(last, endIter)
   }
 
-  obj <- list(nextElem=nextEl, hasNext=hasNx)
-  class(obj) <- c('ihasNext', 'abstractiter', 'iter')
-  obj
+  it <- iteror(nextOr_)
+  it$hasNext <- hasNext_
+  structure(it, class=c("ihasNextOr", class(it)))
 }
 @
 
 When the \texttt{hasNext} method is called, it calls the
-\texttt{nextElem} method on the underlying iterator, and the resulting
+\texttt{nextOr} method on the underlying iterator, and the resulting
 value is saved.  That value is then passed to the user when
-\texttt{nextElem} is called.  Of course, it also does the right thing if
+\texttt{nextOr} is called.  Of course, it also does the right thing if
 you don't call \texttt{hasNext}, or if you call it multiple times before
-calling \texttt{nextElem}.
+calling \texttt{nextOr}.
 
 So now we can easily create an \texttt{icount} iterator, and get its values
 in a while loop, without having to do any messy error handling:
@@ -443,7 +431,7 @@ in a while loop, without having to do any messy error handling:
 <<hasnextexample>>=
 it <- ihasNext(icount(3))
 while (hasNext(it)) {
-  print(nextElem(it))
+  print(nextOr(it))
 }
 @
 
@@ -460,18 +448,16 @@ general solution, since it works on any iterator.}
 
 <<recyle>>=
 irecycle <- function(it) {
-  values <- as.list(iter(it))
+  values <- as.list(iteror(it))
   i <- length(values)
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     i <<- i + 1
     if (i > length(values)) i <<- 1
     values[[i]]
   }
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('irecycle', 'abstractiter', 'iter')
-  obj
+  iteror(nextOr_)
 }
 @
 
@@ -502,20 +488,18 @@ iterator to handle that task:
 
 <<ilimit>>=
 ilimit <- function(it, times) {
-  it <- iter(it)
+  it <- iteror(it)
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     if (times > 0)
       times <<- times - 1
     else
-      stop('StopIteration')
+      return(or)
 
-    nextElem(it)
+    nextOr(it, or)
   }
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('ilimit', 'abstractiter', 'iter')
-  obj
+  iteror(nextOr_)
 }
 @
 
@@ -533,9 +517,9 @@ To demonstrate \texttt{irep2}, I'll use \texttt{ihasNext} and a while
 loop:
 
 <<testirep2>>=
-it <- ihasNext(irep2('foo', 3))
-while (hasNext(it)) {
-  print(nextElem(it))
+it <- irep2('foo', 3)
+repeat {
+  print(nextOr(it, break))
 }
 @
 

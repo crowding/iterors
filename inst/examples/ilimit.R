@@ -1,7 +1,7 @@
 library(iterators)
 
 ilimit <- function(it, times) {
-  it <- iter(it)
+  it <- iteror(it)
 
   nextEl <- function() {
     if (times > 0)

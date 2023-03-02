@@ -25,7 +25,7 @@ with the message 'StopIteration'.
 }
 \examples{
 
-it <- iter(c("a", "b", "c"))
+it <- iteror(c("a", "b", "c"))
 print(nextElem(it))
 print(nextElem(it))
 print(nextElem(it))

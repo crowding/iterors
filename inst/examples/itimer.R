@@ -2,7 +2,7 @@ library(iterators)
 
 # Returns an iterator that limits another iterator based on time
 itimer <- function(it, time) {
-  it <- iter(it)
+  it <- iteror(it)
   start <- proc.time()[[3]]
 
   nextEl <- function() {

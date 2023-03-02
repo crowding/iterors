@@ -17,11 +17,11 @@
 
 
 #' Array/Apply Iterator
-#' 
+#'
 #' Returns an iterator over an array, which iterates over the array in much the
 #' same manner as the \code{apply} function.
-#' 
-#' 
+#'
+#'
 #' @param X the array to iterate over.
 #' @param MARGIN a vector of subscripts.  \code{1} indicates the first
 #' dimension (rows), \code{2} indicates the second dimension (columns), etc.
@@ -29,27 +29,27 @@
 #' @seealso \code{\link{apply}}
 #' @keywords utilities
 #' @examples
-#' 
+#'
 #' a <- array(1:8, c(2, 2, 2))
-#' 
+#'
 #' # iterate over all the matrices
 #' it <- iapply(a, 3)
 #' as.list(it)
-#' 
+#'
 #' # iterate over all the columns of all the matrices
 #' it <- iapply(a, c(2, 3))
 #' as.list(it)
-#' 
+#'
 #' # iterate over all the rows of all the matrices
 #' it <- iapply(a, c(1, 3))
 #' as.list(it)
-#' 
+#'
 #' @export iapply
 iapply <- function(X, MARGIN) {
   xit <- icountn(dim(X)[MARGIN])
 
-  nextEl <- function() {
-    i <- nextElem(xit)
+  nextOr_ <- function(or) {
+    i <- nextOr(xit, return(or))
     j <- rep('', length(dim(X)))
     j[MARGIN] <- as.character(i)
     s <- paste('X[', paste(j, collapse=','), ']', sep='')
@@ -57,7 +57,5 @@ iapply <- function(X, MARGIN) {
     eval(x)
   }
 
-  it <- list(nextElem=nextEl)
-  class(it) <- c('abstractiter', 'iter')
-  it
+  iteror.function(nextOr_)
 }

@@ -66,8 +66,8 @@ iteror.iter <- identity
 #' @exportS3Method iteror "function"
 #' @rdname iteror
 #' @param catch If `obj` is a function without an `or` argument, specify
-#'   e.g. `catch="StopIteration"` to interpret errors with that
-#'   message as end of iteration.
+#'   e.g. `catch="StopIteration"` to interpret that
+#'   error message as end of iteration.
 #' @param sigil If `obj` is a function without an `or` argument, specify
 #'   which value to watch for end of iteration. Stop will be signaled
 #'   if the function result is [identical()] to `sigil`.
@@ -93,14 +93,16 @@ iteror.function <- function(obj, ..., catch, sigil) {
       stop("iteror: must have 'or' argument or else specify 'catch' or 'sigil'")
     }
   }
-  structure(list(nextOr=fn), class=c("funiteror", "iteror", "iter"))
+  structure(list(nextOr=fn), class=c("iteror", "iter"))
 }
 
 #' @exportS3Method
 #' @rdname iteror
 #' @param recycle If `obj` is a vector, and `recycle` is TRUE, the
 #'   iterator will re-cycle the elements of `obj` without stopping.
-iteror.default <- function(obj, ..., recycle=FALSE) {
+iteror.default <- function(obj, ...,
+                           recycle=FALSE,
+                           checkFunc=function(...)(TRUE)) {
   if (is.function(obj)) {
     iteror.function(obj, ...)
   } else {
@@ -108,15 +110,21 @@ iteror.default <- function(obj, ..., recycle=FALSE) {
     n <- length(obj)
     if (recycle) {
       x <- iteror.function(function(or, ...) {
-        i <<- i %% n + 1
-        obj[[i]]
+        repeat {
+          i <<- i %% n + 1
+          val <- obj[[i]]
+          if(checkFunc(val)) return(val)
+        }
       }, ...)
     } else {
       x <- iteror.function(function(or, ...) {
-        if (i < n) {
-          i <<- i + 1
-          obj[[i]]
-        } else or
+        repeat{
+          if (i < n) {
+            i <<- i + 1
+            val <- obj[[i]]
+            if(checkFunc(val)) return(val)
+          } else or
+        }
       }, ...)
     }
     x$length <- n
@@ -136,11 +144,11 @@ nextOr <- function(obj, or, ...) {
 }
 
 #' @exportS3Method
-nextOr.funiteror <- function(obj, or, ...) {
+nextOr.iteror <- function(obj, or, ...) {
   obj$nextOr(or, ...)
 }
 
-# @exportS3Method iterators::nextElem
+#' @exportS3Method
 nextElem.iteror <- function(obj, ...) {
   nextOr(obj, stop("StopIteration"), ...)
 }
@@ -200,11 +208,6 @@ nextElem.ihasNextOr <- function(obj, ...) {
 }
 
 #' @exportS3Method
-nextOr.ihasNextOr <- function(obj, or, ...) {
-  obj(or, query="next", ...)
-}
-
-#' @exportS3Method
 hasNext.ihasNextOr <- function(obj, ...) {
   obj(query="has", ...)
 }
@@ -219,15 +222,21 @@ as.list.iteror <- function(x, n=as.integer(2^31-1), ...) {
   size <- 64
   a <- vector('list', length=size)
   i <- 0
-  repeat {
+  while(i < n) {
     item <- nextOr(x, break)
     i <- i + 1
     if (i >= size) {
       size <- min(2 * size, n)
       length(a) <- size
     }
-    a[[i]] <- item
+    a[i] <- list(item)
   }
   length(a) <- i
   a
 }
+
+#' @export
+iter <- function(obj, ...) UseMethod("iter")
+
+#' @exportS3Method
+iter.iter <- function(obj, ...) obj

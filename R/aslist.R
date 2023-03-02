@@ -16,24 +16,5 @@
 
 #' @exportS3Method as.list iter
 as.list.iter <- function(x, n=as.integer(2^31-1), ...) {
-  size <- 64
-  a <- vector('list', length=size)
-  i <- 0
-  tryCatch({
-    while (i < n) {
-      if (i >= size) {
-        size <- min(2 * size, n)
-        length(a) <- size
-      }
-      a[i + 1] <- list(nextElem(x))
-      i <- i + 1
-    }
-  },
-  error=function(e) {
-    if (!identical(conditionMessage(e), 'StopIteration'))
-      stop(e)
-  })
-
-  length(a) <- i
-  a
+  as.list.iteror(iteror(x), n=n, ...)
 }

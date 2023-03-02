@@ -2,7 +2,7 @@ library(iterators)
 
 test_that("test iapply on 3D arrays", {
   test <- function(actual, it) {
-    expected <- nextElem(it)
+    expected <- nextOr(it)
     expect_equal(expected, actual)
     NULL
   }

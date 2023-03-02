@@ -28,10 +28,10 @@ distributions.  Each one is a wrapper around a standard \code{R} function.
 
 # create an iterator that returns three random numbers
 it <- irnorm(1, count = 3)
-nextElem(it)
-nextElem(it)
-nextElem(it)
-try(nextElem(it))  # expect a StopIteration exception
+nextOr(it)
+nextOr(it)
+nextOr(it)
+nextOr(it, NULL)  # expect a StopIteration exception
 
 }
 \keyword{utilities}
