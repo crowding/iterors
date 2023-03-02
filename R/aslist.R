@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+#' @exportS3Method as.list iter
 as.list.iter <- function(x, n=as.integer(2^31-1), ...) {
   size <- 64
   a <- vector('list', length=size)

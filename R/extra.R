@@ -19,6 +19,40 @@
 # resulting iterator should fire.  The iterators are wrappers around functions
 # that return different values each time they are called.  All this is done to
 # avoid cutting and pasting the same code repeatedly.
+
+
+#' Iterator Maker Generator
+#' 
+#' The \code{makeIwrapper} function makes iterator makers.  The resulting
+#' iterator makers all take an optional \code{count} argument which specifies
+#' the number of times the resulting iterator should fire.  The iterators are
+#' wrappers around functions that return different values each time they are
+#' called. The \code{isample} function is an example of one such iterator maker
+#' (as are \code{irnorm}, \code{irunif}, etc.).
+#' 
+#' 
+#' @aliases makeIwrapper isample
+#' @param FUN a character string naming a function that generates different
+#' values each time it is called; typically one of the standard random number
+#' generator functions.
+#' @param count number of times that the iterator will fire.  If not specified,
+#' it will fire values forever.
+#' @param \dots arguments to pass to the underlying \code{FUN} function.
+#' @return An iterator that is a wrapper around the corresponding function.
+#' @keywords utilities
+#' @examples
+#' 
+#' # create an iterator maker for the sample function
+#' mysample <- makeIwrapper("sample")
+#' # use this iterator maker to generate an iterator that will generate three five
+#' # member samples from the sequence 1:100
+#' it <- mysample(1:100, 5, count = 3)
+#' nextElem(it)
+#' nextElem(it)
+#' nextElem(it)
+#' try(nextElem(it))  # expect a StopIteration exception
+#' 
+#' @export makeIwrapper
 makeIwrapper <- function(FUN) {
   function(..., count) {
     if (!missing(count) && (!is.numeric(count) || length(count) != 1))
@@ -54,6 +88,31 @@ makeIwrapper <- function(FUN) {
 
 # define some iterator makers using makeIwrapper
 irunif <- makeIwrapper('runif')
+
+
+#' Random Number Iterators
+#' 
+#' These function returns an iterators that return random numbers of various
+#' distributions.  Each one is a wrapper around a standard \code{R} function.
+#' 
+#' 
+#' @aliases irnorm irunif irbinom irnbinom irpois
+#' @param count number of times that the iterator will fire.  If not specified,
+#' it will fire values forever.
+#' @param \dots arguments to pass to the underlying \code{rnorm} function.
+#' @return An iterator that is a wrapper around the corresponding random number
+#' generator function.
+#' @keywords utilities
+#' @examples
+#' 
+#' # create an iterator that returns three random numbers
+#' it <- irnorm(1, count = 3)
+#' nextElem(it)
+#' nextElem(it)
+#' nextElem(it)
+#' try(nextElem(it))  # expect a StopIteration exception
+#' 
+#' @export irnorm
 irnorm <- makeIwrapper('rnorm')
 irbinom <- makeIwrapper('rbinom')
 irnbinom <- makeIwrapper('rnbinom')
@@ -61,6 +120,29 @@ irpois <- makeIwrapper('rpois')
 isample <- makeIwrapper('sample')
 
 # a counting iterator
+
+
+#' Counting Iterators
+#' 
+#' Returns an iterator that counts starting from one.
+#' 
+#' 
+#' @aliases icount icountn
+#' @param count number of times that the iterator will fire.  If not specified,
+#' it will count forever.
+#' @param vn vector of counts.
+#' @return The counting iterator.
+#' @keywords utilities
+#' @examples
+#' 
+#' # create an iterator that counts from 1 to 3.
+#' it <- icount(3)
+#' nextElem(it)
+#' nextElem(it)
+#' nextElem(it)
+#' try(nextElem(it))  # expect a StopIteration exception
+#' 
+#' @export icount
 icount <- function(count) {
   if (missing(count))
     count <- NULL
@@ -82,6 +164,42 @@ icount <- function(count) {
 }
 
 # an iterator over pieces of a number
+
+
+#' Dividing Iterator
+#' 
+#' Returns an iterator that returns pieces of numeric value.
+#' 
+#' 
+#' @param n number of times that the iterator will fire.  If not specified, it
+#' will count forever.
+#' @param \dots unused.
+#' @param chunks the number of pieces that \code{n} should be divided into.
+#' This is useful when you know the number of pieces that you want.  If
+#' specified, then \code{chunkSize} should not be.
+#' @param chunkSize the maximum size of the pieces that \code{n} should be
+#' divided into.  This is useful when you know the size of the pieces that you
+#' want.  If specified, then \code{chunks} should not be.
+#' @return The dividing iterator.
+#' @keywords utilities
+#' @examples
+#' 
+#' # divide the value 10 into 3 pieces
+#' it <- idiv(10, chunks = 3)
+#' nextElem(it)
+#' nextElem(it)
+#' nextElem(it)
+#' try(nextElem(it))  # expect a StopIteration exception
+#' 
+#' # divide the value 10 into pieces no larger than 3
+#' it <- idiv(10, chunkSize = 3)
+#' nextElem(it)
+#' nextElem(it)
+#' nextElem(it)
+#' nextElem(it)
+#' try(nextElem(it))  # expect a StopIteration exception
+#' 
+#' @export idiv
 idiv <- function(n, ..., chunks, chunkSize) {
   if (!is.numeric(n) || length(n) != 1)
     stop('n must be a numeric value')
@@ -115,6 +233,31 @@ idiv <- function(n, ..., chunks, chunkSize) {
 }
 
 # an iterator over text lines from a connection
+
+
+#' Iterator over Lines of Text from a Connection
+#' 
+#' Returns an iterator over the lines of text from a connection.  It is a
+#' wrapper around the standard \code{readLines} function.
+#' 
+#' 
+#' @param con a connection object or a character string.
+#' @param n integer.  The maximum number of lines to read.  Negative values
+#' indicate that one should read up to the end of the connection.  The default
+#' value is 1.
+#' @param \dots passed on to the \code{readLines} function.
+#' @return The line reading iterator.
+#' @seealso \code{\link[base]{readLines}}
+#' @keywords utilities
+#' @examples
+#' 
+#' # create an iterator over the lines of COPYING
+#' it <- ireadLines(file.path(R.home(), "COPYING"))
+#' nextElem(it)
+#' nextElem(it)
+#' nextElem(it)
+#' 
+#' @export ireadLines
 ireadLines <- function(con, n=1, ...) {
   if (!is.numeric(n) || length(n) != 1 || n < 1)
     stop('n must be a numeric value >= 1')
@@ -146,6 +289,30 @@ ireadLines <- function(con, n=1, ...) {
 }
 
 # an iterator over rows of a data frame read from a file
+
+
+#' Iterator over Rows of a Data Frame Stored in a File
+#' 
+#' Returns an iterator over the rows of a data frame stored in a file in table
+#' format.  It is a wrapper around the standard \code{read.table} function.
+#' 
+#' 
+#' @param file the name of the file to read the data from.
+#' @param \dots all additional arguments are passed on to the \code{read.table}
+#' function.  See the documentation for \code{read.table} for more information.
+#' @param verbose logical value indicating whether or not to print the calls to
+#' \code{read.table}.
+#' @return The file reading iterator.
+#' @note In this version of \code{iread.table}, both the \code{read.table}
+#' arguments \code{header} and \code{row.names} must be specified.  This is
+#' because the default values of these arguments depend on the contents of the
+#' beginning of the file.  In order to make the subsequent calls to
+#' \code{read.table} work consistently, the user must specify those arguments
+#' explicitly.  A future version of \code{iread.table} may remove this
+#' requirement.
+#' @seealso \code{\link[utils]{read.table}}
+#' @keywords utilities
+#' @export iread.table
 iread.table <- function(file, ..., verbose=FALSE) {
   args <- list(...)
   argnames <- names(args)

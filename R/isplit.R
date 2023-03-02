@@ -67,11 +67,42 @@ iwhich <- function(nf, ind) {
 }
 
 # define the generic function
+
+
+#' Split Iterator
+#'
+#' Returns an iterator that divides the data in the vector \code{x} into the
+#' groups defined by \code{f}.
+#'
+#'
+#' @param x vector or data frame of values to be split into groups.
+#' @param f a factor or list of factors used to categorize \code{x}.
+#' @param drop logical indicating if levels that do not occur should be
+#' dropped.
+#' @param \dots current ignored.
+#' @return The split iterator.
+#' @seealso \code{\link{split}}
+#' @keywords utilities
+#' @examples
+#'
+#' x <- rnorm(200)
+#' f <- factor(sample(1:10, length(x), replace = TRUE))
+#'
+#' it <- isplit(x, f)
+#' expected <- split(x, f)
+#'
+#' for (i in expected) {
+#'     actual <- nextElem(it)
+#'     stopifnot(actual$value == i)
+#' }
+#'
+#' @export isplit
 isplit <- function(x, f, drop=FALSE, ...) {
   UseMethod('isplit')
 }
 
 # define the default method
+#' @exportS3Method
 isplit.default <- function(x, f, drop=FALSE, ...) {
   if (!is.list(f)) f <- list(f)
   cf <- lapply(f, function(a) if (is.factor(a)) a else as.factor(a))
@@ -96,6 +127,7 @@ isplit.default <- function(x, f, drop=FALSE, ...) {
 }
 
 # define the data frame method which uses the default method
+#' @exportS3Method isplit data.frame
 isplit.data.frame <- function(x, f, drop=FALSE, ...) {
   it <- isplit(seq_len(nrow(x)), f, drop=drop, ...)
   nextEl <- function() {
