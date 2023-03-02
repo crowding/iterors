@@ -1,7 +1,6 @@
 library(iterators)
 
-# test isplit with a single factor
-test01 <- function() {
+test_that("test isplit with a single factor", {
   x <- rnorm(200)
   f <- factor(sample(1:10, length(x), replace=TRUE))
 
@@ -10,7 +9,7 @@ test01 <- function() {
 
   for (i in expected) {
     actual <- nextElem(it)
-    checkEquals(actual$value, i)
+    expect_equal(actual$value, i)
   }
 
   it <- isplit(x, f, drop=TRUE)
@@ -18,12 +17,11 @@ test01 <- function() {
 
   for (i in expected) {
     actual <- nextElem(it)
-    checkEquals(actual$value, i)
+    expect_equal(actual$value, i)
   }
-}
+})
 
-# test isplit with two factors
-test02 <- function() {
+test_that("test isplit with two factors", {
   x <- rnorm(200)
   f <- list(factor(sample(1:10, length(x), replace=TRUE)),
             factor(sample(1:10, length(x), replace=TRUE)))
@@ -33,7 +31,7 @@ test02 <- function() {
 
   for (i in expected) {
     actual <- nextElem(it)
-    checkEquals(actual$value, i)
+    expect_equal(actual$value, i)
   }
 
   it <- isplit(x, f, drop=TRUE)
@@ -41,6 +39,6 @@ test02 <- function() {
 
   for (i in expected) {
     actual <- nextElem(it)
-    checkEquals(actual$value, i)
+    expect_equal(actual$value, i)
   }
-}
+})

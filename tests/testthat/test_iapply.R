@@ -1,10 +1,9 @@
 library(iterators)
 
-# test iapply on 3D arrays
-test01 <- function() {
+test_that("test iapply on 3D arrays", {
   test <- function(actual, it) {
     expected <- nextElem(it)
-    checkEquals(expected, actual)
+    expect_equal(expected, actual)
     NULL
   }
 
@@ -19,13 +18,12 @@ test01 <- function() {
     it <- iapply(a, MARGIN)
     apply(a, MARGIN, test, it)
   }
-}
+})
 
-# test iapply on matrices
-test02 <- function() {
+test_that("test iapply on matrices", {
   test <- function(actual, it) {
     expected <- nextElem(it)
-    checkEquals(expected, actual)
+    expect_equal(expected, actual)
     NULL
   }
 
@@ -37,4 +35,4 @@ test02 <- function() {
     it <- iapply(m, MARGIN)
     apply(m, MARGIN, test, it)
   }
-}
+})

@@ -1,5 +1,4 @@
-# simple test of recycle
-test01 <- function() {
+test_that("simple test of recycle", {
   if (require(foreach, quietly=TRUE)) {
     nr <- 21
     nc <- 17
@@ -8,6 +7,6 @@ test01 <- function() {
     actual <- foreach(y=it, icount(nr*nc), .combine='c') %do% y
     dim(actual) <- c(nr, nc)
     expected <- matrix(x, nr, nc)
-    checkEquals(actual, expected)
+    expect_equal(actual, expected)
   }
-}
+})

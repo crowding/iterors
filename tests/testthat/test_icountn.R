@@ -1,4 +1,4 @@
-test01 <- function() {
+test_that("icountn", {
   if (require(foreach, quietly=TRUE)) {
     xcountn <- function(x) {
       iter(do.call('expand.grid', lapply(x, seq_len)), by='row')
@@ -12,12 +12,14 @@ test01 <- function() {
                c(1, 1, 2, 1, 1, 3, 1, 1, 1, 2, 1, 1, 1),
                c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
                c(10, 10, 10, 10))
-    for (v in vv) {
+    expect_silent(for (v in vv) {
       ait <- icountn(v)
       xit <- xcountn(v)
       foreach(actual=ait, expected=xit) %do% {
-        checkEquals(actual, unname(unlist(expected)))
+        if (!identical(actual, unname(unlist(expected)))) {
+          expect_equal(actual, unname(unlist(expected)))
+        }
       }
-    }
+    })
   }
-}
+})
