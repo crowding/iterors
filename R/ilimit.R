@@ -16,6 +16,23 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Create a limited iterator
+#'
+#' Create an iterator that wraps a specified iterable a limited number of
+#' times.
+#'
+#'
+#' @param iterable Iterable to iterate over.
+#' @param n Maximum number of values to return.
+#' @keywords utilities
+#' @examples
+#'
+#' # Limit icount to only return three values
+#' as.list(ilimit(icount(), 3))
+#'
+#' @export ilimit
 ilimit <- function(iterable, n) {
   it <- iter(iterable)
   n <- as.integer(n)

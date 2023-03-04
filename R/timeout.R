@@ -16,6 +16,24 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Create a timeout iterator
+#'
+#' Create an iterator that iterates over another iterator for a specified
+#' period of time, and then stops.  This can be useful when you want to search
+#' for something, or run a test for awhile, and then stop.
+#'
+#'
+#' @param iterable Iterable to iterate over.
+#' @param time The time interval to iterate for, in seconds.
+#' @keywords utilities
+#' @examples
+#'
+#' # See how high we can count in a tenth of a second
+#' length(as.list(timeout(icount(), 0.1)))
+#'
+#' @export timeout
 timeout <- function(iterable, time) {
   force(time)
   it <- iter(iterable)

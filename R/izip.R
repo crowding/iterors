@@ -16,6 +16,22 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Create an iterator over multiple iterables
+#'
+#' Create an iterator that iterates over multiple iterables, returning the
+#' values as a list.
+#'
+#'
+#' @param \dots The iterables to iterate over.
+#' @keywords utilities
+#' @examples
+#'
+#' # Iterate over two iterables of different sizes
+#' as.list(izip(a=1:2, b=letters[1:3]))
+#'
+#' @export izip
 izip <- function(...) {
   iterators <- lapply(list(...), iter)
 

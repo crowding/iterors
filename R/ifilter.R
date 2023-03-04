@@ -16,6 +16,31 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Create a filtering iterator
+#'
+#' The \code{ifilter} and \code{ifilterfalse} functions create iterators that
+#' return a subset of the values of the specified iterable. \code{ifilter}
+#' returns the values for which the \code{pred} function returns \code{TRUE},
+#' and \code{ifilterfalse} returns the values for which the \code{pred}
+#' function returns \code{FALSE}.
+#'
+#'
+#' @aliases ifilter ifilterfalse
+#' @param pred A function that takes one argument and returns \code{TRUE} or
+#' \code{FALSE}.
+#' @param iterable The iterable to iterate over.
+#' @keywords utilities
+#' @examples
+#'
+#' # Return the odd numbers between 1 and 10
+#' as.list(ifilter(function(x) x %% 2 == 1, icount(10)))
+#'
+#' # Return the even numbers between 1 and 10
+#' as.list(ifilterfalse(function(x) x %% 2 == 1, icount(10)))
+#'
+#' @export ifilter
 ifilter <- function(pred, iterable) {
   it <- iter(iterable)
 

@@ -16,6 +16,29 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Create an iterator that can be told to stop
+#'
+#' Create an iterator that iterates over another iterator until a specified
+#' function returns \code{FALSE}. This can be useful for breaking out of a
+#' foreach loop, for example.
+#'
+#'
+#' @param iterable Iterable to iterate over.
+#' @param finished Function that returns a logical value.  The iterator stops
+#' when this function returns \code{FALSE}.
+#' @keywords utilities
+#' @examples
+#'
+#' # See how high we can count in a tenth of a second
+#' mkfinished <- function(time) {
+#'   starttime <- proc.time()[3]
+#'   function() proc.time()[3] > starttime + time
+#' }
+#' length(as.list(ibreak(icount(), mkfinished(0.1))))
+#'
+#' @export ibreak
 ibreak <- function(iterable, finished) {
   force(finished)
   it <- iter(iterable)
@@ -25,7 +48,7 @@ ibreak <- function(iterable, finished) {
     if (stopped || finished()) {
       stopped <<- TRUE
       stop('StopIteration', call.=FALSE)
-    } 
+    }
     nextElem(it)
   }
 

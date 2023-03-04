@@ -16,6 +16,42 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Create an iterator that splits a vector
+#'
+#' Create an iterator that splits a vector into smaller pieces. You can specify
+#' either the number of pieces, using the \code{chunks} argument, or the
+#' maximum size of the pieces, using the \code{chunkSize} argument.
+#'
+#'
+#' @param x Vector to iterate over.  Note that it doesn't need to be an atomic
+#' vector, so a list is acceptable.
+#' @param \dots Passed as the second and subsequent arguments to \code{idiv}
+#' function.  Currently, \code{idiv} accepts either a value for \code{chunks}
+#' or \code{chunkSize}.
+#' @return An iterator that returns vectors of the same type as \code{x} with
+#' one or more elements from \code{x}.
+#' @seealso \code{\link[iterators]{idiv}}
+#' @keywords utilities
+#' @examples
+#'
+#' # Split the vector 1:10 into "chunks" with a maximum length of three
+#' it <- ihasNext(isplitVector(1:10, chunkSize=3))
+#' while (hasNext(it)) {
+#'   print(nextElem(it))
+#' }
+#'
+#' # Split the vector "letters" into four chunks
+#' it <- ihasNext(isplitVector(letters, chunks=4))
+#' while (hasNext(it)) {
+#'   print(nextElem(it))
+#' }
+#'
+#' # Get the first five elements of a list as a list
+#' nextElem(isplitVector(as.list(letters), chunkSize=5))
+#'
+#' @export isplitVector
 isplitVector <- function(x, ...) {
   it <- idiv(length(x), ...)
   i <- 1L

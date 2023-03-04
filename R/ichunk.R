@@ -16,6 +16,35 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Create a chunking iterator
+#'
+#' Create an iterator that issues lists of values from the underlying iterable.
+#' This is useful for manually \dQuote{chunking} values from an iterable.
+#'
+#'
+#' @param iterable Iterable to iterate over.
+#' @param chunkSize Maximum number of values from \code{iterable} to return in
+#' each value issued by the resulting iterator.
+#' @param mode Mode of the objects returned by the iterator.
+#' @seealso \code{\link{isplitVector}}
+#' @keywords utilities
+#' @examples
+#'
+#' # Split the vector 1:10 into "chunks" with a maximum length of three
+#' it <- ihasNext(ichunk(1:10, 3))
+#' while (hasNext(it)) {
+#'   print(unlist(nextElem(it)))
+#' }
+#'
+#' # Same as previous, but return integer vectors rather than lists
+#' it <- ihasNext(ichunk(1:10, 3, mode='integer'))
+#' while (hasNext(it)) {
+#'   print(nextElem(it))
+#' }
+#'
+#' @export ichunk
 ichunk <- function(iterable, chunkSize, mode='list') {
   force(iterable)
   force(chunkSize)

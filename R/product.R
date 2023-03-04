@@ -16,6 +16,28 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Create a cartesian product iterator
+#'
+#' Create an iterator that returns values from multiple iterators in cartesian
+#' product fashion.  That is, they are combined the manner of nested \code{for}
+#' loops.
+#'
+#'
+#' @param \dots Named iterables to iterate over.  The right-most iterables
+#' change more quickly, like an odometer.
+#' @keywords utilities
+#' @examples
+#'
+#' # Simulate a doubly-nested loop with a single while loop
+#' it <- ihasNext(product(a=1:3, b=1:2))
+#' while (hasNext(it)) {
+#'   x <- nextElem(it)
+#'   cat(sprintf('a = %d, b = %d\n', x$a, x$b))
+#' }
+#'
+#' @export product
 product <- function(...) {
   args <- substitute(list(...))[-1]
   n <- length(args)

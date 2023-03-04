@@ -16,6 +16,21 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Create a chaining iterator
+#'
+#' Create an iterator that chains multiple iterables together.
+#'
+#'
+#' @param \dots The iterables to iterate over.
+#' @keywords utilities
+#' @examples
+#'
+#' # Iterate over two iterables
+#' as.list(chain(1:2, letters[1:3]))
+#'
+#' @export chain
 chain <- function(...) {
   iterators <- lapply(list(...), iter)
 

@@ -13,6 +13,16 @@ cnames <- function(filenames) {
 }
 
 # This is a writedf combiner factory function
+
+
+#' Create an object that contains a combiner function
+#'
+#' Create an object that contains a combiner function.
+#'
+#'
+#' @param filenames Names of files to write column data to.
+#' @keywords utilities
+#' @export writedf.combiner
 writedf.combiner <- function(filenames) {
   opencol <- function(i) {
     # Extract the type of data from the file name

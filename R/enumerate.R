@@ -16,6 +16,22 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Create an enumeration object
+#'
+#' Create an iterator that iterates over an iterable, returning the value in a
+#' list that includes an index.
+#'
+#'
+#' @param iterable Iterable to iterate over.
+#' @keywords utilities
+#' @examples
+#'
+#' # Create an enumeration of five random numbers
+#' as.list(enumerate(rnorm(5)))
+#'
+#' @export enumerate
 enumerate <- function(iterable) {
   it <- iter(iterable)
   e <- icount()

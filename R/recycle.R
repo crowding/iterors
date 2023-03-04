@@ -16,6 +16,23 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Create a recycling iterator
+#'
+#' Create an iterator that recycles a specified iterable.
+#'
+#'
+#' @param iterable The iterable to recycle.
+#' @param times integer.  Number of times to recycle the values in the
+#' iterator.  Default value of \code{NA_integer_} means to recycle forever.
+#' @keywords utilities
+#' @examples
+#'
+#' # Recycle over 'a', 'b', and 'c' three times
+#' recycle(letters[1:3], 3)
+#'
+#' @export recycle
 recycle <- function(iterable, times=NA_integer_) {
   # Manually check for a missing argument since "inherits" issues
   # a cryptic error message in that case

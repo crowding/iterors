@@ -16,6 +16,35 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Create a repeating iterator
+#'
+#' Create an iterator version of the \code{rep} function.
+#'
+#'
+#' @param iterable The iterable to iterate over repeatedly.
+#' @param times A vector giving the number of times to repeat each element if
+#' the length is greater than one, or to repeat all the elements if the length
+#' is one.  This behavior is less strict than \code{rep} since the length of an
+#' iterable isn't generally known.
+#' @param length.out non-negative integer.  The desired length of the output
+#' iterator.
+#' @param each non-negative integer.  Each element of the iterable is repeated
+#' \code{each} times.
+#' @seealso \code{\link[base]{rep}}
+#' @keywords utilities
+#' @examples
+#'
+#' unlist(as.list(irep(1:4, 2)))
+#' unlist(as.list(irep(1:4, each=2)))
+#' unlist(as.list(irep(1:4, c(2,2,2,2))))
+#' unlist(as.list(irep(1:4, c(2,1,2,1))))
+#' unlist(as.list(irep(1:4, each=2, len=4)))
+#' unlist(as.list(irep(1:4, each=2, len=10)))
+#' unlist(as.list(irep(1:4, each=2, times=3)))
+#'
+#' @export irep
 irep <- function(iterable, times, length.out, each) {
   # Apply "each" first
   it <- if (!missing(each)) {

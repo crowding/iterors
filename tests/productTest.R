@@ -13,7 +13,7 @@ test01 <- function() {
 test02 <- function() {
   it <- product(a=LETTERS[1:10], b=1, x=1:3)
 
-  results <- 
+  results <-
     foreach(a=LETTERS[1:10], .combine='c') %:%
       foreach(b=1, .combine='c') %:%
         foreach(x=1:3, actual=it, .combine='c') %do%
@@ -28,7 +28,7 @@ test02 <- function() {
 test03 <- function() {
   it <- product(a=iter(LETTERS[1:10]), b=iter(1), x=iter(1:3))
 
-  results <- 
+  results <-
     foreach(a=LETTERS[1:10], .combine='c') %:%
       foreach(b=1, .combine='c') %:%
         foreach(x=1:3, actual=it, .combine='c') %do%

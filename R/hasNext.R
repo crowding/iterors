@@ -16,6 +16,26 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Does This Iterator Have A Next Element
+#'
+#' \code{hasNext} is a generic function that indicates if the iterator has
+#' another element.
+#'
+#'
+#' @aliases hasNext hasNext.ihasNext
+#' @param obj an iterator object.
+#' @param \dots additional arguments that are ignored.
+#' @return Logical value indicating whether the iterator has a next element.
+#' @keywords methods
+#' @examples
+#'
+#'   it <- ihasNext(iter(c('a', 'b', 'c')))
+#'   while (hasNext(it))
+#'     print(nextElem(it))
+#'
+#' @export hasNext
 hasNext <- function(obj, ...) {
   UseMethod('hasNext')
 }

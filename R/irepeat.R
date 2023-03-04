@@ -16,6 +16,23 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+
+
+#' Create a repeating iterator
+#'
+#' Create an iterator that returns a value a specified number of times.
+#'
+#'
+#' @param x The value to return repeatedly.
+#' @param times The number of times to repeat the value.  Default value is
+#' infinity.
+#' @keywords utilities
+#' @examples
+#'
+#' # Repeat a value 10 times
+#' unlist(as.list(irepeat(42, 10)))
+#'
+#' @export irepeat
 irepeat <- function(x, times) {
   if (missing(times)) {
     nextEl <- function() {
