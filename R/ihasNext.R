@@ -1,24 +1,8 @@
 # This is based on code that was contributed by Hadley Wickham
 
 
-#' Create an iterator that supports the hasNext method
-#'
-#' \code{ihasNext} is a generic function that indicates if the iterator has
-#' another element.
-#'
-#'
-#' @param iterable an iterable object, which could be an iterator.
-#' @return An \code{ihasNext} iterator that wraps the specified iterator and
-#' supports the \code{hasNext} method.
-#' @keywords utilities
-#' @examples
-#'
-#'   it <- ihasNext(c('a', 'b', 'c'))
-#'   while (hasNext(it))
-#'     print(nextElem(it))
-#'
-#' @export ihasNext
-ihasNext <- function(iterable) {
+#' @exportS3Method
+ihasNext.iter <- function(iterable) {
   it <- iter(iterable)
 
   if (inherits(it, 'ihasNext')) {

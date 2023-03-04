@@ -65,7 +65,7 @@ ireadBin <- function(con, what='raw', n=1L, size=NA_integer_,
 
   # Remember if we had to open this connection
   opened <- if (is.character(con)) {
-    con <- file(con, open='rb')
+    con <- file(con, open='rb', encoding="native.enc")
     TRUE
   } else {
     if (!isOpen(con, 'r') || summary(con)$text != 'binary') {

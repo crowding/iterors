@@ -1,4 +1,7 @@
+library(foreach)
+
 test_that("test01", {
+
     n <- 1000
     zz <- file("testbin", "wb")
     expected <- foreach(1:1000) %do% {
@@ -18,6 +21,7 @@ test_that("test01", {
         mean(x)
     }
     expect_equal(expected, actual)
+
 })
 
 test_that("test02", {
@@ -61,6 +65,5 @@ test_that("test03", {
 })
 
 test_that("test99", {
-    unlink("testbin")
+    expect_silent(unlink("testbin"))
 })
-

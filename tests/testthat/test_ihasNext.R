@@ -17,4 +17,3 @@ test_that("test02", {
     expect_true(i == length(x))
     expect_equal(x, actual)
 })
-
