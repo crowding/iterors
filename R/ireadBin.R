@@ -50,9 +50,7 @@
 #' close(zz)
 #'
 #' it <- ihasNext(ireadBin("testbin", integer(), 10))
-#' while (hasNext(it)) {
-#'   print(nextElem(it))
-#' }
+#' repeat print(nextOr(it, break))
 #' unlink("testbin")
 #'
 #' @export ireadBin
@@ -78,13 +76,13 @@ ireadBin <- function(con, what='raw', n=1L, size=NA_integer_,
     if (!isSeekable(con)) {
       stop('ipos cannot be specified unless con is seekable')
     }
-    ipos <- iter(ipos)
+    ipos <- iteror(ipos)
   }
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     # Check if we've already stopped
     if (is.null(con)) {
-      stop('StopIteration', call.=FALSE)
+      return(or)
     }
 
     # "local" arguments to readBin that may be modified by "ipos"
@@ -96,17 +94,12 @@ ireadBin <- function(con, what='raw', n=1L, size=NA_integer_,
 
     # Seek on the connection if a position iterator has been specified
     if (!is.null(ipos)) {
-      tryCatch({
-        p <- nextElem(ipos)
-      },
-      error=function(e) {
-        # Close the connection if necessary and propagate the exception
-        if (opened) {
-          close(con)
-        }
+      on.exit(if (opened) {
+        close(con)
         con <<- NULL
-        stop(e)
       })
+      p <- nextOr(ipos, return(or)) #and close
+      on.exit()
 
       # default value of "origin"
       origin <- 'start'
@@ -140,13 +133,11 @@ ireadBin <- function(con, what='raw', n=1L, size=NA_integer_,
         close(con)
       }
       con <<- NULL
-      stop('StopIteration', call.=FALSE)
+      or
+    } else {
+      d
     }
-
-    d
   }
 
-  it <- list(nextElem=nextEl)
-  class(it) <- c('abstractiter', 'iter')
-  it
+  iteror(nextOr_)
 }

@@ -24,4 +24,3 @@ test_that("test03", {
     expected <- as.list(product(a = x, b = y, c = z))
     expect_equal(expected, actual)
 })
-

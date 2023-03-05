@@ -30,7 +30,7 @@ new_iterator <- function(nextElem, ...) {
 #' @examples
 #'
 #' # Manually iterate using the iteration_has_ended function to help
-#' it <- iter(1:3)
+#' it <- iteror(1:3)
 #' tryCatch({
 #'   stopifnot(is.iterator(it))
 #'   repeat {

@@ -41,7 +41,7 @@
 #' @export ibreak
 ibreak <- function(iterable, finished) {
   force(finished)
-  it <- iter(iterable)
+  it <- iteror(iterable)
   stopped <- FALSE
 
   nextEl <- function() {

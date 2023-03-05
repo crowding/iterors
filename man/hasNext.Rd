@@ -21,7 +21,7 @@ another element.
 }
 \examples{
 
-  it <- ihasNext(iter(c('a', 'b', 'c')))
+  it <- ihasNext(iteror(c('a', 'b', 'c')))
   while (hasNext(it))
     print(nextElem(it))
 

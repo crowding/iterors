@@ -48,55 +48,47 @@
 ichunk <- function(iterable, chunkSize, mode='list') {
   force(iterable)
   force(chunkSize)
-  it <- iter(iterable)
+  it <- iteror(iterable)
 
   legal.modes <- c('list', 'logical', 'integer', 'numeric', 'double',
                    'complex', 'character', 'raw')
   if (! mode %in% legal.modes)
     stop(sprintf("cannot make a vector of mode '%s'", mode))
 
-  nextEl.list <- function() {
+  nextOr.list <- function(or) {
     r <- vector('list', chunkSize)
     i <- 0L
 
-    tryCatch({
-      while (i < chunkSize) {
-        r[i + 1L] <- list(nextElem(it))
-        i <- i + 1L
-      }
-    },
-    error=function(e) {
-      if (!identical(conditionMessage(e), 'StopIteration') || i == 0L)
-        stop(e)
-      length(r) <<- i
-    })
+    while (i < chunkSize) {
+      r[i + 1L] <- list(nextOr(it, {
+        if (i == 0L) return(or)
+        length(r) <- i
+        break
+      }))
+      i <- i + 1L
+    }
 
     r
   }
 
-  nextEl.vector <- function() {
+  nextOr.vector <- function(or) {
     r <- vector(mode, chunkSize)
     i <- 0L
 
-    tryCatch({
-      while (i < chunkSize) {
-        r[i + 1L] <- nextElem(it)
-        i <- i + 1L
-      }
-    },
-    error=function(e) {
-      if (!identical(conditionMessage(e), 'StopIteration') || i == 0L)
-        stop(e)
-      length(r) <<- i
-    })
+    while (i < chunkSize) {
+      r[i + 1L] <- nextOr(it, {
+        if (i == 0L) return(or)
+        length(r) <- i
+        break
+      })
+      i <- i + 1L
+    }
 
     r
   }
 
   object <- if (mode == 'list')
-    list(nextElem=nextEl.list)
+    iteror.function(nextOr.list)
   else
-    list(nextElem=nextEl.vector)
-  class(object) <- c('abstractiter', 'iter')
-  object
+    iteror.function(nextOr.vector)
 }

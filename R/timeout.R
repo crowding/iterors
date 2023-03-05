@@ -36,18 +36,14 @@
 #' @export timeout
 timeout <- function(iterable, time) {
   force(time)
-  it <- iter(iterable)
+  it <- iteror(iterable)
   starttime <- proc.time()[3]
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     delta <- proc.time()[3] - starttime
-    if (delta >= time) {
-      stop('StopIteration', call.=FALSE)
-    }
-    nextElem(it)
+    if (delta >= time) return(or)
+    nextOr(it, or)
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror.function(nextOr_)
 }

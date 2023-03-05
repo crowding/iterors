@@ -9,4 +9,3 @@ test_that("test01", {
         expect_equal(y, x)
     }
 })
-

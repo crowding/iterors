@@ -35,7 +35,7 @@
 #' @export irepeat
 irepeat <- function(x, times) {
   if (missing(times)) {
-    nextEl <- function() {
+    nextOr_ <- function(or) {
       x
     }
   } else {
@@ -44,16 +44,12 @@ irepeat <- function(x, times) {
       stop('times must be a valid number')
     }
 
-    nextEl <- function() {
-      if (times <= 0) {
-        stop('StopIteration', call.=FALSE)
-      }
+    nextOr_ <- function(or) {
+      if (times <= 0) return(or)
       times <<- times - 1L
       x
     }
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror.function(nextOr_)
 }

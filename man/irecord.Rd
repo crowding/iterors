@@ -27,11 +27,11 @@ suppressMessages(library(foreach))
 
 m1 <- matrix(rnorm(70), 7, 10)
 f1 <- tempfile()
-irecord(f1, iter(m1, by='row', chunksize=3))
+irecord(f1, iteror(m1, by='row', chunksize=3))
 
 m2 <- matrix(1:50, 10, 5)
 f2 <- tempfile()
-irecord(f2, iter(m2, by='column', chunksize=3))
+irecord(f2, iteror(m2, by='column', chunksize=3))
 
 # Perform a simple out-of-core matrix multiply
 p <- foreach(col=ireplay(f2), .combine='cbind') \%:\%

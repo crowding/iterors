@@ -148,7 +148,7 @@ nextOr.iteror <- function(obj, or, ...) {
   obj$nextOr(or, ...)
 }
 
-#' @exportS3Method
+#' @exportS3Method iterators::nextElem iteror
 nextElem.iteror <- function(obj, ...) {
   nextOr(obj, stop("StopIteration"), ...)
 }
@@ -185,7 +185,7 @@ nextOr.iter <- function(iter, or, ...) {
   # :( this means that if you use nextOr over a regular iter, you
   # are setting up and tearing down a tryCatch in each iteration...
   tryCatch(
-    nextElem(iter, ...),
+    iterators::nextElem(iter, ...),
     error=function(e)
       if (!identical(conditionMessage(e), 'StopIteration')) stop(e) else or)
 }
@@ -237,7 +237,7 @@ hasNext.ihasNextOr <- function(obj, ...) {
 #' @keywords methods
 #' @examples
 #'
-#'   it <- ihasNext(iter(c('a', 'b', 'c')))
+#'   it <- ihasNext(iteror(c('a', 'b', 'c')))
 #'   while (hasNext(it))
 #'     print(nextElem(it))
 #'

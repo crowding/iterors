@@ -32,28 +32,20 @@
 #'
 #' @export chain
 chain <- function(...) {
-  iterators <- lapply(list(...), iter)
+  iterators <- lapply(list(...), iteror)
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     repeat {
       if (length(iterators) == 0) {
-        stop('StopIteration', call.=FALSE)
-      }
-
-      tryCatch({
-        return(nextElem(iterators[[1]]))
-      },
-      error=function(e) {
-        if (identical(conditionMessage(e), 'StopIteration')) {
+        return(or)
+      } else {
+        return(nextOr(iterators[[1]], {
           iterators <<- iterators[-1]
-        } else {
-          stop(e)
-        }
-      })
+          next
+        }))
+      }
     }
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror.function(nextOr_)
 }

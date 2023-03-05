@@ -1,7 +1,7 @@
 test_that("test01", {
     x <- 1:10
     actual <- as.list(ichunk(x, 3))
-    expected <- list(as.list(1:3), as.list(4:6), as.list(7:9), 
+    expected <- list(as.list(1:3), as.list(4:6), as.list(7:9),
         as.list(10))
     expect_equal(expected, actual)
 })
@@ -18,4 +18,3 @@ test_that("test02", {
     y <- unlist(actual)
     expect_equal(y, x)
 })
-

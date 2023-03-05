@@ -33,19 +33,15 @@
 #'
 #' @export izip
 izip <- function(...) {
-  iterators <- lapply(list(...), iter)
+  iterators <- lapply(list(...), iteror)
 
   if (length(iterators) == 0) {
-    nextEl <- function() {
-      stop('StopIteration', call.=FALSE)
-    }
+    nextOr_ <- function(or) or
   } else {
-    nextEl <- function() {
-      lapply(iterators, nextElem)
+    nextOr_ <- function(or) {
+      lapply(iterators, nextOr, return(or))
     }
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror.function(nextOr_)
 }

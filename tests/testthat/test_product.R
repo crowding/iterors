@@ -18,7 +18,7 @@ test_that("test02", {
 })
 
 test_that("test03", {
-    it <- product(a = iter(LETTERS[1:10]), b = iter(1), x = iter(1:3))
+    it <- product(a = iteror(LETTERS[1:10]), b = iteror(1), x = iteror(1:3))
     results <- foreach(a = LETTERS[1:10], .combine = "c") %:% 
         foreach(b = 1, .combine = "c") %:% foreach(x = 1:3, actual = it, 
         .combine = "c") %do% identical(list(a = a, b = b, x = x), 

@@ -3,7 +3,7 @@
 
 #' @exportS3Method
 ihasNext.iter <- function(iterable) {
-  it <- iter(iterable)
+  it <- iteror(iterable)
 
   if (inherits(it, 'ihasNext')) {
     it

@@ -17,4 +17,3 @@ test_that("test03", {
     expected <- as.list(izip(index = icount(), value = x))
     expect_equal(expected, actual)
 })
-

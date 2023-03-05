@@ -42,6 +42,5 @@
 #' @aliases itertools-package itertools
 #' @docType package
 #' @keywords package
-#' @import iterators
 #' @import parallel
 NULL

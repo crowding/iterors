@@ -101,15 +101,14 @@ test_that("test12", {
 test_that("test13", {
     x <- list()
     times <- 100
-    actual <- as.list(irep(iter(x), times = times))
+    actual <- as.list(irep(iteror(x), times = times))
     expected <- rep(x, times = times)
     expect_equal(expected, actual)
     each <- 10
-    actual <- as.list(irep(iter(x), each = each))
+    actual <- as.list(irep(iteror(x), each = each))
     expected <- rep(x, each = each)
     expect_equal(expected, actual)
-    actual <- as.list(irep(iter(x), times = times, each = each))
+    actual <- as.list(irep(iteror(x), times = times, each = each))
     expected <- rep(x, times = times, each = each)
     expect_equal(expected, actual)
 })
-

@@ -49,9 +49,9 @@ recycle <- function(iterable, times=NA_integer_) {
   if (is.na(times) || times > 1) {
     if (! inherits(iterable, 'iter')) {
       buffer <- iterable
-      buffer.iter <- iter(buffer)
+      buffer.iter <- iteror(buffer)
     } else {
-      iterable.iter <- iter(iterable)
+      iterable.iter <- iteror(iterable)
       bsize <- 256  # allocated size of buffer
       bsize.max <- 2 ^ 31 - 1  # maximum allowable allocated size of buffer
       buffer <- vector('list', length=bsize)
@@ -59,90 +59,75 @@ recycle <- function(iterable, times=NA_integer_) {
       buffer.iter <- NULL  # will become an iterator over buffer
     }
   } else if (times > 0) {
-    iterable.iter <- iter(iterable)
+    iterable.iter <- iteror(iterable)
   }
 
   # This is used until the underlying iterator runs out
-  nextEl.buffering <- function() {
-    tryCatch({
-      # Check if buffer is full
-      if (blen >= bsize) {
-        # Don't attempt to create a list with more than 2^31-1 elements
-        if (blen == bsize.max) {
-          stop('underlying iterator has too many values to buffer')
-        }
-        # Double the size of buffer
-        bsize <<- min(2 * bsize, bsize.max)
-        length(buffer) <<- bsize
+  nextOr.buffering <- function(or) {
+    # Check if buffer is full
+    if (blen >= bsize) {
+      # Don't attempt to create a list with more than 2^31-1 elements
+      if (blen == bsize.max) {
+        stop('underlying iterator has too many values to buffer')
       }
-      e <- nextElem(iterable.iter)
-      blen <<- blen + 1
-      buffer[blen] <<- list(e)
-      e
-    },
-    error=function(e) {
-      if (identical(conditionMessage(e), 'StopIteration')) {
-        times <<- times - 1L  # will still be greater than zero
-        length(buffer) <<- blen
-        iterable <<- NULL
-        iterable.iter <<- NULL
-        buffer.iter <<- iter(buffer)
-        nextEl.pointer <<- nextEl.cycling
-        nextEl()
-      } else {
-        stop(e)
-      }
+      # Double the size of buffer
+      bsize <<- min(2 * bsize, bsize.max)
+      length(buffer) <<- bsize
+    }
+    e <- nextOr(iterable.iter, {
+      times <<- times - 1L  # will still be greater than zero
+      length(buffer) <<- blen
+      iterable <<- NULL
+      iterable.iter <<- NULL
+      buffer.iter <<- iteror(buffer)
+      nextOr.pointer <<- nextOr.cycling
+      return(nextOr.pointer(or))
     })
+    blen <<- blen + 1
+    buffer[blen] <<- list(e)
+    e
+
   }
 
   # This will be used once we've run through the underlying iterator
-  nextEl.cycling <- function() {
-    tryCatch({
-      nextElem(buffer.iter)
-    },
-    error=function(e) {
-      if (identical(conditionMessage(e), 'StopIteration')) {
-        if (!is.na(times) && times <= 1) {
-          times <<- 0L
-          stop(e)
-        }
-        times <<- times - 1L
-        buffer.iter <<- iter(buffer)
-        # If this throws 'StopIteration', we're done
-        nextElem(buffer.iter)
-      } else {
-        stop(e)
+  nextOr.cycling <- function(or) {
+    nextOr(buffer.iter, {
+      if (!is.na(times) && times <= 1) {
+        times <<- 0L
+        return(or)
       }
+      times <<- times - 1L
+      buffer.iter <<- iteror(buffer)
+      # If this throws 'StopIteration', we're done
+      nextOr(buffer.iter, or)
     })
   }
 
   # This handles the case when "times" is one (pretty useless case)
-  nextEl.one <- function() {
-    nextElem(iterable.iter)
+  nextOr.one <- function(or) {
+    nextOr(iterable.iter, or)
   }
 
   # This handles the case when "times" is zero
-  nextEl.zero <- function() {
-    stop('StopIteration', call.=FALSE)
+  nextOr.zero <- function(or) {
+    or
   }
 
-  # Set the initial value of nextEl.pointer
+  # Set the initial value of nextOr.pointer
   if (is.na(times) || times > 1) {
-    nextEl.pointer <- if (is.null(buffer.iter)) nextEl.buffering else nextEl.cycling
+    nextOr.pointer <- if (is.null(buffer.iter)) nextOr.buffering else nextOr.cycling
   } else if (times == 1) {
-    nextEl.pointer <- nextEl.one
+    nextOr.pointer <- nextOr.one
   } else {
-    nextEl.pointer <- nextEl.zero
+    nextOr.pointer <- nextOr.zero
   }
 
   # This is the function that will be stored in the iterator object,
-  # which will call either nextEl.buffering of nextEl.cycling, depending
-  # on the value of nextEl.pointer variable
-  nextEl <- function() {
-    nextEl.pointer()
+  # which will call either nextOr.buffering of nextOr.cycling, depending
+  # on the value of nextOr.pointer variable
+  nextOr_ <- function(or) {
+    nextOr.pointer(or)
   }
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('abstractiter', 'iter')
-  obj
+  iteror(nextOr_)
 }

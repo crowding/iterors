@@ -33,7 +33,15 @@
 #'
 #' @export enumerate
 enumerate <- function(iterable) {
-  it <- iter(iterable)
+  it <- iteror(iterable)
   e <- icount()
   izip(index=e, value=it)
+}
+
+icount <- function(n) {
+  x <- 0
+  if (missing(n))
+    iteror(function(or) x <<- x + 1)
+  else
+    iteror(function(or) if (x < n) x <<- x + 1 else or)
 }

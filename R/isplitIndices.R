@@ -48,17 +48,15 @@
 #'
 #' @export isplitIndices
 isplitIndices <- function(n, ...) {
-  it <- idiv(n, ...)
+  it <- iterators::idiv(n, ...)
   i <- 1L
 
-  nextEl <- function() {
-    m <- as.integer(nextElem(it))
+  nextOr_ <- function(or) {
+    m <- as.integer(nextOr(it, return(or)))
     j <- i
     i <<- i + m
     seq(j, length=m)
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror.function(nextOr_)
 }

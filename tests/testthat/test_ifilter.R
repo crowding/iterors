@@ -8,4 +8,3 @@ test_that("test01", {
     expected <- as.list(Filter(even, 1:10))
     expect_equal(expected, actual)
 })
-

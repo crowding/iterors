@@ -48,9 +48,9 @@
 irep <- function(iterable, times, length.out, each) {
   # Apply "each" first
   it <- if (!missing(each)) {
-    irep.each(iter(iterable), each)
+    irep.each(iteror(iterable), each)
   } else {
-    iter(iterable)
+    iteror(iterable)
   }
 
   if (!missing(length.out)) {
@@ -83,14 +83,14 @@ irep.each <- function(it, each) {
   n <- 0L
   value <- NULL
 
-  nextEl <- if (each == 0) {
-    function() stop('StopIteration', call.=FALSE)
+  nextOr_ <- if (each == 0) {
+    function(or) or
   } else if (each == 1) {
-    function() nextElem(it)
+    function(or) nextOr(it, or)
   } else {
-    function() {
+    function(or) {
       if (n <= 0) {
-        value <<- nextElem(it)
+        value <<- nextOr(it, or)
         n <<- each
       }
       n <<- n - 1L
@@ -98,9 +98,7 @@ irep.each <- function(it, each) {
     }
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror(nextOr_)
 }
 
 # Internal function used to handle the irep "times" argument
@@ -114,20 +112,19 @@ irep.times <- function(it, times) {
   n <- 0L
   value <- NULL
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     while (n <= 0 && i < length(times)) {
       i <<- i + 1L
       n <<- times[i]
-      value <<- nextElem(it)
+      value <<- nextOr(it, return(or))
     }
     if (n <= 0) {
-      stop('StopIteration', call.=FALSE)
+      or
+    } else {
+      n <<- n - 1L
+      value
     }
-    n <<- n - 1L
-    value
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror(nextOr_)
 }

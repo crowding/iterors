@@ -13,4 +13,3 @@ test_that("test02", {
     expected <- 4:6
     expect_equal(expected, actual)
 })
-

@@ -34,18 +34,14 @@
 #'
 #' @export ilimit
 ilimit <- function(iterable, n) {
-  it <- iter(iterable)
+  it <- iteror(iterable)
   n <- as.integer(n)
 
-  nextEl <- function() {
-    if (n <= 0) {
-      stop('StopIteration', call.=FALSE)
-    }
+  nextOr_ <- function(or) {
+    if (n <= 0) return(or)
     n <<- n - 1L
-    nextElem(it)
+    nextOr(it, or)
   }
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('abstractiter', 'iter')
-  obj
+  iteror(nextOr_)
 }

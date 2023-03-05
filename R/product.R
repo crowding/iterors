@@ -38,7 +38,7 @@
 #' }
 #'
 #' @export product
-product <- function(...) {
+product <- function(...) {  # XXX: this use of subsitute is goofy af.
   args <- substitute(list(...))[-1]
   n <- length(args)
   anames <- names(args)
@@ -52,17 +52,15 @@ product <- function(...) {
 product.internal <- function(n, args, anames, env) {
   if (n <= 1) {
     if (n == 1) {
-      icar <- iter(eval(args[[1]], envir=env))
+      icar <- iteror(eval(args[[1]], envir=env))
 
-      nextEl <- function() {
-        carval <- list(nextElem(icar))
+      nextOr_ <- function(or) {
+        carval <- list(nextOr(icar, return(or)))
         names(carval) <- anames[1]
         carval
       }
     } else {
-      nextEl <- function() {
-        stop('StopIteration', call.=FALSE)
-      }
+      nextOr_ <- function(or) or
     }
   } else {
     icdr <- product.internal(n - 1, args[-n], anames[-n], env)
@@ -70,33 +68,25 @@ product.internal <- function(n, args, anames, env) {
     needval <- TRUE
     icar <- NULL
 
-    nextEl <- function() {
+    nextOr_ <- function(or) {
       repeat {
         if (needval) {
-          cdrval <<- nextElem(icdr)
+          cdrval <<- nextOr(icdr, return(or))
           needval <<- FALSE
-          icar <<- iter(eval(args[[n]], envir=env))
+          icar <<- iteror(eval(args[[n]], envir=env))
         }
 
-        tryCatch({
-          carval <- list(nextElem(icar))
-          break
-        },
-        error=function(e) {
-          if (identical(conditionMessage(e), 'StopIteration')) {
-            needval <<- TRUE
-          } else {
-            stop(e)
-          }
-        })
-      }
+        carval <- list(nextOr(icar, {
+          needval <<- TRUE
+          next
+        }))
+        break
+     }
 
       names(carval) <- anames[n]
       c(cdrval, carval)
     }
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror.function(nextOr_)
 }

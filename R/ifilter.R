@@ -42,35 +42,31 @@
 #'
 #' @export ifilter
 ifilter <- function(pred, iterable) {
-  it <- iter(iterable)
+  it <- iteror(iterable)
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     repeat {
-      val <- nextElem(it)
+      val <- nextOr(it, return(or))
       if (pred(val)) {
         return(val)
       }
     }
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror.function(nextOr_)
 }
 
 ifilterfalse <- function(pred, iterable) {
-  it <- iter(iterable)
+  it <- iteror(iterable)
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     repeat {
-      val <- nextElem(it)
+      val <- nextOr(it, return(or))
       if (! pred(val)) {
         return(val)
       }
     }
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror.function(nextOr_)
 }

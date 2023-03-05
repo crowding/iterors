@@ -9,4 +9,3 @@ test_that("test02", {
     expected <- list()
     expect_equal(expected, actual)
 })
-

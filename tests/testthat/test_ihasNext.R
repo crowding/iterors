@@ -12,7 +12,7 @@ test_that("test02", {
     actual <- integer(0)
     while (hasNext(it)) {
         i <- i + 1
-        actual[i] <- nextElem(it)
+        actual[i] <- nextOr(it)
     }
     expect_true(i == length(x))
     expect_equal(x, actual)

@@ -53,17 +53,15 @@
 #'
 #' @export isplitVector
 isplitVector <- function(x, ...) {
-  it <- idiv(length(x), ...)
+  it <- iterators::idiv(length(x), ...)
   i <- 1L
 
-  nextEl <- function() {
-    n <- as.integer(nextElem(it))
+  nextOr_ <- function(or) {
+    n <- as.integer(nextOr(it, return(or)))
     j <- i
     i <<- i + n
     x[seq(j, length=n)]
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror.function(nextOr_)
 }
