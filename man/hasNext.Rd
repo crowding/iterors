@@ -23,7 +23,7 @@ another element.
 
   it <- ihasNext(iteror(c('a', 'b', 'c')))
   while (hasNext(it))
-    print(nextElem(it))
+    print(nextOr(it))
 
 }
 \keyword{methods}

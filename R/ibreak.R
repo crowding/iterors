@@ -36,7 +36,7 @@
 #'   starttime <- proc.time()[3]
 #'   function() proc.time()[3] > starttime + time
 #' }
-#' length(as.list(ibreak(icount(), mkfinished(0.1))))
+#' length(as.list(ibreak(iterators::icount(), mkfinished(0.1))))
 #'
 #' @export ibreak
 ibreak <- function(iterable, finished) {
@@ -44,15 +44,13 @@ ibreak <- function(iterable, finished) {
   it <- iteror(iterable)
   stopped <- FALSE
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     if (stopped || finished()) {
       stopped <<- TRUE
-      stop('StopIteration', call.=FALSE)
-    }
-    nextElem(it)
+      or
+    } else
+      nextOr(it, or)
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror.function(nextOr_)
 }

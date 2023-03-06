@@ -56,22 +56,16 @@
 #' all.equal(p, m1 %*% m2)
 #' unlink(c(f1, f2))
 #'
-#' @export irecord
+#' @export irecord ireplay
 irecord <- function(con, iterable) {
   if (is.character(con)) {
     con <- file(con, 'wb')
     on.exit(close(con))
   }
   it <- iteror(iterable)
-  tryCatch({
-    repeat {
-      serialize(nextElem(it), con)
-    }
-  },
-  error=function(e) {
-    if (! identical(conditionMessage(e), 'StopIteration'))
-      stop(e)
-  })
+  repeat {
+    serialize(nextOr(it, break), con)
+  }
   invisible()
 }
 
@@ -84,10 +78,10 @@ ireplay <- function(con) {
     FALSE
   }
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     # Check if we've already stopped
     if (is.null(con)) {
-      stop('StopIteration', call.=FALSE)
+      return(or)
     }
 
     tryCatch({
@@ -98,11 +92,9 @@ ireplay <- function(con) {
         close(con)
       }
       con <<- NULL
-      stop('StopIteration', call.=FALSE)
+      or
     })
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror(nextOr_)
 }

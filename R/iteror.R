@@ -167,7 +167,7 @@ nextElem.iteror <- function(obj, ...) {
 #'
 #'   it <- ihasNext(c('a', 'b', 'c'))
 #'   while (hasNext(it))
-#'     print(nextElem(it))
+#'     print(nextOr(it))
 #'
 #' @export ihasNext
 ihasNext <- function(obj, ...) {
@@ -239,7 +239,7 @@ hasNext.ihasNextOr <- function(obj, ...) {
 #'
 #'   it <- ihasNext(iteror(c('a', 'b', 'c')))
 #'   while (hasNext(it))
-#'     print(nextElem(it))
+#'     print(nextOr(it))
 #'
 #' @export hasNext
 hasNext <- function(obj, ...) {

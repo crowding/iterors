@@ -1,11 +1,11 @@
 library(itertools)
 
 display <- function(it, level=0) {
-  it <- ihasNext(it)
+  it <- iteror(it)
   i <- 0
-  while(hasNext(it)) {
+  repeat {
+    y <- nextOr(it, break)
     if (i > 0) cat(', ')
-    y <- nextElem(it)
     if (inherits(y, 'iter')) {
       cat('{')
       display(y, level=level+1)

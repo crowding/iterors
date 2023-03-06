@@ -23,10 +23,10 @@ function returns \code{FALSE}.
 \examples{
 
 # Return the odd numbers between 1 and 10
-as.list(ifilter(function(x) x \%\% 2 == 1, icount(10)))
+as.list(ifilter(function(x) x \%\% 2 == 1, iterators::icount(10)))
 
 # Return the even numbers between 1 and 10
-as.list(ifilterfalse(function(x) x \%\% 2 == 1, icount(10)))
+as.list(ifilterfalse(function(x) x \%\% 2 == 1, iterators::icount(10)))
 
 }
 \keyword{utilities}

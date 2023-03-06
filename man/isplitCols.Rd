@@ -27,13 +27,13 @@ maximum size of the blocks, using the \code{chunkSize} argument.
 x <- matrix(1:30, 3)
 it <- ihasNext(isplitCols(x, chunkSize=3))
 while (hasNext(it)) {
-  print(nextElem(it))
+  print(nextOr(it))
 }
 
 # Split the same matrix into five submatrices
 it <- ihasNext(isplitCols(x, chunks=5))
 while (hasNext(it)) {
-  print(nextElem(it))
+  print(nextOr(it))
 }
 
 }

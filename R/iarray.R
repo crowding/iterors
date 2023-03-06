@@ -63,35 +63,35 @@
 #'
 #'   x <- array(1:64, c(4,4,4))
 #'   it <- iarray(x, c(2,3), chunks=c(1,2))
-#'   jt <- nextElem(it)
-#'   nextElem(jt)
-#'   jt <- nextElem(it)
-#'   nextElem(jt)
+#'   jt <- nextOr(it)
+#'   nextOr(jt)
+#'   jt <- nextOr(it)
+#'   nextOr(jt)
 #'
 #'   it <- iarray(x, c(2,3), chunks=c(2,2))
-#'   jt <- nextElem(it)
-#'   nextElem(jt)
-#'   nextElem(jt)
-#'   jt <- nextElem(it)
-#'   nextElem(jt)
-#'   nextElem(jt)
+#'   jt <- nextOr(it)
+#'   nextOr(jt)
+#'   nextOr(jt)
+#'   jt <- nextOr(it)
+#'   nextOr(jt)
+#'   nextOr(jt)
 #'
 #'   # Use idx to iterate over only the middle four columns of a matrix
 #'   x <- matrix(1:18, nrow=3, ncol=6)
 #'   it <- iarray(x, 1, idx=list(TRUE, quote(2:5)))
-#'   nextElem(it)
-#'   nextElem(it)
-#'   nextElem(it)
+#'   nextOr(it)
+#'   nextOr(it)
+#'   nextOr(it)
 #'
 #'   # It can also be done using alist:
 #'   it <- iarray(x, 1, idx=alist(, 2:5))
-#'   nextElem(it)
-#'   nextElem(it)
-#'   nextElem(it)
+#'   nextOr(it)
+#'   nextOr(it)
+#'   nextOr(it)
 #'
 #'   x <- matrix(1:1800, nrow=3, ncol=600)
 #'   it <- iarray(x, 1, idx=alist(, 10:600), quote=TRUE)
-#'   (yq <- nextElem(it))
+#'   (yq <- nextOr(it))
 #'   object.size(yq)
 #'   object.size(eval(yq))
 #'
@@ -99,6 +99,8 @@
 iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
                    idx=lapply(dim(X), function(i) TRUE), quote=FALSE) {
   mcall <- match.call(expand.dots=FALSE)
+  ### XXX: do we really need to re-evaluate like this???
+  mcallenv <- parent.frame()
   mcall$... <- NULL
   dimx <- dim(X)
 
@@ -132,7 +134,7 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
       drop <- FALSE
     if (length(chunks) == 1)
       chunks <- rep(chunks, mlen)
-    it <- idiv(n, chunks=chunks[mlen])
+    it <- iterators::idiv(n, chunks=chunks[mlen])
   } else if (! missing(chunkSize)) {
     if (length(chunkSize) != 1 && length(chunkSize) != mlen)
       stop('length of chunkSize must be 1 or the same as MARGIN')
@@ -140,7 +142,7 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
       drop <- FALSE
     if (length(chunkSize) == 1)
       chunkSize <- rep(chunkSize, mlen)
-    it <- idiv(n, chunkSize=chunkSize[mlen])
+    it <- iterators::idiv(n, chunkSize=chunkSize[mlen])
   } else {
     if (missing(drop))
       drop <- TRUE
@@ -158,19 +160,19 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
     iq <- MARGIN + 2L
   }
 
-  # Define the "nextElem" function
-  nextEl <- if (mlen == 1) {
+  # Define the "nextOr" function
+  nextOr_ <- if (mlen == 1) {
     if (quote) {
-      function() {
-        m <- nextElem(it)
+      function(or) {
+        m <- nextOr(it, return(or))
         j <- i + m
         q[[iq]] <- if (m > 1) call(':', i + 1, j) else j
         i <<- j
         q
       }
     } else {
-      function() {
-        m <- nextElem(it)
+      function(or) {
+        m <- nextOr(it, return(or))
         j <- i + m
         q[[iq]] <- if (m > 1) call(':', i + 1, j) else j
         i <<- j
@@ -178,8 +180,8 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
       }
     }
   } else if (! missing(chunks)) {
-    function() {
-      m <- nextElem(it)
+    function(or) {
+      m <- nextOr(it, return(or))
       j <- i + m
       idx[[MARGIN[mlen]]] <- if (m > 1) call(':', i + 1, j) else j
       i <<- j
@@ -187,11 +189,11 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
       mcall$chunks <- chunks[-mlen]
       mcall$drop <- drop
       mcall$idx <- idx
-      eval(mcall, parent.frame())
+      eval(mcall, mcallenv)
     }
   } else if (! missing(chunkSize)) {
-    function() {
-      m <- nextElem(it)
+    function(or) {
+      m <- nextOr(it, return(or))
       j <- i + m
       idx[[MARGIN[mlen]]] <- if (m > 1) call(':', i + 1, j) else j
       i <<- j
@@ -199,21 +201,19 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
       mcall$chunkSize <- chunkSize[-mlen]
       mcall$drop <- drop
       mcall$idx <- idx
-      eval(mcall, parent.frame())
+      eval(mcall, mcallenv)
     }
   } else {
-    function() {
-      nextElem(it)  # returns 1 or throws 'StopIteration'
+    function(or) {
+      nextOr(it, return(or))  # returns 1 or
       i <<- i + 1
       idx[[MARGIN[mlen]]] <- i
       mcall$MARGIN <- MARGIN[-mlen]
       mcall$drop <- drop
       mcall$idx <- idx
-      eval(mcall, parent.frame())
+      eval(mcall, mcallenv)
     }
   }
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('abstractiter', 'iter')
-  obj
+  iteror(nextOr_)
 }

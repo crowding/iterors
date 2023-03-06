@@ -33,16 +33,12 @@
 #' @examples
 #'
 #' # Split the vector 1:10 into "chunks" with a maximum length of three
-#' it <- ihasNext(ichunk(1:10, 3))
-#' while (hasNext(it)) {
-#'   print(unlist(nextElem(it)))
-#' }
+#' it <- ichunk(1:10, 3)
+#' repeat print(unlist(nextOr(it, break)))
 #'
 #' # Same as previous, but return integer vectors rather than lists
-#' it <- ihasNext(ichunk(1:10, 3, mode='integer'))
-#' while (hasNext(it)) {
-#'   print(nextElem(it))
-#' }
+#' it <- ichunk(1:10, 3, mode='integer')
+#' repeat print(unlist(nextOr(it, break)))
 #'
 #' @export ichunk
 ichunk <- function(iterable, chunkSize, mode='list') {

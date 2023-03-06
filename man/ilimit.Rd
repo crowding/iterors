@@ -18,7 +18,7 @@ times.
 \examples{
 
 # Limit icount to only return three values
-as.list(ilimit(icount(), 3))
+as.list(ilimit(iterators::icount(), 3))
 
 }
 \keyword{utilities}

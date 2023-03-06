@@ -82,17 +82,17 @@ ireaddf <- function(filenames, n, start=1, col.names, chunkSize=1000) {
   stopped <- FALSE
 
   # Define the "next element" function needed for every iterator
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     # First check if we've already stopped
     if (stopped)
-      stop('StopIteration')
+      return(or)
 
     # Next check if there are any more rows to read
     if (n == 0) {
       for (colinfo in columndata)
         close(colinfo$conn)
       stopped <<- TRUE
-      stop('StopIteration')
+      return(or)
     }
 
     # Read the columns from the files into a list of equal length vectors
@@ -108,7 +108,7 @@ ireaddf <- function(filenames, n, start=1, col.names, chunkSize=1000) {
       for (colinfo in columndata)
         close(colinfo$conn)
       stopped <<- TRUE
-      stop('StopIteration')
+      return(or)
     }
 
     # Decrement n by the number of rows that we just read
@@ -124,7 +124,5 @@ ireaddf <- function(filenames, n, start=1, col.names, chunkSize=1000) {
   }
 
   # Construct and return the iterator object
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('abstractiter', 'iter')
-  obj
+  iteror(nextOr_)
 }

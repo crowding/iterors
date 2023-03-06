@@ -24,7 +24,7 @@ mkfinished <- function(time) {
   starttime <- proc.time()[3]
   function() proc.time()[3] > starttime + time
 }
-length(as.list(ibreak(icount(), mkfinished(0.1))))
+length(as.list(ibreak(iterators::icount(), mkfinished(0.1))))
 
 }
 \keyword{utilities}

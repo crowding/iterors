@@ -1,5 +1,5 @@
-library(foreach)
-library(itertools)
+#library(foreach)
+#library(itertools)
 
 n <- 10777
 nrowsx <- 959
@@ -45,18 +45,16 @@ all.equal(actual, expected)
 
 iqseq <- function(n, ...) {
   i <- 0
-  it <- idiv(n, ...)
+  it <- iterators::idiv(n, ...)
 
-  nextEl <- function() {
-    j <- i + nextElem(it)
+  nextOr_ <- function(or) {
+    j <- i + nextOr(it, return(or))
     val <- call(':', i + 1, j)
     i <<- j
     val
   }
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('abstractiter', 'iter')
-  obj
+  iteror.function(nextOr_)
 }
 
 actual <-

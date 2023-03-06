@@ -1,4 +1,5 @@
-iter.connection <- function(obj, ...) {
+#' @exportS3Method
+iteror.connection <- function(obj, ...) {
   s <- summary(obj)
 
   if (s$opened != "opened")
@@ -10,5 +11,5 @@ iter.connection <- function(obj, ...) {
   if (s$text == "binary")
     ireadBin(obj, ...)
   else
-    ireadLines(obj, ...)
+    iterators::ireadLines(obj, ...)
 }

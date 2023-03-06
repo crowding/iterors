@@ -25,15 +25,11 @@ maximum size of the pieces, using the \code{chunkSize} argument.
 
 # Return indices from 1 to 17 in vectors no longer than five
 it <- ihasNext(isplitIndices(17, chunkSize=5))
-while (hasNext(it)) {
-  print(nextElem(it))
-}
+repeat print(nextOr(it, break))
 
 # Return indices from 1 to 7 in four vectors
 it <- ihasNext(isplitIndices(7, chunks=4))
-while (hasNext(it)) {
-  print(nextElem(it))
-}
+repeat print(nextOr(it, break))
 
 }
 \seealso{

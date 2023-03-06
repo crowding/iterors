@@ -15,8 +15,8 @@
 #' @examples
 #'
 #' it <- iRNGStream(313)
-#' print(nextElem(it))
-#' print(nextElem(it))
+#' print(nextOr(it))
+#' print(nextOr(it))
 #'
 #' \dontrun{
 #' library(foreach)
@@ -38,11 +38,9 @@ iRNGStream <- function(seed) {
   nextRNGStream(seed)
 
   # Define the "Next Element" function for the iterator
-  nextEl <- function() (seed <<- nextRNGStream(seed))
+  nextOr_ <- function(or) (seed <<- nextRNGStream(seed))
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('abstractiter', 'iter')
-  obj
+  iteror.function(nextOr_)
 }
 
 iRNGSubStream <- function(seed) {
@@ -55,11 +53,9 @@ iRNGSubStream <- function(seed) {
   nextRNGSubStream(seed)
 
   # Define the "Next Element" function for the iterator
-  nextEl <- function() (seed <<- nextRNGSubStream(seed))
+  nextOr_ <- function() (seed <<- nextRNGSubStream(seed))
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('abstractiter', 'iter')
-  obj
+  iteror.function(nextOr_)
 }
 
 convseed <- function(iseed) {

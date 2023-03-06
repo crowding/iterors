@@ -38,31 +38,27 @@ ireadDouble <- function(con, buflen=16*1024, where=0) {
   it <- ireadBin(con, what='double', n=buflen)
   isstopped <- FALSE
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     # Check if we've already stopped
     if (isstopped)
-      stop('StopIteration', call.=FALSE)
+      return(or)
     if (ibuf >= length(buffer)) {
-      # Refill our buffer
-      ibuf <<- 0
-      tryCatch({
-        buffer <<- nextElem(it)
-      },
-      error=function(e) {
-        # Clean up regardless of the error
+      on.exit({
         buffer <<- NULL
         it <<- NULL
         isstopped <<- TRUE
         if (opened)
           close(con)
-        stop(e)  # rethrow the error
       })
+
+      # Refill our buffer
+      ibuf <<- 0
+      buffer <<- nextOr(it, return(or))
+      on.exit()
     }
     ibuf <<- ibuf + 1
     buffer[ibuf]
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror.function(nextOr_)
 }

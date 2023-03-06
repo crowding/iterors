@@ -38,19 +38,12 @@ imerge <- function(...) {
     }
   }
 
-  its <- lapply(list(...), iter)
+  its <- lapply(list(...), iteror)
   h <- vector('list', length(its))
   n <- 0L
   for (it in its) {
-    tryCatch({
-      h[[n + 1L]] <- list(val=nextElem(it), it=it)
-      n <- n + 1L
-    },
-    error=function(e) {
-      # Skip any iterators that don't have any values
-      if (!identical(conditionMessage(e), 'StopIteration'))
-        stop(e)
-    })
+    h[[n + 1L]] <- list(val=nextOr(it, break), it=it)
+    n <- n + 1L
   }
 
   # Convert "h" into a heap
@@ -60,18 +53,12 @@ imerge <- function(...) {
     i <- i - 1L
   }
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     if (n == 0) {
-      stop('StopIteration', call.=FALSE)
+      or
     } else {
       val <- h[[1]]$val
-      tryCatch({
-        h[[1]]$val <<- nextElem(h[[1]]$it)
-        heapify(1L, n)
-      },
-      error=function(e) {
-        if (!identical(conditionMessage(e), 'StopIteration'))
-          stop(e)
+      h[[1]]$val <<- nextOr(h[[1]]$it, {
         h[[1]] <<- h[[n]]
         n <<- n - 1L
         heapify(1L, n)
@@ -80,7 +67,5 @@ imerge <- function(...) {
     }
   }
 
-  object <- list(nextElem=nextEl)
-  class(object) <- c('abstractiter', 'iter')
-  object
+  iteror(nextOr_)
 }

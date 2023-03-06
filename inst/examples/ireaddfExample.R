@@ -41,8 +41,8 @@ writedf <- function(df, fprefix=as.character(substitute(df))) {
 # try not to overestimate by too much.
 readdf <- function(filenames, n, start=1, col.names) {
   it <- ireaddf(filenames, n, start, col.names, chunkSize=n)
-  df <- nextElem(it)
-  tryCatch(nextElem(it), error=function(e) invisible())
+  df <- nextOr(it)
+  nextOr(it, NULL)
   df
 }
 

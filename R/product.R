@@ -31,14 +31,15 @@
 #' @examples
 #'
 #' # Simulate a doubly-nested loop with a single while loop
-#' it <- ihasNext(product(a=1:3, b=1:2))
-#' while (hasNext(it)) {
-#'   x <- nextElem(it)
+#' it <- product(a=1:3, b=1:2)
+#' repeat {
+#'   x <- nextOr(it, break)
 #'   cat(sprintf('a = %d, b = %d\n', x$a, x$b))
 #' }
 #'
 #' @export product
-product <- function(...) {  # XXX: this use of subsitute is goofy af.
+product <- function(...) {  # XXX: this use of substitute is goofy af.
+                            # why not use recycle?
   args <- substitute(list(...))[-1]
   n <- length(args)
   anames <- names(args)

@@ -19,8 +19,8 @@ infinite iterator that calls \code{nextRNGSubStream} repeatedly.
 \examples{
 
 it <- iRNGStream(313)
-print(nextElem(it))
-print(nextElem(it))
+print(nextOr(it))
+print(nextOr(it))
 
 \dontrun{
 library(foreach)
