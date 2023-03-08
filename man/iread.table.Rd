@@ -22,6 +22,9 @@ The file reading iterator.
 Returns an iterator over the rows of a data frame stored in a file in table
 format.  It is a wrapper around the standard \code{read.table} function.
 }
+\details{
+Originally from the `iterators` package.
+}
 \note{
 In this version of \code{iread.table}, both the \code{read.table}
 arguments \code{header} and \code{row.names} must be specified.  This is

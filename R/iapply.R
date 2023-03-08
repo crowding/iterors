@@ -28,6 +28,7 @@
 #' @return The apply iterator.
 #' @seealso \code{\link{apply}}
 #' @keywords utilities
+#' @details Originally from the `iterators` package.
 #' @examples
 #'
 #' a <- array(1:8, c(2, 2, 2))

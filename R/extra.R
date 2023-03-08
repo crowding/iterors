@@ -1,5 +1,6 @@
 #
 # Copyright (c) 2008-2010 Revolution Analytics
+# Translated 2013 by Peter Meilstrup
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -40,6 +41,7 @@
 #' @param \dots arguments to pass to the underlying \code{FUN} function.
 #' @return An iterator that is a wrapper around the corresponding function.
 #' @keywords utilities
+#' @details Originally from the `iterators` package.
 #' @examples
 #'
 #' # create an iterator maker for the sample function
@@ -97,6 +99,7 @@ makeIwrapper <- function(FUN) {
 #' @return An iterator that is a wrapper around the corresponding random number
 #' generator function.
 #' @keywords utilities
+#' @details Originally from the `iterators` package.
 #' @examples
 #'
 #' # create an iterator that returns three random numbers
@@ -126,6 +129,7 @@ irunif <- makeIwrapper('runif')
 #' @param vn vector of counts.
 #' @return The counting iterator.
 #' @keywords utilities
+#' @details Originally from the `iterators` package.
 #' @examples
 #'
 #' # create an iterator that counts from 1 to 3.
@@ -175,6 +179,7 @@ icount <- function(count) {
 #' want.  If specified, then \code{chunks} should not be.
 #' @return The dividing iterator.
 #' @keywords utilities
+#' @details Originally from the `iterators` package.
 #' @examples
 #'
 #' # divide the value 10 into 3 pieces
@@ -238,6 +243,7 @@ idiv <- function(n, ..., chunks, chunkSize) {
 #' @return The line reading iterator.
 #' @seealso \code{\link[base]{readLines}}
 #' @keywords utilities
+#' @details Originally from the `iterators` package.
 #' @examples
 #'
 #' # create an iterator over the lines of COPYING
@@ -295,6 +301,7 @@ ireadLines <- function(con, n=1, ...) {
 #' \code{read.table} work consistently, the user must specify those arguments
 #' explicitly.  A future version of \code{iread.table} may remove this
 #' requirement.
+#' @details Originally from the `iterators` package.
 #' @seealso \code{\link[utils]{read.table}}
 #' @keywords utilities
 #' @export iread.table

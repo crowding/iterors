@@ -28,6 +28,9 @@ wrappers around functions that return different values each time they are
 called. The \code{isample} function is an example of one such iterator maker
 (as are \code{irnorm}, \code{irunif}, etc.).
 }
+\details{
+Originally from the `iterators` package.
+}
 \examples{
 
 # create an iterator maker for the sample function

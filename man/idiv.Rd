@@ -26,6 +26,9 @@ The dividing iterator.
 \description{
 Returns an iterator that returns pieces of numeric value.
 }
+\details{
+Originally from the `iterators` package.
+}
 \examples{
 
 # divide the value 10 into 3 pieces

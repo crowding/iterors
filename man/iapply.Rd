@@ -19,6 +19,9 @@ The apply iterator.
 Returns an iterator over an array, which iterates over the array in much the
 same manner as the \code{apply} function.
 }
+\details{
+Originally from the `iterators` package.
+}
 \examples{
 
 a <- array(1:8, c(2, 2, 2))

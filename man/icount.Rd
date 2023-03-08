@@ -19,6 +19,9 @@ The counting iterator.
 \description{
 Returns an iterator that counts starting from one.
 }
+\details{
+Originally from the `iterators` package.
+}
 \examples{
 
 # create an iterator that counts from 1 to 3.

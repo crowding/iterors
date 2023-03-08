@@ -22,6 +22,9 @@ The line reading iterator.
 Returns an iterator over the lines of text from a connection.  It is a
 wrapper around the standard \code{readLines} function.
 }
+\details{
+Originally from the `iterators` package.
+}
 \examples{
 
 # create an iterator over the lines of COPYING

@@ -1,5 +1,6 @@
 #
 # Copyright (c) 2008-2010 Revolution Analytics
+# Updated 2023 by Peter Meilstrup
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -73,6 +74,7 @@ iwhich <- function(nf, ind) {
 #' @return The split iterator.
 #' @seealso \code{\link{split}}
 #' @keywords utilities
+#' @details Originally from the `iterators` package.
 #' @examples
 #'
 #' x <- rnorm(200)

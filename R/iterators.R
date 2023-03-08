@@ -1,5 +1,6 @@
 #
 # Copyright (c) 2008-2010 Revolution Analytics
+# Updated 2023 by Peter Meilstrup
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,60 +15,13 @@
 # limitations under the License.
 #
 
-#' Iterator Factory Functions
-#'
-#' \code{iter} is a generic function used to create iterator objects.
-#'
-#'
-#' @aliases iter iter.default iter.iter iter.matrix iter.data.frame
-#' iter.function
-#' @param obj an object from which to generate an iterator.
-#' @param by how to iterate.
+# allow a matrix to be iterated over in different ways
+
+#' @rdname iteror
+#' @param by how to iterate over a matrix.
 #' @param chunksize the number of elements of \code{by} to return with each
 #' call to \code{nextElem}.
-#' @param checkFunc a function which, when passed an iterator value, return
-#' \code{TRUE} or \code{FALSE}.  If \code{FALSE}, the value is skipped in the
-#' iteration.
-#' @param recycle a boolean describing whether the iterator should reset after
-#' running through all it's values.
-#' @param \dots additional arguments affecting the iterator.
-#' @return The iterator.
-#' @keywords methods
-#' @examples
-#'
-
-#' # a vector iterator
-#' i1 <- iteror(1:3)
-#' nextOr(i1)
-#' nextOr(i1)
-#' nextOr(i1)
-#'
-#' # a vector iterator with a checkFunc
-#' i1 <- iteror(1:3, checkFunc = function(i) i%%2 == 0)
-#' nextOr(i1)
-#'
-#' # a data frame iterator by column
-#' i2 <- iteror(data.frame(x = 1:3, y = 10, z = c("a", "b", "c")))
-#' nextOr(i2)
-#' nextOr(i2)
-#' nextOr(i2)
-#'
-#' # a data frame iterator by row
-#' i3 <- iteror(data.frame(x = 1:3, y = 10), by = "row")
-#' nextOr(i3)
-#' nextOr(i3)
-#' nextOr(i3)
-#'
-#' # a function iterator
-#' i4 <- iteror(function() rnorm(1), sigil=NULL)
-#' nextOr(i4)
-#' nextOr(i4)
-#' nextOr(i4)
-#'
-
-# allow a matrix to be iterated over in different ways
 #' @exportS3Method
-#' @rdname iteror
 iteror.matrix <- function(obj, by=c('column', 'cell', 'row'), chunksize=1L,
                           checkFunc=function(...) TRUE, recycle=FALSE, ...) {
   by <- match.arg(by)
