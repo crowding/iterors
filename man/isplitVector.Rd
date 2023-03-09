@@ -24,9 +24,9 @@ either the number of pieces, using the \code{chunks} argument, or the
 maximum size of the pieces, using the \code{chunkSize} argument.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 
-Originally appeared in package `itertools`.
+Originally appeared in package \code{itertools}.
 }
 \examples{
 

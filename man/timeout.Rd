@@ -17,7 +17,7 @@ period of time, and then stops.  This can be useful when you want to search
 for something, or run a test for awhile, and then stop.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \examples{
 

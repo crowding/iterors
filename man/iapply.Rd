@@ -20,7 +20,7 @@ Returns an iterator over an array, which iterates over the array in much the
 same manner as the \code{apply} function.
 }
 \details{
-Originally from the `iterators` package.
+Originally from the \code{iterators} package.
 }
 \examples{
 

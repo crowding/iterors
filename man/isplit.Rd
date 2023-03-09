@@ -24,7 +24,7 @@ Returns an iterator that divides the data in the vector \code{x} into the
 groups defined by \code{f}.
 }
 \details{
-Originally from the `iterators` package.
+Originally from the \code{iterators} package.
 }
 \examples{
 

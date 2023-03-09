@@ -131,6 +131,10 @@ iteror.data.frame <- function(obj, by=c('column', 'row'),
   iteror.function(nextOr_)
 }
 
+#' @rdname iteror
+#' @exportS3Method
+iteror.array <- iteror.matrix
+
 #' Get Next Element of Iterator
 #'
 #' \code{nextElem} is a generic function used to produce values. If a

@@ -16,7 +16,7 @@ Create an iterator that wraps a specified iterable a limited number of
 times.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \examples{
 

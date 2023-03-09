@@ -22,7 +22,7 @@ either the number of blocks, using the \code{chunks} argument, or the
 maximum size of the blocks, using the \code{chunkSize} argument.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \examples{
 

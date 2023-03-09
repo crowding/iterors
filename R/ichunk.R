@@ -29,6 +29,8 @@
 #' @param chunkSize Maximum number of values from \code{iterable} to return in
 #' each value issued by the resulting iterator.
 #' @param mode Mode of the objects returned by the iterator.
+#' @param fill Value to use to pad the last chunk to size, if it is short. If missing, no padding will be dont.
+#' 'r' then 
 #' @seealso \code{\link{isplitVector}}
 #' @keywords utilities
 #' @details Originally from the `itertools` package.
@@ -42,11 +44,22 @@
 #' it <- ichunk(1:10, 3, mode='integer')
 #' repeat print(unlist(nextOr(it, break)))
 #'
+#' #' it <- ichunk(iterators::iter(1:5), chunk_size=2, fill=NA)
+#' # List: list(1, 2, 3)
+#' nextOr(it, NULL)
+#' # List: list(4, 5, NA)
+#' nextOr(it, NULL)
+#'
+#' it2 <- ichunk(levels(iris$Species), chunk_size=4, fill="weeee")
+#' # Returns: list("setosa", "versicolor", "virginica", "weeee")
+#' nextOr(it2, NA)
+#'
 #' @export ichunk
-ichunk <- function(iterable, chunkSize, mode='list') {
+ichunk <- function(iterable, chunkSize, mode='list', fill) {
   force(iterable)
   force(chunkSize)
   it <- iteror(iterable)
+  doFill <- !missing(fill)
 
   legal.modes <- c('list', 'logical', 'integer', 'numeric', 'double',
                    'complex', 'character', 'raw')
@@ -59,9 +72,14 @@ ichunk <- function(iterable, chunkSize, mode='list') {
 
     while (i < chunkSize) {
       r[i + 1L] <- list(nextOr(it, {
-        if (i == 0L) return(or)
-        length(r) <- i
-        break
+        if (i == 0L) {
+          return(or)
+        } else if (doFill) {
+          fill
+        } else {
+          length(r) <- i
+          break
+        }
       }))
       i <- i + 1L
     }
@@ -75,9 +93,14 @@ ichunk <- function(iterable, chunkSize, mode='list') {
 
     while (i < chunkSize) {
       r[i + 1L] <- nextOr(it, {
-        if (i == 0L) return(or)
-        length(r) <- i
-        break
+        if (i == 0L)
+          return(or)
+        else if (doFill) {
+          fill
+        } else {
+          length(r) <- i
+          break
+        }
       })
       i <- i + 1L
     }

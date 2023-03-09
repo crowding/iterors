@@ -23,7 +23,7 @@ Returns an iterator over the lines of text from a connection.  It is a
 wrapper around the standard \code{readLines} function.
 }
 \details{
-Originally from the `iterators` package.
+Originally from the \code{iterators} package.
 }
 \examples{
 

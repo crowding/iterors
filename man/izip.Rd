@@ -14,7 +14,7 @@ Create an iterator that iterates over multiple iterables, returning the
 values as a list.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \examples{
 

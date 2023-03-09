@@ -31,19 +31,11 @@
 #' @examples
 #'
 #' # Create an enumeration of five random numbers
-#' as.list(enumerate(rnorm(5)))
+#' as.list(ienumerate(rnorm(5)))
 #'
-#' @export enumerate
-enumerate <- function(iterable) {
+#' @export ienumerate
+ienumerate <- function(iterable) {
   it <- iteror(iterable)
   e <- icount()
   izip(index=e, value=it)
-}
-
-icount <- function(n) {
-  x <- 0
-  if (missing(n))
-    iteror(function(or) x <<- x + 1)
-  else
-    iteror(function(or) if (x < n) x <<- x + 1 else or)
 }

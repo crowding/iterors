@@ -16,7 +16,7 @@ product fashion.  That is, they are combined the manner of nested \code{for}
 loops.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \examples{
 

@@ -3,27 +3,53 @@
 \name{hasNext}
 \alias{hasNext}
 \alias{hasNext.ihasNext}
+\alias{ihasNext}
 \title{Does This Iterator Have A Next Element}
 \usage{
 hasNext(obj, ...)
+
+ihasNext(obj, ...)
 }
 \arguments{
-\item{obj}{an iterator object.}
+\item{obj}{an iterable}
 
-\item{\dots}{additional arguments that are ignored.}
+\item{...}{extra arguments may be passed along to \link{iteror}.}
 }
 \value{
-Logical value indicating whether the iterator has a next element.
+Logical value indicating whether the iterator has a next
+element.
 }
 \description{
-\code{hasNext} is a generic function that indicates if the iterator
-has another element.
+\code{wrapped <- ihasnext(obj)} wraps an \link{iteror} object with the
+\code{ihasNext} class. Then \code{hasNext(wrapped)} will indicate if the
+iterator has another element.
+}
+\details{
+A class \code{ihasNext} was introduced in the \code{itertools}
+package to try to lessen the boilerplate around extracting the
+next value using \link[iterators:nextElem]{iterators::nextElem}.  \code{ihasNext} is included
+in \code{iterors} for continuity; however, it is not needed for this
+purpose when using the \link{nextOr} iteration method, as you can
+directly give an action to take at end of iteration.
 }
 \examples{
+# The bad old style of consuming an iterator in a loop with `nextElem`:
+  it <- iHasNext(iteror(c('a', 'b', 'c'))
+  tryCatch(repeat {
+    print(nextElem(it))
+  }, error=function(err) {
+    if (conditionMessage(err) != "StopIteration")
+      stop(err)
+  })
 
+# with ihasNext, this became:
   it <- ihasNext(iteror(c('a', 'b', 'c')))
   while (hasNext(it))
-    print(nextOr(it))
+    print(nextElem(it))
+
+# But using `nextOr` all you need is:
+  iteror(c('a', 'b', 'c'))
+  repeat print(nextOr(it, break))
 
 }
 \keyword{methods}

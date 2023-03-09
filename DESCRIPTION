@@ -1,20 +1,26 @@
 Package: iterors
 Type: Package
-Title: Efficient and Compact Iterators and Tools
+Title: Efficient, Compact Iterators and Tools
 Version: 1.0
+Maintainer: Peter Meilstrup <peter.meilstrup@gmail.com>
 Authors@R: c(person("Peter", "Meilstrup",
                     role=c("cre", "aut", email="peter.meilstrup@gmail.com")),
              person("Folashade", "Daniel", role="aut"),
              person("Revolution", "Analytics", role=c("aut", "cph")),
              person("Steve", "Weston", role="aut"),
+             person("John", middle="A.", "Ramey", role="aut"),
+             person("Kayla", "Schaefer", role="aut")
              person("Hadley", "Wickham", role="aut"))
-Description: Support for iterators, which allow a programmer to traverse
-    through all the elements of a vector, list, or other collection of data.
-    Various tools for creating iterators, many patterned after
-        functions in the Python itertools module, and others patterned
-        after functions in the 'snow' package.
-Depends: R (>= 2.14.0), utils
+Description: A fresh take on iterators in R, offering higher performance and a more compact calling convention. Designed to be backward- and cross-compatible with 'iterators' package, but using the new 'nextOr' method offers significant performance improvements. Ready to go with a big collection of iterator constructors and functions ported from the 'iterators', 'itertools', and 'itertools2' packages.
+Depends:
+    R (>= 3.6)
 Encoding: UTF-8
-Suggests: testthat(>= 3.0.0), foreach
-License: GPL-3, Apache License (== 2.0)
+Suggests:
+    combinat,
+    testthat(>= 3.0.0),
+    foreach,
+    iterators (>= 1.0.7)
+URL: https://github.com/crowding/iterors
+License: GPL-3 + file LICENSE
+Roxygen: list(markdown=TRUE)
 RoxygenNote: 7.2.1

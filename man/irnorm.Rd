@@ -25,7 +25,7 @@ These function returns an iterators that return random numbers of various
 distributions.  Each one is a wrapper around a standard \code{R} function.
 }
 \details{
-Originally from the `iterators` package.
+Originally from the \code{iterators} package.
 }
 \examples{
 

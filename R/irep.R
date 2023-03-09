@@ -47,18 +47,18 @@
 #' unlist(as.list(irep(1:4, each=2, times=3)))
 #'
 #' @export irep
-irep <- function(iterable, times, length.out, each) {
+irep <- function(iterable, times=NULL, length.out=NULL, each=NULL) {
   # Apply "each" first
-  it <- if (!missing(each)) {
+  it <- if (!is.null(each)) {
     irep.each(iteror(iterable), each)
   } else {
     iteror(iterable)
   }
 
-  if (!missing(length.out)) {
+  if (!is.null(length.out)) {
     # Ignore "times" if "length.out" is specified
     ilimit(recycle(it), length.out)
-  } else if (!missing(times)) {
+  } else if (!is.null(times)) {
     if (length(times) == 1) {
       # If "times" has a single value, recycle that many times
       recycle(it, times)

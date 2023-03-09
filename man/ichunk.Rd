@@ -4,7 +4,7 @@
 \alias{ichunk}
 \title{Create a chunking iterator}
 \usage{
-ichunk(iterable, chunkSize, mode = "list")
+ichunk(iterable, chunkSize, mode = "list", fill)
 }
 \arguments{
 \item{iterable}{Iterable to iterate over.}
@@ -13,13 +13,16 @@ ichunk(iterable, chunkSize, mode = "list")
 each value issued by the resulting iterator.}
 
 \item{mode}{Mode of the objects returned by the iterator.}
+
+\item{fill}{Value to use to pad the last chunk to size, if it is short. If missing, no padding will be dont.
+'r' then}
 }
 \description{
 Create an iterator that issues lists of values from the underlying iterable.
 This is useful for manually \dQuote{chunking} values from an iterable.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \examples{
 
@@ -30,6 +33,16 @@ repeat print(unlist(nextOr(it, break)))
 # Same as previous, but return integer vectors rather than lists
 it <- ichunk(1:10, 3, mode='integer')
 repeat print(unlist(nextOr(it, break)))
+
+#' it <- ichunk(iterators::iter(1:5), chunk_size=2, fill=NA)
+# List: list(1, 2, 3)
+nextOr(it, NULL)
+# List: list(4, 5, NA)
+nextOr(it, NULL)
+
+it2 <- ichunk(levels(iris$Species), chunk_size=4, fill="weeee")
+# Returns: list("setosa", "versicolor", "virginica", "weeee")
+nextOr(it2, NA)
 
 }
 \seealso{

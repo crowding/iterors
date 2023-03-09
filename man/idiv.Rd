@@ -27,7 +27,7 @@ The dividing iterator.
 Returns an iterator that returns pieces of numeric value.
 }
 \details{
-Originally from the `iterators` package.
+Originally from the \code{iterators} package.
 }
 \examples{
 

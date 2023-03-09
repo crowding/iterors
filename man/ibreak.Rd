@@ -18,7 +18,7 @@ function returns \code{FALSE}. This can be useful for breaking out of a
 foreach loop, for example.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \examples{
 

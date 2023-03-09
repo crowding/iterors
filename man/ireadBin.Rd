@@ -45,7 +45,7 @@ used to do a seek on the file before calling readBin.}
 Create an iterator to read binary data from a connection.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \examples{
 

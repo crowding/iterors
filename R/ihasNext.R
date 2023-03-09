@@ -19,20 +19,40 @@
 
 #' Does This Iterator Have A Next Element
 #'
-#' \code{hasNext} is a generic function that indicates if the iterator
-#' has another element.
-#'
+#' `wrapped <- ihasnext(obj)` wraps an [iteror] object with the
+#' `ihasNext` class. Then `hasNext(wrapped)` will indicate if the
+#' iterator has another element.
 #'
 #' @aliases hasNext hasNext.ihasNext
-#' @param obj an iterator object.
-#' @param \dots additional arguments that are ignored.
-#' @return Logical value indicating whether the iterator has a next element.
+#' @param obj an iterable
+#' @param ... extra arguments may be passed along to [iteror].
+#' @return Logical value indicating whether the iterator has a next
+#'   element.
 #' @keywords methods
+#' @details A class `ihasNext` was introduced in the `itertools`
+#'   package to try to lessen the boilerplate around extracting the
+#'   next value using [iterators::nextElem].  `ihasNext` is included
+#'   in `iterors` for continuity; however, it is not needed for this
+#'   purpose when using the [nextOr] iteration method, as you can
+#'   directly give an action to take at end of iteration.
 #' @examples
+#' # The bad old style of consuming an iterator in a loop with `nextElem`:
+#'   it <- iHasNext(iteror(c('a', 'b', 'c'))
+#'   tryCatch(repeat {
+#'     print(nextElem(it))
+#'   }, error=function(err) {
+#'     if (conditionMessage(err) != "StopIteration")
+#'       stop(err)
+#'   })
 #'
+#' # with ihasNext, this became:
 #'   it <- ihasNext(iteror(c('a', 'b', 'c')))
 #'   while (hasNext(it))
-#'     print(nextOr(it))
+#'     print(nextElem(it))
+#'
+#' # But using `nextOr` all you need is:
+#'   iteror(c('a', 'b', 'c'))
+#'   repeat print(nextOr(it, break))
 #'
 #' @export hasNext
 hasNext <- function(obj, ...) {
@@ -44,14 +64,26 @@ hasNext.ihasNext <- function(obj, ...) {
   obj$hasNext()
 }
 
+#' @export
+#' @rdname hasNext
+ihasNext <- function(obj, ...) {
+  UseMethod("ihasNext")
+}
+
 #' @exportS3Method
-ihasNext.iteror <- function(iter, ...) {
+ihasNext.ihasNext <- identity
+
+#' @exportS3Method
+ihasNext.default <- function(obj, ...) ihasNext(iteror(obj, ...))
+
+#' @exportS3Method
+ihasNext.iteror <- function(obj, ...) {
   noValue <- new.env() #sigil values
   endIter <- new.env()
   last <- noValue
-  nextOr_ <- function(or, ...) {
+  nextOr_ <- function(or) {
     if (identical(last, noValue))
-      last <<- nextOr(iter, endIter)
+      last <<- nextOr(obj, endIter)
     if (identical(last, endIter))
       or
     else {
@@ -63,7 +95,7 @@ ihasNext.iteror <- function(iter, ...) {
 
   hasNext_ <- function() {
     if (identical(last, noValue))
-      last <<- nextOr(iter, endIter)
+      last <<- nextOr(obj, endIter)
     !identical(last, endIter)
   }
 

@@ -41,14 +41,14 @@ iteror(obj, ...)
 \method{iteror}{default}(obj, ..., recycle = FALSE, checkFunc = function(...) (TRUE))
 }
 \arguments{
-\item{obj}{An object to iterate with. If `obj` is a vector, the
+\item{obj}{An object to iterate with. If \code{obj} is a vector, the
 iterator will go over the elements of that vector and you can use
-`recycle`.  If `obj` is a function, the function will be called
+\code{recycle}.  If \code{obj} is a function, the function will be called
 to compute successive elements. The function should have a leading
-argument `or` and behave accordingly (only forcing and returning
-`or` to signal end of iteration.)  If you provide a function that
-does not have an `or` argument, you will need to specify either `catch`
-or `sigil`.}
+argument \code{or} and behave accordingly (only forcing and returning
+\code{or} to signal end of iteration.)  If you provide a function that
+does not have an \code{or} argument, you will need to specify either \code{catch}
+or \code{sigil}.}
 
 \item{\dots}{additional arguments affecting the iterator.}
 
@@ -64,13 +64,13 @@ iteration.}
 \item{recycle}{a boolean describing whether the iterator should reset after
 running through all it's values.}
 
-\item{catch}{If `obj` is a function without an `or` argument, specify
-e.g. `catch="StopIteration"` to interpret that
+\item{catch}{If \code{obj} is a function without an \code{or} argument, specify
+e.g. \code{catch="StopIteration"} to interpret that
 error message as end of iteration.}
 
-\item{sigil}{If `obj` is a function without an `or` argument, specify
+\item{sigil}{If \code{obj} is a function without an \code{or} argument, specify
 which value to watch for end of iteration. Stop will be signaled
-if the function result is [identical()] to `sigil`.}
+if the function result is \code{\link[=identical]{identical()}} to \code{sigil}.}
 }
 \value{
 The iterator.

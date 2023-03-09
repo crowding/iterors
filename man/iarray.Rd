@@ -55,7 +55,7 @@ function from the iterators package, but it has special support for nested
 foreach loops.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \examples{
 

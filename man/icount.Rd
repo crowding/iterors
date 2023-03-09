@@ -20,7 +20,7 @@ The counting iterator.
 Returns an iterator that counts starting from one.
 }
 \details{
-Originally from the `iterators` package.
+Originally from the \code{iterators} package.
 }
 \examples{
 

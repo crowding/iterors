@@ -1,4 +1,5 @@
 library(testthat)
-library(iterators)
+library(iterors)
 
-test_check("iterators")
+test_check("iterors")
+

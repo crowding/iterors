@@ -17,7 +17,7 @@ The \code{iRNGStream} function creates an infinite iterator that calls
 infinite iterator that calls \code{nextRNGSubStream} repeatedly.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \examples{
 

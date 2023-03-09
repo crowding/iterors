@@ -29,7 +29,7 @@ called. The \code{isample} function is an example of one such iterator maker
 (as are \code{irnorm}, \code{irunif}, etc.).
 }
 \details{
-Originally from the `iterators` package.
+Originally from the \code{iterators} package.
 }
 \examples{
 

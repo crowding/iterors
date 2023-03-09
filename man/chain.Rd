@@ -13,7 +13,7 @@ chain(...)
 Create an iterator that chains multiple iterables together.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \examples{
 

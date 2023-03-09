@@ -16,7 +16,7 @@ iterator.  Default value of \code{NA_integer_} means to recycle forever.}
 Create an iterator that recycles a specified iterable.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \examples{
 

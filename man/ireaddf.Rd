@@ -21,6 +21,6 @@ ireaddf(filenames, n, start = 1, col.names, chunkSize = 1000)
 Create an iterator to read data frames from files.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \keyword{utilities}

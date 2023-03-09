@@ -22,7 +22,7 @@ to files one at a time, and then be replayed concurrently using minimal
 memory.
 }
 \details{
-Originally from the `itertools` package.
+Originally from the \code{itertools} package.
 }
 \examples{
 

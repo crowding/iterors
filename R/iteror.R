@@ -217,23 +217,7 @@ nextElem.iteror <- function(obj, ...) {
   nextOr(obj, stop("StopIteration"), ...)
 }
 
-#' Create an iterator that supports the hasNext method
-#'
-#' \code{ihasNext} is a generic function that indicates if the iterator has
-#' another element.
-#'
-#'
-#' @param iterable an iterable object, which could be an iterator.
-#' @return An \code{ihasNext} iterator that wraps the specified iterator and
-#' supports the \code{hasNext} method.
-#' @keywords utilities
-#' @examples
-#'
-#'   it <- ihasNext(c('a', 'b', 'c'))
-#'   while (hasNext(it))
-#'     print(nextOr(it))
-#'
-#' @export ihasNext
+#' @export
 ihasNext <- function(obj, ...) {
   UseMethod("ihasNext")
 }
@@ -264,7 +248,7 @@ as.list.iteror <- function(x, n=as.integer(2^31-1), ...) {
   size <- 64
   a <- vector('list', length=size)
   i <- 0
-  while(i < n) {
+  while (i < n) {
     item <- nextOr(x, break)
     i <- i + 1
     if (i >= size) {
