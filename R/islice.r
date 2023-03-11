@@ -10,7 +10,7 @@
 #' reached. By default, elements are returned consecutively. However, if the
 #' \code{step} size is greater than 1, elements in \code{object} are skipped.
 #'
-#' If \code{stop} is \code{NULL} (default), the iteration continues until the
+#' If \code{stop} is \code{Inf} (default), the iteration continues until the
 #' iteror is exhausted unless \code{end} is specified. In this case,
 #' \code{end} specifies the sequence position to stop iteration.
 #'
@@ -20,6 +20,7 @@
 #' @param end the index of the last element to return from \code{object}
 #' @param step the step size of the sequence
 #' @return iteror that returns \code{object} in sequence
+#' @details Originally from package `itertools2`.
 #'
 #' @examples
 #' it <- islice(1:5, start=2)
@@ -36,6 +37,8 @@
 islice <- function(object, start=1, end=NULL, step=1) {
   start <- as.integer(start)
   step <- as.integer(step)
+  object <- iteror(object)
+
   if (length(start) != 1 || start < 1) {
     stop("'start' must be positive integer of length 1")
   }
@@ -47,22 +50,26 @@ islice <- function(object, start=1, end=NULL, step=1) {
     if (length(end) != 1) {
       stop("'end' must be a numeric value of length 1")
     }
+  } else {
+    end <- Inf
   }
 
-  iter_ienum <- ienumerate(object)
-  iter_icount <- icount(start=start, step=step)
+  at <- start
+  i <- 0
 
-  nextElem <- function(or) {
-    i <- nextOr(iter_icount, return(or))
-    if (!is.null(end) && i > end) return(or)
-
+  nextOr_ <- function(or) {
     repeat {
-      next_ienum <- nextOr(iter_ienum, return(or))
-      if (i == next_ienum$index) {
-        return(next_ienum$value)
+      if (i >= end) {
+        return(or)
+      }
+      val <- nextOr(object, return(or))
+      i <<- i + 1
+      if (i == at) {
+        at <<- at + step
+        return(val)
       }
     }
   }
 
-  iteror(nextElem)
+  iteror(nextOr_)
 }

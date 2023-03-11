@@ -5,19 +5,22 @@
 #' entire iterator is consumed.
 #'
 #' @export
-#' @param object an iterable object
-#' @param n the number of elements to return in the list
-#' @return a list of the first \code{n} items of the iterable \code{object}
-#'
+#' @param obj an iterable object
+#' @param n the number of elements to return.
+#' @param mode What mode to use for the output vector.
+#' @return a list of the first \code{n} items of the iterable
+#'   \code{obj}
+#' @details A function `take` appeared in package `itertools2`. It is
+#'   essentially synonymous with `as.vector.iteror(obj, n=n)` but has
+#'   a different order of arguments.
 #' @examples
-#' take(iterators::iter(1:10), 3) # 1 2 3
+#' take(1:10, 3) # 1 2 3
 #'
-#' take(iterators::iter(1:5), 10) # 1 2 3 4 5
-#'
-take <- function(object, n=1) {
-  if (n < 0 | !is.numeric(n) | length(n) != 1) {
+#' take(1:5, 10) # 1 2 3 4 5
+take <- function(obj, n=1, mode="list") {
+  obj <- iteror(obj)
+  if (!is.numeric(n) || length(n) != 1 || n < 0) {
     stop("n must be a positive integer of length 1")
   }
-  n <- as.integer(n)
-  as.list(islice(object, end=n))
+  as.vector.iteror(obj, n=n, mode=mode)
 }

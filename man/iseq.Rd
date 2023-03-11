@@ -8,10 +8,11 @@
 \usage{
 iseq(
   from = 1,
-  to = 1,
-  by = (to - from)/(length_out - 1),
+  to = NULL,
+  by = NULL,
   length_out = NULL,
-  along_with = NULL
+  along_with = NULL,
+  recycle = FALSE
 )
 
 iseq_len(length_out = NULL)
@@ -28,7 +29,9 @@ iseq_along(along_with = NULL)
 \item{length_out}{desired length of the sequence. A non-negative number,
 which for \code{seq} will be rounded up if fractional.}
 
-\item{along_with}{the length of the sequence will match the length of this
+\item{along_with}{the length of the sequence will match the length of this}
+
+\item{recycle}{Whether to restart the sequence after it reaches \code{to}.
 argument}
 }
 \value{
@@ -48,9 +51,6 @@ sequence. If \code{by} is not given, then it is determined by either
 \code{length_out} or \code{along_with}. By default, neither are given, in
 which case \code{by} is set to 1 or -1, depending on whether \code{to >
 from}.
-
-\code{seq_along} and \code{seq_len} return an iterator, which generates a
-sequence of integers, beginning with 1 and proceeding to an ending value
 }
 \examples{
 it <- iseq(from=2, to=5)

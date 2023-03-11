@@ -14,7 +14,7 @@
 #' @examples
 #' it <- itabulate(f=function(x) x + 1)
 #' take(it, 4) # 2 3 4 5
-#' 
+#'
 #' it2 <- itabulate(f=function(x) x^2, start=-3)
 #' take(it2, 6) # 9 4 1 0 1 4
 #'
@@ -27,7 +27,7 @@
 itabulate <- function(f, start=1, step=1) {
   start <- as.numeric(start)
   step <- as.numeric(step)
-  
+
   if (length(start) != 1) {
     stop("'start' must be a numeric value of length 1")
   }
@@ -35,5 +35,5 @@ itabulate <- function(f, start=1, step=1) {
     stop("'step' must be a numeric value of length 1")
   }
 
-  imap(f=f, icount(start=start, step=step))
+  iapply(iseq(from=start, by=step), f)
 }

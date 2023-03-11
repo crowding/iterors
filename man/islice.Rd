@@ -30,9 +30,11 @@ then elements from the \code{object} are skipped until \code{start} is
 reached. By default, elements are returned consecutively. However, if the
 \code{step} size is greater than 1, elements in \code{object} are skipped.
 
-If \code{stop} is \code{NULL} (default), the iteration continues until the
+If \code{stop} is \code{Inf} (default), the iteration continues until the
 iteror is exhausted unless \code{end} is specified. In this case,
 \code{end} specifies the sequence position to stop iteration.
+
+Originally from package \code{itertools2}.
 }
 \examples{
 it <- islice(1:5, start=2)

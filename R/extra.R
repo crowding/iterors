@@ -122,14 +122,14 @@ irunif <- makeIwrapper('runif')
 #'
 #' Returns an iterator that counts starting from one.
 #'
-#'
 #' @aliases icount icountn
 #' @param count number of times that the iterator will fire.  If not specified,
 #' it will count forever.
-#' @param vn vector of counts.
+#' @param recycle Whether to restart the count after finishing.
 #' @return The counting iterator.
 #' @keywords utilities
 #' @details Originally from the `iterators` package.
+#' @seealso For more control over starting number and step size, see [iseq].
 #' @examples
 #'
 #' # create an iterator that counts from 1 to 3.
@@ -140,10 +140,10 @@ irunif <- makeIwrapper('runif')
 #' nextOr(it, NULL)  # expect NULL
 #'
 #' @export icount icountn
-icount <- function(count) {
+icount <- function(count, recycle=FALSE) {
   if (missing(count))
     count <- NULL
-  else if (!is.numeric(count) || length(count) != 1)
+  else if (!is.numeric(count) || length(count) != 1 || is.na(count))
     stop('count must be a numeric value')
 
   i <- 0L
@@ -156,6 +156,8 @@ icount <- function(count) {
     nextOr_ <- function(or) {
       if (i < count)
         (i <<- i + 1L)
+      else if (recycle)
+        i <<- 1
       else
         or
     }

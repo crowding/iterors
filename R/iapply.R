@@ -16,47 +16,24 @@
 
 
 
-#' Array/Apply Iterator
+#' Apply a function to each element of an iterator.
 #'
-#' Returns an iterator over an array, which iterates over the array in much the
-#' same manner as the \code{apply} function.
+#' `iapply(obj, f)` returns the iteror that applies `f` to
+#' each element of the given iterable `obj`. It is an iterator
+#' equivalent of `lapply`.
 #'
+#' @param obj an iterable.
+#' @param f a function
+#' @param ... Other arguments that will be passed along to `f`
+#' @return An iteror.
+#' @seealso \code{\link{imap}} To applying a function to parallel iterables in parallel. [iteror.array]
 #'
-#' @param X the array to iterate over.
-#' @param MARGIN a vector of subscripts.  \code{1} indicates the first
-#' dimension (rows), \code{2} indicates the second dimension (columns), etc.
-#' @return The apply iterator.
-#' @seealso \code{\link{apply}}
+#' The `iterators` package included an `iapply` to iterate over the
+#' margins of an array; for equivalent behavior you can use
+#' `iteror(ARRAY, by=MARGIN)]`
 #' @keywords utilities
-#' @details Originally from the `iterators` package.
-#' @examples
-#'
-#' a <- array(1:8, c(2, 2, 2))
-#'
-#' # iterate over all the matrices
-#' it <- iapply(a, 3)
-#' as.list(it)
-#'
-#' # iterate over all the columns of all the matrices
-#' it <- iapply(a, c(2, 3))
-#' as.list(it)
-#'
-#' # iterate over all the rows of all the matrices
-#' it <- iapply(a, c(1, 3))
-#' as.list(it)
-#'
 #' @export iapply
-iapply <- function(X, MARGIN) {
-  xit <- icountn(dim(X)[MARGIN])
-
-  nextOr_ <- function(or) {
-    i <- nextOr(xit, return(or))
-    j <- rep('', length(dim(X)))
-    j[MARGIN] <- as.character(i)
-    s <- paste('X[', paste(j, collapse=','), ']', sep='')
-    x <- parse(text=s)
-    eval(x)
-  }
-
+iapply <- function(obj, f, ...) {
+  nextOr_ <- function(or) f(nextOr(obj, return(or)), ...)
   iteror.function(nextOr_)
 }

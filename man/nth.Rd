@@ -4,14 +4,14 @@
 \alias{nth}
 \title{Returns the nth item of an iteror}
 \usage{
-nth(iteror, n, or)
+nth(it, n, or)
 }
 \arguments{
-\item{iteror}{an iteror object}
-
 \item{n}{The location of the desired element to return}
 
 \item{or}{An argument to force and return if the iteror is consumed.}
+
+\item{iteror}{an iteror object}
 }
 \value{
 The nth element of the iteror or the result of forcing \code{or}

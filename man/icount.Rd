@@ -5,13 +5,13 @@
 \alias{icountn}
 \title{Counting Iterators}
 \usage{
-icount(count)
+icount(count, recycle = FALSE)
 }
 \arguments{
 \item{count}{number of times that the iterator will fire.  If not specified,
 it will count forever.}
 
-\item{vn}{vector of counts.}
+\item{recycle}{Whether to restart the count after finishing.}
 }
 \value{
 The counting iterator.
@@ -31,5 +31,8 @@ nextOr(it)
 nextOr(it)
 nextOr(it, NULL)  # expect NULL
 
+}
+\seealso{
+For more control over starting number and step size, see \link{iseq}.
 }
 \keyword{utilities}

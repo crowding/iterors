@@ -15,69 +15,6 @@
 # limitations under the License.
 #
 
-# allow a matrix to be iterated over in different ways
-
-#' @rdname iteror
-#' @param by how to iterate over a matrix.
-#' @param chunksize the number of elements of \code{by} to return with each
-#' call to \code{nextElem}.
-#' @exportS3Method
-iteror.matrix <- function(obj, by=c('column', 'cell', 'row'), chunksize=1L,
-                          checkFunc=function(...) TRUE, recycle=FALSE, ...) {
-  by <- match.arg(by)
-  if ((chunksize > 1L) && (by=='cell')) {
-    warning("Chunksize greater than 1 not allowed when using by='cell'\n  Setting chunksize=1")
-    chunksize <- 1L
-  }
-  state <- new.env()
-  state$i <- 0L
-  n <- switch(by, column=ncol(obj), row=nrow(obj), length(obj))
-
-  getIterVal <- function(plus=0L) {
-    i <- state$i + plus
-    if (i > n)
-      stop('SubscriptOutOfBounds', call.=FALSE)
-    j <- i + chunksize - 1L
-    switch(by,
-           column=obj[, i:min(j, n), drop=FALSE],
-           row=obj[i:min(j, n), , drop=FALSE],
-           obj[[i]])
-  }
-
-  nextOr_ <- function(or, ...) {
-    delayedAssign("exit", return(or))
-    repeat {
-      tryCatch({
-        if (checkFunc(getIterVal(1L))) {
-          state$i <- state$i + chunksize
-          return(getIterVal(1L-chunksize))
-        }
-        state$i <- state$i + chunksize
-      }, error=function(e) {
-        if (any(nzchar(e$message))) {
-          if (identical(e$message, "SubscriptOutOfBounds") ||
-                identical(e$message, "attempt to select more than one element")) {
-            if (recycle) {
-              state$i <- 0L
-            }
-            else {
-              exit
-            }
-          }
-          else {
-            stop(e$message, call.=FALSE)
-          }
-        }
-        else {
-          stop('Abort', call.=e)
-        }
-      })
-    }
-  }
-
-  iteror.function(nextOr_)
-}
-
 #' @exportS3Method iteror data.frame
 #' @rdname iteror
 iteror.data.frame <- function(obj, by=c('column', 'row'),
@@ -130,10 +67,6 @@ iteror.data.frame <- function(obj, by=c('column', 'row'),
 
   iteror.function(nextOr_)
 }
-
-#' @rdname iteror
-#' @exportS3Method
-iteror.array <- iteror.matrix
 
 #' Get Next Element of Iterator
 #'

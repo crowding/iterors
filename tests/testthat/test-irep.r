@@ -68,7 +68,7 @@ test_that("irep replicates a factor and matches last example from base::rep", {
 })
 
 test_that("irep_len works on numeric vectors", {
-  it <- irep_len(1:4, length.out=3)
+  it <- irep(1:4, length.out=3)
   expect_equal(nextOr(it, NA), 1)
   expect_equal(nextOr(it, NA), 2)
   expect_equal(nextOr(it, NA), 3)

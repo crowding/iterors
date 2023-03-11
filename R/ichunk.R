@@ -26,14 +26,18 @@
 #'
 #'
 #' @param iterable Iterable to iterate over.
-#' @param chunkSize Maximum number of values from \code{iterable} to return in
-#' each value issued by the resulting iterator.
+#' @param size Maximum number of values from \code{iterable} to return
+#'   in each value issued by the resulting iterator.
 #' @param mode Mode of the objects returned by the iterator.
-#' @param fill Value to use to pad the last chunk to size, if it is short. If missing, no padding will be dont.
-#' 'r' then 
+#' @param fill Value to use to pad the last chunk to size, if it is
+#'   short. If missing, no padding will be done.
 #' @seealso \code{\link{isplitVector}}
 #' @keywords utilities
-#' @details Originally from the `itertools` package.
+#'
+#' Argument `size` does not need to be an integer, for instance a
+#'   `chunk` of 3.5 will produce chunks of sizes 3 and 4
+#'   alternating. The precise behavior will be subject to floating
+#'   point precision.
 #' @examples
 #'
 #' # Split the vector 1:10 into "chunks" with a maximum length of three
@@ -44,34 +48,41 @@
 #' it <- ichunk(1:10, 3, mode='integer')
 #' repeat print(unlist(nextOr(it, break)))
 #'
-#' #' it <- ichunk(iterators::iter(1:5), chunk_size=2, fill=NA)
+#' #' it <- ichunk(iterators::iter(1:5), chunk=2, fill=NA)
 #' # List: list(1, 2, 3)
 #' nextOr(it, NULL)
 #' # List: list(4, 5, NA)
 #' nextOr(it, NULL)
 #'
-#' it2 <- ichunk(levels(iris$Species), chunk_size=4, fill="weeee")
+#' it2 <- ichunk(levels(iris$Species), chunk=4, fill="weeee")
 #' # Returns: list("setosa", "versicolor", "virginica", "weeee")
 #' nextOr(it2, NA)
 #'
 #' @export ichunk
-ichunk <- function(iterable, chunkSize, mode='list', fill) {
+ichunk <- function(iterable, size, mode='list', fill) {
   force(iterable)
-  force(chunkSize)
+  force(size)
   it <- iteror(iterable)
   doFill <- !missing(fill)
+  sendAt <- 0
 
   legal.modes <- c('list', 'logical', 'integer', 'numeric', 'double',
                    'complex', 'character', 'raw')
   if (! mode %in% legal.modes)
     stop(sprintf("cannot make a vector of mode '%s'", mode))
+  if (length(size) != 1 || !is.numeric(size) || size <= 0)
+    stop("'size' must be a positive number of length 1")
 
-  nextOr.list <- function(or) {
-    r <- vector('list', chunkSize)
+  if (mode == "list")
+    wrap <- list
+  else wrap <- identity
+
+  nextOr_ <- function(or) {
+    sendAt <<- sendAt + size
+    r <- vector(mode, floor(sendAt))
     i <- 0L
-
-    while (i < chunkSize) {
-      r[i + 1L] <- list(nextOr(it, {
+    while (i < sendAt) {
+      r[i+1L] <- wrap(nextOr(it, {
         if (i == 0L) {
           return(or)
         } else if (doFill) {
@@ -83,33 +94,9 @@ ichunk <- function(iterable, chunkSize, mode='list', fill) {
       }))
       i <- i + 1L
     }
-
+    sendAt <<- sendAt - length(r)
     r
   }
 
-  nextOr.vector <- function(or) {
-    r <- vector(mode, chunkSize)
-    i <- 0L
-
-    while (i < chunkSize) {
-      r[i + 1L] <- nextOr(it, {
-        if (i == 0L)
-          return(or)
-        else if (doFill) {
-          fill
-        } else {
-          length(r) <- i
-          break
-        }
-      })
-      i <- i + 1L
-    }
-
-    r
-  }
-
-  object <- if (mode == 'list')
-    iteror.function(nextOr.list)
-  else
-    iteror.function(nextOr.vector)
+  iteror.function(nextOr_)
 }

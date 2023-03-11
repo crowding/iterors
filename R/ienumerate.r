@@ -35,8 +35,21 @@
 #' nextOr(it2, NA)
 #' nextOr(it2, NA)
 #' nextOr(it2, NA)
-ienumerate <- function(object) {
+#'
+#' @export
+#' @rdname ienumerate
+ienumerate <- function(object, ...) {
+  UseMethod("ienumerate")
+}
+
+#' @exportS3Method
+ienumerate.iteror <- function(object, ...) {
   izip(index=icount(), value=object)
+}
+
+#' @exportS3Method
+ienumerate.default <- function(object, ...) {
+  ienumerate.iteror(iteror(object, ...))
 }
 
 #' @rdname ienumerate

@@ -20,13 +20,13 @@ test_that("check checkFunc", {
 
 test_that("test matrix iterator creation", {
   x <- matrix(1:10,ncol=2)
-  expect_silent(i <- iteror(x,by='cell'))
+  expect_silent(i <- iteror(x, by='cell'))
 })
 
 test_that("test hasNext, nextElem", {
   x <- matrix(1:10,ncol=2)
   # by cell
-  y <- iteror(x,by='cell')
+  y <- iteror(x, by='cell')
   expect_equal(nextElem(y), 1)
   for(i in 1:9) nextElem(y)
   expect_error(nextElem(y))
@@ -34,6 +34,12 @@ test_that("test hasNext, nextElem", {
   # by col
   y <- iteror(x,by='column')
   expect_equal(nextElem(y), matrix(1:5, ncol=1))
+  nextElem(y)
+  expect_error(nextElem(y))
+
+  # by col, dropping
+  y <- iteror(x,by='column',drop=TRUE)
+  expect_equal(nextElem(y), 1:5)
   nextElem(y)
   expect_error(nextElem(y))
 

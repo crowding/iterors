@@ -156,6 +156,106 @@ iteror.function <- function(obj, ..., catch, sigil) {
   structure(list(nextOr=fn), class=c("iteror", "iter"))
 }
 
+#' @rdname iteror
+#' @param by how to iterate over a matrix Can be "cell", "row", "col", or
+#' numeric dimensions.
+#' @param chunksize the number of elements of \code{by} to return with each
+#' call to \code{nextElem}.
+#' @param drop Whether to drop the array dimensions enumerated over.
+#' @examples
+#' a <- array(1:8, c(2, 2, 2))
+#'
+#' # iterate over all the slices
+#' it <- iapply(a, by=3)
+#' as.list(it)
+#'
+#' # iterate over all the columns of each slice
+#' it <- iteror(a, by=c(2, 3))
+#' as.list(it)
+#'
+#' # iterate over all the rows of each slice
+#' it <- iteror(a, by=c(1, 3))
+#' as.list(it)
+#'
+#' @exportS3Method
+iteror.array <- function(obj, ...,
+                         by=c("cell", "row", "column"),
+                         chunksize=1L,
+                         recycle=FALSE,
+                         checkFunc=function(x) TRUE,
+                         drop=FALSE) {
+
+  if (is.character(by) && match.arg(by) == "cell") {
+    it <- iteror.default(obj, chunksize=chunksize, recycle=recycle)
+  } else {
+    it <- iapply(ienumerate.array(obj, by=by,
+                                  chunksize=chunksize, recycle=recycle, drop=drop),
+                 function(x)x$value)
+  }
+  if (!identical(body(checkFunc), TRUE))
+    ikeep(it, checkFunc)
+  else it
+}
+
+#' @exportS3Method
+#' @rdname ienumerate
+ienumerate.array <- function(obj, ...,
+                             by=c("cell", "row", "column"),
+                             chunksize=1L, #XXX
+                             recycle=FALSE,
+                             drop=FALSE) {
+  if (is.character(by))
+    switch(
+      match.arg(by),
+      cell=by <- seq_along(dim(obj)),
+      row=by <- 1,
+      column=by <- 2
+    )
+
+  iter_size <- dim(obj)[by]
+  args <- c(alist(obj),
+            rep(list(quote(expr=)), length(dim(obj))),
+            alist(drop=drop))
+  indexit <- icount(prod(iter_size), recycle=recycle)
+
+  if (chunksize == 1) {
+    nextOr_ <- function(or) {
+      ix <- nextOr(indexit, return(or))
+      args[by+1] <- arrayInd(ix, iter_size)
+      list(index=ix, value=do.call("[", args))
+    }
+  } else {
+    indexit <- ichunk(indexit, chunksize, "numeric")
+    nextOr_ <- function(or) {
+      ixes <- nextOr(indexit, return(or))
+      ixes <- arrayInd(ixes, iter_size)
+      dim.out <- c(dim(obj), nrow(ixes))
+      dim.out[by] <- 1
+
+      out <- apply(ixes, 1, function(ix) {
+        args[by+1] <- ix
+        do.call("[", args)
+      }, simplify=FALSE)
+      out <- do.call(c, out)
+      dim(out) <- dim.out
+      # if we have by[1]==2, aperm=1,4,3
+      nd <- length(dim(obj)) + 1
+      perm <- seq_len(nd)
+      perm[by[1]] <- nd
+      perm[nd] <- by[1]
+      out <- aperm(out, perm)
+      dim(out) <- dim(out)[-nd]
+      list(index=ixes, value=out)
+    }
+  }
+
+  iteror.function(nextOr_)
+}
+
+#' @rdname iteror
+#' @exportS3Method
+iteror.matrix <- iteror.array
+
 #' @exportS3Method
 #' @rdname iteror
 #' @param recycle a boolean describing whether the iterator should reset after
@@ -163,7 +263,6 @@ iteror.function <- function(obj, ..., catch, sigil) {
 #' @param checkFunc a function which, when passed an iterator value, return
 #' \code{TRUE} or \code{FALSE}.  If \code{FALSE}, the value is skipped in the
 #' iteration.
-
 iteror.default <- function(obj, ...,
                            recycle=FALSE,
                            checkFunc=function(...)(TRUE)) {
@@ -191,9 +290,9 @@ iteror.default <- function(obj, ...,
         }
       }, ...)
     }
-    x$length <- n
-    x$recycle <- recycle
-    x$state <- environment(x$nextOr)
+    x$length <- n #XXX
+    x$recycle <- recycle #XXX
+    x$state <- environment(x$nextOr) #XXX
     x
   }
 }
@@ -201,8 +300,9 @@ iteror.default <- function(obj, ...,
 #' Retreive the next element from an iteror.
 #' @export
 #' @param obj An [iteror]
-#' @param or If the iterator has reached its end, an argument that
-#'   will be forced and returned
+#' @param or If the iterator has reached its end, this argument
+#'   will be forced and returned.
+#' @param ... Other arguments.
 nextOr <- function(obj, or, ...) {
   UseMethod("nextOr")
 }
@@ -243,10 +343,26 @@ nextElem.iteror <- function(iter, ...) {
   nextOr(iter, stop("StopIteration"))
 }
 
+
+
 #' @exportS3Method as.list iteror
 as.list.iteror <- function(x, n=as.integer(2^31-1), ...) {
+  as.vector.iteror(x, "list", n, ...)
+}
+
+#' @exportS3Method as.double iteror
+as.double.iteror <- function(x, n=as.integer(2^31-1), ...) {
+  as.vector.iteror(x, "numeric", n, ...)
+}
+
+#' @exportS3Method as.vector iteror
+as.vector.iteror <- function(x, mode="any", n=as.integer(2^31-1), ...) {
+  if (mode == "list")
+    wrap <- list
+  else wrap <- identity
+
   size <- 64
-  a <- vector('list', length=size)
+  a <- vector(mode, length=size)
   i <- 0
   while (i < n) {
     item <- nextOr(x, break)
@@ -255,7 +371,7 @@ as.list.iteror <- function(x, n=as.integer(2^31-1), ...) {
       size <- min(2 * size, n)
       length(a) <- size
     }
-    a[i] <- list(item)
+    a[i] <- wrap(item)
   }
   length(a) <- i
   a

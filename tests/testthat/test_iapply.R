@@ -1,6 +1,5 @@
-library(iterators)
-
 test_that("test iapply on 3D arrays", {
+
   test <- function(actual, it) {
     expected <- nextOr(it)
     expect_equal(expected, actual)
@@ -15,9 +14,10 @@ test_that("test iapply on 3D arrays", {
                   c(3, 1, 2), c(3, 2, 1))
   for(MARGIN in margins) {
     # cat(sprintf('testing %s\n', paste(MARGIN, collapse=', ')))
-    it <- iteror(a, by=MARGIN)
+    it <- iteror(a, by=MARGIN, drop=TRUE)
     apply(a, MARGIN, test, it)
   }
+
 })
 
 test_that("test iapply on matrices", {
@@ -32,7 +32,7 @@ test_that("test iapply on matrices", {
   margins <- list(1, 2, c(1, 2), c(2, 1))
   for(MARGIN in margins) {
     # cat(sprintf('testing %s\n', paste(MARGIN, collapse=', ')))
-    it <- iteror(m, by=MARGIN)
+    it <- iteror(m, by=MARGIN, drop=TRUE)
     apply(m, MARGIN, test, it)
   }
 })

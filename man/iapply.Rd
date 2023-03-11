@@ -2,44 +2,30 @@
 % Please edit documentation in R/iapply.R
 \name{iapply}
 \alias{iapply}
-\title{Array/Apply Iterator}
+\title{Apply a function to each element of an iterator.}
 \usage{
-iapply(X, MARGIN)
+iapply(obj, f, ...)
 }
 \arguments{
-\item{X}{the array to iterate over.}
+\item{obj}{an iterable.}
 
-\item{MARGIN}{a vector of subscripts.  \code{1} indicates the first
-dimension (rows), \code{2} indicates the second dimension (columns), etc.}
+\item{f}{a function}
+
+\item{...}{Other arguments that will be passed along to \code{f}}
 }
 \value{
-The apply iterator.
+An iteror.
 }
 \description{
-Returns an iterator over an array, which iterates over the array in much the
-same manner as the \code{apply} function.
-}
-\details{
-Originally from the \code{iterators} package.
-}
-\examples{
-
-a <- array(1:8, c(2, 2, 2))
-
-# iterate over all the matrices
-it <- iapply(a, 3)
-as.list(it)
-
-# iterate over all the columns of all the matrices
-it <- iapply(a, c(2, 3))
-as.list(it)
-
-# iterate over all the rows of all the matrices
-it <- iapply(a, c(1, 3))
-as.list(it)
-
+\code{iapply(obj, f)} returns the iteror that applies \code{f} to
+each element of the given iterable \code{obj}. It is an iterator
+equivalent of \code{lapply}.
 }
 \seealso{
-\code{\link{apply}}
+\code{\link{imap}} To applying a function to parallel iterables in parallel. \link{iteror.array}
+
+The \code{iterators} package included an \code{iapply} to iterate over the
+margins of an array; for equivalent behavior you can use
+\verb{iteror(ARRAY, by=MARGIN)]}
 }
 \keyword{utilities}

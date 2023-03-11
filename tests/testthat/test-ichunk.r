@@ -29,6 +29,7 @@ test_that("ichunk rejects non-positive or non-numeric n", {
 
 test_that("non-integer size", {
   it <- ichunk(letters, 3.5, "character")
-  pasta <- imap(it, paste0, collapse="")
-  result <- as.vector(pasta, "character")
+  pasta <- iapply(it, paste0, collapse="")
+  expect_equal(as.character(pasta),
+               c("abcd", "efg", "hijk", "lmn", "opqr", "stu", "vwxy", "z"))
 })

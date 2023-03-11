@@ -4,24 +4,31 @@
 \alias{take}
 \title{Return the first n elements of an iterable object as a list}
 \usage{
-take(object, n = 1)
+take(obj, n = 1, mode = "list")
 }
 \arguments{
-\item{object}{an iterable object}
+\item{obj}{an iterable object}
 
-\item{n}{the number of elements to return in the list}
+\item{n}{the number of elements to return.}
+
+\item{mode}{What mode to use for the output vector.}
 }
 \value{
-a list of the first \code{n} items of the iterable \code{object}
+a list of the first \code{n} items of the iterable
+\code{obj}
 }
 \description{
 Returns the first \code{n} elements of an iterable \code{object} as a list.
 If \code{n} is larger than the number of elements in \code{object}, the
 entire iterator is consumed.
 }
+\details{
+A function \code{take} appeared in package \code{itertools2}. It is
+essentially synonymous with \code{as.vector.iteror(obj, n=n)} but has
+a different order of arguments.
+}
 \examples{
-take(iterators::iter(1:10), 3) # 1 2 3
+take(1:10, 3) # 1 2 3
 
-take(iterators::iter(1:5), 10) # 1 2 3 4 5
-
+take(1:5, 10) # 1 2 3 4 5
 }

@@ -2,7 +2,6 @@
 % Please edit documentation in R/iter.connection.R, R/iterators.R, R/iteror.R
 \name{iteror.connection}
 \alias{iteror.connection}
-\alias{iteror.matrix}
 \alias{iteror.data.frame}
 \alias{iteror}
 \alias{iter}
@@ -12,19 +11,12 @@
 \alias{iter.data.frame}
 \alias{iter.function}
 \alias{iteror.function}
+\alias{iteror.array}
+\alias{iteror.matrix}
 \alias{iteror.default}
 \title{Iterator Factory Functions}
 \usage{
 \method{iteror}{connection}(obj, ...)
-
-\method{iteror}{matrix}(
-  obj,
-  by = c("column", "cell", "row"),
-  chunksize = 1L,
-  checkFunc = function(...) TRUE,
-  recycle = FALSE,
-  ...
-)
 
 \method{iteror}{data.frame}(
   obj,
@@ -37,6 +29,26 @@
 iteror(obj, ...)
 
 \method{iteror}{`function`}(obj, ..., catch, sigil)
+
+\method{iteror}{array}(
+  obj,
+  ...,
+  by = c("cell", "row", "column"),
+  chunksize = 1L,
+  recycle = FALSE,
+  checkFunc = function(x) TRUE,
+  drop = FALSE
+)
+
+\method{iteror}{matrix}(
+  obj,
+  ...,
+  by = c("cell", "row", "column"),
+  chunksize = 1L,
+  recycle = FALSE,
+  checkFunc = function(x) TRUE,
+  drop = FALSE
+)
 
 \method{iteror}{default}(obj, ..., recycle = FALSE, checkFunc = function(...) (TRUE))
 }
@@ -52,10 +64,8 @@ or \code{sigil}.}
 
 \item{\dots}{additional arguments affecting the iterator.}
 
-\item{by}{how to iterate over a matrix.}
-
-\item{chunksize}{the number of elements of \code{by} to return with each
-call to \code{nextElem}.}
+\item{by}{how to iterate over a matrix Can be "cell", "row", "col", or
+numeric dimensions.}
 
 \item{checkFunc}{a function which, when passed an iterator value, return
 \code{TRUE} or \code{FALSE}.  If \code{FALSE}, the value is skipped in the
@@ -71,6 +81,11 @@ error message as end of iteration.}
 \item{sigil}{If \code{obj} is a function without an \code{or} argument, specify
 which value to watch for end of iteration. Stop will be signaled
 if the function result is \code{\link[=identical]{identical()}} to \code{sigil}.}
+
+\item{chunksize}{the number of elements of \code{by} to return with each
+call to \code{nextElem}.}
+
+\item{drop}{Whether to drop the array dimensions enumerated over.}
 }
 \value{
 The iterator.
@@ -154,6 +169,20 @@ repeat {
   sum <- sum + val
 }
 ```
+
+a <- array(1:8, c(2, 2, 2))
+
+# iterate over all the slices
+it <- iapply(a, by=3)
+as.list(it)
+
+# iterate over all the columns of each slice
+it <- iteror(a, by=c(2, 3))
+as.list(it)
+
+# iterate over all the rows of each slice
+it <- iteror(a, by=c(1, 3))
+as.list(it)
 
 }
 \keyword{methods}

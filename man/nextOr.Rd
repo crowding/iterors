@@ -9,8 +9,10 @@ nextOr(obj, or, ...)
 \arguments{
 \item{obj}{An \link{iteror}}
 
-\item{or}{If the iterator has reached its end, an argument that
-will be forced and returned}
+\item{or}{If the iterator has reached its end, this argument
+will be forced and returned.}
+
+\item{...}{Other arguments.}
 }
 \description{
 Retreive the next element from an iteror.

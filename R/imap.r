@@ -37,7 +37,6 @@
 #' nextOr(it3, NA) # 9
 #' nextOr(it3, NA) # 1000
 imap <- function(f, ...) {
-  f <- match.fun(f)
   iter_obj <- izip(...)
 
   wrap <- function(l) {

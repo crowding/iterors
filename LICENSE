@@ -1,15 +1,17 @@
+Copyright (c) 2013 Peter Meilstrup.
 This package as a whole is released under the GNU General Public
-License version 3.
+License (GPL) version 3.0, or (at your option) any later version.
 
-Portions of this package are derived from `iterators` package, which
-is copyright (c) 2008-2010 Revolution Analytics and released under
-the Apache Licence version 2.0. (included in file 'LICENSE.apache')
+Portions of this package are derived from the `iterators` package,
+copyright (c) 2008-2010 Revolution Analytics, licensed under
+the Apache Licence version 2.0 (included in file 'LICENSE.apache'.)
 
-Other portions of this package are derived from the `itertools`
-package which is licensed under GPL version 2.0 (or later).
+Portions of this package are derived from the `itertools`
+package, (c) 2015 Steve Weston, licensed under GPL version 2.0 or later.
 
-Still other portions are derived from the `itertools2` package,
-copyright 2015 John A. Ramey, and released under the MIT license.
+Portions of this package are derived from the `itertools2` package,
+copyright (c) 2015 John A. Ramey, released under the MIT license.
 
-Where functions have origins in other packages, this is noted in the
-top of the source file and in the Rd documentation.
+Where functions are derived from other packages, this is noted in the
+Rd documentation, and the license notice is retained at the top of the
+relevant source files.

@@ -4,7 +4,7 @@ test_that("Apply ifilterfalse to an integer sequence", {
   is_even <- function(x) {
     x %% 2 == 0
   }
-  it <- ifilterfalse(is_even, 1:10)
+  it <- idrop(1:10, is_even)
 
   expect_equal(nextOr(it, NA), 1)
   expect_equal(nextOr(it, NA), 3)
@@ -15,7 +15,7 @@ test_that("Apply ifilterfalse to an integer sequence", {
 })
 
 test_that("Apply ifilterfalse to an integer sequence using anonymous function", {
-  it <- ifilterfalse(function(x) x %% 2 == 1, 1:10)
+  it <- idrop(1:10, function(x) x %% 2 == 1)
 
   expect_equal(nextOr(it, NA), 2)
   expect_equal(nextOr(it, NA), 4)
@@ -25,11 +25,11 @@ test_that("Apply ifilterfalse to an integer sequence using anonymous function", 
   expect_equal(nextOr(it, NA), NA)
 })
 
-test_that("Apply ifilterfalse to a character vector", {
+test_that("Apply idrop to a character vector", {
   is_vowel <- function(x) {
     x %in% c('a', 'e', 'i', 'o', 'u')
   }
-  it <- ifilterfalse(is_vowel, letters)
+  it <- idrop(letters, is_vowel)
 
   expect_equal(nextOr(it, NA), 'b')
   expect_equal(nextOr(it, NA), 'c')

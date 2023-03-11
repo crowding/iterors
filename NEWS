@@ -2,7 +2,20 @@ NEWS/ChangeLog for iterors
 ----------------------------
 
 1.0     2023-03-01
+        Incorporated "iterators" package
         Incorporated/translated "itertools" package.
+        Incorporated "itertools2" package.
+
+Variations from the above packages:
+  o `ifilter()` is renamed `ikeep()` and the order of arguments
+    changed to have the iterable first. `ifilterfalse is
+    renamed `idrop` similarly
+  o `icount(n)` only counts whole numbers starting with 1.
+    The role of `iterators::icount(start, end, step)`
+    is played by `iterors::iseq`.
+  o Method `ienumerate.array()` can enumerate
+    with an index over multiple margins.
+  o `irep_len`
 
 NEWS/ChangeLog for itertools
 ----------------------------
