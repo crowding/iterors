@@ -67,7 +67,7 @@
 #'   runif(1)
 #' }
 #' }
-#'
+#' @importFrom parallel nextRNGStream nextRNGSubStream
 #' @export iRNGStream iRNGSubStream
 iRNGStream <- function(seed) {
   # Convert a single number into the appropriate vector for "L'Ecuyer-CMRG"

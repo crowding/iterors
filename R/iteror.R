@@ -16,47 +16,47 @@
 # USA
 
 
-#' Iterator Factory Functions
-#'
-#' \code{iter} is a generic function used to create iterator objects.
-#'
-#'
-#' @aliases iter iter.default iter.iter iter.matrix iter.data.frame
-#' iter.function
-#' @param obj an object from which to generate an iterator.
-#' @param \dots additional arguments affecting the iterator.
-#' @return The iterator.
-#' @keywords methods
-#' @examples
-#'
-#' # a vector iterator
-#' i1 <- iteror(1:3)
-#' nextOr(i1)
-#' nextOr(i1)
-#' nextOr(i1)
-#'
-#' # a vector iterator with a checkFunc
-#' i1 <- iteror(1:3, checkFunc = function(i) i%%2 == 0)
-#' nextOr(i1)
-#'
-#' # a data frame iterator by column
-#' i2 <- iteror(data.frame(x = 1:3, y = 10, z = c("a", "b", "c")))
-#' nextOr(i2)
-#' nextOr(i2)
-#' nextOr(i2)
-#'
-#' # a data frame iterator by row
-#' i3 <- iteror(data.frame(x = 1:3, y = 10), by = "row")
-#' nextOr(i3)
-#' nextOr(i3)
-#' nextOr(i3)
-#'
-#' # a function iterator
-#' i4 <- iteror(function() rnorm(1), sigil=NULL)
-#' nextOr(i4)
-#' nextOr(i4)
-#' nextOr(i4)
-#'
+# Iterator Factory Functions
+#
+# \code{iter} is a generic function used to create iterator objects.
+#
+#
+# @aliases iter iter.default iter.iter iter.matrix iter.data.frame
+# iter.function
+# @param obj an object from which to generate an iterator.
+# @param \dots additional arguments affecting the iterator.
+# @return The iterator.
+# @keywords methods
+# @examples
+#
+# # a vector iterator
+# i1 <- iteror(1:3)
+# nextOr(i1)
+# nextOr(i1)
+# nextOr(i1)
+#
+# # a vector iterator with a checkFunc
+# i1 <- iteror(1:3, checkFunc = function(i) i%%2 == 0)
+# nextOr(i1)
+#
+# # a data frame iterator by column
+# i2 <- iteror(data.frame(x = 1:3, y = 10, z = c("a", "b", "c")))
+# nextOr(i2)
+# nextOr(i2)
+# nextOr(i2)
+#
+# # a data frame iterator by row
+# i3 <- iteror(data.frame(x = 1:3, y = 10), by = "row")
+# nextOr(i3)
+# nextOr(i3)
+# nextOr(i3)
+#
+# # a function iterator
+# i4 <- iteror(function() rnorm(1), sigil=NULL)
+# nextOr(i4)
+# nextOr(i4)
+# nextOr(i4)
+#
 
 #' An efficient and compact iteration protocol.
 #'

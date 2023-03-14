@@ -22,7 +22,7 @@ test_that("test iapply on 3D arrays", {
 
 test_that("test iapply on matrices", {
   test <- function(actual, it) {
-    expected <- nextElem(it)
+    expected <- nextOr(it)
     expect_equal(expected, actual)
     NULL
   }

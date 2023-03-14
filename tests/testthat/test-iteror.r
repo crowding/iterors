@@ -4,10 +4,10 @@ test_that("hasNext", {
   i <- ihasNext(iseq(1, 10))
   for (j in 1:10) {
     hasNext(i) %is% TRUE
-    nextElem(i) %is% j
+    iterators::nextElem(i) %is% j
   }
   hasNext(i) %is% FALSE
-  expect_error(nextElem(i), "StopIteration")
+  expect_error(iterators::nextElem(i), "StopIteration")
 })
 
 test_that("compatibility with iterators", {

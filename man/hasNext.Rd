@@ -34,7 +34,7 @@ directly give an action to take at end of iteration.
 }
 \examples{
 # The bad old style of consuming an iterator in a loop with `nextElem`:
-  it <- ihasNext(iteror(c('a', 'b', 'c'))
+  it <- ihasNext(iteror(c('a', 'b', 'c')))
   tryCatch(repeat {
     print(nextElem(it))
   }, error=function(err) {

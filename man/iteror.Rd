@@ -4,17 +4,11 @@
 \alias{iteror.connection}
 \alias{iteror.data.frame}
 \alias{iteror}
-\alias{iter}
-\alias{iter.default}
-\alias{iter.iter}
-\alias{iter.matrix}
-\alias{iter.data.frame}
-\alias{iter.function}
 \alias{iteror.function}
 \alias{iteror.array}
 \alias{iteror.matrix}
 \alias{iteror.default}
-\title{Iterator Factory Functions}
+\title{An efficient and compact iteration protocol.}
 \usage{
 \method{iteror}{connection}(obj, ...)
 
@@ -62,8 +56,6 @@ argument \code{or} and behave accordingly (only forcing and returning
 does not have an \code{or} argument, you will need to specify either \code{catch}
 or \code{sigil}.}
 
-\item{\dots}{additional arguments affecting the iterator.}
-
 \item{by}{how to iterate over a matrix Can be "cell", "row", "col", or
 numeric dimensions.}
 
@@ -91,50 +83,15 @@ call to \code{nextElem}.}
 \item{drop}{Whether to drop the array dimensions enumerated over.}
 }
 \value{
-The iterator.
-
 an object of classes 'iteror' and 'iter'.
 }
 \description{
-\code{iter} is a generic function used to create iterator objects.
-}
-\examples{
-
-# a vector iterator
-i1 <- iteror(1:3)
-nextOr(i1)
-nextOr(i1)
-nextOr(i1)
-
-# a vector iterator with a checkFunc
-i1 <- iteror(1:3, checkFunc = function(i) i\%\%2 == 0)
-nextOr(i1)
-
-# a data frame iterator by column
-i2 <- iteror(data.frame(x = 1:3, y = 10, z = c("a", "b", "c")))
-nextOr(i2)
-nextOr(i2)
-nextOr(i2)
-
-# a data frame iterator by row
-i3 <- iteror(data.frame(x = 1:3, y = 10), by = "row")
-nextOr(i3)
-nextOr(i3)
-nextOr(i3)
-
-# a function iterator
-i4 <- iteror(function() rnorm(1), sigil=NULL)
-nextOr(i4)
-nextOr(i4)
-nextOr(i4)
-
-An efficient and compact iteration protocol.
-
-To create an iteror, call the constructor `iteror` providing either
+To create an iteror, call the constructor \code{iteror} providing either
 a vector or a function as argument. The returned object will
-support the method [nextOr(obj, or)] to extract successive
+support the method \link{nextOr(obj, or)} to extract successive
 values.
-
+}
+\details{
 The main method for "iteror" is "nextOr" rather than
 "nextElem". Instead of using exceptions, "nextOr" uses a lazily
 evaluated "or" argument to signal the end of iteration.  The "or"
@@ -143,36 +100,35 @@ means the consumer can provide an action like "break", "next" or
 "return" to take at the the end of iteration. Summing over an
 iteror this way looks like:
 
-```
-sum <- 0
+\if{html}{\out{<div class="sourceCode">}}\preformatted{sum <- 0
 it <- iteror(in)
-repeat {
+repeat \{
   val <- nextOr(iter, break)
   sum <- sum + val;
-}
-```
+\}
+}\if{html}{\out{</div>}}
 
 Another way to use the "or" argument is to give it a sigil value;
 that is, a special value that will be interpreted as end of
-iteration.  If the result of calling `nextOr` is `identical()` to
+iteration.  If the result of calling \code{nextOr} is \code{identical()} to
 the sigil value you provided, then you know the iterator has
-ended. In R it is commonplace to use `NULL` or `NA`, in the role of
+ended. In R it is commonplace to use \code{NULL} or \code{NA}, in the role of
 a sigil, but that only works until you have an iterator that needs
 to yield NULL. A safer alternative is to use a one-shot sigil
-value; `new.env()` is a good choice, as it produces an object that
-by construction is not [identical] to any other object in the R
+value; \code{new.env()} is a good choice, as it produces an object that
+by construction is not \link{identical} to any other object in the R
 session. This pattern looks like:
 
-```
-sum <- 0
+\if{html}{\out{<div class="sourceCode">}}\preformatted{sum <- 0
 stopped <- new.env()
-repeat {
+repeat \{
   val <- nextOr(iter, stopped)
   if (identical(val, stopped)) break
   sum <- sum + val
+\}
+}\if{html}{\out{</div>}}
 }
-```
-
+\examples{
 a <- array(1:8, c(2, 2, 2))
 
 # iterate over all the slices
@@ -188,4 +144,3 @@ it <- iteror(a, by=c(1, 3))
 as.list(it)
 
 }
-\keyword{methods}

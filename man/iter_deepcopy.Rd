@@ -15,7 +15,7 @@ a new iterator with its own state
 \description{
 This function only works on iterors constructed by
 \url{iteror.default}, i.e. iterors created from a constant vector,
-which have a "state" field. It will not work with name of the
+which have a "state" field. It will not work with some of the
 higher order iterators created by the "i*()" functions in this
 package.
 }

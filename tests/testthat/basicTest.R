@@ -1,3 +1,5 @@
+nextElem <- iterators::nextElem
+
 # test vector iterator creation
 test_that( {
   x <- iter(1:10)

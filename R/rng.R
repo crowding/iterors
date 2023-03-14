@@ -67,12 +67,12 @@ makeIwrapper <- function(FUN) {
             if (count > 0) {
               count <<- count - 1L
 
-              oldSeed <- .Random.seed
+              oldSeed <- get(".Random.seed", envir=.GlobalEnv)
               oldKind <- RNGkind("L'Ecuyer-CMRG")[1]
-              assign('.Random.seed', seed, pos=.GlobalEnv)
+              assign('.Random.seed', seed, envir=.GlobalEnv)
               on.exit({
                 RNGkind(oldKind)
-                assign('.Random.seed', oldSeed, pos=.GlobalEnv)
+                assign('.Random.seed', oldSeed, envir=.GlobalEnv)
               })
               val <- .(substitute(FUN))(
                 ..(structure(lapply(names(formals(FUN)), as.name),
@@ -102,13 +102,13 @@ makeIwrapper <- function(FUN) {
   eval(def, parent.frame())
 }
 
-#' Random Number Iterators
+
+#' @rdname rng
+#' @title Random Number Iterators
 #'
-#' These function returns an iterators that return random numbers of various
+#' @description These function returns an iterators that return random numbers of various
 #' distributions.  Each one is a wrapper around a standard \code{R} function.
 #'
-#'
-#' @aliases irnorm irunif irbinom irnbinom irpois
 #' @param count number of times that the iterator will fire.  If not
 #'   specified, it will fire values forever.
 #' @param \dots arguments to pass to the underlying \code{rnorm}
@@ -125,7 +125,6 @@ makeIwrapper <- function(FUN) {
 #'   [iRNGStream].
 #' @return An iterator that is a wrapper around the corresponding
 #'   random number generator function.
-#' @keywords utilities
 #' @details Originally from the `iterators` package.
 #' @examples
 #'
@@ -138,12 +137,25 @@ makeIwrapper <- function(FUN) {
 #'
 #' # iterators with the same seed will produce the same values
 #' it <- irunif(it, seed=0.4812097)
-#'
+#' @importFrom stats rbinom rnbinom rnorm rpois runif
 #' @export irnorm irbinom irnbinom irpois isample irunif
-irnorm <- makeIwrapper(rnorm)
-irbinom <- makeIwrapper(rbinom)
-irnbinom <- makeIwrapper(rnbinom)
-irpois <- makeIwrapper(rpois)
-isample <- makeIwrapper(sample)
-irunif <- makeIwrapper(runif)
+#' @aliases irnorm irunif irbinom irnbinom irpois isample
 
+# function() NULL is to quiet CMD check "no visible global function definition"
+irnorm <- function() NULL
+irnorm <- makeIwrapper(rnorm)
+#' @rdname rng
+irbinom <- function() NULL
+irbinom <- makeIwrapper(rbinom)
+#' @rdname rng
+irnbinom <- function() NULL
+irnbinom <- makeIwrapper(rnbinom)
+#' @rdname rng
+irpois <- function() NULL
+irpois <- makeIwrapper(rpois)
+#' @rdname rng
+isample <- function() NULL
+isample <- makeIwrapper(sample)
+#' @rdname rng
+irunif <- function() NULL
+irunif <- makeIwrapper(runif)

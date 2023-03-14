@@ -8,7 +8,7 @@ test_that("test isplit with a single factor", {
   expected <- split(x, f)
 
   for (i in expected) {
-    actual <- nextElem(it)
+    actual <- nextOr(it)
     expect_equal(actual$value, i)
   }
 
@@ -16,7 +16,7 @@ test_that("test isplit with a single factor", {
   expected <- split(x, f, drop=TRUE)
 
   for (i in expected) {
-    actual <- nextElem(it)
+    actual <- nextOr(it)
     expect_equal(actual$value, i)
   }
 })
@@ -30,7 +30,7 @@ test_that("test isplit with two factors", {
   expected <- split(x, f)
 
   for (i in expected) {
-    actual <- nextElem(it)
+    actual <- nextOr(it)
     expect_equal(actual$value, i)
   }
 
@@ -38,7 +38,7 @@ test_that("test isplit with two factors", {
   expected <- split(x, f, drop=TRUE)
 
   for (i in expected) {
-    actual <- nextElem(it)
+    actual <- nextOr(it)
     expect_equal(actual$value, i)
   }
 })

@@ -1,12 +1,33 @@
 # iterors
 
-The R package `iterors` is a replacement for both `iterators` and `itertools2`, it uses
-a slightly different calling convention that turns out to be more efficient as well as usually resulting in more compact code.
+A fresh take on iterators in R. Designed to be cross-compatible with the `iterators` package, but using the `nextOr` method will offer better performance and more compact code. With batteries included: includes a collection of iterator constructors and combinators ported and harmonized from the `iterators`, `itertools`, and `itertools2` packages, as well as several new functions.
 
-It includes a port of the R package `itertools2` is a port of [Python's excellent itertools
-module](https://docs.python.org/2/library/itertools.html) to R for efficient
-looping and is a replacement for the existing [itertools R
-package](https://r-forge.r-project.org/projects/itertools/).
+## How is it different from `iterators`?
+
+`iterors` uses the method `nextOr(it, or)` to retrieve the next element. The lazily evaluated second argument specifies a sigil value _or_ an action to take at the end of iteration. By contrast, `iterators` method `nextElem` takes only one argument and signals end of iteration by throwing an exception.
+
+For example, this is how you can compute a sum over an iteror `it`:
+
+```{R}
+total <- 0
+repeat total <- total + nextOr(it, break)
+```
+
+By contrast, this is how you used to have to work with `iterators`:
+
+```{R}
+total <- 0
+tryCatch(
+  repeat total <- total + nextElem(it),
+  error=function(x) {
+    if (conditionMessage(x) != "StopIteration") stop(x)
+  }
+)
+```
+
+Besides requiring less boilerplate, iterors also perform faster, particularly when using higher-order iterator functions (which used to require setting up and tearing down a tryCatch for every iteration.)
+
+A third benefit is that because `iterors` does not force you to use exceptions for flow control, debugging iterator code is easier, as your stack traces are no longer swallowed by `tryCatch`.
 
 ## Installation
 
@@ -16,7 +37,7 @@ For the time being, run the following after installing [devtools](https://github
 devtools::install_github('crowding/iterors')
 ```
 
-When the package is released, you will be able to install the stable version from [CRAN](http://cran.r-project.org/package=iterors):
+When the package is released, you will be able to install the stable version from [CRAN](htxtp://cran.r-project.org/package=iterors):
 
 ```r
 install.packages('iteror', dependencies=TRUE)
@@ -24,3 +45,4 @@ install.packages('iteror', dependencies=TRUE)
 
 ## License
 
+ GPL-3

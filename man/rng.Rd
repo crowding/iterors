@@ -6,12 +6,59 @@
 \alias{irbinom}
 \alias{irnbinom}
 \alias{irpois}
+\alias{isample}
 \title{Random Number Iterators}
 \usage{
 irnorm(
   n,
   mean = 0,
   sd = 1,
+  count = Inf,
+  independent = TRUE,
+  seed = nextOr(rng.state$stream)
+)
+
+irbinom(
+  n,
+  size,
+  prob,
+  count = Inf,
+  independent = TRUE,
+  seed = nextOr(rng.state$stream)
+)
+
+irnbinom(
+  n,
+  size,
+  prob,
+  mu,
+  count = Inf,
+  independent = TRUE,
+  seed = nextOr(rng.state$stream)
+)
+
+irpois(
+  n,
+  lambda,
+  count = Inf,
+  independent = TRUE,
+  seed = nextOr(rng.state$stream)
+)
+
+isample(
+  x,
+  size,
+  replace = FALSE,
+  prob = NULL,
+  count = Inf,
+  independent = TRUE,
+  seed = nextOr(rng.state$stream)
+)
+
+irunif(
+  n,
+  min = 0,
+  max = 1,
   count = Inf,
   independent = TRUE,
   seed = nextOr(rng.state$stream)
@@ -58,6 +105,4 @@ nextOr(it, NULL)
 
 # iterators with the same seed will produce the same values
 it <- irunif(it, seed=0.4812097)
-
 }
-\keyword{utilities}

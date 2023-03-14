@@ -55,7 +55,6 @@ foreach(1:3, rseed=iRNGSubStream(1970), .combine='c') \%dopar\% {
   runif(1)
 }
 }
-
 }
 \seealso{
 \code{\link[base]{set.seed}},
