@@ -8,7 +8,6 @@
 #' replaced with \code{fill} if the iterables are of uneven length, and
 #' Iteration continues until the longest iterable is exhausted.
 #'
-#' @importFrom iterators iter nextElem
 #' @details Originally from package `itertools2`.
 #' @export
 #' @param ... multiple arguments to iterate through in sequence

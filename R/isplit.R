@@ -15,39 +15,6 @@
 # limitations under the License.
 #
 
-icountn <- function(vn) {
-  n <- length(vn)
-  if (n == 0)
-    stop('illegal zero length vector')
-
-  icar <- icount(vn[n])
-  if (n > 1) {
-    icdr <- icountn(vn[-n])
-    hasVal <- FALSE
-    nextVal <- NULL
-  }
-
-  if (n == 1) return (icar)
-
-  nextEl <- function(or) {
-    repeat {
-      if (!hasVal) {
-        nextVal <<- nextOr(icar, return(or))
-        hasVal <<- TRUE
-      }
-
-      val <- nextOr(icdr, {
-        icdr <<- icountn(vn[-n])
-        hasVal <<- FALSE
-        next
-      })
-      return(c(val, nextVal))
-    }
-  }
-
-  iteror.function(nextEl)
-}
-
 iwhich <- function(nf, ind) {
   n <- length(ind)
   if (n == 0)

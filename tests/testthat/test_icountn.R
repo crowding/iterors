@@ -21,5 +21,6 @@ test_that("icountn", {
         }
       }
     })
+
   }
 })

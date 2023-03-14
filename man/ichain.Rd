@@ -2,21 +2,31 @@
 % Please edit documentation in R/ichain.r
 \name{ichain}
 \alias{ichain}
+\alias{icollapse}
 \title{Iteror that chains multiple arguments together into a single iterator}
 \usage{
 ichain(...)
+
+icollapse(obj)
 }
 \arguments{
 \item{...}{multiple arguments to iterate through in sequence}
+
+\item{obj}{an iterable.}
 }
 \value{
 iteror that iterates through each argument in sequence
 }
 \description{
-Generates an \link{iteror} that returns elements from the first argument until it
-is exhausted. Then generates an iterator from the next argument and returns
-elements from it. This process continues until all arguments are exhausted
-Chaining is useful for treating consecutive sequences as a single sequence.
+\code{ichain} for iterators is analogous to \code{\link[=c]{c()}} on vectors. \code{ichain}
+constructs an \link{iteror} that returns elements from the first argument
+until it is exhausted. Then generates an iterator from the next
+argument and returns elements from it. This process continues until
+all arguments are exhausted.
+
+\code{icollapse(obj)} takes an iterable that returns
+iterables, and chains together all inner values of iterables into
+one iterator. Analogous to \code{unlist(recursive=FALSE)}.
 }
 \examples{
 it <- ichain(1:3, 4:5, 6)
@@ -24,4 +34,7 @@ as.list(it)
 
 it2 <- ichain(1:3, levels(iris$Species))
 as.list(it2)
+}
+\author{
+Peter Meilstrup
 }

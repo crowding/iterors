@@ -4,7 +4,7 @@
 \alias{iunique}
 \title{Iterator that extracts the unique elements from an iterable object}
 \usage{
-iunique(object)
+iunique(object, digest = rlang::hash)
 }
 \arguments{
 \item{object}{an iterable object}
@@ -32,5 +32,7 @@ as.list(iunique(it2)) # a A V
 x <- as.character(gl(5, 10))
 it_unique <- iunique(x)
 as.list(it_unique) # 1 2 3 4 5
-
+}
+\seealso{
+idedupe
 }

@@ -4,7 +4,7 @@ test_that("Apply itakewhile to an integer sequence", {
   not_too_large <- function(x) {
     x <= 5
   }
-  it <- itakewhile(not_too_large, 1:100)
+  it <- ikeepwhile(1:100, not_too_large)
 
   expect_equal(nextOr(it, NA), 1)
   expect_equal(nextOr(it, NA), 2)
@@ -15,7 +15,7 @@ test_that("Apply itakewhile to an integer sequence", {
 })
 
 test_that("Apply itakewhile to an integer sequence using anonymous function", {
-  it <- itakewhile(function(x) x <= 10, seq(2, 100, by=2))
+  it <- ikeepwhile(seq(2, 100, by=2), function(x) x <= 10)
 
   expect_equal(nextOr(it, NA), 2)
   expect_equal(nextOr(it, NA), 4)

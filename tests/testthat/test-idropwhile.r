@@ -5,7 +5,7 @@ test_that("Apply idropwhile to an integer sequence", {
   not_too_large <- function(x) {
     x <= 3
   }
-  it <- idropwhile(not_too_large, 1:10)
+  it <- idropwhile(1:10, not_too_large)
 
   expect_equal(nextOr(it, NA), 4)
   expect_equal(nextOr(it, NA), 5)
@@ -18,7 +18,7 @@ test_that("Apply idropwhile to an integer sequence", {
 })
 
 test_that("Apply idropwhile to an integer sequence using anonymous function", {
-  it <- idropwhile(function(x) x <= 10, seq(2, 20, by=2))
+  it <- idropwhile(seq(2, 20, by=2), function(x) x <= 10)
 
   expect_equal(nextOr(it, NA), 12)
   expect_equal(nextOr(it, NA), 14)

@@ -1,11 +1,13 @@
 #' Iteror that chains multiple arguments together into a single iterator
 #'
-#' Generates an [iteror] that returns elements from the first argument until it
-#' is exhausted. Then generates an iterator from the next argument and returns
-#' elements from it. This process continues until all arguments are exhausted
-#' Chaining is useful for treating consecutive sequences as a single sequence.
+#' `ichain` for iterators is analogous to [c()] on vectors. `ichain`
+#' constructs an [iteror] that returns elements from the first argument
+#' until it is exhausted. Then generates an iterator from the next
+#' argument and returns elements from it. This process continues until
+#' all arguments are exhausted.
 #'
 #' @export
+#' @author Peter Meilstrup
 #' @param ... multiple arguments to iterate through in sequence
 #' @return iteror that iterates through each argument in sequence
 #'
@@ -16,25 +18,31 @@
 #' it2 <- ichain(1:3, levels(iris$Species))
 #' as.list(it2)
 ichain <- function(...) {
-  iter_list <- lapply(list(...), iteror)
-  num_args <- length(iter_list)
+  L <- iteror(list(...))
+  icollapse(L)
+}
 
-  if (num_args == 0) {
-    stop("At least one argument must be supplied.")
-  }
-
-  arg_i <- 1
+#' @rdname ichain
+#' @param obj an iterable.
+#' @description `icollapse(obj)` takes an iterable that returns
+#'   iterables, and chains together all inner values of iterables into
+#'   one iterator. Analogous to `unlist(recursive=FALSE)`.
+#' @export
+icollapse <- function(obj) {
+  obj <- iteror(obj)
+  current <- NULL
 
   nextOr_ <- function(or) {
+    if (is.null(current)) {
+      current <<- iteror(nextOr(obj, return(or)))
+    }
     repeat {
-      if (arg_i > num_args) return(or)
-      return(nextOr(iter_list[[arg_i]], {
-        arg_i <<- arg_i + 1
+      return(nextOr(current, {
+        current <<- iteror(nextOr(obj, return(or)))
         next
       }))
     }
-    elem
   }
 
-  iteror(nextOr_)
+  iteror.function(nextOr_)
 }

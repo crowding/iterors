@@ -31,4 +31,3 @@ test_that("test05", {
     expected <- rep(list(x), n)
     expect_equal(expected, actual)
 })
-

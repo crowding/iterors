@@ -68,28 +68,3 @@ iteror.data.frame <- function(obj, by=c('column', 'row'),
   iteror.function(nextOr_)
 }
 
-#' Get Next Element of Iterator
-#'
-#' \code{nextElem} is a generic function used to produce values. If a
-#' \code{checkFunc} was specified to the constructor, the potential iterated
-#' values will be passed to the \code{checkFunc} until the \code{checkFunc}
-#' returns \code{TRUE}. When the iterator has no more values, it calls stop
-#' with the message 'StopIteration'.
-#'
-#'
-#' @aliases nextElem nextElem.containeriter nextElem.funiter
-#' @param obj an iterator object.
-#' @param \dots additional arguments that are ignored.
-#' @return The value.
-#' @keywords methods
-#' @examples
-#'
-#' it <- iteror(c("a", "b", "c"))
-#' print(nextElem(it))
-#' print(nextElem(it))
-#' print(nextElem(it))
-#'
-#' @export nextElem
-nextElem <- function(obj, ...) {
-  UseMethod('nextElem')
-}

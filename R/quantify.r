@@ -3,10 +3,10 @@
 #' Returns the number of elements from an iterable object evaluate to
 #' \code{TRUE}.
 #'
-#' @importFrom iterators nextElem iter
 #' @export
 #' @param object an iterable object
 #' @return the number of \code{TRUE} elements
+#' @seealso ireduce
 #'
 #' @examples
 #' it <- iteror(c(TRUE, FALSE, TRUE))

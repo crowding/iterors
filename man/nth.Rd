@@ -14,12 +14,12 @@ nth(it, n, or)
 \item{iteror}{an iteror object}
 }
 \value{
-The nth element of the iteror or the result of forcing \code{or}
+The nth element of the iteror or the result of forcing \code{or}.
 }
 \description{
 Returns the \code{n}th item of an \code{iteror} after advancing the
 iteror \code{n} steps ahead. If the \code{iteror} is entirely consumed,
-the \code{default} value is returned instead. That is, if either \code{n >
+the argument \code{or} is returned instead. That is, if either \code{n >
 length(iteror)} or \code{n} is 0, then the \code{iteror} is consumed.
 }
 \examples{

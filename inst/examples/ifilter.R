@@ -1,4 +1,4 @@
-library(iterators)
+library(iteror)
 
 # Returns a filtering iterator
 ifilter <- function(it, FUN, ...) {

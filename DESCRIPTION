@@ -4,14 +4,14 @@ Title: Efficient, Compact Iterators and Tools
 Version: 1.0
 Maintainer: Peter Meilstrup <peter.meilstrup@gmail.com>
 Authors@R: c(person("Peter", "Meilstrup",
-                    role=c("cre", "aut", email="peter.meilstrup@gmail.com")),
+                    role=c("cre", "aut", "cph"), email="peter.meilstrup@gmail.com"),
              person("Folashade", "Daniel", role="aut"),
              person("Revolution", "Analytics", role=c("aut", "cph")),
              person("Steve", "Weston", role=c("aut", "cph")),
-             person("John", middle="A.", "Ramey", role=c("aut", "cph")),
-             person("Kayla", "Schaefer", role="aut")
+             person("John A.", "Ramey", role=c("aut", "cph")),
+             person("Kayla", "Schaefer", role="aut"),
              person("Hadley", "Wickham", role="aut"))
-Description: A fresh take on iterators in R. Designed to be cross-compatible with the 'iterators' package, but using the 'nextOr' method will offer better performance and easier coding. With batteries included: includes a collection of iterator constructors and combinators ported from the 'iterators', 'itertools', and 'itertools2' packages.
+Description: A fresh take on iterators in R. Designed to be cross-compatible with the 'iterators' package, but using the 'nextOr' method will offer better performance and more compact code. With batteries included: includes a collection of iterator constructors and combinators ported from the 'iterators', 'itertools', and 'itertools2' packages.
 Depends:
     R (>= 3.6)
 Encoding: UTF-8

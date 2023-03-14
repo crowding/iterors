@@ -1,4 +1,4 @@
-library(iterators)
+library(iterors)
 
 # return an iterator that returns subvectors of a vector.
 # can specify either "chunks" or "chunkSize" arguments

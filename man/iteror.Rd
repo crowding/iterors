@@ -28,7 +28,7 @@
 
 iteror(obj, ...)
 
-\method{iteror}{`function`}(obj, ..., catch, sigil)
+\method{iteror}{`function`}(obj, ..., catch, sigil, count)
 
 \method{iteror}{array}(
   obj,
@@ -81,6 +81,9 @@ error message as end of iteration.}
 \item{sigil}{If \code{obj} is a function without an \code{or} argument, specify
 which value to watch for end of iteration. Stop will be signaled
 if the function result is \code{\link[=identical]{identical()}} to \code{sigil}.}
+
+\item{count}{If \code{obj} is a function without an \code{or} argument, specify
+how many times to call it before finishing iteration.}
 
 \item{chunksize}{the number of elements of \code{by} to return with each
 call to \code{nextElem}.}

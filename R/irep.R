@@ -105,6 +105,7 @@ irep.each <- function(it, each) {
 
 # Internal function used to handle the irep "times" argument
 irep.times <- function(it, times) {
+  it <- iteror(it)
   times <- as.integer(times)
   if (length(times) == 0 || any(is.na(times) | times < 0)) {
     stop("invalid 'times' argument")

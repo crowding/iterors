@@ -1,25 +1,25 @@
-context("consume iterator")
+context("iconsume iterator")
 
-test_that("consume consumes an iterator when n < length(iterator)", {
+test_that("iconsume consumes an iterator when n < length(iterator)", {
   it <- iteror(letters)
-  consume(it, n=4)
+  iconsume(it, n=4)
   expect_equal(nextOr(it, NA), "e")
 })
 
-test_that("consume consumes an iterator when n=0 or n > length(iterator)", {
+test_that("iconsume consumes an iterator when n=0 or n > length(iterator)", {
   it <- iteror(letters)
-  consume(it, n=0)
+  iconsume(it, n=Inf)
   expect_equal(nextOr(it, "stop"), "stop")
 
   it2 <- iteror(letters)
-  consume(it2, n=27)
+  iconsume(it2, n=27)
   expect_equal(nextOr(it, "stop"), "stop")
 })
 
-test_that("consume rejects non-positive or non-integer n", {
+test_that("iconsume rejects non-positive or non-integer n", {
   it <- iteror(letters)
-  expect_error(consume(it, -1), "n must be a non-negative integer of length 1")
-  expect_error(consume(it, "a"), "n must be a non-negative integer of length 1")
+  expect_error(iconsume(it, -1), "n must be a non-negative integer of length 1")
+  expect_error(iconsume(it, "a"), "n must be a non-negative integer of length 1")
 })
 
 test_that("nth consumes an iterator when n < length(iterable)", {

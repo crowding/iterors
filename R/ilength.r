@@ -3,8 +3,6 @@
 #' Counts the number of elements in an iterator. NOTE: The iterator is consumed
 #' in the process.
 #'
-#' @importFrom iterators iter nextElem
-#' @export
 #' @param object an iterable object
 #' @return the number of elements in the iterator
 #'
@@ -20,6 +18,7 @@
 #' it3 <- ichain(1:3, levels(iris$Species))
 #' ilength(it3)
 #'
+#' @export
 ilength <- function(object) {
   it <- iteror(object)
 

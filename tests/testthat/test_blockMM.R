@@ -47,11 +47,11 @@ test_that("blockMM", {
 
   iqseq <- function(n, ...) {
     i <- 0
-    it <- iterators::idiv(n, ...)
+    it <- idiv(n, ...)
 
     nextOr_ <- function(or) {
       j <- i + nextOr(it, return(or))
-      val <- call(':', i + 1, j)
+      val <- seq(i+1, j, by=1)
       i <<- j
       val
     }

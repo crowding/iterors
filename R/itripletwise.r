@@ -3,7 +3,6 @@
 #' Constructs an iterator of an iterable \code{object} that returns its elements
 #' in a sliding window three elements wide.
 #'
-#' @importFrom iterators nextElem iter
 #' @export
 #' @param object an iterable object
 #' @return an iterator that returns tripletwise elements

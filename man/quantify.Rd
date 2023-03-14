@@ -25,3 +25,6 @@ x <- sample(c(TRUE, FALSE), size=10, replace=TRUE)
 quantify(x) # Equivalent to sum(x)
 
 }
+\seealso{
+ireduce
+}

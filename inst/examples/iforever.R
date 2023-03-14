@@ -1,4 +1,4 @@
-library(iterators)
+library(iterors)
 
 # return an iterator that returns the specified value forever
 iforever <- function(x) {

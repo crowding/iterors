@@ -1,4 +1,4 @@
-library(iterators)
+library(iterors)
 
 # Returns an iterator that limits another iterator based on time
 itimer <- function(it, time) {

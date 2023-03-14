@@ -82,7 +82,7 @@ when given an iterator, returns the next value of the iterator. For example,
 here we create an iterator object from the sequence 1 to 10, and then use
 \texttt{nextOr} to iterate through the values:
 <<ex1>>=
-library(iterators)
+library(iterors)
 i1 <- iteror(1:10)
 nextOr(i1)
 nextOr(i1)
@@ -150,7 +150,7 @@ example, the
 \texttt{irnorm} function creates an iterator for which each value is drawn
 from a specified random normal distribution:
 <<ex5>>=
-library(iterators)
+library(iterors)
 itrn <- irnorm(10)
 nextOr(itrn)
 nextOr(itrn)

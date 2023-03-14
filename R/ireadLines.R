@@ -22,107 +22,11 @@
 # avoid cutting and pasting the same code repeatedly.
 
 
-#' Iterator Maker Generator
-#'
-#' The \code{makeIwrapper} function makes iterator makers.  The resulting
-#' iterator makers all take an optional \code{count} argument which specifies
-#' the number of times the resulting iterator should fire.  The iterators are
-#' wrappers around functions that return different values each time they are
-#' called. The \code{isample} function is an example of one such iterator maker
-#' (as are \code{irnorm}, \code{irunif}, etc.).
-#'
-#'
-#' @aliases makeIwrapper isample
-#' @param FUN a character string naming a function that generates different
-#' values each time it is called; typically one of the standard random number
-#' generator functions.
-#' @param count number of times that the iterator will fire.  If not specified,
-#' it will fire values forever.
-#' @param \dots arguments to pass to the underlying \code{FUN} function.
-#' @return An iterator that is a wrapper around the corresponding function.
-#' @keywords utilities
-#' @details Originally from the `iterators` package.
-#' @examples
-#'
-#' # create an iterator maker for the sample function
-#' mysample <- makeIwrapper("sample")
-#' # use this iterator maker to generate an iterator that will generate three five
-#' # member samples from the sequence 1:100
-#' it <- mysample(1:100, 5, count = 3)
-#' nextOr(it)
-#' nextOr(it)
-#' nextOr(it)
-#' nextOr(it, NULL)  # NULL
-#'
-#' @export makeIwrapper
-makeIwrapper <- function(FUN) {
-  function(..., count) {
-    if (!missing(count) && (!is.numeric(count) || length(count) != 1))
-      stop('count must be a numeric value')
-
-    # construct the call object to put into the nextOr function
-    m <- as.call(c(as.name(FUN), list(...)))
-
-    # construct the body of the nextOr function
-    fbody <- if (missing(count)) {
-      m
-    } else {
-      substitute({
-        if (count > 0) {
-          count <<- count - 1L
-          REPLACETHIS
-        } else {
-          return(or)
-        }
-      }, list(REPLACETHIS=m))
-    }
-
-    # create the nextOr function using fbody
-    nextOr_ <- function(or) NULL
-    body(nextOr_) <- fbody
-
-    # create and return the iterator object
-    iteror.function(nextOr_)
-  }
-}
-
-#' Random Number Iterators
-#'
-#' These function returns an iterators that return random numbers of various
-#' distributions.  Each one is a wrapper around a standard \code{R} function.
-#'
-#'
-#' @aliases irnorm irunif irbinom irnbinom irpois
-#' @param count number of times that the iterator will fire.  If not specified,
-#' it will fire values forever.
-#' @param \dots arguments to pass to the underlying \code{rnorm} function.
-#' @return An iterator that is a wrapper around the corresponding random number
-#' generator function.
-#' @keywords utilities
-#' @details Originally from the `iterators` package.
-#' @examples
-#'
-#' # create an iterator that returns three random numbers
-#' it <- irnorm(1, count = 3)
-#' nextOr(it)
-#' nextOr(it)
-#' nextOr(it)
-#' nextOr(it, NULL)  # expect a StopIteration exception
-#'
-#' @export irnorm irbinom irnbinom irpois isample irunif
-irnorm <- makeIwrapper('rnorm')
-irbinom <- makeIwrapper('rbinom')
-irnbinom <- makeIwrapper('rnbinom')
-irpois <- makeIwrapper('rpois')
-isample <- makeIwrapper('sample')
-irunif <- makeIwrapper('runif')
-
-
 #' Counting Iterators
 #'
 #' Returns an iterator that counts starting from one.
 #'
-#' @aliases icount icountn
+#' @aliases icount
 #' @param count number of times that the iterator will fire.  If not specified,
 #' it will count forever.
 #' @param recycle Whether to restart the count after finishing.
@@ -140,6 +44,9 @@ irunif <- makeIwrapper('runif')
 #' nextOr(it, NULL)  # expect NULL
 #'
 #' @export icount icountn
+#' @examples
+#' x <- icount(5)
+#' repeat print(nextOr(x, break))
 icount <- function(count, recycle=FALSE) {
   if (missing(count))
     count <- NULL
@@ -157,12 +64,24 @@ icount <- function(count, recycle=FALSE) {
       if (i < count)
         (i <<- i + 1L)
       else if (recycle)
-        i <<- 1
+        i <<- 1L
       else
         or
     }
 
   iteror.function(nextOr_)
+}
+
+#' @rdname icount
+#' @description `icountn(vn)` takes a vector specifying an array size,
+#'   and returns an iterator over array indices. Each returned element
+#'   is a vector the same length as vn, with the first index varying fastest.
+#' @export icountn
+#' @examples
+#' as.list(icountn(c(2, 3)))
+icountn <- function(vn, recycle=FALSE) {
+  iapply(icount(prod(vn), recycle=recycle),
+         function(i) as.vector(arrayInd(i, vn)))
 }
 
 #' Dividing Iterator

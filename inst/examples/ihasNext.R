@@ -1,4 +1,4 @@
-library(iterators)
+library(iterors)
 
 # This example was originally written and contributed
 # by Hadley Wickham, with minor modifications by
@@ -28,7 +28,7 @@ ihasNext <- function(it) {
   cache <- NULL
   has_next <- NA
 
-  nextEl <- function() {
+  nextEl <- function() { #XXX
     if (!hasNx())
       stop('StopIteration', call.=FALSE)
 

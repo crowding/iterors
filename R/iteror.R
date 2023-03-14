@@ -118,10 +118,18 @@ iteror <- function(obj, ...) {
 }
 
 #' @exportS3Method
-iteror.iteror <- identity
+iteror.iteror <- function(obj, ...) obj
 
 #' @exportS3Method
-iteror.iter <- identity
+iteror.iter <- function(obj, ...) {
+  nextOr_ <- function(or) {
+    tryCatch(
+      iterators::nextElem(obj),
+      error=function(e)
+        if (identical(conditionMessage(e), 'StopIteration')) or else stop(e))
+  }
+  iteror.function(nextOr_)
+}
 
 #' @exportS3Method iteror "function"
 #' @rdname iteror
@@ -131,14 +139,17 @@ iteror.iter <- identity
 #' @param sigil If `obj` is a function without an `or` argument, specify
 #'   which value to watch for end of iteration. Stop will be signaled
 #'   if the function result is [identical()] to `sigil`.
-iteror.function <- function(obj, ..., catch, sigil) {
+#' @param count If `obj` is a function without an `or` argument, specify
+#'   how many times to call it before finishing iteration.
+iteror.function <- function(obj, ..., catch, sigil, count) {
   if ("or" %in% names(formals(obj))) {
     fn <- obj
   } else {
     if (!missing(sigil)) {
       force(sigil)
       fn <- function(or) {
-        x <- obj(); if (identical(x, sigil)) or else x
+        x <- obj()
+        if (identical(x, sigil)) or else x
       }
     } else if (!missing(catch)) {
       force(catch)
@@ -149,8 +160,15 @@ iteror.function <- function(obj, ..., catch, sigil) {
           } else stop(e)
         })
       }
+    } else if (!missing(count)) {
+      fn <- function(or) {
+        if (count > 0) {
+          count <<- count - 1L
+          obj()
+        } else or
+      }
     } else {
-      stop("iteror: must have 'or' argument or else specify 'catch' or 'sigil'")
+      stop("iteror: function must have an 'or' argument, or else specify one of 'catch', 'sigil' or 'count'")
     }
   }
   structure(list(nextOr=fn), class=c("iteror", "iter"))
@@ -195,61 +213,6 @@ iteror.array <- function(obj, ...,
   if (!identical(body(checkFunc), TRUE))
     ikeep(it, checkFunc)
   else it
-}
-
-#' @exportS3Method
-#' @rdname ienumerate
-ienumerate.array <- function(obj, ...,
-                             by=c("cell", "row", "column"),
-                             chunksize=1L, #XXX
-                             recycle=FALSE,
-                             drop=FALSE) {
-  if (is.character(by))
-    switch(
-      match.arg(by),
-      cell=by <- seq_along(dim(obj)),
-      row=by <- 1,
-      column=by <- 2
-    )
-
-  iter_size <- dim(obj)[by]
-  args <- c(alist(obj),
-            rep(list(quote(expr=)), length(dim(obj))),
-            alist(drop=drop))
-  indexit <- icount(prod(iter_size), recycle=recycle)
-
-  if (chunksize == 1) {
-    nextOr_ <- function(or) {
-      ix <- nextOr(indexit, return(or))
-      args[by+1] <- arrayInd(ix, iter_size)
-      list(index=ix, value=do.call("[", args))
-    }
-  } else {
-    indexit <- ichunk(indexit, chunksize, "numeric")
-    nextOr_ <- function(or) {
-      ixes <- nextOr(indexit, return(or))
-      ixes <- arrayInd(ixes, iter_size)
-      dim.out <- c(dim(obj), nrow(ixes))
-      dim.out[by] <- 1
-
-      out <- apply(ixes, 1, function(ix) {
-        args[by+1] <- ix
-        do.call("[", args)
-      }, simplify=FALSE)
-      out <- do.call(c, out)
-      dim(out) <- dim.out
-      # if we have by[1]==2, aperm=1,4,3
-      nd <- length(dim(obj)) + 1
-      perm <- seq_len(nd)
-      perm[by[1]] <- nd
-      perm[nd] <- by[1]
-      out <- aperm(out, perm)
-      dim(out) <- dim(out)[-nd]
-      list(index=ixes, value=out)
-    }
-  }
-
-  iteror.function(nextOr_)
 }
 
 #' @rdname iteror
@@ -317,46 +280,37 @@ nextElem.iteror <- function(obj, ...) {
   nextOr(obj, stop("StopIteration"), ...)
 }
 
-#' @export
-ihasNext <- function(obj, ...) {
-  UseMethod("ihasNext")
-}
-
 #' @exportS3Method
-ihasNext.ihasNextOr <- identity
-
-#' @exportS3Method
-ihasNext.default <- function(obj, ...) ihasNext(iteror(obj, ...))
-
-#' @exportS3Method
-nextOr.iter <- function(iter, or, ...) {
+nextOr.iter <- function(obj, or, ...) {
   # :( this means that if you use nextOr over a regular iter, you
   # are setting up and tearing down a tryCatch in each iteration...
   tryCatch(
-    iterators::nextElem(iter, ...),
+    iterators::nextElem(obj, ...),
     error=function(e)
       if (!identical(conditionMessage(e), 'StopIteration')) stop(e) else or)
 }
 
-#' @exportS3Method
-nextElem.iteror <- function(iter, ...) {
-  nextOr(iter, stop("StopIteration"))
-}
-
-
-
 #' @exportS3Method as.list iteror
 as.list.iteror <- function(x, n=as.integer(2^31-1), ...) {
-  as.vector.iteror(x, "list", n, ...)
+  icollect(x, "list", n=n, ...)
 }
 
 #' @exportS3Method as.double iteror
 as.double.iteror <- function(x, n=as.integer(2^31-1), ...) {
-  as.vector.iteror(x, "numeric", n, ...)
+  icollect(x, mode="numeric", n=n, ...)
+}
+
+#' @exportS3Method as.logical iteror
+as.logical.iteror <- function(x, n=as.integer(2^31-1), ...) {
+  icollect(x, mode="logical", n=n, ...)
 }
 
 #' @exportS3Method as.vector iteror
-as.vector.iteror <- function(x, mode="any", n=as.integer(2^31-1), ...) {
+as.vector.iteror <- function(x, mode) {
+  icollect(x, mode)
+}
+
+icollect <- function(x, mode="any", n=as.integer(2^31-1), ...) {
   if (mode == "list")
     wrap <- list
   else wrap <- identity

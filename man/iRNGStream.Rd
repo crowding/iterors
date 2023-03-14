@@ -3,7 +3,7 @@
 \name{iRNGStream}
 \alias{iRNGStream}
 \alias{iRNGSubStream}
-\title{Iterators that support parallel RNG}
+\title{Iterators over parallel random-number seeds.}
 \usage{
 iRNGStream(seed)
 }
@@ -12,18 +12,40 @@ iRNGStream(seed)
 vector to be passed to \code{nextRNGStream} or \code{nextRNGSubStream}.}
 }
 \description{
-The \code{iRNGStream} function creates an infinite iterator that calls
-\code{nextRNGStream} repeatedly, and \code{iRNGSubStream} creates an
-infinite iterator that calls \code{nextRNGSubStream} repeatedly.
+The \code{iRNGStream} creates a sequence of random number seeds
+that are very "far apart" (2^127 steps) in the overall random
+number sequence, so that each can be used to make a parallel,
+psudo-independent random iterator. This uses \link{nextRNGStream} and
+the "L'Ecuyer-CMRG" generator (for more details on this mechanism,
+see \code{vignette("parallel", package="parallel")}.)
 }
 \details{
+iRNGSubStream creates seeds that are somewhat less far apart (2^76
+steps), which can be used as "substream" seeds
+
 Originally from the \code{itertools} package.
 }
 \examples{
 
-it <- iRNGStream(313)
-print(nextOr(it))
-print(nextOr(it))
+global.seed <- .Random.seed
+
+rng.seeds <- iRNGStream(313)
+print(nextOr(rng.seeds))
+print(nextOr(rng.seeds))
+
+# create three pseudo-independent and
+# reproducible random number generators
+it1 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
+it2 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
+it3 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
+
+.Random.seed == global.seed
+take(it1, 5, "numeric") # 0 0 0 1 1
+take(it2, 5, "numeric") # 0 1 1 1 1
+take(it3, 5, "numeric") # 1 1 1 0 0
+
+# none of this affects the global seed
+global.seed == .Random.seed
 
 \dontrun{
 library(foreach)

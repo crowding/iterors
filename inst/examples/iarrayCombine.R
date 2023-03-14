@@ -60,14 +60,14 @@ actual.3 <- array(c(x, y), c(dim(x)[1:2], dim(x)[3] + dim(y)[3]))
 print(all(actual.3 == expected.3))
 
 actual.3 <-
-  foreach(a=chain(iarray(x, 3), iarray(y, 3)), .combine='c') %do% {
+  foreach(a=ichain(iarray(x, 3), iarray(y, 3)), .combine='c') %do% {
     a
   }
 dim(actual.3) <- c(2, 3, 8)
 print(all(actual.3 == expected.3))
 
 actual.3 <-
-  foreach(a=chain(iarray(x, 3), iarray(y, 3)), .combine='mcomb',
+  foreach(a=ichain(iarray(x, 3), iarray(y, 3)), .combine='mcomb',
           .multicombine=TRUE) %do% {
     a
   }

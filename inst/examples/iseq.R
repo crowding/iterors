@@ -1,4 +1,4 @@
-library(iterators)
+library(iterors)
 
 # return an iterator that returns subvectors of a sequence
 # of a specified length.

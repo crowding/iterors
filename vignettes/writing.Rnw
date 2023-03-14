@@ -61,7 +61,6 @@
 
 \title{Writing Custom Iterators}
 \author{Steve Weston}
-Revised for the `iterors` package by \author{Peter Meilstrup}
 
 
 \begin{document}
@@ -72,7 +71,7 @@ Revised for the `iterors` package by \author{Peter Meilstrup}
 \section{Introduction}
 
 <<loadLibs,echo=FALSE,results=hide>>=
-library(iterators)
+library(iterors)
 @
 
 An {\em iterator} is a special type of object that supplies data on
@@ -284,7 +283,7 @@ Sometimes a break or return isn't the right action to take.  As we saw
 above, \texttt{nextOr} will return its second argument (whatever that
 is) to signal end of iteration, when the iterator contains no more
 data. So you can check whether the returned value is the same as the
-one you provided, and interpret that as the end of iteration. 
+one you provided, and interpret that as the end of iteration.
 
 <<consuming_iter>>=
 x <- icount(10)
@@ -301,8 +300,9 @@ iterator that legitimately returns \texttt{NULL} as a value. For
 instance, this iterator that returns some tricky values:
 
 <<<bad_iter>>=
-bad_iter <- iteror(list(quote(.StopIteration), NULL, list(), NA, "", numeric(0)))
-@ 
+bad_iter <- iteror(list(
+  quote(.StopIteration), NULL, list(), NA, "", numeric(0)))
+@
 
 This is a general problem with sigil values in dynamically-typed
 languages; any value you could use to signal a stop, could also be a
@@ -310,13 +310,14 @@ legitimate value for an iterator to emit.
 
 One way out of this problem is to construct a \emph{unique} sigil
 value to use locally. One easy way to create a unique value is by
-using \texttt{new.env()}. Consuming an iterator using a unique sigil
+using \texttt{new.env()}. Consuming an iterator using a local sigil
 value looks like this:
 
 <<consuming_sigil>>=
 end.iter <- new.env()
 repeat {
-while (!identical(val <- nextOr(bad_iter, end.iter), end.iter)) {
+  val <- nextOr(bad_iter, end.iter)
+  if (identical(val, end.iter)) break
   print(val)
 }
 @
@@ -325,7 +326,7 @@ Because environments compare by reference, a newly constructed
 environment is guaranteed not to be \texttt{identical()} to any other
 object in the R session, and the check for identity is very fast (just
 a pointer comparison.) By using a local, private sigil value you avoid
-mistaking some other iterator's legitimate value for your signal.
+mistaking some other iterator's legitimate value for your own signal.
 
 \section{A stateful iterator that stops}
 
@@ -356,7 +357,7 @@ unlist(as.list(it))
 @
 
 The differences between \texttt{iforever} and \texttt{irep} are in the
-inner function \texttt{nextOr_} method. This inner function not only
+inner function \texttt{nextOr\_} method. This inner function not only
 accesses the values of the variables \texttt{x} and \texttt{times},
 but it also modifies the value of \texttt{times}.  This is
 accomplished by means of the ``\verb=<<-='' \footnote{It's commonly
@@ -374,11 +375,11 @@ treating that argument.
 
 Technically, this kind of function that refers to enclosing variables
 is called a {\em closure}, and is a fundamental feature of \texttt{R}.
-The important thing to remember is that \texttt{nextOr_} is able to
+The important thing to remember is that \texttt{nextOr\_} is able to
 get the value of variables that were passed as arguments to
 \texttt{irep}, and it can modify those values using the ``\verb=<<-=''
 operator.  These are {\em not} global variables: they are defined in
-the enclosing environment of the \texttt{nextOr_} function.  You can
+the enclosing environment of the \texttt{nextOr\_} function.  You can
 create as many iterators as you want using the \texttt{irep} function,
 and they will all work as expected without conflicts.
 
@@ -426,16 +427,16 @@ it <- ivector(1:25, chunks=3)
 as.list(it)
 @
 
-Note how the \texttt{nextOr_} function handles the end of iteration.
+Note how the \texttt{nextOr\_} function handles the end of iteration.
 If the underlying \texttt{idiv} iterator reaches the end, it will
 force \emph{its} `or` argument, which we have given as
 \texttt{return(or)}, Although it is forced by the inderlying iterator,
 R correctly evaluates a \texttt{return} call in a lazy argument
 according to the scope it was call written in, so that this return
 does the right thing, unwinding the scack to return out of
-\texttt{ivector}'s \texttt{nextOr_}.
+\texttt{ivector}'s \texttt{nextOr\_}.
 
-The \texttt{nextOr} function uses a lazy evaluated argument expressly for
+The \texttt{nextOr} method uses a lazy evaluated argument expressly for
 this purpose, so that you can respond to end of iteration by using a
 control flow operator like \texttt{return}, \texttt{break}, or
 \texttt{next} or \texttt{stop}.

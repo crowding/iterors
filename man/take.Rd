@@ -23,12 +23,12 @@ If \code{n} is larger than the number of elements in \code{object}, the
 entire iterator is consumed.
 }
 \details{
-A function \code{take} appeared in package \code{itertools2}. It is
-essentially synonymous with \code{as.vector.iteror(obj, n=n)} but has
-a different order of arguments.
+A function \code{take} appeared in package \code{itertools2}.
+It is essentially similar to \code{as.vector.iteror(obj, mode=mode)} but limits
+the number of elements taken.
 }
 \examples{
 take(1:10, 3) # 1 2 3
-
-take(1:5, 10) # 1 2 3 4 5
+take(icount(), 10) # 1:10
+take(icount(5), 10) # 1 2 3 4 5
 }

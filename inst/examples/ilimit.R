@@ -1,4 +1,4 @@
-library(iterators)
+library(iterors)
 
 ilimit <- function(it, times) {
   it <- iteror(it)

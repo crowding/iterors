@@ -1,4 +1,4 @@
-library(iterators)
+library(iterors)
 
 test_that("test that various values of chunksize", {
   nr <- 13

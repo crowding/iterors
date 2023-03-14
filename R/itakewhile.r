@@ -4,9 +4,9 @@
 #' as long as the given \code{predicate} function returns \code{TRUE}.
 #'
 #' @export
+#' @param object an iterable object
 #' @param predicate a function that determines whether an element is \code{TRUE}
 #' or \code{FALSE}. The function is assumed to take only one argument.
-#' @param object an iterable object
 #' @return iterator object
 #'
 #' @examples
@@ -14,13 +14,13 @@
 #' not_too_large <- function(x) {
 #'   x <= 5
 #' }
-#' it <- itakewhile(not_too_large, 1:100)
+#' it <- ikeepwhile(not_too_large, 1:100)
 #' unlist(as.list(it)) == 1:5
 #'
 #' # Same approach but uses an anonymous function
-#' it2 <- itakewhile(function(x) x <= 10, seq(2, 100, by=2))
+#' it2 <- ikeepwhile(function(x) x <= 10, seq(2, 100, by=2))
 #' unlist(as.list(it2)) == c(2, 4, 6, 8, 10)
-itakewhile <- function(predicate, object) {
+ikeepwhile <- function(object, predicate) {
   iter_obj <- iteror(object)
 
   stop_iterating <- FALSE

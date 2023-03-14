@@ -1,4 +1,4 @@
-library(iterators)
+library(iterors)
 
 # This functions returns an iterator that recycles the values of
 # the specified iterator

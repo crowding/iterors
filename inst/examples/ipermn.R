@@ -1,4 +1,4 @@
-library(iterators)
+library(iterors)
 
 permn <- function(x) {
   n <- length(x)

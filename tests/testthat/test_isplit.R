@@ -1,4 +1,4 @@
-library(iterators)
+library(iterors)
 
 test_that("test isplit with a single factor", {
   x <- rnorm(200)

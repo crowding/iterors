@@ -1,4 +1,4 @@
-library(iterators)
+nextElem <- iterators::nextElem
 
 test_that("test vector iterator creation", {
   expect_silent(x <- iteror(1:10))

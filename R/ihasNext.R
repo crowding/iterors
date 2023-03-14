@@ -37,7 +37,7 @@
 #'   directly give an action to take at end of iteration.
 #' @examples
 #' # The bad old style of consuming an iterator in a loop with `nextElem`:
-#'   it <- iHasNext(iteror(c('a', 'b', 'c'))
+#'   it <- ihasNext(iteror(c('a', 'b', 'c'))
 #'   tryCatch(repeat {
 #'     print(nextElem(it))
 #'   }, error=function(err) {
@@ -71,9 +71,6 @@ ihasNext <- function(obj, ...) {
 }
 
 #' @exportS3Method
-ihasNext.ihasNext <- identity
-
-#' @exportS3Method
 ihasNext.default <- function(obj, ...) ihasNext(iteror(obj, ...))
 
 #' @exportS3Method
@@ -103,3 +100,14 @@ ihasNext.iteror <- function(obj, ...) {
   it$hasNext <- hasNext_
   structure(it, class=c("ihasNext", class(it)))
 }
+
+#' @export
+ihasNext <- function(obj, ...) {
+  UseMethod("ihasNext")
+}
+
+#' @exportS3Method
+ihasNext.ihasNextOr <- function(obj, ...) obj
+
+#' @exportS3Method
+ihasNext.default <- function(obj, ...) ihasNext(iteror(obj, ...))

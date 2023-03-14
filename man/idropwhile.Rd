@@ -4,13 +4,13 @@
 \alias{idropwhile}
 \title{Iterator that drops elements until the predicate function returns FALSE}
 \usage{
-idropwhile(predicate, object)
+idropwhile(object, predicate)
 }
 \arguments{
+\item{object}{an iterable object}
+
 \item{predicate}{a function that determines whether an element is \code{TRUE}
 or \code{FALSE}. The function is assumed to take only one argument.}
-
-\item{object}{an iterable object}
 }
 \value{
 iterator object

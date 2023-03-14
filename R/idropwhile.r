@@ -9,9 +9,9 @@
 #' are returned.
 #'
 #' @export
+#' @param object an iterable object
 #' @param predicate a function that determines whether an element is \code{TRUE}
 #' or \code{FALSE}. The function is assumed to take only one argument.
-#' @param object an iterable object
 #' @return iterator object
 #'
 #' @examples
@@ -25,7 +25,7 @@
 #' # Same approach but uses an anonymous function
 #' it2 <- idropwhile(function(x) x <= 10, seq(2, 20, by=2))
 #' as.list(it2)
-idropwhile <- function(predicate, object) {
+idropwhile <- function(object, predicate) {
   iter_obj <- iteror(object)
 
   nextOr_ <- function(or) {
