@@ -1,5 +1,9 @@
 # iterors
 
+  <!-- badges: start -->
+  [![Codecov test coverage](https://codecov.io/gh/crowding/iterors/branch/master/graph/badge.svg)](https://app.codecov.io/gh/crowding/iterors?branch=master) [![check_full](https://github.com/crowding/iterors/actions/workflows/check_full.yaml/badge.svg)](https://github.com/crowding/iterors/actions/workflows/check_full.yaml) [![pkgdown](https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml)
+  <!-- badges: end -->
+
 A fresh take on iterators in R. Designed to be cross-compatible with the `iterators` package, but using the `nextOr` method will offer better performance and more compact code. With batteries included: includes a collection of iterator constructors and combinators ported and harmonized from the `iterators`, `itertools`, and `itertools2` packages, as well as several new functions.
 
 ## How is it different from `iterators`?
@@ -13,7 +17,7 @@ total <- 0
 repeat total <- total + nextOr(it, break)
 ```
 
-By contrast, this is how you used to have to work with `iterators`:
+By contrast, this is how you did this with `iterators`:
 
 ```{R}
 total <- 0
@@ -27,7 +31,7 @@ tryCatch(
 
 Besides requiring less boilerplate, iterors also perform faster, particularly when using higher-order iterator functions (which used to require setting up and tearing down a tryCatch for every iteration.)
 
-A third benefit is that because `iterors` does not force you to use exceptions for flow control, debugging iterator code is easier, as your stack traces are no longer swallowed by `tryCatch`.
+A third benefit is that because `iterors` does not force you to use exceptions for flow control, debugging code using `iterors` is easier, as your stack traces are no longer swallowed by `tryCatch`.
 
 ## Installation
 

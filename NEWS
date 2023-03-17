@@ -2,11 +2,31 @@ NEWS/ChangeLog for iterors
 ----------------------------
 
 1.0     2023-03-01
-        Incorporated "iterators" package
-        Incorporated/translated "itertools" package.
-        Incorporated "itertools2" package.  
 
-Variations from the above packages:
+Split off from "async" package.
+Incorporated/ported "iterators" package.
+Incorporated/ported "itertools" package.
+Incorporated/ported "itertools2" package.  
+
+New features:
+  o `iunique` uses a hash table rather than linear scan, for much improved
+    performance; it also works with arbitrary R objects.
+  o New functions `irle()` and `irle_inverse()` for run-length encoding.
+  o Introduced `ireduce()`, `iaccum()`, and `sum()` and `prod()` methods for
+    iterors.
+  o `ichain(...)` now has a companion function `icollapse(it)` which takes
+    an iterable (rather than `...`).
+  o New iteror methods for `as.numeric`, `as.vector', `as.character`,
+    and `as.logical`.
+  o Random number iterators like `irunif`, `isample` and so on can now
+    maintain a private seed value, so that interleaving with other
+    iterators does not affect reproducibility. By default each newly
+    constructed random number iterator will generate an _independent_
+    pseudo-random stream (using the [nextRNGStream] mechanism).
+  o New method `ienumerate.array` can iterate over
+    arbitrary /multiple margins, providing a vector index.
+
+Changes from the above packages:
   o `iterators::ifilter()` is renamed to `ikeep()` and the order of arguments
     changed to have the iterable first (the better to work with R's
     pipe operator.) `ifilterfalse()` is similarly renamed to `idrop()`.
@@ -23,26 +43,13 @@ Variations from the above packages:
   o Traversing arrays:
     * Iterating over slices of an array, as `iterators::iapply` did, is
       here done by the constructor method `iteror.array`.
-  o `iunique` uses a hash table rather than linear scan, for much improved
-    performance; it also works with arbitrary R objects.
   o `itertools2::iunique_lastseen()` is renamed to `idedupe()`.
-  o New functions `irle()` and `irle_inverse()` for run-length encoding.
-  o Introduced `ireduce()`, `iaccum()`, and `sum()` and `prod()` methods for
-    iterors.
-  o `ichain(...)` concatenates iterators; it now has a companion
-    function `icollapse(it)` which takes an iterable (rather than `...`).
-  o New iteror methods for `as.numeric`, `as.vector', `as.character`,
-    and `as.logical`.
   o `iconsume(it, 0)` will consume zero elements. To consume the entire
     output of an iteror use `iconsume(it, Inf)`
   o New method `ienumerate.array()` can enumerate with array indices over
     arbitrary margins.
-  o Random number iterators like `irunif`, `isample` and so on can now
-    maintain a private seed value, so that interleaving with other
-    iterators does not affect reproducibility. By default each newly
-    constructed random number iterator will generate an _independent_
-    pseudo-random stream (using the [nextRNGStream] mechanism).
-  
+
+
 Prior NEWS/ChangeLog for itertools:
 ----------------------------
 
@@ -232,3 +239,18 @@ Prior NEWS/ChangeLog for itertools:
   concurrently. Missing values are replaced with the value given in `fill` if
   the iterables are of uneven length.
 
+Prior NEWS/ChangeLog for iterators:
+----------------------------
+
+## 1.0.14
+
+- Maintainer change (Folashade Daniel; fdaniel@microsoft.com).
+
+## 1.0.13
+
+- Maintainer change (Michelle Wallig; Michelle.Wallig@microsoft.com).
+
+## 1.0.12
+
+- Exported makeIwrapper function; request of Bill Venables.
+- Exported `isample` iterator maker function.

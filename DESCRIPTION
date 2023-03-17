@@ -19,9 +19,10 @@ Imports:
 Encoding: UTF-8
 Suggests:
     combinat,
-    testthat(>= 3.0.0),
+    testthat (>= 3.0.0),
     foreach,
-    iterators (>= 1.0.7)
+    iterators (>= 1.0.7),
+    covr
 URL: https://github.com/crowding/iterors
 License: GPL (>= 3) + file LICENSE
 Roxygen: list(markdown=TRUE)
