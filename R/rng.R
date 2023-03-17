@@ -54,7 +54,7 @@ makeIwrapper <- function(FUN) {
     .(quote(`function`))(
       .(as.pairlist(c(formals(FUN),
                       alist(count=Inf,
-                            independent=TRUE,
+                            independent=FALSE,
                             seed=nextOr(rng.state$stream))))),
       {
         list(..(lapply(names(formals(FUN)), as.name)))
@@ -106,25 +106,36 @@ makeIwrapper <- function(FUN) {
 #' @rdname rng
 #' @title Random Number Iterators
 #'
-#' @description These function returns an iterators that return random numbers of various
-#' distributions.  Each one is a wrapper around a standard \code{R} function.
+#' @description These function returns an iterator that returns random
+#'   numbers of various distributions.  Each one is a wrapper around a
+#'   standard \code{R} function.
 #'
 #' @param count number of times that the iterator will fire.  If not
 #'   specified, it will fire values forever.
-#' @param \dots arguments to pass to the underlying \code{rnorm}
-#'   function.
-#' @param independent default TRUE means that each iterator will keep
-#'   its own independent RNG seed; meaning that rendom number
-#'   iterators will be truly independent of any others. If FALSE,
-#'   rendom number generation
-#' @param seed A seed value usable by the "L'Ecuyer-CMRG"
-#'   generator. The default will create a pseudo-independent stream
-#'   for each newly constructed iterator. You can specify a specific
-#'   value for reproducibility. To reproduciby greate several
-#'   independent random numer iterators see the example under
-#'   [iRNGStream].
+#' @param independent If TRUE, this iterator will keep its own RNG
+#'   state, so that its output is reproducible and independent of
+#'   anything else in the program. this comes at some performance
+#'   cost.  generation
+#' @param seed Only relevant if `independent=TRUE`; A seed value usable
+#'   by the "L'Ecuyer-CMRG" generator. The default will create a
+#'   pseudo-independent stream for each newly constructed
+#'   iterator. You can specify a specific value for
+#'   reproducibility. To reproduciby greate several independent random
+#'   numer iterators see the example under [iRNGStream].
 #' @return An iterator that is a wrapper around the corresponding
 #'   random number generator function.
+#' @param n see e.g. [rnorm].
+#' @param mean see [rnorm].
+#' @param sd see [rnorm].
+#' @param size see e.g. [rbinom].
+#' @param prob see e.g. [rbinom].
+#' @param mu see [rnbinom].
+#' @param lambda see [rpois].
+#' @param x see [isample].
+#' @param replace see [isample].
+#' @param min see [runif].
+#' @param max see [runif].
+#'
 #' @details Originally from the `iterators` package.
 #' @examples
 #'

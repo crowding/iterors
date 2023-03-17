@@ -2,7 +2,7 @@
 % Please edit documentation in R/iarray.R
 \name{iarray}
 \alias{iarray}
-\title{Create an iterator over an array}
+\title{Create nested iterators over an array.}
 \usage{
 iarray(
   X,
@@ -22,14 +22,14 @@ iarray(
 of \code{MARGIN} is greater than one, the resulting iterator will generate
 iterators which is particularly useful with nested foreach loops.}
 
-\item{\dots}{Used to force subsequent arguments to be specified by name.}
+\item{...}{Unused.}
 
 \item{chunks}{Number of elements that the iterator should generate.  This
 can be a single value or a vector the same length as \code{MARGIN}.  A
 single value will be recycled for each dimension if \code{MARGIN} has more
 than one value.}
 
-\item{chunkSize}{The maximum size Number of elements that the iterator
+\item{chunkSize}{The maximum number of elements that the iterator
 should generate.  This can be a single value or a vector the same length as
 \code{MARGIN}.  A single value will be recycled for each dimension if
 \code{MARGIN} has more than one value.}
@@ -50,9 +50,9 @@ can be much more efficient to send call objects to parallel workers than the
 objects that they evaluate to.}
 }
 \description{
-Create an iterator over an array. It is similar to the \code{iapply}
-function from the iterators package, but it has special support for nested
-foreach loops.
+Create an iterator over an array. It is similar to the
+\code{iterator.array} constructor but produces nested
+iterators, to be used with nested \link[foreach:foreach]{foreach} loops.
 }
 \details{
 Originally from the \code{itertools} package.
@@ -66,6 +66,7 @@ Originally from the \code{itertools} package.
   # Iterate over subarrays
   as.list(iteror(x, by=3, chunksize=2))
 
+  # iterate in nested fashion
   x <- array(1:64, c(4,4,4))
   it <- iarray(x, c(2,3), chunks=c(1,2))
   jt <- nextOr(it)
@@ -73,7 +74,7 @@ Originally from the \code{itertools} package.
   jt <- nextOr(it)
   nextOr(jt)
 
-  it <- iteror(x, by=c(2,3), chunks=c(2,2))
+  it <- iarray(x, c(2,3), chunks=c(2,2))
   jt <- nextOr(it)
   nextOr(jt)
   nextOr(jt)
@@ -96,7 +97,7 @@ Originally from the \code{itertools} package.
 
   x <- matrix(1:1800, nrow=3, ncol=600)
   it <- iarray(x, 1, idx=alist(, 10:600), quote=TRUE)
-  (yq <- nextOr(it))
+  yq <- nextOr(it)
   object.size(yq)
   object.size(eval(yq))
 

@@ -51,7 +51,7 @@ iwhich <- function(nf, ind) {
 #' expected <- split(x, f)
 #'
 #' for (i in expected) {
-#'     actual <- nextElem(it)
+#'     actual <- nextOr(it)
 #'     stopifnot(actual$value == i)
 #' }
 #'

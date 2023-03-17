@@ -24,10 +24,10 @@ as long as the given \code{predicate} function returns \code{TRUE}.
 not_too_large <- function(x) {
   x <= 5
 }
-it <- ikeepwhile(not_too_large, 1:100)
+it <- ikeepwhile(1:100, not_too_large)
 unlist(as.list(it)) == 1:5
 
 # Same approach but uses an anonymous function
-it2 <- ikeepwhile(function(x) x <= 10, seq(2, 100, by=2))
+it2 <- ikeepwhile(seq(2, 100, by=2), function(x) x <= 10)
 unlist(as.list(it2)) == c(2, 4, 6, 8, 10)
 }

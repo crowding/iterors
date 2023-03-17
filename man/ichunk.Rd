@@ -31,13 +31,13 @@ repeat print(unlist(nextOr(it, break)))
 it <- ichunk(1:10, 3, mode='integer')
 repeat print(unlist(nextOr(it, break)))
 
-#' it <- ichunk(iterators::iter(1:5), chunk=2, fill=NA)
+#' it <- ichunk(iterators::iter(1:5), 2, fill=NA)
 # List: list(1, 2, 3)
 nextOr(it, NULL)
 # List: list(4, 5, NA)
 nextOr(it, NULL)
 
-it2 <- ichunk(levels(iris$Species), chunk=4, fill="weeee")
+it2 <- ichunk(levels(iris$Species), 4, fill="weeee")
 # Returns: list("setosa", "versicolor", "virginica", "weeee")
 nextOr(it2, NA)
 

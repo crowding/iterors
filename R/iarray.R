@@ -19,23 +19,22 @@
 
 
 
-#' Create an iterator over an array
+#' Create nested iterators over an array.
 #'
-#' Create an iterator over an array. It is similar to the \code{iapply}
-#' function from the iterators package, but it has special support for nested
-#' foreach loops.
-#'
+#' Create an iterator over an array. It is similar to the
+#' \code{iterator.array} constructor but produces nested
+#' iterators, to be used with nested [foreach][foreach::foreach] loops.
 #'
 #' @param X Array to iterate over.
 #' @param MARGIN Vector of subscripts to iterate over.  Note that if the length
 #' of \code{MARGIN} is greater than one, the resulting iterator will generate
 #' iterators which is particularly useful with nested foreach loops.
-#' @param \dots Used to force subsequent arguments to be specified by name.
+#' @param ... Unused.
 #' @param chunks Number of elements that the iterator should generate.  This
 #' can be a single value or a vector the same length as \code{MARGIN}.  A
 #' single value will be recycled for each dimension if \code{MARGIN} has more
 #' than one value.
-#' @param chunkSize The maximum size Number of elements that the iterator
+#' @param chunkSize The maximum number of elements that the iterator
 #' should generate.  This can be a single value or a vector the same length as
 #' \code{MARGIN}.  A single value will be recycled for each dimension if
 #' \code{MARGIN} has more than one value.
@@ -63,6 +62,7 @@
 #'   # Iterate over subarrays
 #'   as.list(iteror(x, by=3, chunksize=2))
 #'
+#'   # iterate in nested fashion
 #'   x <- array(1:64, c(4,4,4))
 #'   it <- iarray(x, c(2,3), chunks=c(1,2))
 #'   jt <- nextOr(it)
@@ -70,7 +70,7 @@
 #'   jt <- nextOr(it)
 #'   nextOr(jt)
 #'
-#'   it <- iteror(x, by=c(2,3), chunks=c(2,2))
+#'   it <- iarray(x, c(2,3), chunks=c(2,2))
 #'   jt <- nextOr(it)
 #'   nextOr(jt)
 #'   nextOr(jt)
@@ -93,7 +93,7 @@
 #'
 #'   x <- matrix(1:1800, nrow=3, ncol=600)
 #'   it <- iarray(x, 1, idx=alist(, 10:600), quote=TRUE)
-#'   (yq <- nextOr(it))
+#'   yq <- nextOr(it)
 #'   object.size(yq)
 #'   object.size(eval(yq))
 #'

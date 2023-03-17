@@ -58,11 +58,11 @@
 # nextOr(i4)
 #
 
-#' An efficient and compact iteration protocol.
+#' Efficient, compact iteration.
 #'
-#' To create an iteror, call the constructor `iteror` providing either
-#' a vector or a function as argument. The returned object will
-#' support the method [nextOr(obj, or)] to extract successive
+#' To create an iteror, call the constructor `iteror` providing a
+#' function or other object as argument. The returned object will
+#' support the method [nextOr(obj, or)][nextOr] to extract successive
 #' values.
 #'
 #' The main method for "iteror" is "nextOr" rather than
@@ -73,12 +73,11 @@
 #' "return" to take at the the end of iteration. Summing over an
 #' iteror this way looks like:
 #'
-#' ```
+#' ```{R}
 #' sum <- 0
-#' it <- iteror(in)
+#' it <- iteror(iseq(0, 100, 7))
 #' repeat {
-#'   val <- nextOr(iter, break)
-#'   sum <- sum + val;
+#'   sum <- sum + nextOr(it, break)
 #' }
 #' ```
 #'
@@ -86,18 +85,19 @@
 #' that is, a special value that will be interpreted as end of
 #' iteration.  If the result of calling `nextOr` is `identical()` to
 #' the sigil value you provided, then you know the iterator has
-#' ended. In R it is commonplace to use `NULL` or `NA`, in the role of
+#' ended. In R it is commonplace to use `NULL` or `NA` in the role of
 #' a sigil, but that only works until you have an iterator that needs
-#' to yield NULL. A safer alternative is to use a one-shot sigil
-#' value; `new.env()` is a good choice, as it produces an object that
-#' by construction is not [identical] to any other object in the R
-#' session. This pattern looks like:
+#' to yield NULL itself. A safer alternative is to use a one-shot
+#' sigil value; `new.env()` is a good choice, as it produces an object
+#' that by construction is not [identical] to any other object in the
+#' R session. This pattern looks like:
 #'
-#' ```
+#' ```{R}
 #' sum <- 0
 #' stopped <- new.env()
+#' it <- iteror(iseq(0, 100, 7))
 #' repeat {
-#'   val <- nextOr(iter, stopped)
+#'   val <- nextOr(it, stopped)
 #'   if (identical(val, stopped)) break
 #'   sum <- sum + val
 #' }
@@ -107,11 +107,12 @@
 #' @param obj An object to iterate with. If `obj` is a vector, the
 #'   iterator will go over the elements of that vector and you can use
 #'   `recycle`.  If `obj` is a function, the function will be called
-#'   to compute successive elements. The function should have a leading
-#'   argument `or` and behave accordingly (only forcing and returning
-#'   `or` to signal end of iteration.)  If you provide a function that
-#'   does not have an `or` argument, you will need to specify either `catch`
-#'   or `sigil`.
+#'   to compute successive elements. The function should have a
+#'   leading argument `or` and behave accordingly (only forcing and
+#'   returning `or` to signal end of iteration.)  If you provide a
+#'   function that does not have an `or` argument, you will need to
+#'   specify either `catch` or `sigil`.
+#' @param ... Extra arguments used by some `iteror` methods.
 #' @return an object of classes 'iteror' and 'iter'.
 iteror <- function(obj, ...) {
   UseMethod("iteror")
@@ -184,7 +185,7 @@ iteror.function <- function(obj, ..., catch, sigil, count) {
 #' a <- array(1:8, c(2, 2, 2))
 #'
 #' # iterate over all the slices
-#' it <- iapply(a, by=3)
+#' it <- iteror(a, by=3)
 #' as.list(it)
 #'
 #' # iterate over all the columns of each slice

@@ -19,7 +19,7 @@
 #' consume(it2, 4)
 #' # Returns 'e'
 #' nextOr(it2, NA)
-iconsume <- function(obj, n=Inf) {
+consume <- function(obj, n=Inf) {
   obj <- iteror(obj)
 
   if (n <= 0 | !is.numeric(n) | length(n) != 1) {
@@ -42,8 +42,8 @@ iconsume <- function(obj, n=Inf) {
 #' length(iteror)} or \code{n} is 0, then the \code{iteror} is consumed.
 #'
 #' @export
-#' @param iteror an iteror object
-#' @param n The location of the desired element to return
+#' @param it an iterable.
+#' @param n The index of the desired element to return.
 #' @param or An argument to force and return if the iteror is consumed.
 #' @return The nth element of the iteror or the result of forcing `or`.
 #'

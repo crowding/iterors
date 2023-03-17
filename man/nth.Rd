@@ -7,11 +7,11 @@
 nth(it, n, or)
 }
 \arguments{
-\item{n}{The location of the desired element to return}
+\item{it}{an iterable.}
+
+\item{n}{The index of the desired element to return.}
 
 \item{or}{An argument to force and return if the iteror is consumed.}
-
-\item{iteror}{an iteror object}
 }
 \value{
 The nth element of the iteror or the result of forcing \code{or}.

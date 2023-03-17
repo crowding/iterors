@@ -5,14 +5,16 @@
 #' is \code{TRUE}.
 #'
 #' @export
+#' @aliases ifilter
+#' @seealso idrop ikeepwhile idropwhile
 #' @param iterable an iterable object.
 #' @param predicate a function that determines whether an element is
 #'   \code{TRUE} or \code{FALSE}. The function is assumed to take only
 #'   one argument.
 #' @details Originally called 'ifilter' from package
 #'   `itertools`. Renamed because the order of arguments has changed
-#'   to put the iterable in the first argument, as fits the modern R pipe
-#'   operator.
+#'   to put the iterable in the first argument, the better to be used
+#'   with the `|>` operator.
 #' @return iterator object
 #'
 #' @examples
@@ -20,7 +22,7 @@
 #' is_even <- function(x) {
 #'   x %% 2 == 0
 #' }
-#' it <- ikeep(1:10, is_evem)
+#' it <- ikeep(1:10, is_even)
 #' as.list(it)
 #'
 #' # Similar idea here but anonymous function is used to filter out even
@@ -61,6 +63,7 @@ ikeep <- function(iterable, predicate) {
 #' is \code{FALSE}.
 #'
 #' @export
+#' @aliases ifilterfalse
 #' @examples
 #' # Filters out even numbers and retains only odd numbers
 #' is_even <- function(x) {

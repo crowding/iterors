@@ -19,11 +19,11 @@
 #' not_too_large <- function(x) {
 #'   x <= 3
 #' }
-#' it <- idropwhile(not_too_large, 1:8)
+#' it <- idropwhile(1:8, not_too_large)
 #' as.list(it)
 #'
 #' # Same approach but uses an anonymous function
-#' it2 <- idropwhile(function(x) x <= 10, seq(2, 20, by=2))
+#' it2 <- idropwhile(seq(2, 20, by=2), function(x) x <= 10)
 #' as.list(it2)
 idropwhile <- function(object, predicate) {
   iter_obj <- iteror(object)
@@ -37,5 +37,5 @@ idropwhile <- function(object, predicate) {
     }
   }
 
-  iteror(nextOr_)
+  iteror.function(nextOr_)
 }

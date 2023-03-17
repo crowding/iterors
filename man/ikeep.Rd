@@ -2,7 +2,9 @@
 % Please edit documentation in R/ifilter.R
 \name{ikeep}
 \alias{ikeep}
+\alias{ifilter}
 \alias{idrop}
+\alias{ifilterfalse}
 \title{Iterator that filters elements not satisfying a predicate function}
 \usage{
 ikeep(iterable, predicate)
@@ -27,15 +29,15 @@ is \code{TRUE}.
 \details{
 Originally called 'ifilter' from package
 \code{itertools}. Renamed because the order of arguments has changed
-to put the iterable in the first argument, as fits the modern R pipe
-operator.
+to put the iterable in the first argument, the better to be used
+with the \verb{|>} operator.
 }
 \examples{
 # Filters out odd numbers and retains only even numbers
 is_even <- function(x) {
   x \%\% 2 == 0
 }
-it <- ikeep(1:10, is_evem)
+it <- ikeep(1:10, is_even)
 as.list(it)
 
 # Similar idea here but anonymous function is used to filter out even
@@ -75,4 +77,7 @@ nextOr(it3, NA) # f
 nextOr(it3, NA) # g
 # nextOr(it, NA) continues through the rest of the consonants
 
+}
+\seealso{
+idrop ikeepwhile idropwhile
 }

@@ -10,6 +10,7 @@
 #'
 #' @export
 #' @param object an iterable object
+#' @param digest a hash function to use. It should return a character value.
 #' @return an iterator that returns the unique elements from \code{object}
 #' @seealso idedupe
 #'
@@ -51,6 +52,7 @@ iunique <- function(object, digest=rlang::hash) {
 #'
 #' @export
 #' @param object an iterable object
+#' @param cmp A function to use for comparison.
 #' @return an iterator that skips over duplicate items from teh
 #'   unterlying iterator.
 #' @details Originated as `itertools2::iunique_lastseen`.
@@ -95,7 +97,7 @@ idedupe <- function(object, cmp=identical) {
 #'
 #' @author Peter Meilstrup
 #' @param obj An iterable
-#' @param cmp A function to use for comparison. it should take two
+#' @param cmp A function to use for comparison. It should take two
 #'   arguments and return `TRUE` or `FALSE`.
 #' @return An iterator returning entries of the form `list(length=n, value=X)`.
 #' @author Peter Meilstrup

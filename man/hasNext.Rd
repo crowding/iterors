@@ -36,7 +36,7 @@ directly give an action to take at end of iteration.
 # The bad old style of consuming an iterator in a loop with `nextElem`:
   it <- ihasNext(iteror(c('a', 'b', 'c')))
   tryCatch(repeat {
-    print(nextElem(it))
+    print(iterators::nextElem(it))
   }, error=function(err) {
     if (conditionMessage(err) != "StopIteration")
       stop(err)
@@ -45,7 +45,7 @@ directly give an action to take at end of iteration.
 # with ihasNext, this became:
   it <- ihasNext(iteror(c('a', 'b', 'c')))
   while (hasNext(it))
-    print(nextElem(it))
+    print(iterators::nextElem(it))
 
 # But using `nextOr` all you need is:
   iteror(c('a', 'b', 'c'))

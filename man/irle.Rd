@@ -9,7 +9,7 @@ irle(obj, cmp = identical)
 \arguments{
 \item{obj}{An iterable}
 
-\item{cmp}{A function to use for comparison. it should take two
+\item{cmp}{A function to use for comparison. It should take two
 arguments and return \code{TRUE} or \code{FALSE}.}
 }
 \value{

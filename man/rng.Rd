@@ -14,7 +14,7 @@ irnorm(
   mean = 0,
   sd = 1,
   count = Inf,
-  independent = TRUE,
+  independent = FALSE,
   seed = nextOr(rng.state$stream)
 )
 
@@ -23,7 +23,7 @@ irbinom(
   size,
   prob,
   count = Inf,
-  independent = TRUE,
+  independent = FALSE,
   seed = nextOr(rng.state$stream)
 )
 
@@ -33,7 +33,7 @@ irnbinom(
   prob,
   mu,
   count = Inf,
-  independent = TRUE,
+  independent = FALSE,
   seed = nextOr(rng.state$stream)
 )
 
@@ -41,7 +41,7 @@ irpois(
   n,
   lambda,
   count = Inf,
-  independent = TRUE,
+  independent = FALSE,
   seed = nextOr(rng.state$stream)
 )
 
@@ -51,7 +51,7 @@ isample(
   replace = FALSE,
   prob = NULL,
   count = Inf,
-  independent = TRUE,
+  independent = FALSE,
   seed = nextOr(rng.state$stream)
 )
 
@@ -60,36 +60,56 @@ irunif(
   min = 0,
   max = 1,
   count = Inf,
-  independent = TRUE,
+  independent = FALSE,
   seed = nextOr(rng.state$stream)
 )
 }
 \arguments{
+\item{n}{see e.g. \link{rnorm}.}
+
+\item{mean}{see \link{rnorm}.}
+
+\item{sd}{see \link{rnorm}.}
+
 \item{count}{number of times that the iterator will fire.  If not
 specified, it will fire values forever.}
 
-\item{independent}{default TRUE means that each iterator will keep
-its own independent RNG seed; meaning that rendom number
-iterators will be truly independent of any others. If FALSE,
-rendom number generation}
+\item{independent}{If TRUE, this iterator will keep its own RNG
+state, so that its output is reproducible and independent of
+anything else in the program. this comes at some performance
+cost.  generation}
 
-\item{seed}{A seed value usable by the "L'Ecuyer-CMRG"
-generator. The default will create a pseudo-independent stream
-for each newly constructed iterator. You can specify a specific
-value for reproducibility. To reproduciby greate several
-independent random numer iterators see the example under
-\link{iRNGStream}.}
+\item{seed}{Only relevant if \code{independent=TRUE}; A seed value usable
+by the "L'Ecuyer-CMRG" generator. The default will create a
+pseudo-independent stream for each newly constructed
+iterator. You can specify a specific value for
+reproducibility. To reproduciby greate several independent random
+numer iterators see the example under \link{iRNGStream}.}
 
-\item{\dots}{arguments to pass to the underlying \code{rnorm}
-function.}
+\item{size}{see e.g. \link{rbinom}.}
+
+\item{prob}{see e.g. \link{rbinom}.}
+
+\item{mu}{see \link{rnbinom}.}
+
+\item{lambda}{see \link{rpois}.}
+
+\item{x}{see \link{isample}.}
+
+\item{replace}{see \link{isample}.}
+
+\item{min}{see \link{runif}.}
+
+\item{max}{see \link{runif}.}
 }
 \value{
 An iterator that is a wrapper around the corresponding
 random number generator function.
 }
 \description{
-These function returns an iterators that return random numbers of various
-distributions.  Each one is a wrapper around a standard \code{R} function.
+These function returns an iterator that returns random
+numbers of various distributions.  Each one is a wrapper around a
+standard \code{R} function.
 }
 \details{
 Originally from the \code{iterators} package.

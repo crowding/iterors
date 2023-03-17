@@ -8,6 +8,8 @@ iunique(object, digest = rlang::hash)
 }
 \arguments{
 \item{object}{an iterable object}
+
+\item{digest}{a hash function to use. It should return a character value.}
 }
 \value{
 an iterator that returns the unique elements from \code{object}

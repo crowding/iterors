@@ -19,7 +19,6 @@
 #'
 #' Returns an iterator that counts starting from one.
 #'
-#' @aliases icount
 #' @param count number of times that the iterator will fire.  If not specified,
 #' it will count forever.
 #' @param recycle Whether to restart the count after finishing.
@@ -36,7 +35,7 @@
 #' nextOr(it)
 #' nextOr(it, NULL)  # expect NULL
 #'
-#' @export icount icountn
+#' @export
 #' @examples
 #' x <- icount(5)
 #' repeat print(nextOr(x, break))
@@ -66,10 +65,11 @@ icount <- function(count, recycle=FALSE) {
 }
 
 #' @rdname icount
+#' @param vn A vector of integers.
 #' @description `icountn(vn)` takes a vector specifying an array size,
 #'   and returns an iterator over array indices. Each returned element
 #'   is a vector the same length as vn, with the first index varying fastest.
-#' @export icountn
+#' @export
 #' @examples
 #' as.list(icountn(c(2, 3)))
 icountn <- function(vn, recycle=FALSE) {
@@ -79,11 +79,10 @@ icountn <- function(vn, recycle=FALSE) {
 
 #' Dividing Iterator
 #'
-#' Returns an iterator that returns pieces of numeric value.
+#' Returns an iterator dividing a value into integer chunks, such that
+#' `sum(idiv(n ...)) == floor(n)`
 #'
-#'
-#' @param n number of times that the iterator will fire.  If not specified, it
-#' will count forever.
+#' @param n The total
 #' @param \dots unused.
 #' @param chunks the number of pieces that \code{n} should be divided into.
 #' This is useful when you know the number of pieces that you want.  If

@@ -10,9 +10,9 @@ test_that("RNG streams are reproducible", {
   rng.seeds <- iRNGStream(313)
   # create three pseudo-independent and
   # reproducible random number generators
-  it1 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
-  it2 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
-  it3 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
+  it1 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds), independent=TRUE)
+  it2 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds), independent=TRUE)
+  it3 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds), independent=TRUE)
 
   expect_true(identical(.Random.seed, global.seed))
   take(it1, 5, "numeric") %is% answer[1,]
@@ -26,9 +26,9 @@ test_that("RNG streams are reproducible", {
 test_that("RNG streams are independent", {
 
   rng.seeds <- iRNGStream(313)
-  it1 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
-  it2 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
-  it3 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
+  it1 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds), independent=TRUE)
+  it2 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds), independent=TRUE)
+  it3 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds), independent=TRUE)
 
   # and this is independent of order in which
   # we call them...

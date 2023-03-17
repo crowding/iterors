@@ -8,6 +8,8 @@ idedupe(object, cmp = identical)
 }
 \arguments{
 \item{object}{an iterable object}
+
+\item{cmp}{A function to use for comparison.}
 }
 \value{
 an iterator that skips over duplicate items from teh
