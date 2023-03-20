@@ -21,6 +21,6 @@ test_that("test03", {
     iy <- irep(y, times = nx, each = nz)
     iz <- irep(z, times = nx * ny)
     actual <- as.list(izip(a = ix, b = iy, c = iz))
-    expected <- as.list(product(a = x, b = y, c = z))
+    expected <- as.list(igrid(a = x, b = y, c = z))
     expect_equal(expected, actual)
 })

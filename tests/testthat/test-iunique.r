@@ -82,7 +82,7 @@ test_that("idedupe works with other data types", {
 
 })
 
-test_that("iunique", {
+test_that("iunique with general data types", {
   fn <- quote(function(x=1) y)
 
   x <- list(eval(fn),

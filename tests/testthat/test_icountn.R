@@ -1,3 +1,5 @@
+`%is%` <- expect_equal
+
 test_that("icountn", {
   if (require(foreach, quietly=TRUE)) {
     xcountn <- function(x) {
@@ -12,6 +14,7 @@ test_that("icountn", {
                c(1, 1, 2, 1, 1, 3, 1, 1, 1, 2, 1, 1, 1),
                c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
                c(10, 10, 10, 10))
+
     expect_silent(for (v in vv) {
       ait <- icountn(v)
       xit <- xcountn(v)
@@ -23,4 +26,12 @@ test_that("icountn", {
     })
 
   }
+})
+
+test_that("icountn respects names", {
+  it <- icountn(c(x=2, y=2))
+  nextOr(it) %is% c(x=1, y=1)
+  nextOr(it) %is% c(x=2, y=1)
+  nextOr(it) %is% c(x=1, y=2)
+  nextOr(it) %is% c(x=2, y=2)
 })

@@ -41,34 +41,26 @@ ipermn.internal <- function(x, n) {
     nextVal <- NULL
   }
 
-  nextEl <- if (n <= 1) {
-    function() x[[nextElem(icar)]]
+  nextOr_ <- if (n <= 1) {
+    function(or) x[[nextOr(icar, return(or))]]
   } else {
-    function() {
+    function(or) {
       repeat {
         if (!hasVal) {
-          nextVal <<- nextElem(icar)
+          nextVal <<- nextOr(icar, return(or))
           icdr <<- ipermn.internal(x[-nextVal], n - 1)
           hasVal <<- TRUE
         }
 
-        tryCatch({
-          return(c(x[[nextVal]], nextElem(icdr)))
-        },
-        error=function(e) {
-          if (identical(conditionMessage(e), 'StopIteration')) {
-            hasVal <<- FALSE
-          } else {
-            stop(e)
-          }
-        })
+        return(c(x[[nextVal]], nextElem(icdr, {
+          hasVal <<- FALSE
+          next
+        })))
       }
     }
   }
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('ipermn', 'abstractiter', 'iter')
-  obj
+  iteror(nextOr_)
 }
 
 icombn <- function(x, m) {
@@ -96,35 +88,28 @@ icombn.internal <- function(x, n, m) {
     nextVal <- NULL
   }
 
-  nextEl <- if (m <= 1) {
-    function() x[[nextElem(icar)]]
+  nextOr_ <- if (m <= 1) {
+    function(or) x[[nextElem(icar, return(or))]]
   } else {
-    function() {
+    function(or) {
       repeat {
         if (!hasVal) {
-          nextVal <<- nextElem(icar)
+          nextVal <<- nextOr(icar, return(or))
           nn <- n - nextVal
           icdr <<- icombn.internal(x[seq(nextVal+1, length=nn)], nn, m - 1)
           hasVal <<- TRUE
         }
 
-        tryCatch({
-          return(c(x[[nextVal]], nextElem(icdr)))
-        },
-        error=function(e) {
-          if (identical(conditionMessage(e), 'StopIteration')) {
-            hasVal <<- FALSE
-          } else {
-            stop(e)
-          }
-        })
+        return(c(x[[nextVal]],
+                 nextOr(icdr, {
+                   hasVal <<- FALSE
+                   next
+                 })))
       }
     }
   }
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('icombn', 'abstractiter', 'iter')
-  obj
+  iteror(nextOr_)
 }
 
 tostr <- function(x) paste(x, collapse=', ')

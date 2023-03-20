@@ -3,22 +3,20 @@ library(iterors)
 ilimit <- function(it, times) {
   it <- iteror(it)
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     if (times > 0)
       times <<- times - 1
     else
-      stop('StopIteration')
+      or
 
     nextElem(it)
   }
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('ilimit', 'abstractiter', 'iter')
-  obj
+  iteror.function(nextOr_)
 }
 
 it <- ilimit(icount(Inf), 3)
-print(nextElem(it))
-print(nextElem(it))
-print(nextElem(it))
-print(tryCatch(nextElem(it), error=function(e) e))
+print(nextOr(it, "done"))
+print(nextOr(it, "done"))
+print(nextOr(it, "done"))
+print(nextOt(it, "done"))

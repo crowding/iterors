@@ -19,13 +19,14 @@
 #'
 #' Returns an iterator that counts starting from one.
 #'
-#' @param count number of times that the iterator will fire.  If not specified,
-#' it will count forever.
+#' @param count number of times that the iterator will fire. Use NA or
+#'   Inf to make an iterator that counts forever.
 #' @param recycle Whether to restart the count after finishing.
 #' @return The counting iterator.
 #' @keywords utilities
 #' @details Originally from the `iterators` package.
-#' @seealso For more control over starting number and step size, see [iseq].
+#' @seealso For more control over starting number and step size, see
+#'   [iseq].
 #' @examples
 #'
 #' # create an iterator that counts from 1 to 3.
@@ -39,29 +40,38 @@
 #' @examples
 #' x <- icount(5)
 #' repeat print(nextOr(x, break))
-icount <- function(count, recycle=FALSE) {
-  if (missing(count))
-    count <- NULL
-  else if (!is.numeric(count) || length(count) != 1 || is.na(count))
+icount <- function(count=Inf, recycle=FALSE) {
+  if (!is.numeric(count) || length(count) != 1 || is.na(count))
     stop('count must be a numeric value')
 
-  i <- 0L
+  i <- count
 
-  if (is.null(count))
-    nextOr_ <- function(or) {
-      (i <<- i + 1L)
+  if (is.finite(count)) {
+    i[1] <- 0
+    storage.mode(i) <- "integer"
+    if (recycle) {
+      nextOr_ <- function(or) if (i >= count) {i[1] <<- 1; i} else (i <<- i + 1L)
+    } else {
+      nextOr_ <- function(or) if (i >= count) or else (i <<- i + 1L)
     }
-  else
-    nextOr_ <- function(or) {
-      if (i < count)
-        (i <<- i + 1L)
-      else if (recycle)
-        i <<- 1L
-      else
-        or
-    }
+  } else {
+    i[1] <- 0L
+    storage.mode(i) <- "integer"
+    nextOr_ <- function(or) (i <<- i + 1L)
+  }
 
   iteror.function(nextOr_)
+}
+
+icount.internal <- function(n, recycle=FALSE) {
+  x <- n
+  x[1] <- 0
+  storage.mode(x) <- "integer"
+  if (recycle) {
+    function(or) if (x >= n) (x[1] <<- 1L) else (x <<- x + 1L)
+  } else {
+    function(or) if (x >= n) or else (x <<- x + 1L)
+  }
 }
 
 #' @rdname icount
@@ -69,13 +79,58 @@ icount <- function(count, recycle=FALSE) {
 #' @description `icountn(vn)` takes a vector specifying an array size,
 #'   and returns an iterator over array indices. Each returned element
 #'   is a vector the same length as vn, with the first index varying fastest.
+#'   If vn has a names attribute the output will have the same names.
 #' @export
 #' @examples
 #' as.list(icountn(c(2, 3)))
-icountn <- function(vn, recycle=FALSE) {
+icountn <- function(v, recycle=FALSE) {
+  iteror.function(icountn.internal(v, recycle=FALSE))
+}
+
+icountn.internal <- function(vn, recycle=FALSE) {
+  # amazingly, this recursive algo tests faster than the one
+  # using arrayIndex.
+  if (length(vn) > 1) {
+    icar <- NULL
+    icdr <- NULL
+    carVal <- NULL
+    nextOr_ <- function(or) {
+      if (is.null(icar)) {
+        icar <<- icountn.internal(vn[-1])
+        carVal <<- icar(return(or))
+        icdr <<- icount.internal(vn[1])
+      }
+      cdr <- icdr({
+        carVal <<- icar(return(or))
+        icdr <<- icount.internal(vn[1])
+        icdr(return(or))
+      })
+      c(cdr, carVal)
+    }
+  } else if (length(vn) == 1) {
+    return(icount.internal(vn, recycle=recycle))
+  } else {
+    nextOr_ <- function(or) or
+  }
+  nextOr_
+}
+
+icountn.simple <- function(vn, recycle=FALSE) {
   iapply(icount(prod(vn), recycle=recycle),
          function(i) as.vector(arrayInd(i, vn)))
 }
+
+arrayIndex <- function(i, dim) {
+  out <- numeric(length(dim))
+  i <- i - 1
+  for (index in rev(seq_along(dim))) {
+    out[index] <- (i %% dim[index]) + 1L
+    i <- i %/% dim[index]
+  }
+  out
+}
+
+
 
 #' Dividing Iterator
 #'

@@ -3,7 +3,7 @@
 \name{is.iteror}
 \alias{is.iteror}
 \alias{is.iterator}
-\title{\code{is.iteror} indicates if an object is an iterator.}
+\title{\code{is.iteror} indicates if an object is an iteror.}
 \usage{
 is.iteror(x)
 }
@@ -11,7 +11,7 @@ is.iteror(x)
 \item{x}{any object.}
 }
 \description{
-\code{is.iteror} indicates if an object is an iterator.
+\code{is.iteror} indicates if an object is an iteror.
 }
 \examples{
 

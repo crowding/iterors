@@ -1,0 +1,180 @@
+---
+title: "Benchmarking Iteration"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Benchmarking Iteration}
+  %\VignetteEncoding{UTF-8}
+---
+
+Show the differences in overhead between
+
+```{R}
+# here's how you _would_ write collapse...
+iter_collapse <- with(as.environment("package:iterators"), function(obj) {
+  obj <- iterators::iter(obj)
+  sigil <- new.env()
+  current <- sigil
+  nextEl <- function(or) {
+    if (identical(current, sigil)) {
+      current <<- iter(nextElem(obj))
+    }
+    repeat {
+      tryCatch({
+        return(nextElem(current))
+      }, error=function(err) {
+        if (conditionMessage(err) == "StopIteration") {
+          current <<- iter(nextElem(obj))
+        } else stop(err)
+      })
+    }
+  }
+  it <- list(nextElem=nextEl)
+  class(it) <- c('abstractiter', 'iter')
+  it
+})
+#
+plot(main="`ichain`, `icount` and `consume`",
+     microbenchmark::microbenchmark(
+       itertools2::consume(iter_collapse(itertools2::imap(iterators::icount, iterators::icount(10)))),
+       iterors::consume(iterors::icollapse(iterors::iapply(iterors::icount(10), iterors::icount))),
+       times=10))
+```
+
+`icountn` and `as.list`:
+```{R}
+
+plot(
+  main="`icountn and `as.list`",
+  microbenchmark::microbenchmark(
+    iterators = iterators:::as.list.iter(iterators::icountn(c(4,5,6,7))),
+    iterors = iterors:::as.list.iteror(iterors::icountn(c(4,5,6,7))),
+    iterors.simple = iterors:::as.list.iteror(iterors:::icountn.simple(c(4,5,6,7))),
+    times =10))
+
+```
+
+
+```{R}
+plot(
+  main="`icount, ifilter, as.list`",
+  microbenchmark::microbenchmark(
+    iterators = as.list(itertools::ifilter(\(x) floor(sqrt(x))^2 == x, iterators::icount(1000))),
+    iterors = as.list(iterors::ikeep(iterors::icount(1000), \(x) floor(sqrt(x))^2 == x)),
+    iterator.count = as.list(iterators::icount(1000)),
+    iteror.count = as.list(iterors::icount(1000)),
+    times = 10))
+```
+
+
+```{R}
+plot(
+  main="`iterate over vector`",
+  microbenchmark::microbenchmark(
+    iterators = as.list(iterators::iter(1:1000)),
+    iterors = as.list(iterors::iteror(1:1000)),
+    iterators.count = as.list(iterators::icount(1000)),
+    iterors.count = as.list(iterors::icount(1000)),
+    iterators.consume = itertools2::consume(iterators::icount(1000)),
+    iterors.consume = iterors::consume(iterors::icount(1000)),
+    times = 10))
+```
+
+```{R}
+plot(
+  main="`Sample from distributions`",
+  microbenchmark::microbenchmark(
+    iterators = as.list(iterators::irunif(100, count=100)),
+    iterors.independent = as.list(iterors::irunif(100, count=100), independen=TRUE),
+    iterors.dependent = as.list(iterors::irunif(100, count=100, independent=FALSE)),
+    times = 100))
+```
+
+```{R}
+plot(
+  main="`as.list`",
+  microbenchmark::microbenchmark(
+    iterators = as.list(iterators::icount(3000)),
+    iterors = as.list(iterors::icount(3000)),
+    times = 10))
+```
+
+```{R}
+plot(main="iunique",
+     microbenchmark::microbenchmark(
+       iterators = {
+         it <- itertools2::iunique(iterators::isample(1:100, 1))
+         as.numeric(itertools2::take(it, 100))
+       },
+       iterors = {
+         it <- iterors::iunique(iterors::isample(1:100, 1, independent=FALSE))
+         iterors::take(it, 100, "numeric")
+       },
+       times=10
+     )
+     )
+```
+
+```{R}
+microbenchmark::microbenchmark(
+digest={
+  x <- sample(letters, 100, replace=TRUE)
+  digest::digest(x, algo="xxhash64")
+},
+digest.xxhash64={
+  x <- sample(letters, 100, replace=TRUE)
+  digest::digest(x, algo="xxhash64")
+},
+rlang={
+  x <- sample(letters, 100, replace=TRUE)
+  rlang::hash(x)
+},
+hashr = {
+  x <- sample(letters, 100, replace=TRUE)
+  hashr::hash(x)
+}
+)
+```
+
+`iproduct` now relies on builtin `arrayInd` rather than a recursive zipping together of N sub-iterators:.
+
+```{R}
+     iproduct.bench2 <- microbenchmark::microbenchmark(
+       itertools2={
+         itertools2::consume(itertools2::iproduct(1:10, letters, month.name))
+         x1 <- as.list(itertools2::iproduct(1:10, letters, month.name))
+       },
+       itertools={
+         itertools2::consume(itertools::product(1:10, letters, month.name))
+         x2 <- as.list(itertools2::iproduct(1:10, letters, month.name))
+       },
+       iterors={
+         iterors::consume(iterors::iproduct(1:10, letters, month.name))
+         x <- as.list(iterors::iproduct(1:10, letters, month.name))
+       },
+       times=10)
+
+     plot(main="iproduct", iproduct.bench2, ylim=c(0, max(iproduct.bench2$time)))
+
+```
+
+
+```{R}
+     iproduct.bench2 <- microbenchmark::microbenchmark(
+       itertools2={
+         itertools2::consume(itertools2::iproduct(1:10, letters, month.name))
+         x1 <- as.list(itertools2::iproduct(1:10, letters, month.name))
+       },
+       itertools={
+         itertools2::consume(itertools::product(1:10, letters, month.name))
+         x2 <- as.list(itertools2::iproduct(1:10, letters, month.name))
+       },
+       iterors={
+         iterors::consume(iterors::iproduct(1:10, letters, month.name))
+         x <- as.list(iterors::iproduct(1:10, letters, month.name))
+       },
+       times=10)
+
+     plot(main="iproduct", iproduct.bench2, ylim=c(0, max(iproduct.bench2$time)))
+
+```

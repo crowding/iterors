@@ -57,11 +57,11 @@ irep <- function(iterable, times=NULL, length.out=NULL, each=NULL) {
 
   if (!is.null(length.out)) {
     # Ignore "times" if "length.out" is specified
-    ilimit(recycle(it), length.out)
+    ilimit(irecycle(it), length.out)
   } else if (!is.null(times)) {
     if (length(times) == 1) {
       # If "times" has a single value, recycle that many times
-      recycle(it, times)
+      irecycle(it, times)
     } else {
       # If "times" has multiple values, it's kind of like "each"
       irep.times(it, times)

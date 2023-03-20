@@ -4,16 +4,16 @@ library(iteror)
 ifilter <- function(it, FUN, ...) {
   it <- iteror(it)
 
-  nextEl <- function() {
+  nextOr_ <- function(or) {
     repeat {
-      x <- nextOr(it)
+      x <- nextOr(it, return(or))
       if (FUN(x, ...))
         break
     }
     x
   }
 
-  iteror.function(nextElem)
+  iteror.function(nextOr_)
 }
 
 # Simple example use

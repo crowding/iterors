@@ -42,7 +42,7 @@ ipermutations <- function(object, m=NULL) {
   # The unique indices generate the permutations
   # This approach is similar to how Python's itertools works
   replicate_n <- replicate(n=m, seq_len(n), simplify=FALSE)
-  iter_product <- do.call(iproduct, replicate_n)
+  iter_product <- do.call(igrid, replicate_n)
 
   nextOr_ <- function(or) {
     repeat {

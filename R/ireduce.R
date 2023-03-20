@@ -1,23 +1,29 @@
 #' Compute the sum, product, or general reduction of an iterator.
 #'
+#' `ireduce(obj, fun)` applies `fun`
+#'
 #' @export
 #' @param obj an iterable object
 #' @param fun A function of as least two arguments.
-#' @param ... Extra parameters to be passed to `f`
+#' @param ... Extra parameters will be passed to each call to `fun`.
 #' @param init A starting value.
 #' @return The result of accumulation.
 #' @author Peter Meilstrup
 #'
 #' @examples
 #' it <- icount(5)
-#' ireduce(it, `+`) # sum(1:5)
+#' total <- ireduce(it, `+`) # sum(1:5)
 #'
 #' it <- icount(5)
 #' ireduce(it, paste0, "") # "12345"
 #'
 #' it <- icount(5)
-#' ireduce(it, `*`, 1) # prod(1:5)
+#' prod <- ireduce(it, `*`, 1) # prod(1:5)
 #'
+#' # the above is equivalent to:
+#' it <- icount(5)
+#' total <- 1
+#' repeat total <- total * nextOr(it, break)
 ireduce <- function(obj, fun=`+`, init=0, ...) {
   obj <- iteror(obj)
   rgs <- formals(args(fun))
@@ -28,7 +34,7 @@ ireduce <- function(obj, fun=`+`, init=0, ...) {
   } else {
     repeat {
       val <- nextOr(obj, break)
-      init <- fun(init, val)
+      init <- fun(init, val, ...)
     }
   }
   init
@@ -38,6 +44,9 @@ ireduce <- function(obj, fun=`+`, init=0, ...) {
 #' each intermediate result. The default settings
 #' produce a cumulative sum.
 #' @rdname ireduce
+#' @examples
+#' # triangular numbers: 1, 1+2, 1+2+3, ...
+#' take(iaccum(icount()), 10, 'numeric')
 #' @export
 iaccum <- function(obj, fun=`+`, init=0, ...) {
   obj <- iteror(obj)
@@ -51,7 +60,7 @@ iaccum <- function(obj, fun=`+`, init=0, ...) {
 
   nextOr_ <- function(or) {
     val <- nextOr(obj, return(or))
-    init <<- fun(init, val)
+    init <<- fun(init, val, ...)
   }
 
   iteror.function(nextOr_)
@@ -59,7 +68,7 @@ iaccum <- function(obj, fun=`+`, init=0, ...) {
 
 #' @exportS3Method
 #' @rdname ireduce
-sum.iteror <- function(..., na.rm) {
+sum.iteror <- function(..., na.rm=FALSE) {
   it <- ichain(...)
   if (na.rm) {
     it <- idrop(it, is.na)
@@ -70,7 +79,7 @@ sum.iteror <- function(..., na.rm) {
 #' @exportS3Method
 #' @rdname ireduce
 #' @param na.rm Whether to drop NA values when computing sum or prod.
-prod.iteror <- function(..., na.rm) {
+prod.iteror <- function(..., na.rm=FALSE) {
   it <- ichain(...)
   if (na.rm) {
     it <- idrop(it, is.na)

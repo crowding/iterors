@@ -1,5 +1,7 @@
 context("icount iterator: Infinite sequence")
 
+`%is%` <- expect_equal
+
 test_that("icount's default values generate the sequence 1, 2, ..", {
   it <- icount()
 
@@ -61,4 +63,19 @@ test_that("iseq works with a given initial value and a stop", {
 test_that("iseq works with a stop and decimal step size", {
   it <- iseq(from=42, by=1.5, to=50)
   expect_equal(seq(42, 50, by=1.5), unlist(as.list(it)))
+})
+
+test_that("icount respects names", {
+  it <- icount(c(name=2), recycle=TRUE)
+  nextOr(it) %is% c(name=1)
+  nextOr(it) %is% c(name=2)
+  nextOr(it) %is% c(name=1)
+
+  it <- icount(c(x=Inf))
+  nextOr(it) %is% c(x=1)
+  nextOr(it) %is% c(x=2)
+})
+
+test_that("iseq respects names", {
+  it <- iseq(from=c(x=42), by=1.5, to=50)
 })

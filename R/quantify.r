@@ -6,6 +6,7 @@
 #' @export
 #' @param object an iterable object
 #' @return the number of \code{TRUE} elements
+#'
 #' @seealso ireduce
 #'
 #' @examples

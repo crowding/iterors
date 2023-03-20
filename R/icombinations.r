@@ -60,7 +60,7 @@ icombinations <- function(object, m, replacement=FALSE) {
   } else {
     # Combinations with replacement
     replicate_n <- replicate(n=m, seq_len(n), simplify=FALSE)
-    iter_object <- do.call(iproduct, replicate_n)
+    iter_object <- do.call(igrid, replicate_n)
   }
 
   nextOr_ <- function(or) {

@@ -34,8 +34,8 @@
 #' recycle(letters[1:3], 3)
 #'
 #' @details Originally from the `itertools` package.
-#' @export recycle
-recycle <- function(iterable, times=NA_integer_) {
+#' @export irecycle
+irecycle <- function(iterable, times=NA_integer_) {
   # Manually check for a missing argument since "inherits" issues
   # a cryptic error message in that case
   if (missing(iterable)) {

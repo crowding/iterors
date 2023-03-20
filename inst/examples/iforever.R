@@ -2,10 +2,8 @@ library(iterors)
 
 # return an iterator that returns the specified value forever
 iforever <- function(x) {
-  nextEl <- function() x
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('iforever', 'abstractiter', 'iter')
-  obj
+  nextOr_ <- function(or) x
+  iteror(nextOr_)
 }
 
 # create an iterator that returns 42 forever

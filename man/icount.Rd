@@ -5,13 +5,13 @@
 \alias{icountn}
 \title{Counting Iterators}
 \usage{
-icount(count, recycle = FALSE)
+icount(count = Inf, recycle = FALSE)
 
-icountn(vn, recycle = FALSE)
+icountn(v, recycle = FALSE)
 }
 \arguments{
-\item{count}{number of times that the iterator will fire.  If not specified,
-it will count forever.}
+\item{count}{number of times that the iterator will fire. Use NA or
+Inf to make an iterator that counts forever.}
 
 \item{recycle}{Whether to restart the count after finishing.}
 
@@ -26,6 +26,7 @@ Returns an iterator that counts starting from one.
 \code{icountn(vn)} takes a vector specifying an array size,
 and returns an iterator over array indices. Each returned element
 is a vector the same length as vn, with the first index varying fastest.
+If vn has a names attribute the output will have the same names.
 }
 \details{
 Originally from the \code{iterators} package.
@@ -44,6 +45,7 @@ repeat print(nextOr(x, break))
 as.list(icountn(c(2, 3)))
 }
 \seealso{
-For more control over starting number and step size, see \link{iseq}.
+For more control over starting number and step size, see
+\link{iseq}.
 }
 \keyword{utilities}

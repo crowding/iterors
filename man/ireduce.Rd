@@ -11,9 +11,9 @@ ireduce(obj, fun = `+`, init = 0, ...)
 
 iaccum(obj, fun = `+`, init = 0, ...)
 
-\method{sum}{iteror}(..., na.rm)
+\method{sum}{iteror}(..., na.rm = FALSE)
 
-\method{prod}{iteror}(..., na.rm)
+\method{prod}{iteror}(..., na.rm = FALSE)
 }
 \arguments{
 \item{obj}{an iterable object}
@@ -22,7 +22,7 @@ iaccum(obj, fun = `+`, init = 0, ...)
 
 \item{init}{A starting value.}
 
-\item{...}{Extra parameters to be passed to \code{f}}
+\item{...}{Extra parameters will be passed to each call to \code{fun}.}
 
 \item{na.rm}{Whether to drop NA values when computing sum or prod.}
 }
@@ -30,22 +30,24 @@ iaccum(obj, fun = `+`, init = 0, ...)
 The result of accumulation.
 }
 \description{
-Compute the sum, product, or general reduction of an iterator.
-
-\code{iaccum(obj)} returns the iterator containing
-each intermediate result. The default settings
-produce a cumulative sum.
+\code{ireduce(obj, fun)} applies \code{fun}
 }
 \examples{
 it <- icount(5)
-ireduce(it, `+`) # sum(1:5)
+total <- ireduce(it, `+`) # sum(1:5)
 
 it <- icount(5)
 ireduce(it, paste0, "") # "12345"
 
 it <- icount(5)
-ireduce(it, `*`, 1) # prod(1:5)
+prod <- ireduce(it, `*`, 1) # prod(1:5)
 
+# the above is equivalent to:
+it <- icount(5)
+total <- 1
+repeat total <- total * nextOr(it, break)
+# triangular numbers: 1, 1+2, 1+2+3, ...
+take(iaccum(icount()), 10, 'numeric')
 }
 \author{
 Peter Meilstrup

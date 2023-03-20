@@ -5,26 +5,19 @@ itimer <- function(it, time) {
   it <- iteror(it)
   start <- proc.time()[[3]]
 
-  nextEl <- function() {
+  nextOr <- function(or) {
     current <- proc.time()[[3]]
     if (current - start >= time)
-      stop('StopIteration')
-
-    nextElem(it)
+      or
+    else nextOr(it, or)
   }
 
-  obj <- list(nextElem=nextEl)
-  class(obj) <- c('itimer', 'abstractiter', 'iter')
-  obj
+  iteror(nextOr_)
 }
 
 # Create a iterator that counts for one second
 it <- itimer(icount(Inf), 1)
-tryCatch({
-  repeat {
-    print(nextElem(it))
-  }
-},
-error=function(e) {
-  cat('timer expired\n')
-})
+repeat {
+  print(nextOr(it, break))
+}
+cat('timer expired\n')

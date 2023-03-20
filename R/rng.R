@@ -16,39 +16,42 @@
 #
 
 
-# Iterator Maker Generator (internal function, used at package init)
-#
-# The \code{makeIwrapper} function makes iterator makers.  The resulting
-# iterator makers all take an optional \code{count} argument which specifies
-# the number of times the resulting iterator should fire.  The iterators are
-# wrappers around functions that return different values each time they are
-# called. The \code{isample} function is an example of one such iterator maker
-# (as are \code{irnorm}, \code{irunif}, etc.).
-#
-# @aliases makeIwrapper
-# @param FUN a character string naming a function that generates different
-# values each time it is called; typically one of the standard random number
-# generator functions.
-# @param count number of times that the iterator will fire.  If not specified,
-# it will fire values forever.
-# @param \dots arguments to pass to the underlying \code{FUN} function.
-# @return An iterator that is a wrapper around the corresponding function.
-# @keywords utilities
-# @details Originally from the `iterators` package.
-# @examples
-#
-# # create an iterator maker for the sample function
-# mysample <- makeIwrapper("sample")
-# # use this iterator maker to generate an iterator that will generate three five
-# # member samples from the sequence 1:100
-# it <- mysample(1:100, 5, count = 3)
-# nextOr(it)
-# nextOr(it)
-# nextOr(it)
-# nextOr(it, NULL)  # NULL
-
+#' Iterator Constructor Wrapper
+#'
+#' The \code{makeIwrapper} function wraps an R function to produce an
+#' iterator.  It is used to construct sampling iterators in this
+#' package; for instance `irnorm` is defined as `irnorm <- makeIwrapper(rnorm)`.
+#'
+#' The resulting iterator constructors all take an optional
+#' `count` argument which specifies the number of times the
+#' resulting iterator should fire. They also have an argument
+#' `independent` which enables independent tracking of hte random
+#' number seed. The \code{isample} function is an example of one such
+#' iterator maker (as are \code{irnorm}, \code{irunif}, etc.).
+#'
+#' @aliases makeIwrapper
+#' @param FUN a character string naming a function that generates different
+#' values each time it is called; typically one of the standard random number
+#' generator functions.
+#' @param count number of times that the iterator will fire.  If not specified,
+#' it will fire values forever.
+#' @param \dots arguments to pass to the underlying \code{FUN} function.
+#' @return An iterator that is a wrapper around the corresponding function.
+#' @keywords utilities
+#' @details Original version appeared in the `iterators` package.
+#' @examples
+#'
+#' # create an iterator maker for the sample function
+#' mysample <- makeIwrapper(sample)
+#' # use this iterator maker to generate an iterator that will generate three five
+#' # member samples from the sequence 1:100
+#' it <- mysample(1:100, 5, count = 3)
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it)
+#' nextOr(it, NULL)  # NULL
+#' @export
 makeIwrapper <- function(FUN) {
-
   def <- bquote(
     splice=TRUE,
     .(quote(`function`))(

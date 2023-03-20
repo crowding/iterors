@@ -172,53 +172,12 @@ iteror.function <- function(obj, ..., catch, sigil, count) {
       stop("iteror: function must have an 'or' argument, or else specify one of 'catch', 'sigil' or 'count'")
     }
   }
+  iteror.internal(fn)
+}
+
+iteror.internal <- function(fn) {
   structure(list(nextOr=fn), class=c("iteror", "iter"))
 }
-
-#' @rdname iteror
-#' @param by how to iterate over a matrix Can be "cell", "row", "col", or
-#' numeric dimensions.
-#' @param chunksize the number of elements of \code{by} to return with each
-#' call to \code{nextElem}.
-#' @param drop Whether to drop the array dimensions enumerated over.
-#' @examples
-#' a <- array(1:8, c(2, 2, 2))
-#'
-#' # iterate over all the slices
-#' it <- iteror(a, by=3)
-#' as.list(it)
-#'
-#' # iterate over all the columns of each slice
-#' it <- iteror(a, by=c(2, 3))
-#' as.list(it)
-#'
-#' # iterate over all the rows of each slice
-#' it <- iteror(a, by=c(1, 3))
-#' as.list(it)
-#'
-#' @exportS3Method
-iteror.array <- function(obj, ...,
-                         by=c("cell", "row", "column"),
-                         chunksize=1L,
-                         recycle=FALSE,
-                         checkFunc=function(x) TRUE,
-                         drop=FALSE) {
-
-  if (is.character(by) && match.arg(by) == "cell") {
-    it <- iteror.default(obj, chunksize=chunksize, recycle=recycle)
-  } else {
-    it <- iapply(ienumerate.array(obj, by=by,
-                                  chunksize=chunksize, recycle=recycle, drop=drop),
-                 function(x)x$value)
-  }
-  if (!identical(body(checkFunc), TRUE))
-    ikeep(it, checkFunc)
-  else it
-}
-
-#' @rdname iteror
-#' @exportS3Method
-iteror.matrix <- iteror.array
 
 #' @exportS3Method
 #' @rdname iteror
@@ -291,48 +250,7 @@ nextOr.iter <- function(obj, or, ...) {
       if (!identical(conditionMessage(e), 'StopIteration')) stop(e) else or)
 }
 
-#' @exportS3Method as.list iteror
-as.list.iteror <- function(x, n=as.integer(2^31-1), ...) {
-  icollect(x, "list", n=n, ...)
-}
-
-#' @exportS3Method as.double iteror
-as.double.iteror <- function(x, n=as.integer(2^31-1), ...) {
-  icollect(x, mode="numeric", n=n, ...)
-}
-
-#' @exportS3Method as.logical iteror
-as.logical.iteror <- function(x, n=as.integer(2^31-1), ...) {
-  icollect(x, mode="logical", n=n, ...)
-}
-
-#' @exportS3Method as.vector iteror
-as.vector.iteror <- function(x, mode) {
-  icollect(x, mode)
-}
-
-icollect <- function(x, mode="any", n=as.integer(2^31-1), ...) {
-  if (mode == "list")
-    wrap <- list
-  else wrap <- identity
-
-  size <- 64
-  a <- vector(mode, length=size)
-  i <- 0
-  while (i < n) {
-    item <- nextOr(x, break)
-    i <- i + 1
-    if (i >= size) {
-      size <- min(2 * size, n)
-      length(a) <- size
-    }
-    a[i] <- wrap(item)
-  }
-  length(a) <- i
-  a
-}
-
-#' \code{is.iteror} indicates if an object is an iterator.
+#' \code{is.iteror} indicates if an object is an iteror.
 #'
 #' @aliases is.iterator
 #' @param x any object.
@@ -346,4 +264,4 @@ icollect <- function(x, mode="any", n=as.integer(2^31-1), ...) {
 #' }
 #'
 #' @export is.iteror
-is.iteror <- function(x) inherits(x, 'iteror') || inherits(x, 'iter')
+is.iteror <- function(x) inherits(x, 'iteror')

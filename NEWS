@@ -48,7 +48,8 @@ Changes from the above packages:
     output of an iteror use `iconsume(it, Inf)`
   o New method `ienumerate.array()` can enumerate with array indices over
     arbitrary margins.
-
+  o `iproduct` is renamed `igrid`, and executes 5-10x faster than before.
+  o `icount` and `icountn` respect names.
 
 Prior NEWS/ChangeLog for itertools:
 ----------------------------
