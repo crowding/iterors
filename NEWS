@@ -20,11 +20,11 @@ New features:
     and `as.logical`.
   o Random number iterators like `irunif`, `isample` and so on can now
     maintain a private seed value, so that interleaving with other
-    iterators does not affect reproducibility. By default each newly
+    iterators does not affect reproducibility. If `independent=TRUE` a
     constructed random number iterator will generate an _independent_
     pseudo-random stream (using the [nextRNGStream] mechanism).
   o New method `ienumerate.array` can iterate over
-    arbitrary /multiple margins, providing a vector index.
+    arbitrary margins, providing you with a vector index.
 
 Changes from the above packages:
   o `iterators::ifilter()` is renamed to `ikeep()` and the order of arguments
@@ -50,6 +50,9 @@ Changes from the above packages:
     arbitrary margins.
   o `iproduct` is renamed `igrid`, and executes 5-10x faster than before.
   o `icount` and `icountn` respect names.
+  o `icollect` is an alias / generic for `as.list`, `as.numeric`, etc.
+  0 `irecycle` is renamed `iterators::recycle`.
+  o There are no more `checkFunc` arguments; use `ikeep()` instead
 
 Prior NEWS/ChangeLog for itertools:
 ----------------------------

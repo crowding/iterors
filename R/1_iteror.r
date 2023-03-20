@@ -35,10 +35,6 @@
 # nextOr(i1)
 # nextOr(i1)
 #
-# # a vector iterator with a checkFunc
-# i1 <- iteror(1:3, checkFunc = function(i) i%%2 == 0)
-# nextOr(i1)
-#
 # # a data frame iterator by column
 # i2 <- iteror(data.frame(x = 1:3, y = 10, z = c("a", "b", "c")))
 # nextOr(i2)
@@ -182,13 +178,9 @@ iteror.internal <- function(fn) {
 #' @exportS3Method
 #' @rdname iteror
 #' @param recycle a boolean describing whether the iterator should reset after
-#' running through all it's values.
-#' @param checkFunc a function which, when passed an iterator value, return
-#' \code{TRUE} or \code{FALSE}.  If \code{FALSE}, the value is skipped in the
-#' iteration.
+#' running through all its values.
 iteror.default <- function(obj, ...,
-                           recycle=FALSE,
-                           checkFunc=function(...)(TRUE)) {
+                           recycle=FALSE) {
   if (is.function(obj)) {
     iteror.function(obj, ...)
   } else {
@@ -199,7 +191,7 @@ iteror.default <- function(obj, ...,
         repeat {
           i <<- i %% n + 1
           val <- obj[[i]]
-          if(checkFunc(val)) return(val)
+          return(val)
         }
       }, ...)
     } else {
@@ -208,7 +200,7 @@ iteror.default <- function(obj, ...,
           if (i < n) {
             i <<- i + 1
             val <- obj[[i]]
-            if(checkFunc(val)) return(val)
+            return(val)
           } else return(or)
         }
       }, ...)

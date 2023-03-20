@@ -24,7 +24,6 @@ iteror.array <- function(obj, ...,
                          by=c("cell", "row", "column"),
                          chunksize=1L,
                          recycle=FALSE,
-                         checkFunc=function(x) TRUE,
                          drop=FALSE) {
 
   if (is.character(by) && match.arg(by) == "cell") {
@@ -34,9 +33,7 @@ iteror.array <- function(obj, ...,
                                   chunksize=chunksize, recycle=recycle, drop=drop),
                  function(x)x$value)
   }
-  if (!identical(body(checkFunc), TRUE))
-    ikeep(it, checkFunc)
-  else it
+  it
 }
 
 #' @rdname iteror

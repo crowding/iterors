@@ -9,15 +9,18 @@ iunique(object, digest = rlang::hash)
 \arguments{
 \item{object}{an iterable object}
 
-\item{digest}{a hash function to use. It should return a character value.}
+\item{digest}{Optionally specify a custom hash function
+(e.g. \code{digest::digest}, \code{rlang::hash}). It should be a function
+returning a character value.}
 }
 \value{
-an iterator that returns the unique elements from \code{object}
+an iterator that returns only the unique elements from
+\code{object}
 }
 \description{
 Constructs an iterator that extracts each unique element in turn from an
 iterable \code{object}. Order of the elements is maintained. This function is
-an iterator analogue to \code{\link[base]{sort}}.
+an iterator analogue to \link{unique}..
 }
 \details{
 NOTE: In order to determine whether an element is unique, a list of previous

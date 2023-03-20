@@ -15,7 +15,7 @@ iteror(obj, ...)
 
 \method{iteror}{`function`}(obj, ..., catch, sigil, count)
 
-\method{iteror}{default}(obj, ..., recycle = FALSE, checkFunc = function(...) (TRUE))
+\method{iteror}{default}(obj, ..., recycle = FALSE)
 
 \method{iteror}{connection}(obj, ...)
 
@@ -25,7 +25,6 @@ iteror(obj, ...)
   by = c("cell", "row", "column"),
   chunksize = 1L,
   recycle = FALSE,
-  checkFunc = function(x) TRUE,
   drop = FALSE
 )
 
@@ -35,17 +34,10 @@ iteror(obj, ...)
   by = c("cell", "row", "column"),
   chunksize = 1L,
   recycle = FALSE,
-  checkFunc = function(x) TRUE,
   drop = FALSE
 )
 
-\method{iteror}{data.frame}(
-  obj,
-  by = c("column", "row"),
-  ...,
-  checkFunc = function(...) TRUE,
-  recycle = FALSE
-)
+\method{iteror}{data.frame}(obj, by = c("column", "row"), ..., recycle = FALSE)
 }
 \arguments{
 \item{obj}{An object to iterate with. If \code{obj} is a vector, the
@@ -71,11 +63,7 @@ if the function result is \code{\link[=identical]{identical()}} to \code{sigil}.
 how many times to call it before finishing iteration.}
 
 \item{recycle}{a boolean describing whether the iterator should reset after
-running through all it's values.}
-
-\item{checkFunc}{a function which, when passed an iterator value, return
-\code{TRUE} or \code{FALSE}.  If \code{FALSE}, the value is skipped in the
-iteration.}
+running through all its values.}
 
 \item{by}{how to iterate over a matrix Can be "cell", "row", "col", or
 numeric dimensions.}

@@ -1,4 +1,6 @@
 nextElem <- iterators::nextElem
+`%is%` <- expect_equal
+
 
 test_that("test vector iterator creation", {
   expect_silent(x <- iteror(1:10))
@@ -7,13 +9,6 @@ test_that("test vector iterator creation", {
 test_that("test hasNext, nextElem", {
   x <- iteror(1:10)
   expect_equal(nextElem(x), 1)
-  for(i in 1:9) nextElem(x)
-  expect_error(nextElem(x))
-})
-
-test_that("check checkFunc", {
-  x <- iteror(1:100, checkFunc=function(i) i%%10==0)
-  expect_equal(nextElem(x), 10)
   for(i in 1:9) nextElem(x)
   expect_error(nextElem(x))
 })
@@ -50,30 +45,7 @@ test_that("test hasNext, nextElem", {
   expect_error(nextElem(y))
 })
 
-test_that("test checkFunc", {
-  # create a larger matrix
-  x <- matrix(1:100, ncol=20)
 
-  # by cell
-  y <- iteror(x, by='cell', checkFunc=function(i) i%%10==0)
-  expect_equal(nextElem(y), 10)
-  for(i in 1:9) nextElem(y)
-  expect_error(nextElem(y))
-
-  # by col
-  y <- iteror(x, by='column', checkFunc=function(i) i[5]%%10==0)
-  expect_equal(nextElem(y), as.matrix(x[,2]))
-  for(i in 1:9) nextElem(y)
-  expect_error(nextElem(y))
-
-  # by row
-  # create an easier matrix to deal with
-  x <- matrix(1:100, nrow=20, byrow=TRUE)
-  y <- iteror(x, by='row', checkFunc=function(i) i[5]%%10==0)
-  expect_equal(as.vector(nextElem(y)), x[2,])
-  for(i in 1:9) nextElem(y)
-  expect_error(nextElem(y))
-})
 
 test_that("test data frame iterator creation", {
   x <- data.frame(1:10, 11:20)
@@ -94,18 +66,23 @@ test_that("test hasNext, nextElem", {
   expect_error(nextElem(y))
 })
 
-test_that("test checkFunc", {
-  x <- data.frame(1:10, 11:20)
-  # by row
-  y <- iteror(x, by='row', checkFunc=function(i) i[[1]][1]%%2==0)
-  expect_equal(nextElem(y),x[2,])
-  for(i in 1:4) nextElem(y)
-  expect_error(nextElem(y))
+test_that("empty data frames", {
 
-  # by col
-  y <- iteror(x, by='column', checkFunc=function(i) i[[1]][1]%%11==0)
-  expect_equal(nextElem(y), x[,2])
-  expect_error(nextElem(y))
+  x <- as.data.frame(list(a=c(1), b=c(2)))
+  emp <- x[c(),]
+
+  it <- iteror(emp, by="row")
+  nextOr(it, NA) %is% NA
+
+  it <- iteror(emp, by="col")
+  nextOr(it, NA) %is% numeric(0)
+  nextOr(it, NA) %is% numeric(0)
+  nextOr(it, NA) %is% NA
+
+  emp2 <- data.frame()
+  it <- iteror(emp2, by="col")
+  nextOr(it, NA) %is% NA
+
 })
 
 # test function iterator creation
@@ -121,25 +98,6 @@ test_that("test hasNext, nextElem", {
     y <- iteror(needArgFunc)
     expect_equal(nextElem(y), 1)
     for (i in 1:99) nextElem(y)
-    expect_error(nextElem(y))
-  }
-})
-
-test_that("test checkFunc", {
-  noArgFunc <- function(or) 1
-  needArgFunc <- function(i)
-    if(i>100)
-      stop('too high')
-    else
-      i
-  y <- iteror(noArgFunc, checkFunc=function(i) i==1)
-  expect_equal(nextElem(y), 1)
-  nextElem(y)
-
-  if(FALSE) {
-    y <- iteror(needArgFunc, checkFunc=function(i) i%%10==0)
-    expect_equal(nextElem(y), 10)
-    for(i in 1:9) nextElem(y)
     expect_error(nextElem(y))
   }
 })

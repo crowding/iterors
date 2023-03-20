@@ -2,7 +2,7 @@
 #'
 #' Constructs an iterator that extracts each unique element in turn from an
 #' iterable \code{object}. Order of the elements is maintained. This function is
-#' an iterator analogue to \code{\link[base]{sort}}.
+#' an iterator analogue to [unique]..
 #'
 #' NOTE: In order to determine whether an element is unique, a list of previous
 #' unique elements is stored. In doing so, the list can potentially become large
@@ -10,8 +10,11 @@
 #'
 #' @export
 #' @param object an iterable object
-#' @param digest a hash function to use. It should return a character value.
-#' @return an iterator that returns the unique elements from \code{object}
+#' @param digest Optionally specify a custom hash function
+#'   (e.g. `digest::digest`, `rlang::hash`). It should be a function
+#'   returning a character value.
+#' @return an iterator that returns only the unique elements from
+#'   \code{object}
 #' @seealso idedupe
 #'
 #' @examples
@@ -32,6 +35,7 @@ iunique <- function(object, digest=rlang::hash) {
 
   nextOr_ <- function(or) {
     repeat {
+      i <<- i + 1
       elem <- nextOr(object, return(or))
       h <- digest(elem)
       if (!exists(h, envir=unique_elems)) {
@@ -106,7 +110,7 @@ idedupe <- function(object, cmp=identical) {
 #' it <- isample(c(TRUE, FALSE), 1, replace=TRUE)
 #' rle <- irle(it)
 #' take(rle, 10)
-#' @export irle 
+#' @export irle
 irle <- function(obj, cmp=identical) {
   obj <- iteror(obj)
   run <- 0
