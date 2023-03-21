@@ -79,11 +79,11 @@ state, so that its output is reproducible and independent of
 anything else in the program. this comes at some performance
 cost.  generation}
 
-\item{seed}{Only relevant if \code{independent=TRUE}; A seed value usable
+\item{seed}{Only used if \code{independent=TRUE}: A seed value usable
 by the "L'Ecuyer-CMRG" generator. The default will create a
 pseudo-independent stream for each newly constructed
 iterator. You can specify a specific value for
-reproducibility. To reproduciby greate several independent random
+reproducibility. To reproduciby create several independent random
 numer iterators see the example under \link{iRNGStream}.}
 
 \item{size}{see e.g. \link{rbinom}.}
@@ -123,6 +123,9 @@ nextOr(it)
 nextOr(it)
 nextOr(it, NULL)
 
-# iterators with the same seed will produce the same values
-it <- irunif(it, seed=0.4812097)
+# iterators created with `independent=TRUE` will produce reproducible values
+it <- irunif(n=1, seed=314, independent=TRUE)
+nextOr(it) # 0.4936700
+nextOr(it) # 0.5103891
+nextOr(it) # 0.2338745
 }

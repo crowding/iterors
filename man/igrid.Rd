@@ -28,7 +28,7 @@ Based on \link[itertools2:iproduct]{itertools2::iproduct} and
 }
 \examples{
 # Simulate a doubly-nested loop with a single while loop
-it <- product(a=1:3, b=1:2)
+it <- igrid(a=1:3, b=1:2)
 repeat {
   x <- nextOr(it, break)
   cat(sprintf('a = \%d, b = \%d\n', x$a, x$b))

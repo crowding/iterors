@@ -2,35 +2,32 @@
 % Please edit documentation in R/rng.R
 \name{makeIwrapper}
 \alias{makeIwrapper}
-\title{Iterator Constructor Wrapper}
+\title{Iterator Constructor-Constructor Function Wrapper}
 \usage{
 makeIwrapper(FUN)
 }
 \arguments{
-\item{FUN}{a character string naming a function that generates different
-values each time it is called; typically one of the standard random number
-generator functions.}
-
-\item{count}{number of times that the iterator will fire.  If not specified,
-it will fire values forever.}
-
-\item{\dots}{arguments to pass to the underlying \code{FUN} function.}
+\item{FUN}{a function that generates different values each time it
+is called; typically one of the standard random number generator
+functions.}
 }
 \value{
-An iterator that is a wrapper around the corresponding function.
+An iterator that is a wrapper around the corresponding
+function.
 }
 \description{
 The \code{makeIwrapper} function wraps an R function to produce an
-iterator.  It is used to construct sampling iterators in this
-package; for instance \code{irnorm} is defined as \code{irnorm <- makeIwrapper(rnorm)}.
+iterator constructor.  It is used to construct random sampling
+iterators in this package; for instance \code{irnorm} is defined as
+\code{irnorm <- makeIwrapper(rnorm)}.
 }
 \details{
 The resulting iterator constructors all take an optional
 \code{count} argument which specifies the number of times the
 resulting iterator should fire. They also have an argument
-\code{independent} which enables independent tracking of hte random
+\code{independent} which enables independent tracking of the random
 number seed. The \code{isample} function is an example of one such
-iterator maker (as are \code{irnorm}, \code{irunif}, etc.).
+iterator constructoe (as are \code{irnorm}, \code{irunif}, etc.).
 
 Original version appeared in the \code{iterators} package.
 }

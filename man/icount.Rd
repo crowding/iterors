@@ -7,7 +7,7 @@
 \usage{
 icount(count = Inf, recycle = FALSE)
 
-icountn(v, recycle = FALSE)
+icountn(vn, recycle = FALSE)
 }
 \arguments{
 \item{count}{number of times that the iterator will fire. Use NA or

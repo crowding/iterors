@@ -16,27 +16,26 @@
 #
 
 
-#' Iterator Constructor Wrapper
+#' Iterator Constructor-Constructor Function Wrapper
 #'
 #' The \code{makeIwrapper} function wraps an R function to produce an
-#' iterator.  It is used to construct sampling iterators in this
-#' package; for instance `irnorm` is defined as `irnorm <- makeIwrapper(rnorm)`.
+#' iterator constructor.  It is used to construct random sampling
+#' iterators in this package; for instance `irnorm` is defined as
+#' `irnorm <- makeIwrapper(rnorm)`.
 #'
 #' The resulting iterator constructors all take an optional
 #' `count` argument which specifies the number of times the
 #' resulting iterator should fire. They also have an argument
-#' `independent` which enables independent tracking of hte random
+#' `independent` which enables independent tracking of the random
 #' number seed. The \code{isample} function is an example of one such
-#' iterator maker (as are \code{irnorm}, \code{irunif}, etc.).
+#' iterator constructoe (as are \code{irnorm}, \code{irunif}, etc.).
 #'
 #' @aliases makeIwrapper
-#' @param FUN a character string naming a function that generates different
-#' values each time it is called; typically one of the standard random number
-#' generator functions.
-#' @param count number of times that the iterator will fire.  If not specified,
-#' it will fire values forever.
-#' @param \dots arguments to pass to the underlying \code{FUN} function.
-#' @return An iterator that is a wrapper around the corresponding function.
+#' @param FUN a function that generates different values each time it
+#'   is called; typically one of the standard random number generator
+#'   functions.
+#' @return An iterator that is a wrapper around the corresponding
+#'   function.
 #' @keywords utilities
 #' @details Original version appeared in the `iterators` package.
 #' @examples
@@ -62,8 +61,11 @@ makeIwrapper <- function(FUN) {
       {
         list(..(lapply(names(formals(FUN)), as.name)))
         if (independent) {
-          force(seed)
-          # Error checking: this will throw an error right away if the seed is bad
+          if (length(seed) == 1)
+            seed <- convseed(seed)
+
+          # Error checking: this will throw an error right away if the
+          # seed is bad
           nextRNGStream(seed)
 
           next_ <- function(or) {
@@ -86,7 +88,7 @@ makeIwrapper <- function(FUN) {
               return(or)
             }
           }
-          iteror.function(next_)
+          iteror(next_)
         } else {
           next_ <- function(or) {
             if (count > 0) {
@@ -98,7 +100,7 @@ makeIwrapper <- function(FUN) {
               return(or)
             }
           }
-          iteror.function(next_)
+          iteror(next_)
         }
       }))
 
@@ -119,11 +121,11 @@ makeIwrapper <- function(FUN) {
 #'   state, so that its output is reproducible and independent of
 #'   anything else in the program. this comes at some performance
 #'   cost.  generation
-#' @param seed Only relevant if `independent=TRUE`; A seed value usable
+#' @param seed Only used if `independent=TRUE`: A seed value usable
 #'   by the "L'Ecuyer-CMRG" generator. The default will create a
 #'   pseudo-independent stream for each newly constructed
 #'   iterator. You can specify a specific value for
-#'   reproducibility. To reproduciby greate several independent random
+#'   reproducibility. To reproduciby create several independent random
 #'   numer iterators see the example under [iRNGStream].
 #' @return An iterator that is a wrapper around the corresponding
 #'   random number generator function.
@@ -149,8 +151,11 @@ makeIwrapper <- function(FUN) {
 #' nextOr(it)
 #' nextOr(it, NULL)
 #'
-#' # iterators with the same seed will produce the same values
-#' it <- irunif(it, seed=0.4812097)
+#' # iterators created with `independent=TRUE` will produce reproducible values
+#' it <- irunif(n=1, seed=314, independent=TRUE)
+#' nextOr(it) # 0.4936700
+#' nextOr(it) # 0.5103891
+#' nextOr(it) # 0.2338745
 #' @importFrom stats rbinom rnbinom rnorm rpois runif
 #' @export irnorm irbinom irnbinom irpois isample irunif
 #' @aliases irnorm irunif irbinom irnbinom irpois isample

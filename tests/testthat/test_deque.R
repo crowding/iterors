@@ -11,6 +11,8 @@ assert <- function(condition,
   }
 }
 
+`%is%` <- expect_equal
+
 test_that("deque", {
 
   x <- deque()

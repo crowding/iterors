@@ -4,6 +4,13 @@ answer <- rbind(c(0, 1, 0, 0, 1),
                 c(0, 1, 0, 0, 0),
                 c(0, 0, 0, 1, 1))
 
+test_that("convseed", {
+  convseed(1)
+  convseed(2)
+  rng.seeds <- iRNGStream(313)
+  nextOr(rng.seeds)
+})
+
 test_that("RNG streams are reproducible", {
 
   global.seed <- .Random.seed

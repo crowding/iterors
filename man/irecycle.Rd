@@ -13,10 +13,18 @@ irecycle(iterable, times = NA_integer_)
 iterator.  Default value of \code{NA_integer_} means to recycle forever.}
 }
 \description{
-Create an iterator that recycles a specified iterable.
+Create an iterator that recycles a specified iterable. On the first
+repeat the iterable is buffered into memory until it
+finishes, then we repeat the same sequence of values.
 }
 \details{
 Originally from the \code{itertools} package.
+}
+\examples{
+
+# Recycle over 'a', 'b', and 'c' three times
+i <- irecycle(letters[1:3], 3)
+as.character(i)
 
 it <- irecycle(1:3)
 nextOr(it, NA) # 1
@@ -29,19 +37,13 @@ nextOr(it, NA) # 1
 
 it2 <- irecycle(1:3, times=2)
 as.list(it2)
-}
-\section{Can return the results from a function.}{
+
+# Can return the results from a function.
 it3 <- irecycle(function() rnorm(1))
 nextOr(it, NA)
 nextOr(it, NA)
 nextOr(it, NA)
 nextOr(it, NA)
-}
-
-\examples{
-
-# Recycle over 'a', 'b', and 'c' three times
-recycle(letters[1:3], 3)
 
 }
 \keyword{utilities}

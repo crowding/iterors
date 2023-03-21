@@ -19,9 +19,11 @@
 
 #' Create a recycling iterator
 #'
-#' Create an iterator that recycles a specified iterable.
+#' Create an iterator that recycles a specified iterable. On the first
+#' repeat the iterable is buffered into memory until it
+#' finishes, then we repeat the same sequence of values.
 #'
-#'
+#' @details Originally from the `itertools` package.
 #' @param iterable The iterable to recycle. If it is given a bare function (this behavior is copied from `icycle`
 #' @param times integer.  Number of times to recycle the values in the
 #' iterator.  Default value of \code{NA_integer_} means to recycle forever.
@@ -29,9 +31,8 @@
 #' @examples
 #'
 #' # Recycle over 'a', 'b', and 'c' three times
-#' recycle(letters[1:3], 3)
-#'
-#' @details Originally from the `itertools` package.
+#' i <- irecycle(letters[1:3], 3)
+#' as.character(i)
 #'
 #' it <- irecycle(1:3)
 #' nextOr(it, NA) # 1
@@ -51,7 +52,7 @@
 #' nextOr(it, NA)
 #' nextOr(it, NA)
 #' nextOr(it, NA)
-#' 
+#'
 #' @export irecycle
 irecycle <- function(iterable, times=NA_integer_) {
   # Manually check for a missing argument since "inherits" issues

@@ -83,8 +83,8 @@ icount.internal <- function(n, recycle=FALSE) {
 #' @export
 #' @examples
 #' as.list(icountn(c(2, 3)))
-icountn <- function(v, recycle=FALSE) {
-  iteror.function(icountn.internal(v, recycle=FALSE))
+icountn <- function(vn, recycle=FALSE) {
+  iteror.function(icountn.internal(vn, recycle=FALSE))
 }
 
 icountn.internal <- function(vn, recycle=FALSE) {
