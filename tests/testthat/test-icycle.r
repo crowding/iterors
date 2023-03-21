@@ -1,7 +1,7 @@
 context("icycle iterator")
 
-test_that("Indefinite icycle of integer sequence", {
-  it <- icycle(1:3)
+test_that("Indefinite irecycle of integer sequence", {
+  it <- irecycle(1:3)
 
   expect_equal(nextOr(it, NA), 1)
   expect_equal(nextOr(it, NA), 2)
@@ -14,8 +14,8 @@ test_that("Indefinite icycle of integer sequence", {
   expect_equal(nextOr(it, NA), 1)
 })
 
-test_that("icycle repeats integer fixed number of times", {
-  it <- icycle(1:3, times=2)
+test_that("irecycle repeats integer fixed number of times", {
+  it <- irecycle(1:3, times=2)
 
   expect_equal(nextOr(it, NA), 1)
   expect_equal(nextOr(it, NA), 2)
@@ -29,8 +29,8 @@ test_that("icycle repeats integer fixed number of times", {
 })
 
 
-test_that("icycle repeats indefinitely for a function", {
-  it <- icycle(function() rnorm(1))
+test_that("irecycle repeats indefinitely for a function", {
+  it <- irecycle(function() rnorm(1))
 
   set.seed(1)
   i <- nextOr(it, NA)
@@ -48,8 +48,8 @@ test_that("icycle repeats indefinitely for a function", {
   expect_equal(i, rnorm(1))
 })
 
-test_that("icycle repeats a fixed number of times for a function", {
-  it <- icycle(function() rnorm(1), times=3)
+test_that("irecycle repeats a fixed number of times for a function", {
+  it <- irecycle(function() rnorm(1), times=3)
 
   set.seed(1)
   i <- nextOr(it, NA)

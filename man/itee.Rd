@@ -2,50 +2,38 @@
 % Please edit documentation in R/itee.r
 \name{itee}
 \alias{itee}
-\title{(Deprecated) Returns a list of n independent iterators from a single iterable object}
+\title{Create multiple iterators from one source}
 \usage{
-itee(object, n = 2)
+itee(obj, n, max = 2^16 - 1)
 }
 \arguments{
-\item{object}{an iterable object}
+\item{obj}{an iterable object}
 
-\item{n}{the number of iterables to return}
+\item{n}{the number of iterators to return}
+
+\item{max}{The maximum number of values to buffer.}
 }
 \value{
-a list of \code{n} iterators
+a list of \code{n} iterators.
 }
 \description{
-(PBM) Note that this relies on \url{iter_deepcopy} which only works for
-a subset of iterators, as described in the note on that page.
+\code{itee(obj, n)} consumes and buffers the output of a single iterator
+\code{obj} so that it can be read by \code{n} independent sub-iterators.
 }
 \details{
-Constructs a list of \code{n} iterators, each of which iterates through an
-iterable \code{object}.
+It works by saving the output of source \code{obj} in a queue, while
+each sub-iterator has a "read pointer" indexing into the
+queue. Items are dropped from the queue after all sub-iterators
+have seen them.
 
-If the \code{object} is an iterator (i.e., inherits from class \code{iter}),
-\code{n} deep copies of \code{object} are returned. Otherwise, \code{object}
-is passed to \code{\link[iterators]{iter}} \code{n} times.
+This means that if one sub-iterator falls far behind the others, or
+equivalently if one sub-iterator reads far ahead its cohort the
+others, the intervening values will be kept in memory. The \code{max}
+argument gives a limit on how many items will be held. If this
+limit is exceeded due to one sub-iterator reading far ahead of the
+others, an error will be thrown when that sub-iterator attempts to
+read a new value.
 }
-\examples{
-# Creates a list of three iterators.
-# Each iterator iterates through 1:5 independently.
-iter_list <- itee(1:5, n=3)
-
-# Consumes the first iterator
-unlist(as.list(iter_list[[1]])) == 1:5
-
-# We can iterate through the remaining two iterators in any order.
-nextOr(iter_list[[2]], NA) # 1
-nextOr(iter_list[[2]], NA) # 2
-
-nextOr(iter_list[[3]], NA) # 1
-nextOr(iter_list[[3]], NA) # 2
-
-nextOr(iter_list[[2]], NA) # 3
-nextOr(iter_list[[2]], NA) # 4
-nextOr(iter_list[[2]], NA) # 5
-
-nextOr(iter_list[[3]], NA) # 3
-nextOr(iter_list[[3]], NA) # 4
-nextOr(iter_list[[3]], NA) # 5
+\author{
+Peter Meilstrup
 }

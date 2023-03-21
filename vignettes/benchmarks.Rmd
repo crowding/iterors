@@ -174,7 +174,46 @@ hashr = {
          x <- as.list(iterors::iproduct(1:10, letters, month.name))
        },
        times=10)
-
      plot(main="iproduct", iproduct.bench2, ylim=c(0, max(iproduct.bench2$time)))
-
 ```
+
+`icycle` vs `irecycle` vs `recycle`round robin.
+
+Note that `itertools2::icycle` only works for cloneable, vector-based iterators, while the other two use a general purpose buffer.   
+
+```{R}
+icycle.bench <- microbenchmark::microbenchmark(
+  itertools2={
+    as.list(itertools2::icycle(1:20, times=20))
+  },
+  itertools={
+    itertools2::consume(itertools::recycle(iterators::icount(20), times=20))
+  },
+  iterors = {
+    iterors::consume(iterors::irecycle(iterors::icount(20), times=20))
+  },
+  times=20)
+)
+```
+
+## itee
+
+Note that `itertools2::tee` only works for vetocr-based iterators it
+knows how to clone, while `iterors::itee` has a general purpose
+buffering mechanism.
+
+```{R}
+itee.bench <- microbenchmark::microbenchmark(
+  itertools2={
+    itertools2::consume(
+      do.call(itertools::chain,
+        itertools2::itee(1:20, n=20)))
+  },
+  iterors={
+    iterors::consume(
+      iterors::icollapse(
+        iterors::itee(iterors::icount(20), n=20)))
+  },
+  times=20)
+```
+

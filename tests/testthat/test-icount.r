@@ -77,5 +77,9 @@ test_that("icount respects names", {
 })
 
 test_that("iseq respects names", {
-  it <- iseq(from=c(x=42), by=1.5, to=50)
+  it <- iseq(from=c(x=42), by=4, to=50, recycle=TRUE)
+  nextOr(it) %is% c(x=42)
+  nextOr(it) %is% c(x=46)
+  nextOr(it) %is% c(x=50)
+  nextOr(it) %is% c(x=42)
 })

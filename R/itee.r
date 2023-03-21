@@ -1,43 +1,30 @@
-#' (Deprecated) Returns a list of n independent iterators from a single iterable object
+#' Create multiple iterators from one source
 #'
-#' (PBM) Note that this relies on [iter_deepcopy]() which only works for
-#' a subset of iterators, as described in the note on that page.
+#' `itee(obj, n)` consumes and buffers the output of a single iterator
+#' `obj` so that it can be read by `n` independent sub-iterators.
 #'
-#' Constructs a list of \code{n} iterators, each of which iterates through an
-#' iterable \code{object}.
+#' It works by saving the output of source `obj` in a queue, while
+#' each sub-iterator has a "read pointer" indexing into the
+#' queue. Items are dropped from the queue after all sub-iterators
+#' have seen them.
 #'
-#' If the \code{object} is an iterator (i.e., inherits from class \code{iter}),
-#' \code{n} deep copies of \code{object} are returned. Otherwise, \code{object}
-#' is passed to \code{\link[iterators]{iter}} \code{n} times.
+#' This means that if one sub-iterator falls far behind the others, or
+#' equivalently if one sub-iterator reads far ahead its cohort the
+#' others, the intervening values will be kept in memory. The `max`
+#' argument gives a limit on how many items will be held. If this
+#' limit is exceeded due to one sub-iterator reading far ahead of the
+#' others, an error will be thrown when that sub-iterator attempts to
+#' read a new value.
 #'
 #' @export
-#' @param object an iterable object
-#' @param n the number of iterables to return
-#' @return a list of \code{n} iterators
-#'
-#' @examples
-#' # Creates a list of three iterators.
-#' # Each iterator iterates through 1:5 independently.
-#' iter_list <- itee(1:5, n=3)
-#'
-#' # Consumes the first iterator
-#' unlist(as.list(iter_list[[1]])) == 1:5
-#'
-#' # We can iterate through the remaining two iterators in any order.
-#' nextOr(iter_list[[2]], NA) # 1
-#' nextOr(iter_list[[2]], NA) # 2
-#'
-#' nextOr(iter_list[[3]], NA) # 1
-#' nextOr(iter_list[[3]], NA) # 2
-#'
-#' nextOr(iter_list[[2]], NA) # 3
-#' nextOr(iter_list[[2]], NA) # 4
-#' nextOr(iter_list[[2]], NA) # 5
-#'
-#' nextOr(iter_list[[3]], NA) # 3
-#' nextOr(iter_list[[3]], NA) # 4
-#' nextOr(iter_list[[3]], NA) # 5
-itee <- function(object, n=2) {
+#' @param obj an iterable object
+#' @param n the number of iterators to return
+#' @param max The maximum number of values to buffer.
+#' @return a list of \code{n} iterators.
+#' @author Peter Meilstrup
+itee <- function(obj, n, max=2^16-1) {
+  obj <- iteror(obj)
+
   n <- as.integer(n)
   if (length(n) != 1) {
     stop("'n' must be an integer value of length 1")
@@ -45,21 +32,34 @@ itee <- function(object, n=2) {
     stop("'n' must be a positive integer")
   }
 
-  # TODO: Confirm that efficient buffering is performed for a more complex
-  # example. For assistance on this, see this excellent post about how Python's
-  # itertools.tee works: http://discontinuously.com/2012/06/inside-python-tee/
+  data <- deque()
+  pointers <- rep(1L, n)
 
-  # If the 'object' is an iterator, n deep copies of 'object' are returned.
-  # Otherwise, 'object' is passed to iterators::iter 'n' times.
-  if (inherits(object, "iteror")) {
-    itee_list <- replicate(n=n,
-                           expr=iter_deepcopy(object),
-                           simplify=FALSE)
-  } else {
-    itee_list <- replicate(n=n,
-                           expr=iteror(object),
-                           simplify=FALSE)
+  make_subiteror <- function(id) {
+    force(id)
+    close <- function() {
+      pointers[[id]] <- NA_integer_
+    }
+    iteror.function(function(or) {
+      len <- data$length()
+      ptr <- pointers[[id]]
+      if (len < ptr) {
+        if (len >= max) {
+          stop("itee: queue is full")
+        }
+        val <- nextOr(obj, return(or))
+        data$append(val)
+      } else {
+        val <- data$peek(ptr)
+      }
+      pointers[[id]] <<- ptr + 1L
+      while (all(pointers > 1L, na.rm=TRUE)) {
+        data$getFirst()
+        pointers <<- pointers - 1L
+      }
+      val
+    })
   }
 
-  itee_list
+  lapply(seq_along(pointers), make_subiteror)
 }

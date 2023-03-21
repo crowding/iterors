@@ -40,7 +40,7 @@ iseq <- function(from=1,
                  by=NULL,
                  length_out=NULL, along_with=NULL,
                  recycle=FALSE) {
-  from <- as.numeric(from)
+  mode(from) <- "numeric" # keeps names
   to <- as.numeric(to)
   by <- as.numeric(by)
 
@@ -112,9 +112,7 @@ iseq_len <- function(length_out=NULL) {
 
   i <- 0
   nextOr_ <- function(or) {
-    i <<- i + 1
-
-    if (i > length_out) or else i
+    if (i >= length_out) or else (i <<- i + 1)
   }
 
   iteror.function(nextOr_)
@@ -127,9 +125,7 @@ iseq_along <- function(along_with=NULL) {
 
   i <- 0
   nextOr_ <- function(or) {
-    i <<- i + 1
-
-    if (i > length_out) or else i
+    if (i >= length_out) or else i <<- i + 1
   }
 
   iteror.function(nextOr_)

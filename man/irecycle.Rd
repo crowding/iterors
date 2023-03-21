@@ -7,7 +7,7 @@
 irecycle(iterable, times = NA_integer_)
 }
 \arguments{
-\item{iterable}{The iterable to recycle.}
+\item{iterable}{The iterable to recycle. If it is given a bare function (this behavior is copied from \code{icycle}}
 
 \item{times}{integer.  Number of times to recycle the values in the
 iterator.  Default value of \code{NA_integer_} means to recycle forever.}
@@ -17,7 +17,27 @@ Create an iterator that recycles a specified iterable.
 }
 \details{
 Originally from the \code{itertools} package.
+
+it <- irecycle(1:3)
+nextOr(it, NA) # 1
+nextOr(it, NA) # 2
+nextOr(it, NA) # 3
+nextOr(it, NA) # 1
+nextOr(it, NA) # 2
+nextOr(it, NA) # 3
+nextOr(it, NA) # 1
+
+it2 <- irecycle(1:3, times=2)
+as.list(it2)
 }
+\section{Can return the results from a function.}{
+it3 <- irecycle(function() rnorm(1))
+nextOr(it, NA)
+nextOr(it, NA)
+nextOr(it, NA)
+nextOr(it, NA)
+}
+
 \examples{
 
 # Recycle over 'a', 'b', and 'c' three times

@@ -51,8 +51,14 @@ Changes from the above packages:
   o `iproduct` is renamed `igrid`, and executes 5-10x faster than before.
   o `icount` and `icountn` respect names.
   o `icollect` is an alias / generic for `as.list`, `as.numeric`, etc.
-  0 `irecycle` is renamed `iterators::recycle`.
+  o `irecycle`  `iterators::recycle`.
   o There are no more `checkFunc` arguments; use `ikeep()` instead
+  o `itertools2::icycle` and `itertools::recycle` have been merged;
+    the new `irecycle` uses a buffering strategy in the general case.
+  o `iterors::itee` works for any iterator, using a memory buffering
+    strategy, (where previously `itertools::itee` only worked for
+    vector-backed iterators.
+
 
 Prior NEWS/ChangeLog for itertools:
 ----------------------------

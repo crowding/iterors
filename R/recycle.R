@@ -17,14 +17,12 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
-
-
 #' Create a recycling iterator
 #'
 #' Create an iterator that recycles a specified iterable.
 #'
 #'
-#' @param iterable The iterable to recycle.
+#' @param iterable The iterable to recycle. If it is given a bare function (this behavior is copied from `icycle`
 #' @param times integer.  Number of times to recycle the values in the
 #' iterator.  Default value of \code{NA_integer_} means to recycle forever.
 #' @keywords utilities
@@ -34,6 +32,26 @@
 #' recycle(letters[1:3], 3)
 #'
 #' @details Originally from the `itertools` package.
+#'
+#' it <- irecycle(1:3)
+#' nextOr(it, NA) # 1
+#' nextOr(it, NA) # 2
+#' nextOr(it, NA) # 3
+#' nextOr(it, NA) # 1
+#' nextOr(it, NA) # 2
+#' nextOr(it, NA) # 3
+#' nextOr(it, NA) # 1
+#'
+#' it2 <- irecycle(1:3, times=2)
+#' as.list(it2)
+#'
+#' # Can return the results from a function.
+#' it3 <- irecycle(function() rnorm(1))
+#' nextOr(it, NA)
+#' nextOr(it, NA)
+#' nextOr(it, NA)
+#' nextOr(it, NA)
+#' 
 #' @export irecycle
 irecycle <- function(iterable, times=NA_integer_) {
   # Manually check for a missing argument since "inherits" issues
@@ -44,6 +62,19 @@ irecycle <- function(iterable, times=NA_integer_) {
 
   if (!is.numeric(times) || length(times) != 1 || (!is.na(times) && times < 0)) {
     stop('argument "times" must be a non-negative numeric value')
+  }
+
+  if (!is.iteror(iterable)) {
+    if (is.function(iterable) && length(formals(iterable)) == 0) {
+      #legacy icycle behavior: a bare function will be called that many times
+      if (is.finite(times)) {
+        n <- times
+        return(iteror.function(
+          function(or) if (n <= 0) or else {n <<- n - 1; iterable()}))
+      } else {
+        return(iteror.function(function(or) iterable()))
+      }
+    }
   }
 
   times <- as.integer(times)
