@@ -1,4 +1,4 @@
-library(itertools)
+library(iterors)
 
 n <- 100
 it <- ihasNext(icount(n))

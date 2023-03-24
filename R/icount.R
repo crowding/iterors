@@ -195,4 +195,3 @@ idiv <- function(n, ..., chunks, chunkSize) {
 
   iteror.function(nextOr_)
 }
-

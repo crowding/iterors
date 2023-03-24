@@ -1,0 +1,205 @@
+
+Prior NEWS/ChangeLog for itertools:
+----------------------------
+
+0.1-4	2015-12-XX
+    o	added imerge function for merging sorted data from multiple
+	iterators
+    o	added "quote" argument to iarray function
+    o	added new examples
+
+0.1-3	2014-2-27
+    o	added "mode" argument to ichunk function
+    o	added iRNGStream and iRNGSubStream functions which could
+	be useful for parallel random number generation.
+    o	added ireaddf function for reading data frames from files
+    o	added writedf.combiner function for writing data frames to files
+    o	added iarray function for creating iterators over arrays
+    o	add ibreak function for creating iterators that can be stopped
+
+0.1-2	2012-6-20
+    o	added irecord and ireplay functions for recording and
+	replaying iterables
+    o	added iter.connection method
+
+0.1-1   2010-1-14
+    o	added ichunk function to aid in manual chunking
+    o	added utility functions written by Hadley Wickham
+    o	added "isplit" functions for iterating over data structures
+    o	added timeout function for creating iterator timeouts
+    o	added ireadBin function for iterating over binary connections
+    o	made irep much more like the rep function, and added new irepeat
+	to be like the old irep function
+
+0.1	2009-12-29
+    o	project created on r-forge
+
+Prior NEWS/ChangeLog for itertools:
+----------------------------
+
+# itertools2 0.1.3
+
+## Miscellaneous
+
+* `icount()` now has an optional `stop` argument. By default, the sequence is
+  neverending.
+
+# itertools 0.1.2
+
+## Iterators
+
+* `icombinations()`: Iterator that generates all combinations of a vector of
+  length `n` taken `m` at a time. By default, the combinations are **without
+  replacement** so that elements are not repeated. To generate combinations
+  **with replacement**, set `replacement=TRUE`.
+
+* `ipermutations()`: Iterator that returns all permutations of a vector.
+
+* `itripletwise()`: Iterator that returns elements of an object in triplets.
+
+## Miscellaneous
+
+* `iproduct()` can now repeat a Cartesian product multiple times with the
+  `times` argument. By default, repeated only once.
+
+# itertools 0.1.1
+
+## Iterators
+
+* `ichunk()`: Iterator that returns elements in fixed-length chunks. If the
+  length of the iterator is not divisible by `chunk_size`, the remainder of the
+  last block is filled with the value specified in `fill`.
+
+* `ipad()`: Iterator that returns an object followed indefinitely by a `fill`
+  value.
+
+* `ipairwise()`: Iterator that returns elements of an object in pairs.
+
+* `iroundrobin()`: Iterator that traverses each given iterable in a roundrobin
+  order.
+
+* `itabulate()`: Iterator that maps a function to a sequence of numeric values.
+
+* `iunique()`: Iterator that extracts the unique elements from an iterable
+  object. This function is an iterator analogue to base::unique.
+
+* `iunique_justseen()`: Iterator that extracts the just-seen unique elements
+  from an iterable object. Only the element just seen is remembered for
+  determining uniqueness.
+
+## Utilities
+
+* `consume()`: Consumes the first n elements of an iterator.
+
+* `dotproduct()`: Computes the dot product of two iterable objects.
+
+* `iter_deepcopy()`: Performs a deep copy of an iterator.
+
+* `nth()`: Returns the nth item of an iterator, skipping the iterator ahead
+  during the process. If the iterator is entirely consumed, a default value is
+  returned.
+
+* `quantify()`: Count the number of times an iterable object is TRUE.
+
+* `take()`: Return the first n elements of an iterable object as a list.
+
+## Miscellaneous
+
+* Fixed a rare issue where `ichain()` was throwing an uncaught exception.
+
+* Resolved an issue with `itee()` when applied to an iterator. Shallow copies
+  were being made, such that each shared a common `state`. The introduction of
+  `iter_deepcopy()` resolved this issue, closing Issue #36.
+
+# itertools 0.1
+
+## Iterators
+
+* `ichain()`: Chains multiple arguments together into a single iterator.
+  Generates an iterator that returns elements from the first argument until it
+  is exhausted. Then generates an iterator from the next argument and returns
+  elements from it. This process continues until all arguments are exhausted.
+  Chaining is useful for treating consecutive sequences as a single sequence.
+
+* `icompress()`: Iterator that filters elements where corresponding selector is
+  false. Returns only those elements for which the corresponding 'selector' is
+  `TRUE`.
+
+* `icount()`: Neverending numeric sequence with initial value and step size.
+
+* `icycle()`: Iterator that cycles indefinitely through an iterable object
+
+* `idropwhile()`: Iterator that drops elements until the predicate function
+  returns `FALSE`.
+
+* `ienum()`: Alias to `ienumerate()` to save a few keystrokes.
+
+* `ienumerate()`: Iterator that returns the elements of an object along with
+  their indices. This function is intended to follow the convention used in
+  Python's `enumerate` function.
+
+* `ifilter()`: Iterator that filters elements not satisfying a predicate
+  function. Returns only those elements for which the predicate function is
+  `TRUE`.
+
+* `ifilterfalse()`: Iterator that filters elements not satisfying a predicate
+  function. Returns only those elements for which the predicate function is
+  `FALSE`.
+
+* `imap()`: Iterator that applies a given function to several iterables
+  concurrently.
+
+* `iproduct()`: Iterator that returns the Cartesian product of the
+  arguments. Similar to `base::expand.grid()`.
+
+* `irep()`: Iterator that replicates elements of an iterable object. Follows the
+  `base::rep()` function.
+
+* `irep_len()`: Iterator that replicates elements of an iterable object with a
+  desired length. Follows the `base::rep_len()` function.
+
+* `irepeat()`: Iterator that returns an object indefinitely unless a specified
+  number of times is given.
+
+* `iseq()`: Iterator for sequence generation. Follows the base `seq()` function.
+
+* `iseq_along()`: Iterators for sequence generation of length equal to an
+  object. Follows the `base::seq_along()` function.
+
+* `iseq_len()`: Iterators for sequence generation of a fixed length. Follows the
+  `base::seq_len()` function.
+
+* `islice()`: Iterator that returns selected elements from an iterable.
+
+* `istar()`: Alias to `istarmap()` to save a few keystrokes.
+
+* `istarmap()`: Iterator that applies a given function to the elements of an
+  iterable.
+
+* `itakewhile()`: Iterator that returns elements while a predicate function
+  returns `TRUE`.
+
+* `itee()`: Returns a list of n independent iterators from a single iterable
+  object.
+
+* `izip()`: Iterator that iterates through several iterables concurrently.
+
+* `izip_longest()`: Iterator that iterates through several iterables
+  concurrently. Missing values are replaced with the value given in `fill` if
+  the iterables are of uneven length.
+
+Prior NEWS/ChangeLog for iterators:
+----------------------------
+
+## 1.0.14
+
+- Maintainer change (Folashade Daniel; fdaniel@microsoft.com).
+
+## 1.0.13
+
+- Maintainer change (Michelle Wallig; Michelle.Wallig@microsoft.com).
+
+## 1.0.12
+
+- Exported makeIwrapper function; request of Bill Venables.
+- Exported `isample` iterator maker function.

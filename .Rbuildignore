@@ -3,3 +3,4 @@
 ^LICENSE\.apache$
 ^codecov\.yml$
 ^\.github$
+^NEWS.old$

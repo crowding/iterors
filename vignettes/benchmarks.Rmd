@@ -179,7 +179,7 @@ hashr = {
 
 `icycle` vs `irecycle` vs `recycle`round robin.
 
-Note that `itertools2::icycle` only works for cloneable, vector-based iterators, while the other two use a general purpose buffer.   
+Note that `itertools2::icycle` only works for cloneable, vector-based iterators, while the other two use a general purpose buffer.
 
 ```{R}
 icycle.bench <- microbenchmark::microbenchmark(
@@ -217,3 +217,23 @@ itee.bench <- microbenchmark::microbenchmark(
   times=20)
 ```
 
+## ipairwise, itripletwise, iwindow
+
+`iterors` uses specialized routines for n=2 and n=3. For n=4 and above, a
+general purpose algorithm is used.
+
+```{R}
+marks=c(alist(
+  itertools2.w2={itertools2::consume(itertools2::ipairwise(1:200))}),
+  if (exists("itripletwise", asNamespace("itertools2"), inherits=FALSE)) {
+    alist(itertools2.w3={itertools2::consume(itertools2::itripletwise(1:200))})
+  },
+  alist(
+    iterors.w2={iterors::consume(iterors::iwindow(1:200, 2))},
+    iterors.w3={iterors::consume(iterors::iwindow(1:200, 3))},
+    iterors.w4={iterors::consume(iterors::iwindow(1:200, 4))},
+    iterors.w50={iterors::consume(iterors::iwindow(1:200, 50))}))
+
+iwindow.bench <- microbenchmark::microbenchmark(list=marks)
+
+```

@@ -24,6 +24,7 @@ test_that("deque", {
   x$append("a")
   x$append("b")
   x$prepend("c")
+  x$extract() %is% list("c", "a", "b")
   x$prepend("d")
   x$prepend("e")
   x$length() %is% 5
@@ -38,6 +39,12 @@ test_that("deque", {
   x$peek(-3, NA) %is% "c"
   x$peek(-4, NA) %is% "d"
   x$peek(-5, NA) %is% "e"
+  x$extract(-3:-1) %is% list("c", "a", "b")
+  x$extract(1:3) %is% list("e", "d", "c")
+  x$extract(c(1, NA, 3)) %is% list("e", NULL, "c")
+  x$extract(c(1, 0, 3), 0) %is% list("e", "c")
+  x$extract(c(1, 100, 3), 0) %is% list("e", "c")
+  x$extract(c(1, 100, 3), NA) %is% list("e", NULL, "c")
   x$peek(0, NA) %is% NA
   x$getLast(NA) %is% "b"
   x$getLast(NA) %is% "a"

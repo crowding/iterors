@@ -68,17 +68,29 @@ deque <- function(len=64) {
     }
   }
 
-  peek <- function(ix=1, or=stop("index out of bounds"), unlist=TRUE) {
+  peek <- function(ix=1, or=stop("index out of bounds")) {
+    ix <- index(ix, return(or))
+    data[[ix]]
+  }
+
+  index <- function(ix, or) {
     len <- getLength()
-    x <- ifelse(
+    ifelse(
       ix > len | ix < -len | abs(ix) < 1,
       or,
-      data[ifelse(
+      ifelse(
         ix > 0,
         ((i.first + ix - 2) %% length(data)) + 1,
-        ((i.open + ix - 1) %% length(data)) + 1)]
+        ((i.open + ix - 1) %% length(data)) + 1)
     )
-    if(unlist) unlist(x) else x
+  }
+
+  extract <- function(ix=1:getLength(),
+                      or=stop("index out of bounds")) {
+    #use or=0 to remove indices out of bounds;
+    #use or=NA to fill with NULL.
+    ix <- index(ix, or)
+    data[ix]
   }
 
   structure(list(append=append,
@@ -87,7 +99,8 @@ deque <- function(len=64) {
                  getFirst=getFirst,
                  getLast=getLast,
                  length=getLength,
-                 peek=peek),
+                 peek=peek,
+                 extract=extract),
             class="deque")
 
 }
