@@ -12,6 +12,6 @@ package, (c) 2015 Steve Weston, licensed under GPL version 2.0 or later.
 Portions of this package are derived from the `itertools2` package,
 copyright (c) 2015 John A. Ramey, licensed under the MIT license.
 
-Where functions are derived from other packages, this is noted in the
-Rd documentation, and the license notice is retained at the top of the
-relevant source files.
+Where functions in this package are derived from other works, this is
+noted in the Rd documentation, and the license notice is retained at
+the top of the relevant source files.
