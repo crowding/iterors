@@ -4,3 +4,6 @@
 ^codecov\.yml$
 ^\.github$
 ^NEWS.old$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
