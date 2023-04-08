@@ -94,8 +94,8 @@ it is.  It just needs to know how to get another piece of data.  The
 data could be coming from a file, a database, a vector, or it could be
 dynamically generated.
 
-There are a number of iterators that come in the \texttt{iterators}
-package.  The \texttt{iapply} function allows you to iterate over
+There are a number of iterators that come in the \texttt{iterors}
+package.  The \texttt{iteror.array} method allows you to iterate over
 arrays, in much the same way as the standard \texttt{apply} function.
 \texttt{apply} has fixed rules on how the results are returned, which
 may require you to reshape the results, which can be inefficient, as
@@ -113,30 +113,23 @@ groups.  \texttt{isplit} only generates one group at a time, as they are
 needed, which can reduce the amount memory that is needed.
 
 But of course, there will be times when you need an iterator that isn't
-provided by the \texttt{iterators} package.  That is when you need to
+provided by the \texttt{iterors} package.  That is when you need to
 write your own custom iterator.  Fortunately, that is fairly easy to do.
 
 \section{What methods are needed for an iterator?}
 
 Basically, an iterator is an S3 object whose base class is
 \texttt{iteror}, and has \texttt{iteror} and \texttt{nextOr} methods.
-The purpose of the \texttt{iteror} method is to return an iterator for
-the specified object.  For iterators, that usually just means
-returning itself, which seems odd at first.  But the \texttt{iteror}
-method can be defined for other objects that don't define a
-\texttt{nextOr} method.  We call those objects {\em iterables},
-meaning that you can iterate over them.  The \texttt{iterators}
-package defines \texttt{iteror} methods for vectors, lists, matrices,
-and data frames, making those objects iterables.  By defining an
-\texttt{iteror} method for iterators, they can be used in the same
-context as an iterable, which can be convenient.  For example, the
-\texttt{foreach} function takes iterables as arguments.  It calls the
-\texttt{iter} method on those arguments in order to create iterators
-for them.  By defining the \texttt{iteror} method for all iterators, we
-can pass iterators to \texttt{foreach} that we created using any
-method we choose.  Thus, we can pass vectors, lists, or iterators to
-\texttt{foreach}, and they are all processed by \texttt{foreach} in
-an appropriate way.
+The purpose of the \texttt{iteror} method is to construct an iterator
+for the specified object.  If you provide an object \texttt{x} of
+class \texttt{iteror}, that usually just means returning itself, which
+seems odd at first.  But the \texttt{iteror} method can be defined for
+other objects that don't define a \texttt{nextOr} method.  We call
+those objects {\em iterables}, meaning that you can iterate over them.
+The \texttt{iterators} package defines \texttt{iteror} methods for
+vectors, lists, matrices, and data frames, making those objects
+iterables.  By defining an \texttt{iteror} method for data types,
+you can pass those types directly to other iteror methods.
 
 The \texttt{iterators} package comes with an \texttt{iteror} method
 defined for the \texttt{iteror} class that simply returns itself.  That is

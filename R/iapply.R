@@ -35,5 +35,5 @@
 #' @export iapply
 iapply <- function(obj, f, ...) {
   nextOr_ <- function(or) f(nextOr(obj, return(or)), ...)
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

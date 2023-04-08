@@ -19,5 +19,5 @@ iteror.data.frame <- function(obj, by=c('column', 'row'),
     }
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

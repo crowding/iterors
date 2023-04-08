@@ -55,5 +55,5 @@ izip_longest <- function(..., fill=NA) {
     out
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

@@ -15,7 +15,7 @@ iteror(obj, ...)
 
 \method{iteror}{`function`}(obj, ..., catch, sigil, count)
 
-\method{iteror}{default}(obj, ..., recycle = FALSE)
+\method{iteror}{default}(obj, ..., recycle = FALSE, chunkSize = 1L, chunks)
 
 \method{iteror}{connection}(obj, ...)
 
@@ -23,7 +23,7 @@ iteror(obj, ...)
   obj,
   ...,
   by = c("cell", "row", "column"),
-  chunksize = 1L,
+  chunkSize = 1L,
   recycle = FALSE,
   drop = FALSE
 )
@@ -32,7 +32,7 @@ iteror(obj, ...)
   obj,
   ...,
   by = c("cell", "row", "column"),
-  chunksize = 1L,
+  chunkSize = 1L,
   recycle = FALSE,
   drop = FALSE
 )
@@ -65,11 +65,13 @@ how many times to call it before finishing iteration.}
 \item{recycle}{a boolean describing whether the iterator should reset after
 running through all its values.}
 
+\item{chunkSize}{the number of elements of \code{by} to return with each
+call to \code{nextElem}.}
+
+\item{chunks}{Split the input into this many chunks. Default \code{NA}, use \code{chunkSize}.}
+
 \item{by}{how to iterate over a matrix Can be "cell", "row", "col", or
 numeric dimensions.}
-
-\item{chunksize}{the number of elements of \code{by} to return with each
-call to \code{nextElem}.}
 
 \item{drop}{Whether to drop the array dimensions enumerated over.}
 }
@@ -117,6 +119,18 @@ repeat \{
   if (identical(val, stopped)) break
   sum <- sum + val
 \}
+}\if{html}{\out{</div>}}
+
+Note that \code{iteror} objects are simply function objects with a class
+attribute attached, and all \code{nextOr.iteror} does is call the
+function. So if you were in the mood, you could skip calling
+\code{nextOr} through S3 dispatch and call the function directly. If you
+take this approach, make sure you have called \code{iteror()} to ensure that
+you have a true \code{iteror} object.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{sum <- 0
+it <- iteror(iseq(0, 100, 7))
+repeat sum <- sum + it(or=break)
 }\if{html}{\out{</div>}}
 }
 \examples{

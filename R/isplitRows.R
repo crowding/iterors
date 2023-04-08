@@ -57,5 +57,5 @@ isplitRows <- function(x, ...) {
     x[seq(j, length=n),, drop=FALSE]
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

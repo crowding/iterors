@@ -65,5 +65,5 @@ isplitVector <- function(x, ...) {
     x[seq(j, length=n)]
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

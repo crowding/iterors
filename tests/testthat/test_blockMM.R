@@ -56,7 +56,7 @@ test_that("blockMM", {
       val
     }
 
-    iteror.function(nextOr_)
+    iteror.internal(nextOr_)
   }
 
   actual <-

@@ -99,6 +99,19 @@
 #' }
 #' ```
 #'
+#' Note that `iteror` objects are simply function objects with a class
+#' attribute attached, and all `nextOr.iteror` does is call the
+#' function. So if you were in the mood, you could skip calling
+#' `nextOr` through S3 dispatch and call the function directly. If you
+#' take this approach, make sure you have called `iteror()` to ensure that
+#' you have a true `iteror` object.
+#'
+#' ```{R}
+#' sum <- 0
+#' it <- iteror(iseq(0, 100, 7))
+#' repeat sum <- sum + it(or=break)
+#' ```
+#'
 #' @export
 #' @param obj An object to iterate with. If `obj` is a vector, the
 #'   iterator will go over the elements of that vector and you can use
@@ -125,7 +138,7 @@ iteror.iter <- function(obj, ...) {
       error=function(e)
         if (identical(conditionMessage(e), 'StopIteration')) or else stop(e))
   }
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }
 
 #' @exportS3Method iteror "function"
@@ -168,47 +181,63 @@ iteror.function <- function(obj, ..., catch, sigil, count) {
       stop("iteror: function must have an 'or' argument, or else specify one of 'catch', 'sigil' or 'count'")
     }
   }
-  iteror.internal(fn)
+  iteror.internal(fn, ...)
 }
 
-iteror.internal <- function(fn) {
-  structure(list(nextOr=fn), class=c("iteror", "iter"))
+iteror.internal <- function(fn, class=character(0)) {
+  structure(fn, class=c(class, "iteror", "iter"))
 }
 
 #' @exportS3Method
 #' @rdname iteror
 #' @param recycle a boolean describing whether the iterator should reset after
 #' running through all its values.
+#' @param chunks Split the input into this many chunks. Default `NA`, use `chunkSize`.
+#' @param chunkSize How many elements (or slices) to include in each chunk.
 iteror.default <- function(obj, ...,
-                           recycle=FALSE) {
+                           recycle=FALSE,
+                           chunkSize=1L,
+                           chunks) {
   if (is.function(obj)) {
     iteror.function(obj, ...)
   } else {
     i <- 0
     n <- length(obj)
-    if (recycle) {
-      x <- iteror.function(function(or, ...) {
-        repeat {
-          i <<- i %% n + 1
-          val <- obj[[i]]
-          return(val)
-        }
-      }, ...)
-    } else {
-      x <- iteror.function(function(or, ...) {
-        repeat{
-          if (i < n) {
-            i <<- i + 1
+    if (!missing(chunks) || chunkSize != 1L) {
+      ix <- idiv(n, chunks=chunks, chunkSize=chunkSize)
+      it <- function(or) {
+        ix <- idiv(n, chunks=chunks, chunkSize=chunkSize, recycle=recycle)
+        it <- function(or) {
+          ix <- i+seq(from=1, length.out=ix(return(or)))
+          repeat {
+            i <<- i %% n + 1
             val <- obj[[i]]
             return(val)
-          } else return(or)
+          }
         }
-      }, ...)
+      }
+    } else {
+      if (recycle) {
+        it <- function(or) {
+          repeat {
+            i <<- i %% n + 1
+            val <- obj[[i]]
+            return(val)
+          }
+        }
+      } else {
+        it <- function(or) {
+          repeat{
+            if (i < n) {
+              i <<- i + 1
+              val <- obj[[i]]
+              return(val)
+            } else return(or)
+          }
+        }
+      }
+      it <- iteror.internal(it, "basicIteror")
     }
-    x$length <- n #XXX
-    x$recycle <- recycle #XXX
-    x$state <- environment(x$nextOr) #XXX
-    x
   }
 }
 
@@ -224,12 +253,12 @@ nextOr <- function(obj, or, ...) {
 
 #' @exportS3Method
 nextOr.iteror <- function(obj, or, ...) {
-  obj$nextOr(or, ...)
+  obj(or=or, ...)
 }
 
 #' @exportS3Method iterators::nextElem iteror
 nextElem.iteror <- function(obj, ...) {
-  nextOr(obj, stop("StopIteration"), ...)
+  obj(stop("StopIteration"), ...)
 }
 
 #' @exportS3Method

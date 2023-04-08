@@ -53,5 +53,5 @@ irepeat <- function(x, times) {
     }
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

@@ -54,7 +54,7 @@ igrid <- function(...) {
   n <- length(args)
   anames <- names(args)
   it <- igrid.internal(n, args)
-  iteror.function(function(or) {
+  iteror.internal(function(or) {
     val <- nextOr(it, return(or))
     names(val) <- anames
     val
@@ -97,7 +97,7 @@ igrid.internal <- function(n, args) {
     }
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }
 
 igrid2 <- function(..., times=1L) {
@@ -118,6 +118,6 @@ igrid2 <- function(..., times=1L) {
     mapply(`[[`, args_list, vi, SIMPLIFY=FALSE)
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }
 

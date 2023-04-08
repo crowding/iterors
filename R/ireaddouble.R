@@ -61,5 +61,5 @@ ireadDouble <- function(con, buflen=16*1024, where=0) {
     buffer[ibuf]
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

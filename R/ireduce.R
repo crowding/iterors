@@ -63,7 +63,7 @@ iaccum <- function(obj, fun=`+`, init=0, ...) {
     init <<- fun(init, val, ...)
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }
 
 #' @exportS3Method

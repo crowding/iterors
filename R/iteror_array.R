@@ -1,7 +1,7 @@
 #' @rdname iteror
 #' @param by how to iterate over a matrix Can be "cell", "row", "col", or
 #' numeric dimensions.
-#' @param chunksize the number of elements of \code{by} to return with each
+#' @param chunkSize the number of elements of \code{by} to return with each
 #' call to \code{nextElem}.
 #' @param drop Whether to drop the array dimensions enumerated over.
 #' @examples
@@ -22,7 +22,7 @@
 #' @exportS3Method
 iteror.array <- function(obj, ...,
                          by=c("cell", "row", "column"),
-                         chunksize=1L,
+                         chunkSize=1L,
                          recycle=FALSE,
                          drop=FALSE) {
 

@@ -26,14 +26,14 @@ ienum(obj, ...)
 
 \item{by}{Which margind to split an array by.}
 
-\item{chunksize}{How large a chunk to take along the specified
+\item{chunkSize}{How large a chunk to take along the specified
 dimension.}
 
 \item{recycle}{Whether to restart the iterator after finishing the
 array.}
 
 \item{drop}{Whether to drop marginalized dimensions. Will have no
-effect if chunksize > 1.}
+effect if chunkSize > 1.}
 }
 \value{
 iterator that returns the values of \code{obj} along with the
@@ -46,7 +46,7 @@ element's indices. Enumeration is useful when looping through an
 
 The \code{ienumerate} method for arrays allows splitting an
 array by arbitrary margins, and by more than one margin. The
-\code{index} element returned will be a vector (or if chunksize>1, a
+\code{index} element returned will be a vector (or if \code{chunkSize} > 1, a
 matrix) of indices.
 }
 \details{
@@ -79,8 +79,8 @@ nextOr(it2, NA)
 nextOr(it2, NA)
 
 a <- array(1:27, c(3, 3, 3))
-as.list(ienumerate(a, by=c(1, 2), chunksize=2, drop=TRUE))
-as.list(ienumerate(a, chunksize=7))
+as.list(ienumerate(a, by=c(1, 2), chunkSize=2, drop=TRUE))
+as.list(ienumerate(a, chunkSize=7))
 }
 \author{
 Peter Meilstrup

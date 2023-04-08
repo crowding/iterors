@@ -61,31 +61,32 @@ ienum <- ienumerate
 #' @rdname ienumerate
 #' @description The `ienumerate` method for arrays allows splitting an
 #'   array by arbitrary margins, and by more than one margin. The
-#'   `index` element returned will be a vector (or if chunksize>1, a
+#'   `index` element returned will be a vector (or if `chunkSize` > 1, a
 #'   matrix) of indices.
 #' @param by Which margind to split an array by.
-#' @param chunksize How large a chunk to take along the specified
+#' @param chunkSize How large a chunk to take along the specified
 #'   dimension.
 #' @param recycle Whether to restart the iterator after finishing the
 #'   array.
 #' @param drop Whether to drop marginalized dimensions. Will have no
-#'   effect if chunksize > 1.
+#'   effect if chunkSize > 1.
 #' @author Peter Meilstrup
 #' @examples
 #' a <- array(1:27, c(3, 3, 3))
-#' as.list(ienumerate(a, by=c(1, 2), chunksize=2, drop=TRUE))
-#' as.list(ienumerate(a, chunksize=7))
+#' as.list(ienumerate(a, by=c(1, 2), chunkSize=2, drop=TRUE))
+#' as.list(ienumerate(a, chunkSize=7))
 ienumerate.array <- function(obj, ...,
                              by=c("cell", "row", "column"),
-                             chunksize=1L,
+                             chunkSize=1L,
+                             chunks,
                              recycle=FALSE,
                              drop=FALSE) {
   if (is.character(by))
-    switch(
+    by <- switch(
       match.arg(by),
-      cell=by <- seq_along(dim(obj)),
-      row=by <- 1,
-      column=by <- 2
+      cell=seq_along(dim(obj)),
+      row=1,
+      column=2
     )
 
   iter_size <- dim(obj)[by]
@@ -94,14 +95,14 @@ ienumerate.array <- function(obj, ...,
             alist(drop=drop))
   indexit <- icount(prod(iter_size), recycle=recycle)
 
-  if (chunksize == 1) {
+  if (chunkSize == 1) {
     nextOr_ <- function(or) {
       ix <- nextOr(indexit, return(or))
       args[by+1] <- arrayInd(ix, iter_size)
       list(index=ix, value=do.call("[", args))
     }
   } else {
-    indexit <- ichunk(indexit, chunksize, "numeric")
+    indexit <- ichunk(indexit, chunkSize, "numeric")
     nextOr_ <- function(or) {
       ixes <- nextOr(indexit, return(or))
       ixes <- arrayInd(ixes, iter_size)
@@ -125,5 +126,5 @@ ienumerate.array <- function(obj, ...,
     }
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_, "basicIteror")
 }

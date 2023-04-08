@@ -36,6 +36,7 @@ iunique <- function(object, digest=rlang::hash) {
   nextOr_ <- function(or) {
     repeat {
       i <<- i + 1
+      #if (i >= 1000) browser()
       elem <- nextOr(object, return(or))
       h <- digest(elem)
       if (!exists(h, envir=unique_elems)) {
@@ -137,7 +138,7 @@ irle <- function(obj, cmp=identical) {
       }
     }
   }
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }
 
 irle_inverse <- function(obj) {
@@ -152,5 +153,5 @@ irle_inverse <- function(obj) {
     count <<- count - 1
     val$value
   }
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

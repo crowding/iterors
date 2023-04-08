@@ -12,7 +12,7 @@ ilimit <- function(it, times) {
     nextElem(it)
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }
 
 it <- ilimit(icount(Inf), 3)

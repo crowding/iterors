@@ -50,7 +50,7 @@ istarmap <- function(f, x) {
     do.call(f, next_args)
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }
 
 #' @rdname istarmap

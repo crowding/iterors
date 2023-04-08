@@ -37,16 +37,16 @@
 #' @examples
 #'
 #' # Return indices from 1 to 17 in vectors no longer than five
-#' it <- ihasNext(isplitIndices(17, chunkSize=5))
+#' it <- isplitIndices(17, chunkSize=5)
 #' repeat print(nextOr(it, break))
 #'
 #' # Return indices from 1 to 7 in four vectors
-#' it <- ihasNext(isplitIndices(7, chunks=4))
+#' it <- isplitIndices(7, chunks=4)
 #' repeat print(nextOr(it, break))
 #'
 #' @export isplitIndices
 isplitIndices <- function(n, ...) {
-  it <- iterators::idiv(n, ...)
+  it <- idiv(n, ...)
   i <- 1L
 
   nextOr_ <- function(or) {
@@ -56,5 +56,5 @@ isplitIndices <- function(n, ...) {
     seq(j, length=m)
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

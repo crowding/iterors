@@ -40,7 +40,7 @@ itee <- function(obj, n, max=2^16-1) {
     close <- function() {
       pointers[[id]] <- NA_integer_
     }
-    iteror.function(function(or) {
+    iteror.internal(function(or) {
       len <- data$length()
       ptr <- pointers[[id]]
       if (len < ptr) {

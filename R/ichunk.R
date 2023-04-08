@@ -98,5 +98,5 @@ ichunk <- function(iterable, size, mode='list', fill) {
     r
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

@@ -60,7 +60,7 @@ icount <- function(count=Inf, recycle=FALSE) {
     nextOr_ <- function(or) (i <<- i + 1L)
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }
 
 icount.internal <- function(n, recycle=FALSE) {
@@ -84,7 +84,7 @@ icount.internal <- function(n, recycle=FALSE) {
 #' @examples
 #' as.list(icountn(c(2, 3)))
 icountn <- function(vn, recycle=FALSE) {
-  iteror.function(icountn.internal(vn, recycle=FALSE))
+  iteror.internal(icountn.internal(vn, recycle=recycle))
 }
 
 icountn.internal <- function(vn, recycle=FALSE) {
@@ -117,7 +117,7 @@ icountn.internal <- function(vn, recycle=FALSE) {
 
 icountn.simple <- function(vn, recycle=FALSE) {
   iapply(icount(prod(vn), recycle=recycle),
-         function(i) as.vector(arrayInd(i, vn)))
+         function(i) as.vector(arrayIndex(i, vn)))
 }
 
 arrayIndex <- function(i, dim) {
