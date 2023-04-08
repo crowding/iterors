@@ -13,7 +13,6 @@ test_that("blockMM", {
   y <- matrix(rnorm(n * ncolsy), nrow=n)
   expected <- x %*% y
 
-  # okay so iarray's hokey scope thingies are wrecking this test.
   actual <-
     foreach(ia=iarray(x, c(2,1), chunks=c(chunks,xchunks)),
             .combine='rbind') %:%

@@ -40,24 +40,61 @@
 #' @examples
 #' x <- icount(5)
 #' repeat print(nextOr(x, break))
-icount <- function(count=Inf, recycle=FALSE) {
+icount <- function(count=Inf, recycle=FALSE, ..., chunkSize=1L, chunks) {
   if (!is.numeric(count) || length(count) != 1 || is.na(count))
     stop('count must be a numeric value')
+  (function() NULL)(...)
 
   i <- count
+  i[1] <- 0L
+  storage.mode(i) <- "integer"
 
-  if (is.finite(count)) {
-    i[1] <- 0
-    storage.mode(i) <- "integer"
-    if (recycle) {
-      nextOr_ <- function(or) if (i >= count) {i[1] <<- 1; i} else (i <<- i + 1L)
-    } else {
-      nextOr_ <- function(or) if (i >= count) or else (i <<- i + 1L)
+  if (missing(chunks)) {
+    if (chunkSize == 1L) {
+      if (is.finite(count)) {
+        if (recycle) {
+          nextOr_ <- function(or) if (i >= count) {i[1] <<- 1; i} else (i <<- i + 1L)
+        } else {
+          nextOr_ <- function(or) if (i >= count) or else (i <<- i + 1L)
+        }
+      } else {
+        nextOr_ <- function(or) (i <<- i + 1L)
+      }
+    } else { # chunkSize not 1
+      nextOr_ <- function(or) {
+        if (i >= count) {
+          if (recycle) {
+            i[1] <<- 0L
+          } else {
+            return(or)
+          }
+        }
+        ix <- i + seq_len(min(chunkSize, count-i))
+        i[1] <<- i[1] + chunkSize
+        ix
+      }
     }
-  } else {
-    i[1] <- 0L
-    storage.mode(i) <- "integer"
-    nextOr_ <- function(or) (i <<- i + 1L)
+  } else { # chunks is given
+    chunks <- as.integer(min(chunks))
+    chunksLeft <- chunks
+    nextOr_ <- function(or) {
+      repeat {
+        if (chunksLeft <= 0L) {
+          if (recycle) {
+            chunksLeft <<- chunks
+            i[1] <<- 0L
+          } else {
+            return(or)
+          }
+        }
+        thisChunk <- as.integer(ceiling((count - i)/chunksLeft))
+        chunksLeft <<- chunksLeft - 1L
+        ix <- i + seq_len(thisChunk)
+        i[1] <<- i[1] + thisChunk
+        if (thisChunk==0) next
+        return(ix)
+      }
+    }
   }
 
   iteror.internal(nextOr_)
@@ -166,7 +203,7 @@ arrayIndex <- function(i, dim) {
 #' nextOr(it, NULL)  # end of iterator
 #'
 #' @export idiv
-idiv <- function(n, ..., chunks, chunkSize) {
+idiv <- function(n, ..., chunks, chunkSize, recycle=FALSE) {
   if (!is.numeric(n) || length(n) != 1)
     stop('n must be a numeric value')
 
@@ -183,15 +220,23 @@ idiv <- function(n, ..., chunks, chunkSize) {
     chunks <- ceiling(n / chunkSize)
   }
 
-  nextOr_ <- function(or) {
-    if (chunks <= 0 || n <= 0)
-      return(or)
+  chunksLeft <- chunks
+  nLeft <- n
 
-    m <- ceiling(n / chunks)
-    n <<- n - m
-    chunks <<- chunks - 1
+  nextOr_ <- function(or) {
+    if (chunksLeft <= 0 || nLeft <= 0)
+      if (recycle) {
+        chunksLeft <<- chunks
+        nLeft <<- n
+      } else {
+        return(or)
+      }
+
+    m <- ceiling(nLeft / chunksLeft)
+    nLeft <<- nLeft - m
+    chunksLeft <<- chunksLeft - 1
     m
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_, "basicIteror")
 }

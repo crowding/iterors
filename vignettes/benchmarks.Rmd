@@ -7,10 +7,14 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Show the differences in overhead between
+This document illustrates the differences in performance between `iterors` using `nextOr` style iteration and `iterators`/`itertools`/`itertools2` using `nextElem`/`tryCatch` style iteration.
 
 ```{R}
-# here's how you _would_ write collapse...
+require(iterators)
+require(itertools)
+require(itertools2)
+# `collapse` is not implemented in iterators, but
+# here's how you `_would_` write collapse in `tryCatch`/`nextElem` style.
 iter_collapse <- with(as.environment("package:iterators"), function(obj) {
   obj <- iterators::iter(obj)
   sigil <- new.env()
