@@ -3,12 +3,13 @@
 # Template with shared logic used by icount, idiv, iteror.default
 count_template <- function(input,
                            output,
+                           options=list(),
                            preamble=list()) {
   count <- 0
 
   args <- as.pairlist(eval(bquote(
     splice=TRUE,
-    alist(..(input), ...=, recycle=FALSE, chunkSize=1L, chunks=))))
+    alist(..(input), ...=, recycle=FALSE, chunkSize=, chunks=, ..(options)))))
 
   body <- bquote(splice=TRUE, {
     ..(preamble)
@@ -23,7 +24,7 @@ count_template <- function(input,
     storage.mode(i) <- "integer"
 
     if (missing(chunks)) {
-      if (chunkSize == 1L) { # single stepping
+      if (missing(chunkSize)) { # single stepping
         if (is.finite(count)) {
           if (recycle) {
             nextOr_ <- function(or) { # recycling, non-chunking
@@ -52,6 +53,7 @@ count_template <- function(input,
           }
         }
       } else { # chunking by chunkSize
+        storage.mode(chunkSize) <- "integer"
         if (is.finite(count)) {
           last <- count - chunkSize
           nextOr_ <- function(or) {  # finite, chunking by chunkSize
@@ -59,7 +61,7 @@ count_template <- function(input,
             if (i >= last) {
               chunkSize <- count - i
               if (recycle) {
-                i[1] <<- 0
+                i[1] <<- 0L
               } else {
                 i[1] <<- Inf
               }

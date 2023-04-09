@@ -5,9 +5,9 @@
 \alias{icountn}
 \title{Counting Iterators}
 \usage{
-icount(count = Inf, recycle = FALSE)
+icount(count = Inf, ..., recycle = FALSE, chunkSize, chunks)
 
-icountn(vn, recycle = FALSE)
+icountn(vn, ..., recycle = FALSE, chunkSize, chunks, rowMajor = TRUE)
 }
 \arguments{
 \item{count}{number of times that the iterator will fire. Use NA or
@@ -16,6 +16,9 @@ Inf to make an iterator that counts forever.}
 \item{recycle}{Whether to restart the count after finishing.}
 
 \item{vn}{A vector of integers.}
+
+\item{rowMajor}{If \code{TRUE} (default), the earliest indices will cycle fastest;
+if \code{FALSE}, last indices cycle fastest.}
 }
 \value{
 The counting iterator.

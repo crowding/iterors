@@ -49,9 +49,20 @@ ienumerate.iteror <- function(obj, ...) {
 }
 
 #' @exportS3Method
-ienumerate.default <- function(obj, ...) {
-  ienumerate.iteror(iteror(obj, ...))
-}
+ienumerate.default <- count_template(
+  input = alist(obj = ),
+  preamble=alist(
+    count <- length(obj)
+  ),
+  output = function(ix, size) {
+    if (missing(size))
+      substitute(list(index=ix, value=obj[[ix]]))
+    else
+      substitute({
+        index <- ix + seq_len(size)
+        list(index=index, value=obj[index])
+      })
+  })
 
 #' @rdname ienumerate
 #' @export

@@ -29,6 +29,20 @@ test_that("ienumerate over numeric vector", {
   expect_equal(nextOr(it, NA), NA)
 })
 
+test_that("ienumerate chunks", {
+  expected <- do.call(rbind, as.list(
+    iapply(ienumerate(seq(1, 1000, by=3)),
+           as.data.frame)))
+  actual <- do.call(rbind, as.list(
+    iapply(ienumerate(seq(1, 1000, by=3), chunkSize=5),
+           as.data.frame)))
+  expect_equal(expected, actual)
+  actual2 <- do.call(rbind, as.list(
+    iapply(ienumerate(seq(1, 1000, by=3), chunks=12),
+           as.data.frame)))
+  expect_equal(expected, actual2)
+})
+
 test_that("ienum over numeric vector", {
   set.seed(42)
   x <- rnorm(5)

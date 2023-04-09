@@ -14,7 +14,8 @@ ienum(obj, ...)
   obj,
   ...,
   by = c("cell", "row", "column"),
-  chunksize = 1L,
+  chunkSize = 1L,
+  chunks,
   recycle = FALSE,
   drop = FALSE
 )

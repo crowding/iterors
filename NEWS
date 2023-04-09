@@ -9,6 +9,9 @@ Incorporated/ported "itertools" package.
 Incorporated/ported "itertools2" package.  
 
 New features:
+  o The logic of `icount`, `idiv`, `icountn`, `ienumerate`, `iteror.default`
+    have all been unified; all accept options `chunks`, `chunksize` and `recycle`
+    with equivalent behavior.
   o `iunique` uses a hash table rather than linear scan, for much improved
     performance; it also works with arbitrary R objects.
   o New functions `irle()` and `irle_inverse()` for run-length encoding.
@@ -20,19 +23,20 @@ New features:
     and `as.logical`.
   o Random number iterators like `irunif`, `isample` and so on can now
     maintain a private seed value, so that interleaving with other
-    iterators does not affect reproducibility. If `independent=TRUE` a
+    iterators does not affect reproducibility. If `independent=TRUE`, a
     constructed random number iterator will generate an _independent_
     pseudo-random stream (using the [nextRNGStream] mechanism).
   o New method `ienumerate.array` can iterate over
     arbitrary margins, providing you with a vector index.
   o `iwindow` constructs a sliding window of arbitrary length over a given
     iterator, generalizing `iterttools2::ipairwise` and `itripletwise`.
-  o `icount` and `icountn` respect names.
+  o `icount` and `icountn` respect dimnames.
+  o `icountn` has an option `rowMajor=FALSE` (in which case the 
 
 
 Changes from the above packages:
   o `itertools2::icount(start=1, step=3, stop=15)` -> `iseq(from=1, to=15, by=3)`
-    o `icount(n)` simply counts from 1 to n, and is a synonym for `iseq_len`
+    o `icount(n)` simply counts starting from 1, and is a synonym for `iseq_len`
   o `iterators::ifilter(pred, iterable)` -> `ikeep(iterable, pred)`
   o `iterators::ifilterfalse(pred, iterable)` -> `idrop(iterable, pred)`
   o `iterators::itakewhile(pred, iterable)` -> `ikeepwhile(iterable, pred)`     

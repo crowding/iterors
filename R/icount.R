@@ -98,6 +98,8 @@ idiv <- count_template(input=alist(count=),
 
 #' @rdname icount
 #' @param vn A vector of integers.
+#' @param rowMajor If `TRUE` (default), the earliest indices will cycle fastest;
+#'   if `FALSE`, last indices cycle fastest.
 #' @description `icountn(vn)` takes a vector specifying an array size,
 #'   and returns an iterator over array indices. Each returned element
 #'   is a vector the same length as vn, with the first index varying fastest.
@@ -105,11 +107,25 @@ idiv <- count_template(input=alist(count=),
 #' @export
 #' @examples
 #' as.list(icountn(c(2, 3)))
-icountn <- function(vn, recycle=FALSE) {
-  iteror.internal(icountn.internal(vn, recycle=recycle))
+icountn <- count_template(
+  input = alist(vn = ),
+  options = alist(rowMajor = TRUE),
+  preamble=alist(
+    storage.mode(vn) <- "integer",
+    count <- prod(vn)
+  ),
+  output = function(ix, size) {
+    if (missing(size))
+      substitute(arrayIndex(ix, vn, rowMajor))
+    else
+      substitute(arrayIndices(ix + seq_len(size), vn, rowMajor))
+  })
+
+icountn.recursive <- function(vn, recycle = FALSE) {
+  iteror.internal(icountn.internal(vn, recycle = recycle))
 }
 
-icountn.internal <- function(vn, recycle=FALSE) {
+icountn.internal <- function(vn, recycle = FALSE) {
   # amazingly, this recursive algo tests faster than the one
   # using arrayIndex (icountn.simple)
   if (length(vn) > 1) {
@@ -142,11 +158,27 @@ icountn.simple <- function(vn, recycle=FALSE) {
          function(i) as.vector(arrayIndex(i, vn)))
 }
 
-arrayIndex <- function(i, dim) {
-  out <- numeric(length(dim))
-  i <- i - 1
-  for (index in rev(seq_along(dim))) {
+arrayIndex <- function(i, dim, rowMajor=FALSE) {
+  out <- dim
+  i <- i - 1L
+  for (index in if (rowMajor) seq_along(dim) else rev(seq_along(dim))) {
     out[index] <- (i %% dim[index]) + 1L
+    i <- i %/% dim[index]
+  }
+  out
+}
+
+arrayIndices <- function(i, dim, rowMajor=FALSE) {
+  out <- structure(integer(length(i) * length(dim)),
+                   dim=c(length(i), length(dim)),
+                   dimnames={
+                     if (is.null(names(dim))) NULL
+                     else list(NULL, names(dim))
+                   })
+  i <- i - 1L
+  for (index in if (rowMajor) seq_along(dim) else rev(seq_along(dim))) {
+    coord <- (i %% dim[index]) + 1L
+    out[,index] <- coord
     i <- i %/% dim[index]
   }
   out
