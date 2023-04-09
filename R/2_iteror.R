@@ -194,52 +194,17 @@ iteror.internal <- function(fn, class=character(0)) {
 #' running through all its values.
 #' @param chunks Split the input into this many chunks. Default `NA`, use `chunkSize`.
 #' @param chunkSize How many elements (or slices) to include in each chunk.
-iteror.default <- function(obj, ...,
-                           recycle=FALSE,
-                           chunkSize=1L,
-                           chunks) {
-  if (is.function(obj)) {
-    iteror.function(obj, ...)
-  } else {
-    i <- 0
-    n <- length(obj)
-    if (!missing(chunks) || chunkSize != 1L) {
-      ix <- idiv(n, chunks=chunks, chunkSize=chunkSize)
-      it <- function(or) {
-        ix <- idiv(n, chunks=chunks, chunkSize=chunkSize, recycle=recycle)
-        it <- function(or) {
-          ix <- i+seq(from=1, length.out=ix(return(or)))
-          repeat {
-            i <<- i %% n + 1
-            val <- obj[[i]]
-            return(val)
-          }
-        }
-      }
+iteror.default <- count_template(
+  input = alist(obj=),
+  preamble = alist(count <- length(obj)),
+  output = function(ix, len) {
+    if (missing(len)) {
+      substitute(obj[[ix]]) # unboxing!!!
     } else {
-      if (recycle) {
-        it <- function(or) {
-          repeat {
-            i <<- i %% n + 1
-            val <- obj[[i]]
-            return(val)
-          }
-        }
-      } else {
-        it <- function(or) {
-          repeat{
-            if (i < n) {
-              i <<- i + 1
-              val <- obj[[i]]
-              return(val)
-            } else return(or)
-          }
-        }
-      }
-      it <- iteror.internal(it, "basicIteror")
+      substitute(obj[ix + seq_len(len)]) # uhhh 0 based versus 1-based???
     }
   }
-}
+)
 
 #' Retreive the next element from an iteror.
 #' @export

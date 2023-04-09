@@ -43,7 +43,7 @@
 #' repeat print(nextOr(x, break))
 icount <- count_template(input=alist(count=Inf),
                          output=function(ix, size) {
-                           if (substitute(size)==1) substitute(ix)
+                           if (missing(size)) substitute(ix)
                            else substitute(ix + seq_len(size))
                          })
 
@@ -93,7 +93,8 @@ icount.internal <- function(n, recycle=FALSE) {
 #'
 #' @export idiv
 idiv <- count_template(input=alist(count=),
-                       output=function(ix, size) substitute(size))
+                       output=function(ix, size)
+                         if (missing(size)) 1 else substitute(size))
 
 #' @rdname icount
 #' @param vn A vector of integers.

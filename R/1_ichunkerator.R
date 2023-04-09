@@ -29,10 +29,10 @@ count_template <- function(input,
             nextOr_ <- function(or) { # recycling, non-chunking
               if (i >= count) {
                 i[1] <<- 1
-                .(output(i, 1))
+                .(output(i))
               } else {
                 i <<- i + 1L
-                .(output(i, 1))
+                .(output(i))
               }
             }
           } else {
@@ -41,14 +41,14 @@ count_template <- function(input,
                 or
               } else {
                 i <<- i + 1L
-                .(output(i, 1))
+                .(output(i))
               }
             }
           }
         } else {
           nextOr_ <- function(or) { # infinite, non-chunking
             i <<- i + 1L
-            .(output(i, 1))
+            .(output(i))
           }
         }
       } else { # chunking by chunkSize
