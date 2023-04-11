@@ -6,6 +6,10 @@ count_template <- function(input,
                            options=list(),
                            preamble=list()) {
   count <- 0
+  i <- 0
+  i.tmp <- 0
+  chunkSize <- 0
+  thisChunk <- 0
 
   args <- as.pairlist(eval(bquote(
     splice=TRUE,

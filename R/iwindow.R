@@ -5,8 +5,8 @@
 #' forward by one element each iteration.
 #' @param obj An iterable.
 #' @param n The width of the window to apply
-#' @param tails Whether to include tails at the beginning and end. The
-#'   tails will be filled with NULL.
+#' @param tail If a value is given, tails will be included at
+#' the beginning and end of iteration, filled with the given value.
 #' @return an iteror.
 #' @author Peter Meilstrup
 #' @export
@@ -33,20 +33,21 @@
 #' nextOr(it) # list("a", "b", "c")
 #' nextOr(it) # list("b", "c", "d")
 #'
-#' it <- iwindow(letters[1:4], 3, tails=TRUE)
-#' nextOr(it) # list(NULL, NULL, "a")
-#' nextOr(it) # list(NULL, "a", "b")
+#' it <- iwindow(letters[1:4], 3, tail=" ")
+#' nextOr(it) # list(" ", " ", "a")
+#' nextOr(it) # list(" ", "a", "b")
 #' nextOr(it) # list("a", "b", "c")
 #' nextOr(it) # list("b", "c", "d")
-#' nextOr(it) # list("c", "d", NULL)
-#' nextOr(it) # list("d", NULL, NULL)
-iwindow <- function(obj, n, tails=FALSE) {
-  if (n==2 && tails==FALSE) {
+#' nextOr(it) # list("c", "d", " ")
+#' nextOr(it) # list("d", " ", " ")
+iwindow <- function(obj, n, tail) {
+  if (n==2 && missing(tail)) {
     return(ipairwise(obj))
-  } else if (n==3 && tails==FALSE) {
+  } else if (n==3 && missing(tail)) {
     return(itripletwise(obj))
   }
-  list(obj, n, tails)
+  hasTail <- !missing(tail)
+  list(obj, n)
   dq <- deque()
   obj <- iteror(obj)
 
@@ -57,9 +58,9 @@ iwindow <- function(obj, n, tails=FALSE) {
     repeat switch(stage,
       start={
         if (nn < n-1) {
-          if (tails)
-            dq$append(NULL)
-          else dq$append(nextOr(obj, or={
+          if (hasTail)
+            dq$append(tail)
+          else dq$append(obj(or={
             stage <<- "end"; next
           }))
           nn <<- nn + 1
@@ -68,7 +69,7 @@ iwindow <- function(obj, n, tails=FALSE) {
         }
       },
       middle={
-        dq$append(nextOr(obj, or={
+        dq$append(obj(or={
           stage <<- "end"; next
         }))
         val <- dq$extract()
@@ -77,8 +78,9 @@ iwindow <- function(obj, n, tails=FALSE) {
       },
       end={
         if (nn > 0) {
-          if (tails) {
-            val <- dq$extract(seq_len(n), NA)
+          if (hasTail) {
+            dq$append(tail)
+            val <- dq$extract(seq_len(n))
             dq$getFirst()
             nn <<- nn - 1
             return(val)
@@ -97,16 +99,18 @@ iwindow <- function(obj, n, tails=FALSE) {
 itripletwise <- function(obj) {
   obj <- iteror(obj)
   init <- FALSE
+  last_1 <- NULL
+  last_2 <- NULL
 
   nextOr_ <- function(or) {
     if (!init) {
-      last_2 <<- nextOr(obj, return(or))
-      last_1 <<- nextOr(obj, return(or))
+      last_2 <<- obj(or=return(or))
+      last_1 <<- obj(or=return(or))
       init <<- TRUE
     }
     list(last_2,
          last_2 <<- last_1,
-         last_1 <<- nextOr(obj, return(or)))
+         last_1 <<- obj(or=return(or)))
   }
 
   iteror(nextOr_)
@@ -116,13 +120,14 @@ itripletwise <- function(obj) {
 ipairwise <- function(obj) {
   obj <- iteror(obj)
   init <- FALSE
+  last <- NULL
 
   nextOr_ <- function(or) {
     if (!init) {
-      last <<- nextOr(obj, return(or))
+      last <<- obj(or=return(or))
       init <<- TRUE
     }
-    list(last, last <<- nextOr(obj, return(or)))
+    list(last, last <<- obj(or=return(or)))
   }
 
   iteror(nextOr_)

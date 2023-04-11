@@ -51,7 +51,7 @@ objects that they evaluate to.}
 }
 \description{
 Create an iterator over an array. It is similar to the
-\code{iterator.array} constructor but produces nested
+\code{iteror.array} constructor but produces nested
 iterators, to be used with nested \link[foreach:foreach]{foreach} loops.
 }
 \details{
@@ -64,7 +64,7 @@ Originally from the \code{itertools} package.
   as.list(iteror(x, by=3, drop=TRUE))
 
   # Iterate over subarrays
-  as.list(iteror(x, by=3, chunksize=2))
+  as.list(iteror(x, by=3, chunkSize=2))
 
   # iterate in nested fashion
   x <- array(1:64, c(4,4,4))
@@ -103,6 +103,6 @@ Originally from the \code{itertools} package.
 
 }
 \seealso{
-\code{\link[base]{apply}}, \code{\link[iterators]{iapply}}
+iteror.array
 }
 \keyword{utilities}

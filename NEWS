@@ -76,4 +76,3 @@ Changes from iterators/itertools/itertools2:
   o `itertools2::isplitIndices(n, ...)` -> `icount(n, ...)`
   o `itertools2::isplitVector(n, )` -> `iteror.default(n, ...)`
   o `itertools::timeout(secs)` -> itimeout(secs)
-  

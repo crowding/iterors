@@ -13,7 +13,13 @@ icountn(vn, ..., recycle = FALSE, chunkSize, chunks, rowMajor = TRUE)
 \item{count}{number of times that the iterator will fire. Use NA or
 Inf to make an iterator that counts forever.}
 
+\item{...}{Undocumented}
+
 \item{recycle}{Whether to restart the count after finishing.}
+
+\item{chunkSize}{How many valies to return from each call to nextOr().}
+
+\item{chunks}{How many chunks to split the input. Either \code{chunks} or \code{chunkSize} may be given but not both.}
 
 \item{vn}{A vector of integers.}
 

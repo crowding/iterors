@@ -22,7 +22,10 @@
 #'
 #' @param count number of times that the iterator will fire. Use NA or
 #'   Inf to make an iterator that counts forever.
+#' @param ... Undocumented
 #' @param recycle Whether to restart the count after finishing.
+#' @param chunkSize How many valies to return from each call to nextOr().
+#' @param chunks How many chunks to split the input. Either `chunks` or `chunkSize` may be given but not both.
 #' @return The counting iterator.
 #' @keywords utilities
 #' @details Originally from the `iterators` package.
@@ -63,14 +66,15 @@ icount.internal <- function(n, recycle=FALSE) {
 #' Returns an iterator dividing a value into integer chunks, such that
 #' `sum(idiv(n, ...)) == floor(n)`
 #'
-#' @param n The total
-#' @param \dots unused.
-#' @param chunks the number of pieces that \code{n} should be divided into.
-#' This is useful when you know the number of pieces that you want.  If
-#' specified, then \code{chunkSize} should not be.
+#' @param count The total
+#' @param ... Unused.
+#' @param recycle Whether to restart the count after finishing.
 #' @param chunkSize the maximum size of the pieces that \code{n} should be
 #' divided into.  This is useful when you know the size of the pieces that you
 #' want.  If specified, then \code{chunks} should not be.
+#' @param chunks the number of pieces that \code{n} should be divided into.
+#' This is useful when you know the number of pieces that you want.  If
+#' specified, then \code{chunkSize} should not be.
 #' @return The dividing iterator.
 #' @keywords utilities
 #' @details Originally from the `iterators` package.

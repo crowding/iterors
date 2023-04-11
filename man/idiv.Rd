@@ -7,7 +7,11 @@
 idiv(count, ..., recycle = FALSE, chunkSize, chunks)
 }
 \arguments{
-\item{\dots}{unused.}
+\item{count}{The total}
+
+\item{...}{Unused.}
+
+\item{recycle}{Whether to restart the count after finishing.}
 
 \item{chunkSize}{the maximum size of the pieces that \code{n} should be
 divided into.  This is useful when you know the size of the pieces that you
@@ -16,8 +20,6 @@ want.  If specified, then \code{chunks} should not be.}
 \item{chunks}{the number of pieces that \code{n} should be divided into.
 This is useful when you know the number of pieces that you want.  If
 specified, then \code{chunkSize} should not be.}
-
-\item{n}{The total}
 }
 \value{
 The dividing iterator.

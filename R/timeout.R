@@ -33,7 +33,7 @@
 #' @examples
 #'
 #' # See how high we can count in a tenth of a second
-#' length(as.list(timeout(icount(), 0.1)))
+#' length(as.list(itimeout(icount(), 0.1)))
 #'
 #' @export itimeout
 itimeout <- function(iterable, time) {
