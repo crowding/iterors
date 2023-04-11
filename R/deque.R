@@ -47,7 +47,7 @@ deque <- function(len=64) {
 
   append <- function(val) {
     if ((i.open %% length(data)) + 1 == i.first) expand()
-    data[[i.open]] <<- val
+    data[i.open] <<- list(val)
     i.open <<- (i.open %% length(data)) + 1
     val
   }

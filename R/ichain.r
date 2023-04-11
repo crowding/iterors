@@ -28,8 +28,8 @@ ichain <- function(...) {
 #'   iterables, and chains together all inner values of iterables into
 #'   one iterator. Analogous to `unlist(recursive=FALSE)`.
 #' @export
-icollapse <- function(obj) {
-  obj <- iteror(obj)
+icollapse <- function(obj, ...) {
+  obj <- iteror(obj, ...)
   current <- NULL
 
   nextOr_ <- function(or) {

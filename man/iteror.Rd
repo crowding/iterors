@@ -23,7 +23,8 @@ iteror(obj, ...)
   obj,
   ...,
   by = c("cell", "row", "column"),
-  chunkSize = 1L,
+  chunkSize,
+  chunks,
   recycle = FALSE,
   drop = FALSE
 )
@@ -32,12 +33,13 @@ iteror(obj, ...)
   obj,
   ...,
   by = c("cell", "row", "column"),
-  chunkSize = 1L,
+  chunkSize,
+  chunks,
   recycle = FALSE,
   drop = FALSE
 )
 
-\method{iteror}{data.frame}(obj, by = c("column", "row"), ..., recycle = FALSE)
+\method{iteror}{data.frame}(obj, ..., recycle = FALSE, chunkSize, chunks, by = c("column", "row"))
 }
 \arguments{
 \item{obj}{An object to iterate with. If \code{obj} is a vector, the
@@ -49,29 +51,29 @@ returning \code{or} to signal end of iteration.)  If you provide a
 function that does not have an \code{or} argument, you will need to
 specify either \code{catch} or \code{sigil}.}
 
-\item{...}{Extra arguments used by some \code{iteror} methods.}
+\item{...}{Undocumented.}
 
-\item{catch}{If \code{obj} is a function without an \code{or} argument, specify
+\item{catch}{If \code{obj} does not have \code{or} argument, specify
 e.g. \code{catch="StopIteration"} to interpret that
 error message as end of iteration.}
 
-\item{sigil}{If \code{obj} is a function without an \code{or} argument, specify
+\item{sigil}{If \code{obj} does not have an \code{or} argument, specify
 which value to watch for end of iteration. Stop will be signaled
 if the function result is \code{\link[=identical]{identical()}} to \code{sigil}.}
 
-\item{count}{If \code{obj} is a function without an \code{or} argument, specify
+\item{count}{If \code{obj} does not have an \code{or} argument, specify
 how many times to call it before finishing iteration.}
 
 \item{recycle}{a boolean describing whether the iterator should reset after
 running through all its values.}
 
-\item{chunkSize}{the number of elements of \code{by} to return with each
-call to \code{nextElem}.}
+\item{chunkSize}{the number of elements of \code{by} to return with
+each call to \code{nextOr}.}
 
 \item{chunks}{Split the input into this many chunks. Default \code{NA}, use \code{chunkSize}.}
 
-\item{by}{how to iterate over a matrix Can be "cell", "row", "col", or
-numeric dimensions.}
+\item{by}{how to split up an array or data frame. Can be "cell",
+"row", "column", or numeric dimensions.}
 
 \item{drop}{Whether to drop the array dimensions enumerated over.}
 }
@@ -134,6 +136,9 @@ repeat sum <- sum + it(or=break)
 }\if{html}{\out{</div>}}
 }
 \examples{
+l <- iteror(letters, chunkSize=7)
+as.list(l)
+
 a <- array(1:8, c(2, 2, 2))
 
 # iterate over all the slices

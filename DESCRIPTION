@@ -18,6 +18,7 @@ Imports:
     rlang
 Encoding: UTF-8
 Suggests:
+    abind,
     combinat,
     testthat (>= 3.0.0),
     foreach,

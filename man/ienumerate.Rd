@@ -13,10 +13,11 @@ ienum(obj, ...)
 \method{ienumerate}{array}(
   obj,
   ...,
-  by = c("cell", "row", "column"),
-  chunkSize = 1L,
-  chunks,
   recycle = FALSE,
+  chunkSize,
+  chunks,
+  by = c("cell", "row", "column"),
+  rowMajor = TRUE,
   drop = FALSE
 )
 }
@@ -25,16 +26,21 @@ ienum(obj, ...)
 
 \item{...}{Undocumented.}
 
-\item{by}{Which margind to split an array by.}
+\item{recycle}{Whether to restart the iterator after finishing the
+array.}
 
 \item{chunkSize}{How large a chunk to take along the specified
 dimension.}
 
-\item{recycle}{Whether to restart the iterator after finishing the
-array.}
+\item{chunks}{How many chunks to divide the array into.}
 
-\item{drop}{Whether to drop marginalized dimensions. Will have no
-effect if chunkSize > 1.}
+\item{by}{Which array margins to iterate over. Can by "row", "col", "cell",
+or a vector of numerical indices.}
+
+\item{rowMajor}{If TRUE, the first index varies fastest, if FALSE, the last index varies fastest.}
+
+\item{drop}{Whether to drop marginalized dimensions. If chunking is
+used, this has no effect.}
 }
 \value{
 iterator that returns the values of \code{obj} along with the
@@ -80,8 +86,9 @@ nextOr(it2, NA)
 nextOr(it2, NA)
 
 a <- array(1:27, c(3, 3, 3))
-as.list(ienumerate(a, by=c(1, 2), chunkSize=2, drop=TRUE))
-as.list(ienumerate(a, chunkSize=7))
+as.list(ienumerate(a, by=c(1, 2), drop=TRUE))
+as.list(ienumerate(a, by=c(3), drop=FALSE))
+as.list(ienumerate(a, by=c(2, 3), chunkSize=7))
 }
 \author{
 Peter Meilstrup

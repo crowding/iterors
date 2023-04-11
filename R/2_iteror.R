@@ -143,13 +143,14 @@ iteror.iter <- function(obj, ...) {
 
 #' @exportS3Method iteror "function"
 #' @rdname iteror
-#' @param catch If `obj` is a function without an `or` argument, specify
+#' @param ... Undocumented.
+#' @param catch If `obj` does not have `or` argument, specify
 #'   e.g. `catch="StopIteration"` to interpret that
 #'   error message as end of iteration.
-#' @param sigil If `obj` is a function without an `or` argument, specify
+#' @param sigil If `obj` does not have an `or` argument, specify
 #'   which value to watch for end of iteration. Stop will be signaled
 #'   if the function result is [identical()] to `sigil`.
-#' @param count If `obj` is a function without an `or` argument, specify
+#' @param count If `obj` does not have an `or` argument, specify
 #'   how many times to call it before finishing iteration.
 iteror.function <- function(obj, ..., catch, sigil, count) {
   if ("or" %in% names(formals(obj))) {
@@ -165,17 +166,21 @@ iteror.function <- function(obj, ..., catch, sigil, count) {
       force(catch)
       fn <- function(or) {
         tryCatch(obj(), error=function(e) {
-          if (identical(e, message)) {
+          if (identical(conditionMessage(e), catch)) {
             or
           } else stop(e)
         })
       }
     } else if (!missing(count)) {
-      fn <- function(or) {
-        if (count > 0) {
-          count <<- count - 1L
-          obj()
-        } else or
+      if (is.finite(count)) {
+        fn <- function(or) {
+          if (count > 0) {
+            count <<- count - 1L
+            obj()
+          } else or
+        }
+      } else {
+        fn <- function(or) obj()
       }
     } else {
       stop("iteror: function must have an 'or' argument, or else specify one of 'catch', 'sigil' or 'count'")
@@ -196,7 +201,9 @@ iteror.internal <- function(fn, class=character(0)) {
 #' @param chunkSize How many elements (or slices) to include in each chunk.
 iteror.default <- count_template(
   input = alist(obj=),
-  preamble = alist(count <- length(obj)),
+  preamble = alist(
+    if (is.function(obj)) return(iteror.function(obj, ...)),
+    count <- length(obj)),
   output = function(ix, len) {
     if (missing(len)) {
       substitute(obj[[ix]]) # unboxing!!!

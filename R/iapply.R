@@ -34,6 +34,7 @@
 #' @keywords utilities
 #' @export iapply
 iapply <- function(obj, f, ...) {
+  obj <- iteror(obj, ...)
   nextOr_ <- function(or) f(nextOr(obj, return(or)), ...)
   iteror.internal(nextOr_)
 }

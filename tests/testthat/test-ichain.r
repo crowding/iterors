@@ -23,7 +23,7 @@ test_that("ichain properly iterates through a numeric vector and a character vec
 })
 
 test_that("ichain properly iterates through a numeric vector and a data.frame's columns", {
-  it <- ichain(1:3, iris)
+  it <- ichain(1:3, ilimit(iris, 5))
   expect_equal(nextOr(it, NA), 1)
   expect_equal(nextOr(it, NA), 2)
   expect_equal(nextOr(it, NA), 3)

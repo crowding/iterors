@@ -74,68 +74,69 @@ ienum <- ienumerate
 #'   array by arbitrary margins, and by more than one margin. The
 #'   `index` element returned will be a vector (or if `chunkSize` > 1, a
 #'   matrix) of indices.
-#' @param by Which margind to split an array by.
+#' @param by Which array margins to iterate over. Can by "row", "col", "cell",
+#'   or a vector of numerical indices.
 #' @param chunkSize How large a chunk to take along the specified
 #'   dimension.
+#' @param chunks How many chunks to divide the array into.
 #' @param recycle Whether to restart the iterator after finishing the
 #'   array.
-#' @param drop Whether to drop marginalized dimensions. Will have no
-#'   effect if chunkSize > 1.
+#' @param drop Whether to drop marginalized dimensions. If chunking is
+#'   used, this has no effect.
+#' @param rowMajor If TRUE, the first index varies fastest, if FALSE, the last index varies fastest.
 #' @author Peter Meilstrup
 #' @examples
 #' a <- array(1:27, c(3, 3, 3))
-#' as.list(ienumerate(a, by=c(1, 2), chunkSize=2, drop=TRUE))
-#' as.list(ienumerate(a, chunkSize=7))
-ienumerate.array <- function(obj, ...,
-                             by=c("cell", "row", "column"),
-                             chunkSize=1L,
-                             chunks,
-                             recycle=FALSE,
-                             drop=FALSE) {
-  if (is.character(by))
-    by <- switch(
-      match.arg(by),
-      cell=seq_along(dim(obj)),
-      row=1,
-      column=2
-    )
-
-  iter_size <- dim(obj)[by]
-  args <- c(alist(obj),
+#' as.list(ienumerate(a, by=c(1, 2), drop=TRUE))
+#' as.list(ienumerate(a, by=c(3), drop=FALSE))
+#' as.list(ienumerate(a, by=c(2, 3), chunkSize=7))
+ienumerate.array <- count_template(
+  input = alist(obj = ),
+  options = alist(by=c("cell", "row", "column"), rowMajor=TRUE, drop=FALSE),
+  preamble = alist(
+    if (is.character(by))
+      by <- switch(
+        match.arg(by),
+        cell=seq_along(dim(obj)),
+        row=1L,
+        column=2L
+      ),
+    dim <- dim(obj)[by],
+    count <- prod(dim),
+    args <- c(alist(obj),
             rep(list(quote(expr=)), length(dim(obj))),
             alist(drop=drop))
-  indexit <- icount(prod(iter_size), recycle=recycle)
-
-  if (chunkSize == 1) {
-    nextOr_ <- function(or) {
-      ix <- nextOr(indexit, return(or))
-      args[by+1] <- arrayInd(ix, iter_size)
-      list(index=ix, value=do.call("[", args))
-    }
-  } else {
-    indexit <- ichunk(indexit, chunkSize, "numeric")
-    nextOr_ <- function(or) {
-      ixes <- nextOr(indexit, return(or))
-      ixes <- arrayInd(ixes, iter_size)
-      dim.out <- c(dim(obj), nrow(ixes))
-      dim.out[by] <- 1
-
-      out <- apply(ixes, 1, function(ix) {
-        args[by+1] <- ix
-        do.call("[", args)
-      }, simplify=FALSE)
-      out <- do.call(c, out)
-      dim(out) <- dim.out
-      # if we have by[1]==2, aperm=1,4,3
-      nd <- length(dim(obj)) + 1
-      perm <- seq_len(nd)
-      perm[by[1]] <- nd
-      perm[nd] <- by[1]
-      out <- aperm(out, perm)
-      dim(out) <- dim(out)[-nd]
-      list(index=ixes, value=out)
-    }
-  }
-
-  iteror.internal(nextOr_, "basicIteror")
-}
+  ),
+  output = function(ix, size) {
+    if (missing(size))
+      substitute({
+        index <- arrayIndex(ix, dim, rowMajor)
+        args[by+1] <- index
+        list(index=index, value=do.call("[", args))
+      })
+    else
+      substitute({
+        ixes <- arrayIndices(ix + seq_len(size), dim, rowMajor)
+        dim.out <- dim(obj)
+        dim.out[by] <- 1
+        out <- array(obj[c()], c(prod(dim.out), size))
+        dim.out <- c(dim.out, size)
+        for (i in seq_len(size)) {
+          args[by+1] <- ixes[i,]
+          out[,i] <- do.call("[", args)
+        }
+        dim(out) <- dim.out
+        # at this point, if the input array has dim 7, 8, 9,
+        # going by dim 2,
+        # and we have a chnk size of 5,
+        # then our "out" has dim 7, 1, 9, 5,
+        # and we want to permute it to 7, 5, 9.
+        nd <- length(dim(obj)) + 1
+        perm <- seq_len(nd)
+        perm[by[1]] <- nd
+        perm[nd] <- by[1]
+        out <- aperm(out, perm)
+        dim(out) <- dim(out)[-nd]
+        list(index=ixes, value=out)
+      })
+  })

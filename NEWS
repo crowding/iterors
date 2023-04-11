@@ -8,35 +8,43 @@ Incorporated/ported "iterators" package.
 Incorporated/ported "itertools" package.
 Incorporated/ported "itertools2" package.  
 
-New features:
-  o The logic of `icount`, `idiv`, `icountn`, `ienumerate`, `iteror.default`
-    have all been unified; all accept options `chunks`, `chunksize` and `recycle`
-    with equivalent behavior.
-  o `iunique` uses a hash table rather than linear scan, for much improved
-    performance; it also works with arbitrary R objects.
+New methods:
+  o `ienumerate.array` can iterate over arbitrary margins, providing you
+    with a vector index.
+  o `iwindow` constructs a sliding window of arbitrary length over a given
+    iterator, generalizing `iterttools2::ipairwise` and `itripletwise`.
   o New functions `irle()` and `irle_inverse()` for run-length encoding.
   o Introduced `ireduce()`, `iaccum()`, and `sum()` and `prod()` methods for
     iterors.
-  o `ichain(...)` now has a companion function `icollapse(it)` which takes
+  o `ichain(...)` has a companion function `icollapse(it)` which accepts
     an iterable (rather than `...`).
   o New iteror methods for `as.numeric`, `as.vector', `as.character`,
     and `as.logical`.
-  o Random number iterators like `irunif`, `isample` and so on can now
-    maintain a private seed value, so that interleaving with other
-    iterators does not affect reproducibility. If `independent=TRUE`, a
-    constructed random number iterator will generate an _independent_
-    pseudo-random stream (using the [nextRNGStream] mechanism).
-  o New method `ienumerate.array` can iterate over
-    arbitrary margins, providing you with a vector index.
-  o `iwindow` constructs a sliding window of arbitrary length over a given
-    iterator, generalizing `iterttools2::ipairwise` and `itripletwise`.
+
+New features:
+  o Memory-backed and counting iterors `icount`, `idiv`, `icountn`,
+    `ienumerate.default`, `iteror.default`, `iteror.data.frame`,
+    `iteror.default` and `ienumerate.array` all have shared logic, so
+    that all accept options `chunks`, `chunksize` and `recycle` with
+    equivalent behavior.
+  o `iunique` uses a hash table rather than linear scan, for much improved
+    performance; it also now works with arbitrary R objects.
+  o Random number iterators like `irunif`, `isample` and friends
+    accept option `independent`; if TRUE, the iterator will maintain a
+    private seed value, so that interleaving with other iterators does
+    not affect reproducibility. Multiple iterors with `independent=TRUE`
+    will generate pseudo-independent (decorrelated) random streams
+    (using the [nextRNGStream] mechanism).
   o `icount` and `icountn` respect dimnames.
-  o `icountn` has an option `rowMajor=FALSE` (in which case the 
+  o `icountn` has an option `rowMajor`
+  o `itee` works for any iterator, using a memory buffering
+    strategy, where previously `itertools::itee` only worked for
+    memory-backed iterators.
 
+Changes from iterators/itertools/itertools2:
 
-Changes from the above packages:
   o `itertools2::icount(start=1, step=3, stop=15)` -> `iseq(from=1, to=15, by=3)`
-    o `icount(n)` simply counts starting from 1, and is a synonym for `iseq_len`
+    o `icount(n)` only counts starting from 1
   o `iterators::ifilter(pred, iterable)` -> `ikeep(iterable, pred)`
   o `iterators::ifilterfalse(pred, iterable)` -> `idrop(iterable, pred)`
   o `iterators::itakewhile(pred, iterable)` -> `ikeepwhile(iterable, pred)`     
@@ -58,11 +66,8 @@ Changes from the above packages:
   o `itertools2::iproduct` -> `igrid`
   o `icollect` is an alias / generic for `as.list`, `as.numeric`, etc.
   o `iterators::recycle` -> `irecycle`
-  o There are no more `checkFunc` arguments; use `ikeep()` instead.
+  o `checkFunc` arguments have been removed; instead use `ikeep()`.
   o `itertools2::icycle` and `itertools::recycle` have been merged;
     the new `irecycle` uses a buffering strategy in the general case.
-  o `iterors::itee` works for any iterator, using a memory buffering
-    strategy, (where previously `itertools::itee` only worked for
-    vector-backed iterators.
   o `itertools2::ipairwise(it)` -> `iterors::iwindow(it, 2)`
     `itertools2::itripletwise(it)` -> `iterors::iwindow(it, 2)`
