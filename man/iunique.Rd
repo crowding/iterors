@@ -20,7 +20,7 @@ an iterator that returns only the unique elements from
 \description{
 Constructs an iterator that extracts each unique element in turn from an
 iterable \code{object}. Order of the elements is maintained. This function is
-an iterator analogue to \link{unique}..
+an iterator analogue to \link{unique}.
 }
 \details{
 NOTE: In order to determine whether an element is unique, a list of previous

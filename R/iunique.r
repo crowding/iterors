@@ -2,7 +2,7 @@
 #'
 #' Constructs an iterator that extracts each unique element in turn from an
 #' iterable \code{object}. Order of the elements is maintained. This function is
-#' an iterator analogue to [unique]..
+#' an iterator analogue to [unique].
 #'
 #' NOTE: In order to determine whether an element is unique, a list of previous
 #' unique elements is stored. In doing so, the list can potentially become large
@@ -111,6 +111,7 @@ idedupe <- function(object, cmp=identical) {
 #' it <- isample(c(TRUE, FALSE), 1, replace=TRUE)
 #' rle <- irle(it)
 #' take(rle, 10)
+#' take(irle_inverse(rle), 10)
 #' @export irle
 irle <- function(obj, cmp=identical) {
   obj <- iteror(obj)
@@ -141,6 +142,9 @@ irle <- function(obj, cmp=identical) {
   iteror.internal(nextOr_)
 }
 
+#' @rdname irle
+#' @return `irle_inverse` recreates the original data from the output of `irle`.
+#' @export
 irle_inverse <- function(obj) {
   obj <- iteror(obj)
   count <- 0

@@ -1,13 +1,13 @@
 #' Count the number of times an iterable object is TRUE
 #'
-#' Returns the number of elements from an iterable object evaluate to
-#' \code{TRUE}.
+#' Returns the number of elements from an iterable object that
+#' evaluate to \code{TRUE}.
 #'
 #' @export
 #' @param object an iterable object
 #' @return the number of \code{TRUE} elements
 #'
-#' @seealso ireduce
+#' @seealso reduce
 #'
 #' @examples
 #' it <- iteror(c(TRUE, FALSE, TRUE))

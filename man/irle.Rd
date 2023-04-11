@@ -2,9 +2,12 @@
 % Please edit documentation in R/iunique.r
 \name{irle}
 \alias{irle}
+\alias{irle_inverse}
 \title{Run-length encoding iterator.}
 \usage{
 irle(obj, cmp = identical)
+
+irle_inverse(obj)
 }
 \arguments{
 \item{obj}{An iterable}
@@ -14,6 +17,8 @@ arguments and return \code{TRUE} or \code{FALSE}.}
 }
 \value{
 An iterator returning entries of the form \code{list(length=n, value=X)}.
+
+\code{irle_inverse} recreates the original data from the output of \code{irle}.
 }
 \description{
 This is an iterator equivalent of \link{rle}; it produces one output
@@ -25,6 +30,7 @@ transformstion.
 it <- isample(c(TRUE, FALSE), 1, replace=TRUE)
 rle <- irle(it)
 take(rle, 10)
+take(irle_inverse(rle), 10)
 }
 \seealso{
 idedupe

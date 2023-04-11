@@ -70,4 +70,10 @@ Changes from iterators/itertools/itertools2:
   o `itertools2::icycle` and `itertools::recycle` have been merged;
     the new `irecycle` uses a buffering strategy in the general case.
   o `itertools2::ipairwise(it)` -> `iterors::iwindow(it, 2)`
-    `itertools2::itripletwise(it)` -> `iterors::iwindow(it, 2)`
+  o `itertools2::itripletwise(it)` -> `iwindow(it, 3)`
+  o `itertools2::isplitRows(obj, ...)` -> `iteror.array(obj, by="row", ...)`
+  o `itertools2::isplitCols(obj, ...)` -> `iteror.array(obj, by="column", ...)`
+  o `itertools2::isplitIndices(n, ...)` -> `icount(n, ...)`
+  o `itertools2::isplitVector(n, )` -> `iteror.default(n, ...)`
+  o `itertools::timeout(secs)` -> itimeout(secs)
+  

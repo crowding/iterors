@@ -13,8 +13,8 @@ quantify(object)
 the number of \code{TRUE} elements
 }
 \description{
-Returns the number of elements from an iterable object evaluate to
-\code{TRUE}.
+Returns the number of elements from an iterable object that
+evaluate to \code{TRUE}.
 }
 \examples{
 it <- iteror(c(TRUE, FALSE, TRUE))
@@ -26,5 +26,5 @@ quantify(x) # Equivalent to sum(x)
 
 }
 \seealso{
-ireduce
+reduce
 }

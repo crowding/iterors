@@ -36,3 +36,50 @@ test_that("iapply on matrices", {
     apply(m, MARGIN, test, it)
   }
 })
+
+test_that("chunk rows", {
+
+  x <- matrix(rnorm(10000), 100)
+
+    for (chunks in c(1, 2, 3, 4, 9, 10, 19, 20, 99, 100, 101)) {
+      l <- as.list(iteror(x, by="row", chunks = chunks))
+      expect_length(l, min(chunks, 100))
+      y <- do.call("rbind", l)
+      expect_identical(y, x)
+    }
+
+    for (chunkSize in c(1, 2, 3, 4, 9, 10, 19, 20, 99, 100, 101)) {
+      l <- as.list(iteror(x, by="row", chunkSize = chunkSize))
+      l <- as.list(iteror(x, by="row", chunks = chunks))
+      y <- do.call("rbind", as.list(iteror(x, by="row", chunkSize = chunkSize)))
+        expect_identical(y, x)
+    }
+
+})
+
+test_that("chunk cols", {
+
+  x <- matrix(rnorm(10000), 100)
+    for (chunks in c(1, 2, 3, 4, 9, 10, 19, 20, 99, 100, 101)) {
+        y <- do.call("cbind", as.list(iteror(x, by=2, chunks = chunks)))
+        expect_identical(y, x)
+    }
+    for (chunkSize in c(1, 2, 3, 4, 9, 10, 19, 20, 99, 100, 101)) {
+        y <- do.call("cbind", as.list(iteror(x, by=2, chunkSize = chunkSize)))
+        expect_identical(y, x)
+    }
+})
+
+test_that("chunk counts", {
+    x <- seq(length = 1000)
+    for (chunks in c(1, 2, 3, 4, 9, 10, 19, 20, 99, 100, 999,
+        1000, 1001)) {
+        y <- do.call("c", as.list(icount(length(x), chunks = chunks)))
+        expect_identical(y, x)
+    }
+    for (chunkSize in c(1, 2, 3, 4, 9, 10, 19, 20, 99, 100, 999,
+        1000, 1001)) {
+        y <- do.call("c", as.list(icount(length(x), chunkSize = chunkSize)))
+        expect_identical(y, x)
+    }
+})

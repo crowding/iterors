@@ -31,10 +31,13 @@ iteror.array <- function(obj, ...,
                          drop=FALSE) {
 
   if (is.character(by) && match.arg(by) == "cell") {
-    it <- iteror.default(obj, chunkSize=chunkSize, chunks=chunks, recycle=recycle)
+    it <- iteror.default(obj, ...,
+                         chunkSize=chunkSize, chunks=chunks,
+                         recycle=recycle)
   } else {
-    it <- iapply(ienumerate.array(obj, by=by,
-                                  chunkSize=chunkSize, chunks=chunks, recycle=recycle, drop=drop),
+    it <- iapply(ienumerate.array(obj, ..., by=by,
+                                  chunkSize=chunkSize, chunks=chunks,
+                                  recycle=recycle, drop=drop),
                  function(x)x$value)
   }
   it
