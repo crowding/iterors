@@ -1,5 +1,3 @@
-context("ienumerate iterator")
-
 test_that("ienumerate over numeric vector", {
   set.seed(42)
   x <- rnorm(5)

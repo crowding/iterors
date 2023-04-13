@@ -1,5 +1,3 @@
-context("iunique general data types")
-
 test_that("idedupe works with other data types", {
 
   x <- list(function(x=1) y,

@@ -1,5 +1,3 @@
-context("izip_longest iterator")
-
 test_that("izip_longest properly iterates through two numeric vectors", {
   it <- izip_longest(1:3, 4:6)
   expect_equal(nextOr(it, NA), list(1, 4))

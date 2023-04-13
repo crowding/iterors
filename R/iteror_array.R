@@ -4,6 +4,8 @@
 #' @param chunkSize the number of elements of \code{by} to return with
 #'   each call to \code{nextOr}.
 #' @param drop Whether to drop the array dimensions enumerated over.
+#' @param rowMajor If TRUE, will return slices in order with the first
+#'              indices varying fastest (same as in [ienumerate]).
 #' @examples
 #' l <- iteror(letters, chunkSize=7)
 #' as.list(l)
@@ -28,16 +30,17 @@ iteror.array <- function(obj, ...,
                          chunkSize,
                          chunks,
                          recycle=FALSE,
-                         drop=FALSE) {
+                         drop=FALSE,
+                         rowMajor=TRUE) {
 
-  if (is.character(by) && match.arg(by) == "cell") {
+  if (is.character(by) && match.arg(by) == "cell" && rowMajor) {
     it <- iteror.default(obj, ...,
                          chunkSize=chunkSize, chunks=chunks,
                          recycle=recycle)
   } else {
     it <- iapply(ienumerate.array(obj, ..., by=by,
                                   chunkSize=chunkSize, chunks=chunks,
-                                  recycle=recycle, drop=drop),
+                                  recycle=recycle, drop=drop, rowMajor=rowMajor),
                  function(x)x$value)
   }
   it

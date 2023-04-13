@@ -1,5 +1,3 @@
-context("irepeat iterator")
-
 test_that("Indefinite irepeat of integer", {
   it <- irepeat(42)
 

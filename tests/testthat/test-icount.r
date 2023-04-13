@@ -1,5 +1,3 @@
-context("icount iterator: Infinite sequence")
-
 `%is%` <- expect_equal
 
 test_that("icount's default values generate the sequence 1, 2, ..", {

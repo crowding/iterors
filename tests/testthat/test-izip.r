@@ -1,5 +1,3 @@
-context("izip iterator")
-
 test_that("izip properly iterates through two numeric vectors", {
   it <- izip(1:3, 4:6)
   expect_equal(nextOr(it, NA), list(1, 4))

@@ -34,7 +34,7 @@ dimension.}
 
 \item{chunks}{How many chunks to divide the array into.}
 
-\item{by}{Which array margins to iterate over. Can by "row", "col", "cell",
+\item{by}{Which array margins to iterate over. Can be "row", "col", "cell",
 or a vector of numerical indices.}
 
 \item{rowMajor}{If TRUE, the first index varies fastest, if FALSE, the last index varies fastest.}
@@ -52,8 +52,8 @@ element's indices. Enumeration is useful when looping through an
 \code{object} and a counter is required.
 
 The \code{ienumerate} method for arrays allows splitting an
-array by arbitrary margins, and by more than one margin. The
-\code{index} element returned will be a vector (or if \code{chunkSize} > 1, a
+array by arbitrary margins, including by multiple margins. The
+\code{index} element returned will be a vector (or if chunking is used, a
 matrix) of indices.
 }
 \details{

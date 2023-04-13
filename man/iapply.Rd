@@ -11,7 +11,7 @@ iapply(obj, f, ...)
 
 \item{f}{a function}
 
-\item{...}{Other arguments that will be passed along to \code{f}}
+\item{...}{Additional arguments will be passed along to \code{f}}
 }
 \value{
 An iteror.
@@ -22,10 +22,8 @@ each element of the given iterable \code{obj}. It is an iterator
 equivalent of \code{lapply}.
 }
 \seealso{
-\code{\link{imap}} To applying a function to parallel iterables in parallel. \link{iteror.array}
-
-The \code{iterators} package included an \code{iapply} to iterate over the
-margins of an array; for equivalent behavior you can use
-\verb{iteror(ARRAY, by=MARGIN)]}
+To apply a function of multiple arguments to multiple
+iterators, see \link{imap}. To split an array over margins (like
+\code{iterators::iapply} use \code{\link[=iteror.array]{iteror(obj, by=MARGIN}}
 }
 \keyword{utilities}

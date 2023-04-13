@@ -1,5 +1,3 @@
-context("iunique iterators")
-
 `%is%` <- expect_equal
 
 test_that("iunique works with numeric vectors", {

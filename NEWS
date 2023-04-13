@@ -12,7 +12,7 @@ New methods:
   o `ienumerate.array` can iterate over arbitrary margins, providing you
     with a vector index.
   o `iwindow` constructs a sliding window of arbitrary length over a given
-    iterator, generalizing `iterttools2::ipairwise` and `itripletwise`.
+    iterator, generalizing `itertools2::ipairwise` and `itripletwise`.
   o New functions `irle()` and `irle_inverse()` for run-length encoding.
   o Introduced `ireduce()`, `iaccum()`, and `sum()` and `prod()` methods for
     iterors.
@@ -20,12 +20,13 @@ New methods:
     an iterable (rather than `...`).
   o New iteror methods for `as.numeric`, `as.vector', `as.character`,
     and `as.logical`.
+  o `icollect` is an alias / generic for `as.list`, `as.numeric`, etc.
 
 New features:
   o Memory-backed and counting iterors `icount`, `idiv`, `icountn`,
     `ienumerate.default`, `iteror.default`, `iteror.data.frame`,
-    `iteror.default` and `ienumerate.array` all have shared logic, so
-    that all accept options `chunks`, `chunksize` and `recycle` with
+    `iteror.default` and `ienumerate.array` all have shared logic;
+    all accept options `chunks`, `chunksize` and `recycle` with
     equivalent behavior.
   o `iunique` uses a hash table rather than linear scan, for much improved
     performance; it also now works with arbitrary R objects.
@@ -36,43 +37,38 @@ New features:
     will generate pseudo-independent (decorrelated) random streams
     (using the [nextRNGStream] mechanism).
   o `icount` and `icountn` respect dimnames.
-  o `icountn` has an option `rowMajor`
+  o `icountn` and `iteror.array` has an option `rowMajor`
   o `itee` works for any iterator, using a memory buffering
     strategy, where previously `itertools::itee` only worked for
     memory-backed iterators.
 
-Changes from iterators/itertools/itertools2:
+If you are coming from iterators/itertools/itertools2, some functions
+have different names. Here's a transition guide:
 
-  o `itertools2::icount(start=1, step=3, stop=15)` -> `iseq(from=1, to=15, by=3)`
-    o `icount(n)` only counts starting from 1
-  o `iterators::ifilter(pred, iterable)` -> `ikeep(iterable, pred)`
-  o `iterators::ifilterfalse(pred, iterable)` -> `idrop(iterable, pred)`
-  o `iterators::itakewhile(pred, iterable)` -> `ikeepwhile(iterable, pred)`     
-  o `iterators::idropwhile(pred, iterable)` -> `idropwhile(iterable, pred)`
-  o There were conflicting definitions of `icount()`; in this package
-    `icount(n)` only counts whole numbers starting with 1.
-    For control over start, stop and step size use `iseq()`.
-  o `irep_len` is `irep(length.out=n)`
-  o There were conflicting definitions of `imap`. In this package:
-    * `imap(f, ...)` maps several iterators over a function taking several
-      arguments, analogous to `mapply`.
-    * `iapply(iter, f, ...)` maps a single iteror over a function of one
-      argument, analogous to "lapply".
+  o `itertools2::icount(start=1, step=3, stop=15)` -> `iseq(from=1, to=15, by=3)`; `icount(n)` only counts by 1 starting from 1.
+  o `itertools::ifilter(pred, iterable)` -> `ikeep(iterable, pred)`
+  o `itertools::ifilterfalse(pred, iterable)` -> `idrop(iterable, pred)`
+  o `itertools2::ifilter(pred, iterable)` -> `ikeep(iterable, pred)`
+  o `itertools2::ifilterfalse(pred, iterable)` -> `idrop(iterable, pred)`
+  o `itertools2::itakewhile(pred, iterable)` -> `ikeepwhile(iterable, pred)`     
+  o `itertools2::idropwhile(pred, iterable)` -> `idropwhile(iterable, pred)`
+  o `irep_len` -> `irep(length.out=n)`
+  o `itertools2::imap(f, it)` -> `iapply(it, f)` or `imap(f, it1, it2, ...)`
   o `itertools2::iapply(array, margin)` -> `iteror(array, by=MARGIN)`
-    o See also `ienumerate.array()`
   o `itertools2::iunique_lastseen()` -> `idedupe()`.
-  o `consume(it, 0)` will consume zero elements. To consume the entire
-    output of an iteror use `consume(it, Inf)`
   o `itertools2::iproduct` -> `igrid`
-  o `icollect` is an alias / generic for `as.list`, `as.numeric`, etc.
+  o `itertools::product` -> `igrid`
   o `iterators::recycle` -> `irecycle`
-  o `checkFunc` arguments have been removed; instead use `ikeep()`.
-  o `itertools2::icycle` and `itertools::recycle` have been merged;
-    the new `irecycle` uses a buffering strategy in the general case.
+  o `itertools2::icycle` -> `irecycle`
+  o `itertools::recycle` -> `irecycle`
   o `itertools2::ipairwise(it)` -> `iterors::iwindow(it, 2)`
   o `itertools2::itripletwise(it)` -> `iwindow(it, 3)`
-  o `itertools2::isplitRows(obj, ...)` -> `iteror.array(obj, by="row", ...)`
-  o `itertools2::isplitCols(obj, ...)` -> `iteror.array(obj, by="column", ...)`
-  o `itertools2::isplitIndices(n, ...)` -> `icount(n, ...)`
-  o `itertools2::isplitVector(n, )` -> `iteror.default(n, ...)`
+  o `itertools::isplitRows(obj, ...)` -> `iteror.array(obj, by="row", ...)`
+  o `itertools::isplitCols(obj, ...)` -> `iteror.array(obj, by="column", ...)`
+  o `itertools::isplitIndices(n, ...)` -> `icount(n, ...)`
+  o `itertools::isplitVector(n, )` -> `iteror.default(n, ...)`
   o `itertools::timeout(secs)` -> itimeout(secs)
+  o `consume(it, 0)` will consume zero elements. To consume the entire
+    output of an iteror use `consume(it, Inf)`
+  o `checkFunc` arguments have been removed; instead use `ikeep()`.
+

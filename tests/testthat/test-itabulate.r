@@ -1,5 +1,3 @@
-context("itabulate iterator")
-
 test_that("itabulate functions properly with default values", {
   it <- itabulate(f=function(x) x + 1)
   expect_equal(take(it, 4), as.list(2:5))

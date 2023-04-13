@@ -1,5 +1,3 @@
-context("imap iterator")
-
 pow <- function(x, y) {
   x^y
 }

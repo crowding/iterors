@@ -15,7 +15,6 @@
 # limitations under the License.
 #
 
-
 #' Counting Iterators
 #'
 #' Returns an iterator that counts starting from one.
@@ -44,16 +43,14 @@
 #' @examples
 #' x <- icount(5)
 #' repeat print(nextOr(x, break))
-icount <- count_template(input=alist(count=Inf),
-                         output=function(ix, size) {
-                           if (missing(size)) substitute(ix)
-                           else substitute(ix + seq_len(size))
-                         })
+icount <- count_template(
+  input=alist(count=Inf),
+  output=function(ix) substitute(ix),
+  output_chunk=function(base, len) substitute(base + seq_len(len)))
 
 icount.internal <- function(n, recycle=FALSE) {
   x <- n
   x[1] <- 0
-  storage.mode(x) <- "integer"
   if (recycle) {
     function(or) if (x >= n) (x[1] <<- 1L) else (x <<- x + 1L)
   } else {
@@ -97,8 +94,8 @@ icount.internal <- function(n, recycle=FALSE) {
 #'
 #' @export idiv
 idiv <- count_template(input=alist(count=),
-                       output=function(ix, size)
-                         if (missing(size)) 1 else substitute(size))
+                       output=function(ix) 1,
+                       output_chunk= function(ix, size) substitute(size))
 
 #' @rdname icount
 #' @param vn A vector of integers.
@@ -114,76 +111,40 @@ idiv <- count_template(input=alist(count=),
 icountn <- count_template(
   input = alist(vn = ),
   options = alist(rowMajor = TRUE),
-  preamble=alist(
-    storage.mode(vn) <- "integer",
-    count <- prod(vn)
-  ),
-  output = function(ix, size) {
-    if (missing(size))
-      substitute(arrayIndex(ix, vn, rowMajor))
-    else
-      substitute(arrayIndices(ix + seq_len(size), vn, rowMajor))
-  })
+  preamble = alist(
+    vn <- floor(vn+0),
+    count <- prod(vn)),
+  preamble_single = alist(
+    indexer <- arrayIndexer(vn, rowMajor=rowMajor)),
+  preamble_chunk = alist(
+    indexer <- arrayIndexer(vn, rowMajor=rowMajor, chunk=TRUE)),
+  output = function(ix) substitute(indexer(ix)),
+  output_chunk = function(start, len) substitute(indexer(start, len)))
 
-icountn.recursive <- function(vn, recycle = FALSE) {
-  iteror.internal(icountn.internal(vn, recycle = recycle))
-}
-
-icountn.internal <- function(vn, recycle = FALSE) {
-  # amazingly, this recursive algo tests faster than the one
-  # using arrayIndex (icountn.simple)
-  if (length(vn) > 1) {
-    icar <- NULL
-    icdr <- NULL
-    carVal <- NULL
-    nextOr_ <- function(or) {
-      if (is.null(icar)) {
-        icar <<- icountn.internal(vn[-1])
-        carVal <<- icar(return(or))
-        icdr <<- icount.internal(vn[1])
-      }
-      cdr <- icdr({
-        carVal <<- icar(return(or))
-        icdr <<- icount.internal(vn[1])
-        icdr(return(or))
-      })
-      c(cdr, carVal)
-    }
-  } else if (length(vn) == 1) {
-    return(icount.internal(vn, recycle=recycle))
+arrayIndexer <- function(dim, rowMajor=TRUE, offset=FALSE, chunk=FALSE) {
+  if (rowMajor) {
+    reduction <- unname(cumprod(c(1, dim[-length(dim)])))
   } else {
-    nextOr_ <- function(or) or
+    reduction <- unname(rev(cumprod(rev(c(dim[-1], 1)))))
   }
-  nextOr_
-}
-
-icountn.simple <- function(vn, recycle=FALSE) {
-  iapply(icount(prod(vn), recycle=recycle),
-         function(i) as.vector(arrayIndex(i, vn)))
-}
-
-arrayIndex <- function(i, dim, rowMajor=FALSE) {
-  out <- dim
-  i <- i - 1L
-  for (index in if (rowMajor) seq_along(dim) else rev(seq_along(dim))) {
-    out[index] <- (i %% dim[index]) + 1L
-    i <- i %/% dim[index]
+  if (offset) {
+    offsets <- unname(cumsum(c(1, dim[-length(dim)])))
+  } else {
+    offsets <- 1
   }
-  out
-}
-
-arrayIndices <- function(i, dim, rowMajor=FALSE) {
-  out <- structure(integer(length(i) * length(dim)),
-                   dim=c(length(i), length(dim)),
-                   dimnames={
-                     if (is.null(names(dim))) NULL
-                     else list(NULL, names(dim))
-                   })
-  i <- i - 1L
-  for (index in if (rowMajor) seq_along(dim) else rev(seq_along(dim))) {
-    coord <- (i %% dim[index]) + 1L
-    out[,index] <- coord
-    i <- i %/% dim[index]
+  if(chunk) {
+    # base is 0-based
+    ndim <- length(dim)
+    function(base, len) {
+      (
+        (     matrix(base + seq_len(len) - 1, nrow=len, ncol=ndim,
+                     dimnames=list(NULL, names(dim)))
+          %/% matrix(reduction, nrow=len, ncol=ndim, byrow=TRUE)
+        ) %% matrix(dim, nrow=len, ncol=ndim, byrow=TRUE)
+      ) + matrix(offsets, nrow=len, ncol=ndim, byrow=TRUE)
+    }
+  } else {
+    # ix is 1-based
+    function(ix) ((ix-1) %/% reduction) %% dim + offsets
   }
-  out
 }

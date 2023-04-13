@@ -1,5 +1,3 @@
-context("ifilterfalse iterator")
-
 test_that("Apply ifilterfalse to an integer sequence", {
   is_even <- function(x) {
     x %% 2 == 0

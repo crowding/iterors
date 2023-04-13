@@ -5,15 +5,20 @@
 \alias{iproduct}
 \title{Iterator that returns the Cartesian product of the arguments.}
 \usage{
-igrid(...)
+igrid(..., simplify = FALSE, rowMajor = FALSE)
 }
 \arguments{
 \item{\dots}{Named iterables to iterate over. The right-most
 iterables change more quickly, like an odometer.}
+
+\item{simplify}{If TRUE, results are returned in a vector (or
+matrix if chunking). If FALSE, results are returned as a list.}
+
+\item{rowMajor}{If TRUE, the left-most indices change fastest.}
 }
 \value{
 iterator that iterates through each element from the
-Cartesian product.
+Cartesian product of its arguments
 }
 \description{
 Given a number of iterables as arguments, constructs an iterator that
@@ -23,8 +28,7 @@ is the Cartesian product of all arguments.
 Although they share the same end goal, \code{igrid} can yield drastic
 memory savings compared to \code{\link[base]{expand.grid}}.
 
-Based on \link[itertools2:iproduct]{itertools2::iproduct} and
-\link[itertools:product]{itertools::product}
+Based on \link[itertools2:iproduct]{itertools2::iproduct} and \link[itertools:product]{itertools::product}.
 }
 \examples{
 # Simulate a doubly-nested loop with a single while loop
@@ -50,7 +54,7 @@ nextOr(it, NA) # list(x=2, y=5)
 nextOr(it, NA) # list(x=3, y=4)
 nextOr(it, NA) # list(x=3, y=5)
 
-# igrid is a replacement for base::expand.grid()
+# igrid is an iterator equivalent to base::expand.grid()
 # Large data.frames are not created unless the iterator is manually consumed
 a <- 1:2
 b <- 3:4

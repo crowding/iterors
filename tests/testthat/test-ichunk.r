@@ -1,5 +1,3 @@
-context("ichunk iterator")
-
 test_that("ichunk functions properly without using default value", {
   it <- iteror(letters[1:3])
   it_chunk <- ichunk(it, size=3)

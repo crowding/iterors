@@ -1,5 +1,3 @@
-context("window iterator")
-
 `%is%` <- expect_equal
 
 test_that("iwindow functions properly with an iterator", {

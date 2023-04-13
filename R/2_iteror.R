@@ -21,8 +21,6 @@
 # \code{iter} is a generic function used to create iterator objects.
 #
 #
-# @aliases iter iter.default iter.iter iter.matrix iter.data.frame
-# iter.function
 # @param obj an object from which to generate an iterator.
 # @param \dots additional arguments affecting the iterator.
 # @return The iterator.
@@ -56,18 +54,17 @@
 
 #' Efficient, compact iteration.
 #'
-#' To create an iteror, call the constructor `iteror` providing a
-#' function or other object as argument. The returned object will
-#' support the method [nextOr(obj, or)][nextOr] to extract successive
-#' values.
-#'
-#' The main method for "iteror" is "nextOr" rather than
-#' "nextElem". Instead of using exceptions, "nextOr" uses a lazily
-#' evaluated "or" argument to signal the end of iteration.  The "or"
-#' argument will only be forced when end of iteration is reached; this
-#' means the consumer can provide an action like "break", "next" or
-#' "return" to take at the the end of iteration. Summing over an
-#' iteror this way looks like:
+#' `it <- iteror(obj, ...)` is a generic constructor that creates
+#' objects of class "iteror" from its input. An iteror outputs a
+#' single element of a sequence each time you call
+#' `nextOr(it)`. Different `iteror` methods exist for different data
+#' types and may take different optional arguments as listed in this
+#' page.
+#' 
+#' When called, an iterator may either return a new value or stop. The
+#' way an iteror signals a stop is that it does whatever you write in
+#' the argument `or`. For instance you can write `or=break` to exit a
+#' loop.Summing over an iteror this way looks like:
 #'
 #' ```{R}
 #' sum <- 0
@@ -81,12 +78,7 @@
 #' that is, a special value that will be interpreted as end of
 #' iteration.  If the result of calling `nextOr` is `identical()` to
 #' the sigil value you provided, then you know the iterator has
-#' ended. In R it is commonplace to use `NULL` or `NA` in the role of
-#' a sigil, but that only works until you have an iterator that needs
-#' to yield NULL itself. A safer alternative is to use a one-shot
-#' sigil value; `new.env()` is a good choice, as it produces an object
-#' that by construction is not [identical] to any other object in the
-#' R session. This pattern looks like:
+#' ended. This pattern looks like:
 #'
 #' ```{R}
 #' sum <- 0
@@ -99,30 +91,35 @@
 #' }
 #' ```
 #'
-#' Note that `iteror` objects are simply function objects with a class
+#' (Note the use of new.env(). In R it is commonplace to use `NULL` or
+#' `NA` in the role of a sigil, but that only works until you have an
+#' iterator that needs to yield NULL itself. A safer alternative is to
+#' use a one-shot sigil value; `new.env()` works for this, as it
+#' constructs an object that is not [identical] to any other object in
+#' the R session.)
+#'
+#' Note that `iteror` objects are simply functions with a class
 #' attribute attached, and all `nextOr.iteror` does is call the
 #' function. So if you were in the mood, you could skip calling
 #' `nextOr` through S3 dispatch and call the function directly. If you
-#' take this approach, make sure you have called `iteror()` to ensure that
-#' you have a true `iteror` object.
+#' take this approach, make sure you have called `iteror()` to ensure
+#' that you have a true `iteror` object.
 #'
 #' ```{R}
 #' sum <- 0
 #' it <- iteror(iseq(0, 100, 7))
 #' repeat sum <- sum + it(or=break)
+#' sum
 #' ```
 #'
+#' To create iterors with custom-defined behavior, see
+#' [iteror.function].
+#'
 #' @export
-#' @param obj An object to iterate with. If `obj` is a vector, the
-#'   iterator will go over the elements of that vector and you can use
-#'   `recycle`.  If `obj` is a function, the function will be called
-#'   to compute successive elements. The function should have a
-#'   leading argument `or` and behave accordingly (only forcing and
-#'   returning `or` to signal end of iteration.)  If you provide a
-#'   function that does not have an `or` argument, you will need to
-#'   specify either `catch` or `sigil`.
-#' @param ... Extra arguments used by some `iteror` methods.
-#' @return an object of classes 'iteror' and 'iter'.
+#' @param obj An object to iterate with.
+#' @param ... Different iteror methods may take differetn options
+#'   depending on the class of `obj`.#' @return an object of classes
+#'   'iteror' and 'iter'.
 iteror <- function(obj, ...) {
   UseMethod("iteror")
 }
@@ -141,18 +138,56 @@ iteror.iter <- function(obj, ...) {
   iteror.internal(nextOr_)
 }
 
+#' Construct an iteror object with custom-programmed behavior.
+#'
+#' Pass `obj` a function that has a first argument named "or".  In
+#' writing this function, you can maintain state with enclosed
+#' variables and update using `<<-`, Whatever value `obj()` returns is
+#' the next element of the iteror. Treat argument `or` as a lazy value;
+#' do not touch it until until you need to signal end of iteration;
+#' to signal end of iteration, force and immediately return `or`.
+#'
+#' You can also provide `obj` a simple function of no arguments, as
+#' long as you specify one of `catch`, `sigil`, or `count` to specify
+#' how to detect end of iteration.
+#'
 #' @exportS3Method iteror "function"
-#' @rdname iteror
+#' @rdname iteror.function
+#' @param obj A function. It should have having an argument named "or"
+#' @return An object of mode "function" and class "iteror".
 #' @param ... Undocumented.
-#' @param catch If `obj` does not have `or` argument, specify
-#'   e.g. `catch="StopIteration"` to interpret that
-#'   error message as end of iteration.
-#' @param sigil If `obj` does not have an `or` argument, specify
-#'   which value to watch for end of iteration. Stop will be signaled
+#' @param catch If `obj` does not have an `or` argument, specify
+#'   e.g. `catch="StopIteration"` to interpret that an error with
+#'   that message as end of iteration.
+#' @param sigil If `obj` does not have an `or` argument, you can specify
+#'   a special value to watch for end of iteration. Stop will be signaled
 #'   if the function result is [identical()] to `sigil`.
-#' @param count If `obj` does not have an `or` argument, specify
-#'   how many times to call it before finishing iteration.
+#' @param count If `obj` does not have an `or` argument, you can specify
+#'   how many calls before stop iteration, or
+#'   give `NA` or `Inf` to never stop.
+#'
+#' @examples
+#' # an iterator that counts from start to stop
+#' irange <- function(from=1, to=Inf) {
+#'   current <- from
+#'   iteror(function(or) {
+#'     if (current > to) {
+#'       return(or)
+#'     } else {
+#'       tmp <- current
+#'       current <- current + 1
+#'       tmp
+#'     }
+#'   }
+#' }
+#' it <- irange(5, 10)
+#' as.list(it)
+#'
+#' # an endless random number generator
+#' irand <- function(min, max) iteror(runif(1, min=min, max=max), count=Inf)
+#' take(irand(5, 10), 10)
 iteror.function <- function(obj, ..., catch, sigil, count) {
+  (function() NULL)(...) # reject extra args
   if ("or" %in% names(formals(obj))) {
     fn <- obj
   } else {
@@ -186,7 +221,7 @@ iteror.function <- function(obj, ..., catch, sigil, count) {
       stop("iteror: function must have an 'or' argument, or else specify one of 'catch', 'sigil' or 'count'")
     }
   }
-  iteror.internal(fn, ...)
+  iteror.internal(fn)
 }
 
 iteror.internal <- function(fn, class=character(0)) {
@@ -204,13 +239,8 @@ iteror.default <- count_template(
   preamble = alist(
     if (is.function(obj)) return(iteror.function(obj, ...)),
     count <- length(obj)),
-  output = function(ix, len) {
-    if (missing(len)) {
-      substitute(obj[[ix]]) # unboxing!!!
-    } else {
-      substitute(obj[ix + seq_len(len)]) # uhhh 0 based versus 1-based???
-    }
-  }
+  output = function(ix) substitute(obj[[ix]]), # unboxing!!!,
+  output_chunk = function(ix, len) substitute(obj[ix + seq_len(len)])
 )
 
 #' Retreive the next element from an iteror.

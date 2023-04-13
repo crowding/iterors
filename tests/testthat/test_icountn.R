@@ -2,7 +2,7 @@
 
 test_that("icountn", {
   xcountn <- function(x) {
-    iteror(do.call('expand.grid', lapply(x, seq_len)), by='row')
+    iteror(do.call('expand.grid', lapply(x, \(x)0+seq_len(x))), by='row')
   }
 
   vv <- list(0, 1, 2, 10, 100,

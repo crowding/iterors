@@ -6,13 +6,15 @@
 #' Although they share the same end goal, \code{igrid} can yield drastic
 #' memory savings compared to \code{\link[base]{expand.grid}}.
 #'
-#' @export
+#' @export igrid
 #' @param \dots Named iterables to iterate over. The right-most
 #'   iterables change more quickly, like an odometer.
+#' @param rowMajor If TRUE, the left-most indices change fastest.
+#' @param simplify If TRUE, results are returned in a vector (or
+#'   matrix if chunking). If FALSE, results are returned as a list.
 #' @return iterator that iterates through each element from the
-#'   Cartesian product.
-#' @details Based on [itertools2::iproduct] and
-#'   [itertools::product]
+#'   Cartesian product of its arguments
+#' @details Based on [itertools2::iproduct] and [itertools::product].
 #' @aliases iproduct
 #' @examples
 #' # Simulate a doubly-nested loop with a single while loop
@@ -38,7 +40,7 @@
 #' nextOr(it, NA) # list(x=3, y=4)
 #' nextOr(it, NA) # list(x=3, y=5)
 #'
-#' # igrid is a replacement for base::expand.grid()
+#' # igrid is an iterator equivalent to base::expand.grid()
 #' # Large data.frames are not created unless the iterator is manually consumed
 #' a <- 1:2
 #' b <- 3:4
@@ -49,75 +51,22 @@
 #'
 #' # Compare df_igrid with the results from base::expand.grid()
 #' base::expand.grid(a=a, b=b, c=c)
-igrid <- function(...) {
+igrid <- function(..., simplify=FALSE, rowMajor=FALSE) {
   args <- list(...)
-  n <- length(args)
-  anames <- names(args)
-  it <- igrid.internal(n, args)
-  iteror.internal(function(or) {
-    val <- nextOr(it, return(or))
-    names(val) <- anames
-    val
-  })
-}
+  args_table <- c(if (simplify) NULL else list(),
+                  ..., use.names=FALSE)
+  dim <- vapply(args, length, 0)
+  names(args_table) <- rep(names(args), dim)
+  indexer <- arrayIndexer(dim, rowMajor=rowMajor, offset=TRUE)
+  count <- prod(dim)
 
-igrid.internal <- function(n, args) {
-  if (n <= 1) {
-    if (n == 1) {
-      icar <- iteror(args[[1]])
-
-      nextOr_ <- function(or) {
-        list(nextOr(icar, return(or)))
-      }
-    } else {
-      nextOr_ <- function(or) or
-    }
-  } else {
-    icdr <- igrid.internal(n - 1, args[-n])
-    cdrval <- NULL
-    needval <- TRUE
-    vals <- as.list(args[[n]])
-    icar <- NULL
-
-    nextOr_ <- function(or) {
-      repeat {
-        if (needval) {
-          cdrval <<- nextOr(icdr, return(or))
-          needval <<- FALSE
-          icar <<- iteror.default(vals)
-        }
-
-        carval <- list(nextOr(icar, {
-          needval <<- TRUE
-          next
-        }))
-        break
-      }
-      c(cdrval, carval)
-    }
-  }
-
-  iteror.internal(nextOr_)
-}
-
-igrid2 <- function(..., times=1L) {
-  args_list <- list(...)
-  if (length(args_list) == 0) {
-    stop("At least one argument must be supplied.")
-  }
-
-  # Determines the frequency and number of replicates each element in args_list
-  # must be repeated
-  args_lengths <- as.integer(vapply(args_list, length, 0))
-  period <- prod(args_lengths)
-  ix <- icount(period*times)
-
+  ix <- 0
   nextOr_ <- function(or) {
-    i <- nextOr(ix, return(or))
-    vi <- arrayIndex(i, args_lengths)
-    mapply(`[[`, args_list, vi, SIMPLIFY=FALSE)
+    if (ix < count) {
+      ix <<- ix + 1
+      args_table[indexer(ix)]
+    } else or
   }
 
-  iteror.internal(nextOr_)
+  iteror.internal(nextOr_, "basicIteror")
 }
-

@@ -9,19 +9,14 @@ iteror.data.frame <- count_template(
                   row = nrow(obj),
                   column = ncol(obj),
                   stop("`by` must be 'row' or 'column'"))),
-  output = function(ix, len) {
-    if (missing(len)) {
-      substitute(
-        switch(by,
-               row = obj[ix, ],
-               column = obj[, ix])
-      )
-    } else {
-      substitute(
-        switch(by,
-               row = obj[ix + seq_len(len), ],
-               column = obj[, ix + seq_len(len)])
-      )
-    }
-  }
+  output = function(ix, len) substitute(
+    switch(by,
+           row = obj[ix, ],
+           column = obj[, ix])
+  ),
+  output_chunk = function(ix, len) substitute(
+    switch(by,
+           row = obj[ix + seq_len(len), ],
+           column = obj[, ix + seq_len(len)])
+  )
 )

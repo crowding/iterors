@@ -1,10 +1,15 @@
 # unifying ienumerate, isplitrows, isplitcols, chunk and chunkSize.????
 
+.max_safe_int <- 2^.Machine$double.digits
+
 # Template with shared logic used by icount, idiv, iteror.default
 count_template <- function(input,
                            output,
+                           output_chunk,
                            options=list(),
-                           preamble=list()) {
+                           preamble=list(),
+                           preamble_single=list(),
+                           preamble_chunk=list()) {
   count <- 0
   i <- 0
   i.tmp <- 0
@@ -16,19 +21,21 @@ count_template <- function(input,
     alist(..(input), ...=, recycle=FALSE, chunkSize=, chunks=, ..(options)))))
 
   body <- bquote(splice=TRUE, {
+    (function() NULL)(...) # any leftover arguments are an error
     ..(preamble)
 
     if (!is.numeric(count) || length(count) != 1 || is.na(count))
       stop('count must be a numeric value')
-
-    (function() NULL)(...) # any leftover arguments are an error
+    if (is.finite(count) && (count < 0 || count > .max_safe_int)) {
+      stop(paste0("I can't count to ", as.character(count)))
+    }
 
     i <- count
-    i[1] <- 0L
-    storage.mode(i) <- "integer"
+    i[1] <- 0
 
     if (missing(chunks)) {
       if (missing(chunkSize)) { # single stepping
+        ..(preamble_single)
         if (is.finite(count)) {
           if (recycle) {
             nextOr_ <- function(or) { # recycling, non-chunking
@@ -36,7 +43,7 @@ count_template <- function(input,
                 i[1] <<- 1
                 .(output(i))
               } else {
-                i <<- i + 1L
+                i <<- i + 1
                 .(output(i))
               }
             }
@@ -45,19 +52,20 @@ count_template <- function(input,
               if (i >= count) {
                 or
               } else {
-                i <<- i + 1L
+                i <<- i + 1
                 .(output(i))
               }
             }
           }
         } else {
           nextOr_ <- function(or) { # infinite, non-chunking
-            i <<- i + 1L
+            i <<- i + 1
             .(output(i))
           }
         }
       } else { # chunking by chunkSize
-        storage.mode(chunkSize) <- "integer"
+        ..(preamble_chunk)
+        chunkSize <- floor(chunkSize)
         if (is.finite(count)) {
           last <- count - chunkSize
           nextOr_ <- function(or) {  # finite, chunking by chunkSize
@@ -65,7 +73,7 @@ count_template <- function(input,
             if (i >= last) {
               chunkSize <- count - i
               if (recycle) {
-                i[1] <<- 0L
+                i[1] <<- 0
               } else {
                 i[1] <<- Inf
               }
@@ -73,17 +81,18 @@ count_template <- function(input,
             } else {
               i[1] <<- i[1] + chunkSize
             }
-            .(output(i.tmp, chunkSize))
+            .(output_chunk(i.tmp, chunkSize))
           }
         } else {
           nextOr_ <- function(or) {  # infinite, chunking by chunkSize
             i.tmp <- i
             i[1] <<- i[1] + chunkSize
-            .(output(i.tmp, chunkSize))
+            .(output_chunk(i.tmp, chunkSize))
           }
         }
       }
     } else { # chunking by no. chunks
+      ..(preamble_chunk)
       chunks <- as.integer(chunks)
       chunksLeft <- chunks
       nextOr_ <- function(or) { # chunking by no. chunks
@@ -101,7 +110,7 @@ count_template <- function(input,
           if (thisChunk==0) next
           i.tmp <- i
           i[1] <<- i[1] + thisChunk
-          return(.(output(i.tmp, thisChunk)))
+          return(.(output_chunk(i.tmp, thisChunk)))
         }
       }
     }

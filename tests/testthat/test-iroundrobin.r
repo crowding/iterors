@@ -1,5 +1,3 @@
-context("iroundrobin iterator")
-
 test_that("iroundrobin works with a single iterable object", {
   rr <- iroundrobin(1:5)
   expect_equal(take(rr, 5), as.list(1:5))

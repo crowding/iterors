@@ -1,5 +1,3 @@
-context("take")
-
 test_that("take properly extracts n elements, n < length of the iterable", {
   it <- ichain(1:3, 4:5, 6)
   expect_equal(take(it, 4), as.list(1:4))

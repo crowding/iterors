@@ -3,7 +3,6 @@
 %   R/iteror_array.R, R/iteror_data_frame.R
 \name{iteror}
 \alias{iteror}
-\alias{iteror.function}
 \alias{iteror.default}
 \alias{iteror.connection}
 \alias{iteror.array}
@@ -12,8 +11,6 @@
 \title{Efficient, compact iteration.}
 \usage{
 iteror(obj, ...)
-
-\method{iteror}{`function`}(obj, ..., catch, sigil, count)
 
 \method{iteror}{default}(obj, ..., recycle = FALSE, chunkSize, chunks)
 
@@ -26,7 +23,8 @@ iteror(obj, ...)
   chunkSize,
   chunks,
   recycle = FALSE,
-  drop = FALSE
+  drop = FALSE,
+  rowMajor = TRUE
 )
 
 \method{iteror}{matrix}(
@@ -36,33 +34,18 @@ iteror(obj, ...)
   chunkSize,
   chunks,
   recycle = FALSE,
-  drop = FALSE
+  drop = FALSE,
+  rowMajor = TRUE
 )
 
 \method{iteror}{data.frame}(obj, ..., recycle = FALSE, chunkSize, chunks, by = c("column", "row"))
 }
 \arguments{
-\item{obj}{An object to iterate with. If \code{obj} is a vector, the
-iterator will go over the elements of that vector and you can use
-\code{recycle}.  If \code{obj} is a function, the function will be called
-to compute successive elements. The function should have a
-leading argument \code{or} and behave accordingly (only forcing and
-returning \code{or} to signal end of iteration.)  If you provide a
-function that does not have an \code{or} argument, you will need to
-specify either \code{catch} or \code{sigil}.}
+\item{obj}{An object to iterate with.}
 
-\item{...}{Undocumented.}
-
-\item{catch}{If \code{obj} does not have \code{or} argument, specify
-e.g. \code{catch="StopIteration"} to interpret that
-error message as end of iteration.}
-
-\item{sigil}{If \code{obj} does not have an \code{or} argument, specify
-which value to watch for end of iteration. Stop will be signaled
-if the function result is \code{\link[=identical]{identical()}} to \code{sigil}.}
-
-\item{count}{If \code{obj} does not have an \code{or} argument, specify
-how many times to call it before finishing iteration.}
+\item{...}{Different iteror methods may take differetn options
+depending on the class of \code{obj}.#' @return an object of classes
+'iteror' and 'iter'.}
 
 \item{recycle}{a boolean describing whether the iterator should reset after
 running through all its values.}
@@ -76,24 +59,23 @@ each call to \code{nextOr}.}
 "row", "column", or numeric dimensions.}
 
 \item{drop}{Whether to drop the array dimensions enumerated over.}
-}
-\value{
-an object of classes 'iteror' and 'iter'.
+
+\item{rowMajor}{If TRUE, will return slices in order with the first
+indices varying fastest (same as in \link{ienumerate}).}
 }
 \description{
-To create an iteror, call the constructor \code{iteror} providing a
-function or other object as argument. The returned object will
-support the method \link[=nextOr]{nextOr(obj, or)} to extract successive
-values.
+\code{it <- iteror(obj, ...)} is a generic constructor that creates
+objects of class "iteror" from its input. An iteror outputs a
+single element of a sequence each time you call
+\code{nextOr(it)}. Different \code{iteror} methods exist for different data
+types and may take different optional arguments as listed in this
+page.
 }
 \details{
-The main method for "iteror" is "nextOr" rather than
-"nextElem". Instead of using exceptions, "nextOr" uses a lazily
-evaluated "or" argument to signal the end of iteration.  The "or"
-argument will only be forced when end of iteration is reached; this
-means the consumer can provide an action like "break", "next" or
-"return" to take at the the end of iteration. Summing over an
-iteror this way looks like:
+When called, an iterator may either return a new value or stop. The
+way an iteror signals a stop is that it does whatever you write in
+the argument \code{or}. For instance you can write \code{or=break} to exit a
+loop.Summing over an iteror this way looks like:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{sum <- 0
 it <- iteror(iseq(0, 100, 7))
@@ -106,12 +88,7 @@ Another way to use the "or" argument is to give it a sigil value;
 that is, a special value that will be interpreted as end of
 iteration.  If the result of calling \code{nextOr} is \code{identical()} to
 the sigil value you provided, then you know the iterator has
-ended. In R it is commonplace to use \code{NULL} or \code{NA} in the role of
-a sigil, but that only works until you have an iterator that needs
-to yield NULL itself. A safer alternative is to use a one-shot
-sigil value; \code{new.env()} is a good choice, as it produces an object
-that by construction is not \link{identical} to any other object in the
-R session. This pattern looks like:
+ended. This pattern looks like:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{sum <- 0
 stopped <- new.env()
@@ -123,17 +100,29 @@ repeat \{
 \}
 }\if{html}{\out{</div>}}
 
-Note that \code{iteror} objects are simply function objects with a class
+(Note the use of new.env(). In R it is commonplace to use \code{NULL} or
+\code{NA} in the role of a sigil, but that only works until you have an
+iterator that needs to yield NULL itself. A safer alternative is to
+use a one-shot sigil value; \code{new.env()} works for this, as it
+constructs an object that is not \link{identical} to any other object in
+the R session.)
+
+Note that \code{iteror} objects are simply functions with a class
 attribute attached, and all \code{nextOr.iteror} does is call the
 function. So if you were in the mood, you could skip calling
 \code{nextOr} through S3 dispatch and call the function directly. If you
-take this approach, make sure you have called \code{iteror()} to ensure that
-you have a true \code{iteror} object.
+take this approach, make sure you have called \code{iteror()} to ensure
+that you have a true \code{iteror} object.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{sum <- 0
 it <- iteror(iseq(0, 100, 7))
 repeat sum <- sum + it(or=break)
+sum
+#> [1] 735
 }\if{html}{\out{</div>}}
+
+To create iterors with custom-defined behavior, see
+\link{iteror.function}.
 }
 \examples{
 l <- iteror(letters, chunkSize=7)

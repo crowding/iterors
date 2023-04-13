@@ -54,15 +54,12 @@ ienumerate.default <- count_template(
   preamble=alist(
     count <- length(obj)
   ),
-  output = function(ix, size) {
-    if (missing(size))
-      substitute(list(index=ix, value=obj[[ix]]))
-    else
-      substitute({
+  output = function(ix) substitute(list(index=ix, value=obj[[ix]])),
+  output_chunk <- function(ix, size) substitute({
         index <- ix + seq_len(size)
         list(index=index, value=obj[index])
       })
-  })
+  )
 
 #' @rdname ienumerate
 #' @export
@@ -71,10 +68,10 @@ ienum <- ienumerate
 #' @exportS3Method
 #' @rdname ienumerate
 #' @description The `ienumerate` method for arrays allows splitting an
-#'   array by arbitrary margins, and by more than one margin. The
-#'   `index` element returned will be a vector (or if `chunkSize` > 1, a
+#'   array by arbitrary margins, including by multiple margins. The
+#'   `index` element returned will be a vector (or if chunking is used, a
 #'   matrix) of indices.
-#' @param by Which array margins to iterate over. Can by "row", "col", "cell",
+#' @param by Which array margins to iterate over. Can be "row", "col", "cell",
 #'   or a vector of numerical indices.
 #' @param chunkSize How large a chunk to take along the specified
 #'   dimension.
@@ -107,36 +104,41 @@ ienumerate.array <- count_template(
             rep(list(quote(expr=)), length(dim(obj))),
             alist(drop=drop))
   ),
-  output = function(ix, size) {
-    if (missing(size))
-      substitute({
-        index <- arrayIndex(ix, dim, rowMajor)
-        args[by+1] <- index
-        list(index=index, value=do.call("[", args))
-      })
-    else
-      substitute({
-        ixes <- arrayIndices(ix + seq_len(size), dim, rowMajor)
-        dim.out <- dim(obj)
-        dim.out[by] <- 1
-        out <- array(obj[c()], c(prod(dim.out), size))
-        dim.out <- c(dim.out, size)
-        for (i in seq_len(size)) {
-          args[by+1] <- ixes[i,]
-          out[,i] <- do.call("[", args)
-        }
-        dim(out) <- dim.out
-        # at this point, if the input array has dim 7, 8, 9,
-        # going by dim 2,
-        # and we have a chnk size of 5,
-        # then our "out" has dim 7, 1, 9, 5,
-        # and we want to permute it to 7, 5, 9.
-        nd <- length(dim(obj)) + 1
-        perm <- seq_len(nd)
-        perm[by[1]] <- nd
-        perm[nd] <- by[1]
-        out <- aperm(out, perm)
-        dim(out) <- dim(out)[-nd]
-        list(index=ixes, value=out)
-      })
-  })
+  preamble_single=alist(
+    indexer <- arrayIndexer(dim, rowMajor=rowMajor)
+  ),
+  preamble_chunk=alist(
+    indexer <- arrayIndexer(dim, rowMajor=rowMajor, chunk=TRUE)
+  ),
+  output = function(ix)
+    substitute({
+      index <- indexer(ix)
+      args[by+1] <- index
+      list(index=index, value=do.call("[", args))
+    }),
+  output_chunk = function(ix, size)
+    substitute({
+      ixes <- indexer(ix, size)
+      dim.out <- dim(obj)
+      dim.out[by] <- 1
+      out <- array(obj[c()], c(prod(dim.out), size))
+      dim.out <- c(dim.out, size)
+      for (i in seq_len(size)) {
+        args[by+1] <- ixes[i,]
+        out[,i] <- do.call("[", args)
+      }
+      dim(out) <- dim.out
+      # at this point, if the input array has dim 7, 8, 9,
+      # going by dim 2,
+      # and we have a chnk size of 5,
+      # then our "out" has dim 7, 1, 9, 5,
+      # and we want to permute it to 7, 5, 9.
+      nd <- length(dim(obj)) + 1
+      perm <- seq_len(nd)
+      perm[by[1]] <- nd
+      perm[nd] <- by[1]
+      out <- aperm(out, perm)
+      dim(out) <- dim(out)[-nd]
+      list(index=ixes, value=out)
+    })
+  )

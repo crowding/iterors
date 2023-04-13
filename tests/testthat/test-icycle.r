@@ -1,5 +1,3 @@
-context("icycle iterator")
-
 test_that("Indefinite irecycle of integer sequence", {
   it <- irecycle(1:3)
 
