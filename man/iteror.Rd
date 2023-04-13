@@ -53,7 +53,7 @@ running through all its values.}
 \item{chunkSize}{the number of elements of \code{by} to return with
 each call to \code{nextOr}.}
 
-\item{chunks}{Split the input into this many chunks. Default \code{NA}, use \code{chunkSize}.}
+\item{chunks}{Split the input into this many chunks.}
 
 \item{by}{how to split up an array or data frame. Can be "cell",
 "row", "column", or numeric dimensions.}

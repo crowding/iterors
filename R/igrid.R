@@ -1,21 +1,23 @@
-#' Iterator that returns the Cartesian product of the arguments.
+#' Iterator that covers the Cartesian product of the arguments.
 #'
-#' Given a number of iterables as arguments, constructs an iterator that
-#' is the Cartesian product of all arguments.
+#' Given a number of vectors as arguments, constructs an iterator that enumerates the Cartesian product of all arguments.
 #'
-#' Although they share the same end goal, \code{igrid} can yield drastic
-#' memory savings compared to \code{\link[base]{expand.grid}}.
+#' Although they share the same end goal, \code{igrid} can yield
+#' drastic memory savings compared to \code{\link[base]{expand.grid}}.
 #'
 #' @export igrid
-#' @param \dots Named iterables to iterate over. The right-most
-#'   iterables change more quickly, like an odometer.
-#' @param rowMajor If TRUE, the left-most indices change fastest.
-#' @param simplify If TRUE, results are returned in a vector (or
-#'   matrix if chunking). If FALSE, results are returned as a list.
-#' @return iterator that iterates through each element from the
-#'   Cartesian product of its arguments
-#' @details Based on [itertools2::iproduct] and [itertools::product].
-#' @aliases iproduct
+#' @param \dots Named vectors to iterate over.
+#' @param rowMajor If TRUE, the left-most indices change fastest. If
+#'   FALSE the rightmost indices change fastest.
+#' @param simplify If TRUE, inputs are coerced to a common data type
+#'   and results are returned in a vector (or matrix if chunking is
+#'   enabled). If FALSE, results are returned as a list (or data.frame
+#'   if chunking).
+#' @param recycle If TRUE, the iteror starts over on reaching the end.
+#' @param chunk Optional; how many rows to return in each step.
+#' @param chunkSize Optional; how many chunks to divide the input into.
+#' @return an [iteror] that iterates through each element from the
+#'   Cartesian product of its arguments.
 #' @examples
 #' # Simulate a doubly-nested loop with a single while loop
 #' it <- igrid(a=1:3, b=1:2)
@@ -51,22 +53,37 @@
 #'
 #' # Compare df_igrid with the results from base::expand.grid()
 #' base::expand.grid(a=a, b=b, c=c)
-igrid <- function(..., simplify=FALSE, rowMajor=FALSE) {
-  args <- list(...)
-  args_table <- c(if (simplify) NULL else list(),
-                  ..., use.names=FALSE)
-  dim <- vapply(args, length, 0)
-  names(args_table) <- rep(names(args), dim)
-  indexer <- arrayIndexer(dim, rowMajor=rowMajor, offset=TRUE)
-  count <- prod(dim)
-
-  ix <- 0
-  nextOr_ <- function(or) {
-    if (ix < count) {
-      ix <<- ix + 1
-      args_table[indexer(ix)]
-    } else or
+igrid <- count_template(
+  input = alist(...=),
+  options = alist(simplify = FALSE, rowMajor = TRUE),
+  preamble = alist(
+    args <- list(...),
+    args_table <- c(if (simplify) NULL else list(),
+                    ..., use.names=FALSE),
+    dim <- vapply(args, length, 0),
+    count <- prod(dim)),
+  preamble_single = alist(
+    names(args_table) <- rep(names(args), dim),
+    indexer <- arrayIndexer(dim, rowMajor=rowMajor,
+                            chunk=FALSE, offset=TRUE)),
+  preamble_chunk = alist(
+    indexer <- arrayIndexer(dim, rowMajor=rowMajor,
+                            chunk=TRUE, offset=simplify)),
+  output = function(ix) substitute(args_table[indexer(ix)]),
+  output_chunk = function(start, len) substitute({
+    if(simplify) {
+      matrix(args_table[indexer(start, len)], nrow=len,
+             dimnames=list(NULL, names(args)))
+    } else {
+      out <- args
+      indices <- indexer(start, len)
+      for (i in seq_along(out)) {
+        out[i] <- list(args[[i]][indices[,i]])
+      }
+      structure(out,
+                row.names=as.integer(start) + seq_len(len),
+                class="data.frame")
+    }
   }
-
-  iteror.internal(nextOr_, "basicIteror")
-}
+  )
+)

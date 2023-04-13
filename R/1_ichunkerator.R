@@ -21,7 +21,8 @@ count_template <- function(input,
     alist(..(input), ...=, recycle=FALSE, chunkSize=, chunks=, ..(options)))))
 
   body <- bquote(splice=TRUE, {
-    (function() NULL)(...) # any leftover arguments are an error
+    .( if (!("..." %in% names(input)))
+      quote((function() NULL)(...))) # any leftover arguments are an error
     ..(preamble)
 
     if (!is.numeric(count) || length(count) != 1 || is.na(count))

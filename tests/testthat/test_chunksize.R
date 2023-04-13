@@ -41,9 +41,6 @@ test_that("test that various values of chunkSize", {
       expect_true(ncol(bcol) <= n && ncol(bcol) >= 1)
     }
     actual <- do.call('cbind', bcols)
-    if (!identical(mat, actual)) {
-      browser()
-    }
     expect_identical(mat, actual)
   }
 

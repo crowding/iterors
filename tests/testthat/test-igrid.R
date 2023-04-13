@@ -13,7 +13,7 @@ test_that("igrid constructs the Cartesian product of two unnamed numeric vectors
 })
 
 test_that("igrid constructs the Cartesian product of three unnamed numeric vectors", {
-  it <- igrid(1:2, 3:4, 5:6)
+  it <- igrid(1:2, 3:4, 5:6, rowMajor=FALSE)
   expect_equal(nextOr(it, NA), list(1, 3, 5))
   expect_equal(nextOr(it, NA), list(1, 3, 6))
   expect_equal(nextOr(it, NA), list(1, 4, 5))
@@ -29,20 +29,20 @@ test_that("igrid constructs the Cartesian product of three unnamed numeric vecto
 test_that("igrid constructs the Cartesian product of two named numeric vectors", {
   it <- igrid(a=1:3, b=4:6)
   expect_equal(nextOr(it, NA), list(a=1, b=4))
-  expect_equal(nextOr(it, NA), list(a=1, b=5))
-  expect_equal(nextOr(it, NA), list(a=1, b=6))
   expect_equal(nextOr(it, NA), list(a=2, b=4))
-  expect_equal(nextOr(it, NA), list(a=2, b=5))
-  expect_equal(nextOr(it, NA), list(a=2, b=6))
   expect_equal(nextOr(it, NA), list(a=3, b=4))
+  expect_equal(nextOr(it, NA), list(a=1, b=5))
+  expect_equal(nextOr(it, NA), list(a=2, b=5))
   expect_equal(nextOr(it, NA), list(a=3, b=5))
+  expect_equal(nextOr(it, NA), list(a=1, b=6))
+  expect_equal(nextOr(it, NA), list(a=2, b=6))
   expect_equal(nextOr(it, NA), list(a=3, b=6))
 
   expect_equal(nextOr(it, NA), NA)
 })
 
 test_that("igrid constructs the Cartesian product of three named numeric vectors", {
-  it <- igrid(a=1:2, b=3:4, c=5:6)
+  it <- igrid(a=1:2, b=3:4, c=5:6, rowMajor=FALSE)
   expect_equal(nextOr(it, NA), list(a=1, b=3, c=5))
   expect_equal(nextOr(it, NA), list(a=1, b=3, c=6))
   expect_equal(nextOr(it, NA), list(a=1, b=4, c=5))
@@ -113,4 +113,21 @@ test_that("test07", {
     }
     expected <- expand.grid(c = z, b = y, a = x, stringsAsFactors = FALSE)[3:1]
     expect_equal(expected, actual)
+})
+
+test_that("chunked igrid", {
+
+  x <- igrid(a=letters, b=LETTERS, chunkSize=7, simplify=FALSE)
+  expected <- expand.grid(a=letters, b=LETTERS,
+                          stringsAsFactors=FALSE, KEEP.OUT.ATTRS=FALSE)[1:7,]
+  expect_equal(nextOr(x), expected)
+
+  x <- igrid(a=letters, b=LETTERS, chunkSize=7, simplify=TRUE)
+  expected <- as.matrix(expand.grid(
+    a=letters, b=LETTERS,
+    stringsAsFactors=FALSE, KEEP.OUT.ATTRS=FALSE)[1:7,])
+  attr(expected, "dimnames") <- list(NULL, c("a", "b"))
+  actual <- nextOr(x)
+  expect_equal(actual, expected)
+
 })

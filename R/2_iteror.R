@@ -232,7 +232,7 @@ iteror.internal <- function(fn, class=character(0)) {
 #' @rdname iteror
 #' @param recycle a boolean describing whether the iterator should reset after
 #' running through all its values.
-#' @param chunks Split the input into this many chunks. Default `NA`, use `chunkSize`.
+#' @param chunks Split the input into this many chunks.
 #' @param chunkSize How many elements (or slices) to include in each chunk.
 iteror.default <- count_template(
   input = alist(obj=),
@@ -245,10 +245,10 @@ iteror.default <- count_template(
 
 #' Retreive the next element from an iteror.
 #' @export
-#' @param obj An [iteror]
+#' @param obj An [iteror].
 #' @param or If the iterator has reached its end, this argument
 #'   will be forced and returned.
-#' @param ... Other arguments.
+#' @param ... Other arguments may be used by specific iterors.
 nextOr <- function(obj, or, ...) {
   UseMethod("nextOr")
 }
