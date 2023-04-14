@@ -1,5 +1,3 @@
-context("istarmap iterator")
-
 pow <- function(x, y) {
   x^y
 }

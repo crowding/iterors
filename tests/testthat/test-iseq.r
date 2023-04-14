@@ -1,5 +1,3 @@
-context("iseq family of iterators")
-
 test_that("iseq with default parameters is same as icount()", {
   it <- iseq()
   expect_equal(take(it, 10, "numeric"), 1:10)

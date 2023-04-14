@@ -8,57 +8,67 @@ Incorporated/ported "iterators" package.
 Incorporated/ported "itertools" package.
 Incorporated/ported "itertools2" package.  
 
-New features:
-  o `iunique` uses a hash table rather than linear scan, for much improved
-    performance; it also works with arbitrary R objects.
+New methods:
+  o `ienumerate.array` can iterate over arbitrary margins, providing you
+    with a vector index.
+  o `iwindow` constructs a sliding window of arbitrary length over a given
+    iterator, generalizing `itertools2::ipairwise` and `itripletwise`.
   o New functions `irle()` and `irle_inverse()` for run-length encoding.
   o Introduced `ireduce()`, `iaccum()`, and `sum()` and `prod()` methods for
     iterors.
-  o `ichain(...)` now has a companion function `icollapse(it)` which takes
+  o `ichain(...)` has a companion function `icollapse(it)` which accepts
     an iterable (rather than `...`).
   o New iteror methods for `as.numeric`, `as.vector', `as.character`,
     and `as.logical`.
-  o Random number iterators like `irunif`, `isample` and so on can now
-    maintain a private seed value, so that interleaving with other
-    iterators does not affect reproducibility. If `independent=TRUE` a
-    constructed random number iterator will generate an _independent_
-    pseudo-random stream (using the [nextRNGStream] mechanism).
-  o New method `ienumerate.array` can iterate over
-    arbitrary margins, providing you with a vector index.
-  o `iwindow` constructs a sliding window of arbitrary length over a given
-    iterator, generalizing `iterttools2::ipairwise` and `itripletwise`.
-  o `icount` and `icountn` respect names.
+  o `icollect` is an alias / generic for `as.list`, `as.numeric`, etc.
 
+New features:
+  o Memory-backed and counting iterors `icount`, `idiv`, `icountn`,
+    `ienumerate.default`, `iteror.default`, `iteror.data.frame`,
+    `iteror.default` and `ienumerate.array` all have shared logic;
+    all accept options `chunks`, `chunksize` and `recycle` with
+    equivalent behavior.
+  o `iunique` uses a hash table rather than linear scan, for much improved
+    performance; it also now works with arbitrary R objects.
+  o Random number iterators like `irunif`, `isample` and friends
+    accept option `independent`; if TRUE, the iterator will maintain a
+    private seed value, so that interleaving with other iterators does
+    not affect reproducibility. Multiple iterors with `independent=TRUE`
+    will generate pseudo-independent (decorrelated) random streams
+    (using the [nextRNGStream] mechanism).
+  o `icount` and `icountn` respect dimnames.
+  o `icountn` and `iteror.array` has an option `rowMajor`
+  o `itee` works for any iterator, using a memory buffering
+    strategy, where previously `itertools::itee` only worked for
+    memory-backed iterators.
 
-Changes from the above packages:
-  o `itertools2::icount(start=1, step=3, stop=15)` -> `iseq(from=1, to=15, by=3)`
-    o `icount(n)` simply counts from 1 to n, and is a synonym for `iseq_len`
-  o `iterators::ifilter(pred, iterable)` -> `ikeep(iterable, pred)`
-  o `iterators::ifilterfalse(pred, iterable)` -> `idrop(iterable, pred)`
-  o `iterators::itakewhile(pred, iterable)` -> `ikeepwhile(iterable, pred)`     
-  o `iterators::idropwhile(pred, iterable)` -> `idropwhile(iterable, pred)`
-  o There were conflicting definitions of `icount()`; in this package
-    `icount(n)` only counts whole numbers starting with 1.
-    For control over start, stop and step size use `iseq()`.
-  o `irep_len` is `irep(length.out=n)`
-  o There were conflicting definitions of `imap`. In this package:
-    * `imap(f, ...)` maps several iterators over a function taking several
-      arguments, analogous to `mapply`.
-    * `iapply(iter, f, ...)` maps a single iteror over a function of one
-      argument, analogous to "lapply".
+If you are coming from iterators/itertools/itertools2, some functions
+have different names. Here's a transition guide:
+
+  o `itertools2::icount(start=1, step=3, stop=15)` -> `iseq(from=1, to=15, by=3)`; `icount(n)` only counts by 1 starting from 1.
+  o `itertools::ifilter(pred, iterable)` -> `ikeep(iterable, pred)`
+  o `itertools::ifilterfalse(pred, iterable)` -> `idrop(iterable, pred)`
+  o `itertools2::ifilter(pred, iterable)` -> `ikeep(iterable, pred)`
+  o `itertools2::ifilterfalse(pred, iterable)` -> `idrop(iterable, pred)`
+  o `itertools2::itakewhile(pred, iterable)` -> `ikeepwhile(iterable, pred)`     
+  o `itertools2::idropwhile(pred, iterable)` -> `idropwhile(iterable, pred)`
+  o `irep_len` -> `irep(length.out=n)`
+  o `itertools2::imap(f, it)` -> `iapply(it, f)` or `imap(f, it1, it2, ...)`
   o `itertools2::iapply(array, margin)` -> `iteror(array, by=MARGIN)`
-    o See also `ienumerate.array()`
   o `itertools2::iunique_lastseen()` -> `idedupe()`.
+  o `itertools2::iproduct` -> `igrid`
+  o `itertools::product` -> `igrid`
+  o `iterators::recycle` -> `irecycle`
+  o `itertools2::icycle` -> `irecycle`
+  o `itertools::recycle` -> `irecycle`
+  o `itertools2::ipairwise(it)` -> `iterors::iwindow(it, 2)`
+  o `itertools2::itripletwise(it)` -> `iwindow(it, 3)`
+  o `itertools::isplitRows(obj, ...)` -> `iteror.array(obj, by="row", ...)`
+  o `itertools::isplitCols(obj, ...)` -> `iteror.array(obj, by="column", ...)`
+  o `itertools::isplitIndices(n, ...)` -> `icount(n, ...)`
+  o `itertools::isplitVector(n, )` -> `iteror.default(n, ...)`
+  o `itertools::timeout(secs)` -> itimeout(secs)
   o `consume(it, 0)` will consume zero elements. To consume the entire
     output of an iteror use `consume(it, Inf)`
-  o `itertools2::iproduct` -> `igrid`
-  o `icollect` is an alias / generic for `as.list`, `as.numeric`, etc.
-  o `iterators::recycle` -> `irecycle`
-  o There are no more `checkFunc` arguments; use `ikeep()` instead.
-  o `itertools2::icycle` and `itertools::recycle` have been merged;
-    the new `irecycle` uses a buffering strategy in the general case.
-  o `iterors::itee` works for any iterator, using a memory buffering
-    strategy, (where previously `itertools::itee` only worked for
-    vector-backed iterators.
-  o `itertools2::ipairwise(it)` -> `iterors::iwindow(it, 2)`
-    `itertools2::itripletwise(it)` -> `iterors::iwindow(it, 2)`
+  o `checkFunc` arguments have been removed; instead use `ikeep()`.
+

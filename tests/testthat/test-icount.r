@@ -1,5 +1,3 @@
-context("icount iterator: Infinite sequence")
-
 `%is%` <- expect_equal
 
 test_that("icount's default values generate the sequence 1, 2, ..", {
@@ -82,4 +80,24 @@ test_that("iseq respects names", {
   nextOr(it) %is% c(x=46)
   nextOr(it) %is% c(x=50)
   nextOr(it) %is% c(x=42)
+})
+
+test_that("icount chunks", {
+  for (chunks in c(1, 2, 3, 4, 9, 10, 19, 20, 99, 100, 101)) {
+    l <- as.list(icount(100, chunks = chunks))
+      expect_length(l, min(chunks, 100))
+      y <- c(l, recursive=TRUE)
+      expect_equal(y, 1:100)
+  }
+  for (chunkSize in c(1, 2, 3, 4, 9, 10, 19, 20, 99, 100, 101)) {
+    l <- as.list(icount(100, chunkSize = chunkSize))
+      expect_length(l[[1]], min(chunkSize, 100))
+      y <- c(l, recursive=TRUE)
+      expect_equal(y, 1:100)
+  }
+  for (chunkSize in c(1, 2, 3, 4, 9, 10, 19, 20, 99, 100, 101)) {
+    l <- take(icount(Inf, chunkSize=chunkSize), 10)
+    expect_length(l, 10)
+    expect_equal(c(l, recursive=TRUE), seq_len(10*chunkSize))
+  }
 })

@@ -1,21 +1,3 @@
-#
-# Copyright (c) 2008-2010 Revolution Analytics
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
-
-
 #' Apply a function to each element of an iterator.
 #'
 #' `iapply(obj, f)` returns the iteror that applies `f` to
@@ -24,16 +6,15 @@
 #'
 #' @param obj an iterable.
 #' @param f a function
-#' @param ... Other arguments that will be passed along to `f`
+#' @param ... Additional arguments will be passed along to `f`
 #' @return An iteror.
-#' @seealso \code{\link{imap}} To applying a function to parallel iterables in parallel. [iteror.array]
-#'
-#' The `iterators` package included an `iapply` to iterate over the
-#' margins of an array; for equivalent behavior you can use
-#' `iteror(ARRAY, by=MARGIN)]`
+#' @seealso To apply a function of multiple arguments to multiple
+#'   iterators, see [imap]. To split an array over margins (like
+#'   `iterators::iapply` use [`iteror(obj, by=MARGIN`][iteror.array]
 #' @keywords utilities
 #' @export iapply
 iapply <- function(obj, f, ...) {
+  obj <- iteror(obj, ...)
   nextOr_ <- function(or) f(nextOr(obj, return(or)), ...)
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

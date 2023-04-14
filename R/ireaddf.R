@@ -1,5 +1,3 @@
-
-
 # Construct default column names from the specified file names
 cnames <- function(filenames) {
   m <- regexpr('^(.+)_', filenames)

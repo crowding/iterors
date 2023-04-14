@@ -1,5 +1,3 @@
-context("islice iterator")
-
 test_that("islice of integer sequence with no end specified", {
   it <- islice(1:5, start=2)
   expect_equal(nextOr(it, NULL), 2)

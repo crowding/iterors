@@ -13,7 +13,7 @@ ifilter <- function(it, FUN, ...) {
     x
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }
 
 # Simple example use

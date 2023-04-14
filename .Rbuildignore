@@ -1,6 +1,11 @@
 ^cran-comments\.md$
-^LICENSE\.gpl\.md$
+^LICENSE\.md$
 ^LICENSE\.apache$
 ^codecov\.yml$
 ^\.github$
 ^NEWS.old$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^doc$
+^Meta$

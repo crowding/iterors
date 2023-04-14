@@ -23,18 +23,16 @@ icollect <- function(x, mode="any", n=as.integer(2^31-1), ...) {
     wrap <- list
   else wrap <- identity
 
-  size <- 64
+  size <- min(64, n)
   a <- vector(mode, length=size)
   i <- 0
   while (i < n) {
-    item <- nextOr(x, break)
+    length(a) <- size
     i <- i + 1
-    if (i >= size) {
-      size <- min(2 * size, n)
-      length(a) <- size
+    for (i in i:size) {
+      a[i] <- wrap(nextOr(x, {length(a) <- i-1; return(a)}))
     }
-    a[i] <- wrap(item)
+    size <- min(2 * size, n)
   }
-  length(a) <- i
   a
 }

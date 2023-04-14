@@ -4,27 +4,29 @@
 \alias{idiv}
 \title{Dividing Iterator}
 \usage{
-idiv(n, ..., chunks, chunkSize)
+idiv(count, ..., recycle = FALSE, chunkSize, chunks)
 }
 \arguments{
-\item{n}{The total}
+\item{count}{The total}
 
-\item{\dots}{unused.}
+\item{...}{Unused.}
 
-\item{chunks}{the number of pieces that \code{n} should be divided into.
-This is useful when you know the number of pieces that you want.  If
-specified, then \code{chunkSize} should not be.}
+\item{recycle}{Whether to restart the count after finishing.}
 
 \item{chunkSize}{the maximum size of the pieces that \code{n} should be
 divided into.  This is useful when you know the size of the pieces that you
 want.  If specified, then \code{chunks} should not be.}
+
+\item{chunks}{the number of pieces that \code{n} should be divided into.
+This is useful when you know the number of pieces that you want.  If
+specified, then \code{chunkSize} should not be.}
 }
 \value{
 The dividing iterator.
 }
 \description{
 Returns an iterator dividing a value into integer chunks, such that
-\verb{sum(idiv(n ...)) == floor(n)}
+\code{sum(idiv(n, ...)) == floor(n)}
 }
 \details{
 Originally from the \code{iterators} package.

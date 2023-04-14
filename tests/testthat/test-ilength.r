@@ -1,5 +1,3 @@
-context("ilength of an iterator")
-
 test_that("ilength functions properly with a vector", {
   expect_equal(ilength(1:5), 5)
 })

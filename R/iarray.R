@@ -22,7 +22,7 @@
 #' Create nested iterators over an array.
 #'
 #' Create an iterator over an array. It is similar to the
-#' \code{iterator.array} constructor but produces nested
+#' \code{iteror.array} constructor but produces nested
 #' iterators, to be used with nested [foreach][foreach::foreach] loops.
 #'
 #' @param X Array to iterate over.
@@ -50,7 +50,7 @@
 #' should be quoted or not. This can be useful in a parallel context because it
 #' can be much more efficient to send call objects to parallel workers than the
 #' objects that they evaluate to.
-#' @seealso \code{\link[base]{apply}}, \code{\link[iterators]{iapply}}
+#' @seealso iteror.array
 #' @keywords utilities
 #' @details Originally from the `itertools` package.
 #' @examples
@@ -60,7 +60,7 @@
 #'   as.list(iteror(x, by=3, drop=TRUE))
 #'
 #'   # Iterate over subarrays
-#'   as.list(iteror(x, by=3, chunksize=2))
+#'   as.list(iteror(x, by=3, chunkSize=2))
 #'
 #'   # iterate in nested fashion
 #'   x <- array(1:64, c(4,4,4))

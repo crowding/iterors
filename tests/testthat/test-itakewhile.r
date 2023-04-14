@@ -1,5 +1,3 @@
-context("itakewhile iterator")
-
 test_that("Apply itakewhile to an integer sequence", {
   not_too_large <- function(x) {
     x <= 5

@@ -1,5 +1,3 @@
-context("dotproduct")
-
 test_that("dotproduct functions properly with two iterators", {
   it <- iteror(1:5)
   it2 <- iteror(1:5)

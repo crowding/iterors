@@ -1,4 +1,5 @@
 misc
 .Rhistory
-LICENSE.apache
-LICENSE.md
+docs
+/doc/
+/Meta/

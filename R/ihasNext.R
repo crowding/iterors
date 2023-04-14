@@ -60,8 +60,8 @@ hasNext <- function(obj, ...) {
 }
 
 #' @exportS3Method
-hasNext.ihasNext <- function(obj, ...) {
-  obj$hasNext()
+hasNext.ihasNextOr <- function(obj, ...) {
+  attr(obj, "hasNext")()
 }
 
 #' @export
@@ -80,7 +80,7 @@ ihasNext.iteror <- function(obj, ...) {
   last <- noValue
   nextOr_ <- function(or) {
     if (identical(last, noValue))
-      last <<- nextOr(obj, endIter)
+      last <<- obj(endIter)
     if (identical(last, endIter))
       or
     else {
@@ -92,13 +92,12 @@ ihasNext.iteror <- function(obj, ...) {
 
   hasNext_ <- function() {
     if (identical(last, noValue))
-      last <<- nextOr(obj, endIter)
+      last <<- obj(endIter)
     !identical(last, endIter)
   }
 
-  it <- iteror.function(nextOr_)
-  it$hasNext <- hasNext_
-  structure(it, class=c("ihasNext", class(it)))
+  it <- iteror.internal(nextOr_)
+  structure(it, class=c("ihasNextOr", class(it)), hasNext=hasNext_)
 }
 
 #' @export

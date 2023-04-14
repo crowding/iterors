@@ -2,29 +2,44 @@
 % Please edit documentation in R/igrid.R
 \name{igrid}
 \alias{igrid}
-\alias{iproduct}
-\title{Iterator that returns the Cartesian product of the arguments.}
+\title{Iterator that covers the Cartesian product of the arguments.}
 \usage{
-igrid(...)
+igrid(
+  ...,
+  recycle = FALSE,
+  chunkSize,
+  chunks,
+  simplify = FALSE,
+  rowMajor = TRUE
+)
 }
 \arguments{
-\item{\dots}{Named iterables to iterate over. The right-most
-iterables change more quickly, like an odometer.}
+\item{\dots}{Named vectors to iterate over.}
+
+\item{recycle}{If TRUE, the iteror starts over on reaching the end.}
+
+\item{chunkSize}{Optional; how many chunks to divide the input into.}
+
+\item{chunks}{Optional; how many rows to return in each step.}
+
+\item{simplify}{If TRUE, inputs are coerced to a common data type
+and results are returned in a vector (or matrix if chunking is
+enabled). If FALSE, results are returned as a list (or data.frame
+if chunking).}
+
+\item{rowMajor}{If TRUE, the left-most indices change fastest. If
+FALSE the rightmost indices change fastest.}
 }
 \value{
-iterator that iterates through each element from the
-Cartesian product.
+an \link{iteror} that iterates through each element from the
+Cartesian product of its arguments.
 }
 \description{
-Given a number of iterables as arguments, constructs an iterator that
-is the Cartesian product of all arguments.
+Given a number of vectors as arguments, constructs an iterator that enumerates the Cartesian product of all arguments.
 }
 \details{
-Although they share the same end goal, \code{igrid} can yield drastic
-memory savings compared to \code{\link[base]{expand.grid}}.
-
-Based on \link[itertools2:iproduct]{itertools2::iproduct} and
-\link[itertools:product]{itertools::product}
+Although they share the same end goal, \code{igrid} can yield
+drastic memory savings compared to \code{\link[base]{expand.grid}}.
 }
 \examples{
 # Simulate a doubly-nested loop with a single while loop
@@ -50,7 +65,7 @@ nextOr(it, NA) # list(x=2, y=5)
 nextOr(it, NA) # list(x=3, y=4)
 nextOr(it, NA) # list(x=3, y=5)
 
-# igrid is a replacement for base::expand.grid()
+# igrid is an iterator equivalent to base::expand.grid()
 # Large data.frames are not created unless the iterator is manually consumed
 a <- 1:2
 b <- 3:4

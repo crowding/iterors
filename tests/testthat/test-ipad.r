@@ -1,5 +1,3 @@
-context("ipad iterator")
-
 test_that("ipad functions properly when no fill is necessary", {
   it <- iteror(1:9)
   it_ipad <- ipad(it)

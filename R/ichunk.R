@@ -31,7 +31,7 @@
 #' @param mode Mode of the objects returned by the iterator.
 #' @param fill Value to use to pad the last chunk to size, if it is
 #'   short. If missing, no padding will be done.
-#' @seealso \code{\link{isplitVector}}
+#' @seealso \code{iteror.default}
 #' @keywords utilities
 #'
 #' Argument `size` does not need to be an integer, for instance a
@@ -98,5 +98,5 @@ ichunk <- function(iterable, size, mode='list', fill) {
     r
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

@@ -1,5 +1,3 @@
-context("ifilter iterator")
-
 test_that("Apply ikeep to an integer sequence", {
   is_even <- function(x) {
     x %% 2 == 0

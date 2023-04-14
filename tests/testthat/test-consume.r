@@ -1,5 +1,3 @@
-context("consume iterator")
-
 test_that("consume consumes an iterator when n < length(iterator)", {
   it <- iteror(letters)
   consume(it, n=4)

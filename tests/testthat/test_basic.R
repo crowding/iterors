@@ -33,7 +33,7 @@ test_that("test hasNext, nextElem", {
   expect_error(nextElem(y))
 
   # by col, dropping
-  y <- iteror(x,by='column',drop=TRUE)
+  y <- iteror(x, by='column', drop=TRUE)
   expect_equal(nextElem(y), 1:5)
   nextElem(y)
   expect_error(nextElem(y))
@@ -46,11 +46,11 @@ test_that("test hasNext, nextElem", {
 })
 
 
-
 test_that("test data frame iterator creation", {
   x <- data.frame(1:10, 11:20)
   expect_silent(y <- iteror(x))
 })
+
 test_that("test hasNext, nextElem", {
   x <- data.frame(1:10, 11:20)
   # by row
@@ -86,18 +86,45 @@ test_that("empty data frames", {
 })
 
 # test function iterator creation
-# we need to test a function that takes no arguement as
-test_that("test hasNext, nextElem", {
-  noArgFunc <- function(or) 1
-  needArgFunc <- function(i) if(i>100)      stop('too high')    else      i
-  y <- iteror(noArgFunc)
-  expect_equal(nextElem(y), 1)
-  nextElem(y)
+test_that("iteror from functions", {
+  normalFunc <- (
+    function() {i <- 0; function(or) if (i >= 10) or else (i <<- i + 1)})
+  throwingFunc <- (
+    function() {i <- 0; function() if (i >= 10) stop('the end') else (i <<- i + 1)})
+  sigilFunc <- (
+    function() {i <- 0; function() {if (i >= 10) 'the end' else (i <<- i + 1)}})
+  countFunc <- (
+    function() {i <- 0; function() (i <<- i + 1)})
+
+  ia <- iteror(normalFunc())
+  ib <- iteror(throwingFunc(), catch='the end')
+  ic <- iteror(sigilFunc(), sigil='the end')
+  id <- iteror(sigilFunc(), count=10)
+
+  expect_length(as.list(izip(ia, ib, ic, id)), 10)
+
+  ia(NULL) %is% NULL
+  ib(NULL) %is% NULL
+  ic(NULL) %is% NULL
 
   if(FALSE) {
-    y <- iteror(needArgFunc)
+    y <- iteror(needArgFunc, catch='too high')
     expect_equal(nextElem(y), 1)
     for (i in 1:99) nextElem(y)
     expect_error(nextElem(y))
   }
+
+})
+
+# itertools2's internal function `stop_iteration` has a bug
+# because it does this:
+#     inherits(object, "try-error") && object == "Error : StopIteration\n"
+# which fails because in practice the error message stop("StopIteration")
+# produces is more like
+#     "Error in obj(or = stop(\"StopIteration\"), ...) : StopIteration\n"
+# So backfill nextElem.iteror has to use call.=FALSE
+test_that("just the right message", {
+  result <- try(nextElem(iteror(c())), silent=TRUE)
+  expect_true(
+    inherits(result, "try-error") && result == "Error : StopIteration\n")
 })

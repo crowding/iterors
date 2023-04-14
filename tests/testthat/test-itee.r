@@ -1,5 +1,3 @@
-context("itee iterator")
-
 test_that("itee returns n independent numeric vectors", {
   # Iterate through each of the iterators without any order in mind
   iter_list <- itee(1:5, n=3)

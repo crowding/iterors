@@ -1,5 +1,3 @@
-context("irep iterator")
-
 test_that("irep matches first example from base::rep", {
   it <- irep(1:4, 2)
   expect_equal(nextOr(it, NA), 1)

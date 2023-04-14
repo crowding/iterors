@@ -4,15 +4,15 @@
 \alias{iwindow}
 \title{Construct a sliding window over an iterator}
 \usage{
-iwindow(obj, n, tails = FALSE)
+iwindow(obj, n, tail)
 }
 \arguments{
 \item{obj}{An iterable.}
 
 \item{n}{The width of the window to apply}
 
-\item{tails}{Whether to include tails at the beginning and end. The
-tails will be filled with NULL.}
+\item{tail}{If a value is given, tails will be included at
+the beginning and end of iteration, filled with the given value.}
 }
 \value{
 an iteror.
@@ -45,13 +45,13 @@ it <- iwindow(letters[1:4], 3)
 nextOr(it) # list("a", "b", "c")
 nextOr(it) # list("b", "c", "d")
 
-it <- iwindow(letters[1:4], 3, tails=TRUE)
-nextOr(it) # list(NULL, NULL, "a")
-nextOr(it) # list(NULL, "a", "b")
+it <- iwindow(letters[1:4], 3, tail=" ")
+nextOr(it) # list(" ", " ", "a")
+nextOr(it) # list(" ", "a", "b")
 nextOr(it) # list("a", "b", "c")
 nextOr(it) # list("b", "c", "d")
-nextOr(it) # list("c", "d", NULL)
-nextOr(it) # list("d", NULL, NULL)
+nextOr(it) # list("c", "d", " ")
+nextOr(it) # list("d", " ", " ")
 }
 \author{
 Peter Meilstrup

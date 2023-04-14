@@ -1,5 +1,3 @@
-context("idropwhile iterator")
-
 test_that("Apply idropwhile to an integer sequence", {
 
   not_too_large <- function(x) {

@@ -35,5 +35,5 @@ ikeepwhile <- function(object, predicate) {
     }
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

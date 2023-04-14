@@ -1,5 +1,3 @@
-context("icompress iterator")
-
 test_that("Apply icompress to an integer sequence", {
   n <- 10
   selectors <- rep(c(F, T), n)

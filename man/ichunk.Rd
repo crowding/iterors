@@ -43,7 +43,7 @@ nextOr(it2, NA)
 
 }
 \seealso{
-\code{\link{isplitVector}}
+\code{iteror.default}
 }
 \keyword{3}
 \keyword{3.5}

@@ -1,5 +1,3 @@
-context("icombinations iterator")
-
 test_that("icombinations matches the output from utils::combn", {
   combn_out <- utils::combn(x=5, m=2, simplify=FALSE)
   it <- icombinations(seq_len(5), 2)

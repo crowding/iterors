@@ -76,7 +76,7 @@ iseq <- function(from=1,
 
   current_val <- from - by
   if (by > 0L) {
-    iteror.function(function(or) {
+    iteror.internal(function(or) {
       current_val <<- current_val + by
       if (current_val > to) {
         if (recycle)
@@ -87,7 +87,7 @@ iseq <- function(from=1,
       }
     })
   } else {
-    iteror.function(function(or) {
+    iteror.internal(function(or) {
       current_val <<- current_val + by
       if (current_val < to) {
         if (recycle)
@@ -115,7 +115,7 @@ iseq_len <- function(length_out=NULL) {
     if (i >= length_out) or else (i <<- i + 1)
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }
 
 #' @export
@@ -128,5 +128,5 @@ iseq_along <- function(along_with=NULL) {
     if (i >= length_out) or else i <<- i + 1
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }

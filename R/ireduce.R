@@ -1,6 +1,10 @@
 #' Compute the sum, product, or general reduction of an iterator.
 #'
-#' `ireduce(obj, fun)` applies `fun`
+#' `ireduce(obj, fun)` applies a 2-argument function `fun` between
+#' successive elements of obj. For example if `fun` is `+`,
+#' `ireduce(it, `+`, init=0)` computes `0 + nextElem(it) +
+#' nextElem(it) + nextElem(it) + ...` until the iterator finishes,
+#' and returns the final value.
 #'
 #' @export
 #' @param obj an iterable object
@@ -18,7 +22,7 @@
 #' ireduce(it, paste0, "") # "12345"
 #'
 #' it <- icount(5)
-#' prod <- ireduce(it, `*`, 1) # prod(1:5)
+#' prod <- ireduce(it, `*`, init=1) # prod(1:5)
 #'
 #' # the above is equivalent to:
 #' it <- icount(5)
@@ -63,7 +67,7 @@ iaccum <- function(obj, fun=`+`, init=0, ...) {
     init <<- fun(init, val, ...)
   }
 
-  iteror.function(nextOr_)
+  iteror.internal(nextOr_)
 }
 
 #' @exportS3Method

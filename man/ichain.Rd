@@ -7,7 +7,7 @@
 \usage{
 ichain(...)
 
-icollapse(obj)
+icollapse(obj, ...)
 }
 \arguments{
 \item{...}{multiple arguments to iterate through in sequence}

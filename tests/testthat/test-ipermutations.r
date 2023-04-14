@@ -1,7 +1,5 @@
 suppressPackageStartupMessages(library(combinat))
 
-context("ipermutations iterator")
-
 test_that("ipermutations matches the output from combinat::permn", {
   permn_out <- combinat::permn(letters[1:4])
   it <- ipermutations(letters[1:4])
