@@ -28,7 +28,7 @@ An object of mode "function" and class "iteror".
 }
 \description{
 Pass \code{obj} a function that has a first argument named "or".  In
-writing this function, you can maintain state with enclosed
+writing this function, you can maintain state by using enclosed
 variables and update using \verb{<<-}, Whatever value \code{obj()} returns is
 the next element of the iteror. Treat argument \code{or} as a lazy value;
 do not touch it until until you need to signal end of iteration;
@@ -40,6 +40,7 @@ long as you specify one of \code{catch}, \code{sigil}, or \code{count} to specif
 how to detect end of iteration.
 }
 \examples{
+
 # an iterator that counts from start to stop
 irange <- function(from=1, to=Inf) {
   current <- from
@@ -48,15 +49,17 @@ irange <- function(from=1, to=Inf) {
       return(or)
     } else {
       tmp <- current
-      current <- current + 1
+      current <<- current + 1
       tmp
     }
-  }
+  })
 }
 it <- irange(5, 10)
-as.list(it)
+as.vector(it, "numeric")
 
 # an endless random number generator
-irand <- function(min, max) iteror(runif(1, min=min, max=max), count=Inf)
+irand <- function(min, max) {
+ iteror(function() runif(1, min=min, max=max), count=Inf)
+}
 take(irand(5, 10), 10)
 }

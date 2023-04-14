@@ -115,3 +115,16 @@ test_that("iteror from functions", {
   }
 
 })
+
+# itertools2's internal function `stop_iteration` has a bug
+# because it does this:
+#     inherits(object, "try-error") && object == "Error : StopIteration\n"
+# which fails because in practice the error message stop("StopIteration")
+# produces is more like
+#     "Error in obj(or = stop(\"StopIteration\"), ...) : StopIteration\n"
+# So backfill nextElem.iteror has to use call.=FALSE
+test_that("just the right message", {
+  result <- try(nextElem(iteror(c())), silent=TRUE)
+  expect_true(
+    inherits(result, "try-error") && result == "Error : StopIteration\n")
+})

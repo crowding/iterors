@@ -6,7 +6,6 @@
 \usage{
 igrid(
   ...,
-  ...,
   recycle = FALSE,
   chunkSize,
   chunks,
@@ -21,6 +20,8 @@ igrid(
 
 \item{chunkSize}{Optional; how many chunks to divide the input into.}
 
+\item{chunks}{Optional; how many rows to return in each step.}
+
 \item{simplify}{If TRUE, inputs are coerced to a common data type
 and results are returned in a vector (or matrix if chunking is
 enabled). If FALSE, results are returned as a list (or data.frame
@@ -28,8 +29,6 @@ if chunking).}
 
 \item{rowMajor}{If TRUE, the left-most indices change fastest. If
 FALSE the rightmost indices change fastest.}
-
-\item{chunk}{Optional; how many rows to return in each step.}
 }
 \value{
 an \link{iteror} that iterates through each element from the

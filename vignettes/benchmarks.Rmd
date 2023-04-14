@@ -10,13 +10,15 @@ vignette: >
 This document illustrates the differences in performance between `iterors` using `nextOr` style iteration and `iterators`/`itertools`/`itertools2` using `nextElem`/`tryCatch` style iteration.
 
 ```{R, include=FALSE}
+#preliminaries
 library(ggplot2)
+library(microbenchmark)
+library(dplyr)
 require(iterators)
 require(itertools)
 require(itertools2)
- library(dplyr)
+
 plotit <- function(df) {
-  library(dplyr)
   summary <- df |>
     group_by(expr) |>
     summarize(
@@ -28,66 +30,36 @@ plotit <- function(df) {
     geom_bar(stat="identity", fill = "steelblue", orientation="y") +
     geom_errorbar(aes(xmin = time.lq, xmax = time.uq),
                   width = 0.4, color = "black") +
-    labs(title = deparse(substitute(df)), y = "Package", x = "Time (ns)") +
+    labs(title = NULL, y = NULL, x = "Time (ns)") +
     theme_minimal()
+}
+iter_consume <- function(it) {
+  tryCatch(repeat nextElem(it),
+           error=function(err) if (conditionMessage(err)=='StopIteration') NULL else stop(err))
 }
 ```
 
+# Basic iterators (self-contained/memory-backed)
+
+## Consuming iterators
+
+Since the following tests will use different versions of `icount`, `iter_consume`, and `as.list`,
+first verify that those are roughly on par
+
 ```{R, fig.asp=4}
-# `collapse` is not implemented in iterators, but
-# here's how you `_would_` write collapse in `tryCatch`/`nextElem` style.
-iter_collapse <- with(as.environment("package:iterators"), function(obj) {
-  obj <- iterators::iter(obj)
-  sigil <- new.env()
-  current <- sigil
-  nextEl <- function(or) {
-    if (identical(current, sigil)) {
-      current <<- iter(nextElem(obj))
-    }
-    repeat {
-      tryCatch({
-        return(nextElem(current))
-      }, error=function(err) {
-        if (conditionMessage(err) == "StopIteration") {
-          current <<- iter(nextElem(obj))
-        } else stop(err)
-      })
-    }
-  }
-  it <- list(nextElem=nextEl)
-  class(it) <- c('abstractiter', 'iter')
-  it
-})
-#
-collapse.bench <- microbenchmark::microbenchmark(
-       iterators=itertools2::consume(iter_collapse(itertools2::imap(iterators::icount, iterators::icount(10)))),
-       iterors=iterors::consume(iterors::icollapse(iterors::iapply(iterors::icount(10), iterors::icount))),
-       times=10)
-plotit(collapse.bench)
+as.list.bench <- microbenchmark::microbenchmark(
+  iter_consume = iter_consume(iterators::icount(3000)),
+  iterors.consume = iterors::consume(iterors::icount(3000)),
+  iterators.as_list = as.list(iterators::icount(3000)),
+  iterors.as_list = as.list(iterors::icount(3000)),
+  times = 10)
+plotit(as.list.bench)
 ```
 
-## `icountn` and `as.list`:
-```{R, fig.asp=4}
- icountn.bench <- microbenchmark::microbenchmark(
-    iterators = iterators:::as.list.iter(iterators::icountn(c(4,5,6,7))),
-    iterors = iterors:::as.list.iteror(iterors::icountn(c(4,5,6,7))),
-    times =10)
- plotit(icountn.bench)
-```
-
-## `ikeep`/`ifilter`
-```{R, fig.asp=4}
-ikeep.bench <- microbenchmark::microbenchmark(
-    iterators = as.list(itertools::ifilter(\(x) floor(sqrt(x))^2 == x, iterators::icount(1000))),
-    iterors = as.list(iterors::ikeep(iterors::icount(1000), \(x) floor(sqrt(x))^2 == x)),,
-    times = 10)
- plotit(ikeep.bench)
-```
-
-## Iterating over a vector
+## Simple iteration over a vector
 ```{R, fig.asp=4}
 vector.bench <- microbenchmark::microbenchmark(
-    iterators = itertools2::consume(iterators::iter(1:1000)),
+    iterators = iter_consume(iterators::iter(1:1000)),
     iterors = iterors::consume(iterors::iteror(1:1000)),
     times = 10)
   plotit(vector.bench)
@@ -96,8 +68,8 @@ vector.bench <- microbenchmark::microbenchmark(
 ## Chunking a vector
 ```{R, fig.asp=4}
 chunk.bench <- microbenchmark::microbenchmark(
-  itertools = itertools2::consume(itertools::isplitVector(1:6000, chunkSize=17)),
-  iterors = iterors::consume(iteror(1:6000, chunkSize=17)),
+  itertools = iter_consume(itertools::isplitVector(1:6000, chunkSize=17)),
+  iterors = iterors::consume(iterors::iteror(1:6000, chunkSize=17)),
   times = 10)
 plotit(chunk.bench)
 ```
@@ -107,35 +79,50 @@ plotit(chunk.bench)
 ```{R, fig.asp=4}
 arr <- array(1:1000000, c(1000,1000))
 slice.bench <- microbenchmark::microbenchmark(
-  iterators.rows = itertools2::consume(iterators::iter(arr, by="row")),
-  iterators.cols = itertools2::consume(iterators::iter(arr, by="column")),
-  itertools.array_rows = itertools2::consume(itertools::iarray(arr, MARGIN = 1)),
-  itertools.array_cols = itertools2::consume(itertools::iarray(arr,MARGIN = 2)),
-  iterors.rows = iterors::consume(iteror(arr, by=1)),
-  iterors.cols = iterors::consume(iteror(arr, by=2)),
+  iterators.rows = iter_consume(iterators::iter(arr, by="row")),
+  iterators.cols = iter_consume(iterators::iter(arr, by="column")),
+  itertools.array_rows = iter_consume(itertools::iarray(arr, MARGIN = 1)),
+  itertools.array_cols = iter_consume(itertools::iarray(arr,MARGIN = 2)),
+  iterors.rows = iterors::consume(iterors::iteror(arr, by=1)),
+  iterors.cols = iterors::consume(iterors::iteror(arr, by=2)),
 times = 10)
 plotit(slice.bench)
 ```
 
-## Split matrix into chunks (XXX)
+## Split matrix into chunks
 
 ```{R, fig.asp=4}
 arr <- array(1:1000000, c(1000,1000))
 array_chunks.bench <- microbenchmark::microbenchmark(
-  itertools.rows = itertools2::consume(itertools::isplitRows(arr, chunkSize=7)),
-  itertools.cols = itertools2::consume(itertools::isplitCols(arr, chunkSize=7)),
-  itertools.array_rows = itertools2::consume(itertools::iarray(arr, MARGIN = 1, chunkSize=7)),
-  itertools.array_cols = itertools2::consume(itertools::iarray(arr,MARGIN = 2, chunkSize=7)),
-  iterors.rows = iterors::consume(iteror(arr, by=1, chunkSize=7)),
-  iterors.cols = iterors::consume(iteror(arr, by=2, chunkSize=7)),
+  itertools.rows = iter_consume(itertools::isplitRows(arr, chunkSize=7)),
+  itertools.cols = iter_consume(itertools::isplitCols(arr, chunkSize=7)),
+  itertools.iarray_rows = iter_consume(itertools::iarray(arr, MARGIN = 1, chunkSize=7)),
+  itertools.iarray_cols = iter_consume(itertools::iarray(arr,MARGIN = 2, chunkSize=7)),
+  iterors.rows = iterors::consume(iterors::iteror(arr, by=1, chunkSize=7)),
+  iterors.cols = iterors::consume(iterors::iteror(arr, by=2, chunkSize=7)),
 times = 10)
 plotit(array_chunks.bench)
 ```
 
-## Extracting 3d slices of an array
+## Enumerating N-D array indices:
+```{R, fig.asp=4}
+ icountn.bench <- microbenchmark::microbenchmark(
+   iterators = iter_consume(iterators::icountn(c(4,5,6,7))),
+    iterors = iterors::consume(iterors::icountn(c(4,5,6,7))),
+    times =10)
+ plotit(icountn.bench)
+```
 
-```{R}
-chunk.bench <- microbenchmark::microbenchmark
+## Cartesian product of vectors
+
+```{R, fig.asp=2}
+igrid.bench <- microbenchmark::microbenchmark(
+  # itertools2 = iter_consume(itertools2::iproduct(1:10, letters, month.name)),
+  itertools = iter_consume(itertools::product(1:10, letters, month.name)),
+  itertools2 = iter_consume(itertools2::iproduct(1:10, letters, month.name)),
+  iterors = iterors::consume(iterors::igrid(1:10, letters, month.name)),
+  times = 10)
+plotit(igrid.bench)
 ```
 
 ## Random number generation
@@ -151,14 +138,32 @@ sampling.bench <- microbenchmark::microbenchmark(
 plotit(sampling.bench)
 ```
 
-## `as.list`
+# Higher order iterators / iterator functions
 
+## Chaining iterators end-to-end
 ```{R, fig.asp=4}
-as.list.bench <- microbenchmark::microbenchmark(
-    iterators = as.list(iterators::icount(3000)),
-    iterors = as.list(iterors::icount(3000)),
+chain.bench <- microbenchmark::microbenchmark(
+  itertools = iter_consume(
+    do.call(itertools::chain,
+            lapply(1:50, iterators::icount))),
+    itertools2 = iter_consume(
+      do.call(itertools2::ichain,
+              lapply(1:50, iterators::icount))),
+  iterors =
+    iterors::consume(do.call(iterors::ichain, lapply(1:50, iterors::icount))),
+  iterors.collapse =
+    iterors::consume(iterors::icollapse(iterors::iapply(1:50, iterors::icount))),
+  times=10)
+plotit(chain.bench)
+```
+
+## Keeping or dropping items according to a criterion
+```{R, fig.asp=4}
+ikeep.bench <- microbenchmark::microbenchmark(
+    iterators = as.list(itertools::ifilter(\(x) floor(sqrt(x))^2 == x, iterators::icount(5000))),
+    iterors = as.list(iterors::ikeep(iterors::icount(5000), \(x) floor(sqrt(x))^2 == x)),
     times = 10)
-plotit(as.list.bench)
+plotit(ikeep.bench)
 ```
 
 ## Select only unique values
@@ -179,19 +184,6 @@ iunique.bench <- microbenchmark::microbenchmark(
 plotit(iunique.bench)
 ```
 
-## Cartesian product of vectors
-
-```{R, fig.asp=2}
-igrid.bench <- microbenchmark::microbenchmark(
-  # itertools2 = itertools2::consume(itertools2::iproduct(1:10, letters, month.name)),
-  itertools = itertools2::consume(itertools::product(1:10, letters, month.name)),
-  itertls2 = itertools2::consume(itertools2::iproduct(1:10, letters, month.name))
-  iterors = iterors::consume(iterors::igrid(1:10, letters, month.name)),
-  iterors.alt = iterors::consume(iterors:::igrid2(1:10, letters, month.name)),
-  times = 10)
-plotit(igrid.bench)
-```
-
 ## icycle / irecycle
 
 Note that `itertools2::icycle` only works for cloneable, vector-based iterators, while the other two use a general purpose buffer.
@@ -199,7 +191,7 @@ Note that `itertools2::icycle` only works for cloneable, vector-based iterators,
 ```{R, fig.asp=4}
 icycle.bench <- microbenchmark::microbenchmark(
   itertools2 = as.list(itertools2::icycle(1:20, times = 20)),
-  itertools = itertools2::consume(itertools::recycle(iterators::icount(20), times = 20)),
+  itertools = iter_consume(itertools::recycle(iterators::icount(20), times = 20)),
   iterors = iterors::consume(iterors::irecycle(iterors::icount(20), times = 20)),
   times = 20)
 plotit(icycle.bench)
@@ -214,7 +206,7 @@ buffering mechanism.
 ```{R, fig.asp=4}
 itee.bench <- microbenchmark::microbenchmark(
   itertools2={
-    itertools2::consume(
+    iter_consume(
       do.call(itertools::chain,
         itertools2::itee(1:20, n=20)))
   },
@@ -234,9 +226,9 @@ general purpose queue is used.
 
 ```{R, fig.asp=4}
 marks=c(alist(
-  itertools2.w2={itertools2::consume(itertools2::ipairwise(1:200))}),
+  itertools2.w2={iter_consume(itertools2::ipairwise(1:200))}),
   if (exists("itripletwise", asNamespace("itertools2"), inherits=FALSE)) {
-    alist(itertools2.w3={itertools2::consume(itertools2::itripletwise(1:200))})
+    alist(itertools2.w3={iter_consume(itertools2::itripletwise(1:200))})
   },
   alist(
     iterors.w2={iterors::consume(iterors::iwindow(1:200, 2))},

@@ -141,7 +141,7 @@ iteror.iter <- function(obj, ...) {
 #' Construct an iteror object with custom-programmed behavior.
 #'
 #' Pass `obj` a function that has a first argument named "or".  In
-#' writing this function, you can maintain state with enclosed
+#' writing this function, you can maintain state by using enclosed
 #' variables and update using `<<-`, Whatever value `obj()` returns is
 #' the next element of the iteror. Treat argument `or` as a lazy value;
 #' do not touch it until until you need to signal end of iteration;
@@ -167,6 +167,7 @@ iteror.iter <- function(obj, ...) {
 #'   give `NA` or `Inf` to never stop.
 #'
 #' @examples
+#' 
 #' # an iterator that counts from start to stop
 #' irange <- function(from=1, to=Inf) {
 #'   current <- from
@@ -175,16 +176,18 @@ iteror.iter <- function(obj, ...) {
 #'       return(or)
 #'     } else {
 #'       tmp <- current
-#'       current <- current + 1
+#'       current <<- current + 1
 #'       tmp
 #'     }
-#'   }
+#'   })
 #' }
 #' it <- irange(5, 10)
-#' as.list(it)
+#' as.vector(it, "numeric")
 #'
 #' # an endless random number generator
-#' irand <- function(min, max) iteror(runif(1, min=min, max=max), count=Inf)
+#' irand <- function(min, max) {
+#'  iteror(function() runif(1, min=min, max=max), count=Inf)
+#' }
 #' take(irand(5, 10), 10)
 iteror.function <- function(obj, ..., catch, sigil, count) {
   (function() NULL)(...) # reject extra args
@@ -260,7 +263,7 @@ nextOr.iteror <- function(obj, or, ...) {
 
 #' @exportS3Method iterators::nextElem iteror
 nextElem.iteror <- function(obj, ...) {
-  obj(stop("StopIteration"), ...)
+  obj(stop("StopIteration", call.=FALSE), ...)
 }
 
 #' @exportS3Method

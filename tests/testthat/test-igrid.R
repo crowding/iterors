@@ -1,3 +1,6 @@
+`%is%` <- expect_equal
+
+
 test_that("igrid constructs the Cartesian product of two unnamed numeric vectors", {
   it <- igrid(1:3, 4:6, rowMajor=FALSE)
   expect_equal(nextOr(it, NA), list(1, 4))
@@ -68,6 +71,8 @@ test_that("null igrid", {
 })
 
 `%do%` <- foreach::`%do%`
+foreach <- foreach::foreach
+`%:%` <- foreach::`%:%`
 
 test_that("test01", {
     actual <- as.list(igrid(x = 1:3, a = letters[1:2], b = list(1), rowMajor=FALSE))
@@ -93,7 +98,7 @@ test_that("test04", {
   expect_equal(as.list(igrid()), list(list()))
   # simplifying list() gets NULL
   expect_equal(as.list(igrid(simplify=TRUE)), list(NULL))
-  # No ways to iterator over NULL
+  # No ways to iterate over NULL
   expect_equal(as.list(igrid(NULL)), list())
 })
 

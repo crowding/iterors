@@ -18,7 +18,9 @@ count_template <- function(input,
 
   args <- as.pairlist(eval(bquote(
     splice=TRUE,
-    alist(..(input), ...=, recycle=FALSE, chunkSize=, chunks=, ..(options)))))
+    alist(..(input),
+          ..(if (!("..." %in% names(input))) alist(...=) else list()),
+          recycle=FALSE, chunkSize=, chunks=, ..(options)))))
 
   body <- bquote(splice=TRUE, {
     .( if (!("..." %in% names(input)))
