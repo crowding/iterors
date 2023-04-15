@@ -60,7 +60,7 @@ long as the <code>predicate</code> function is true; afterwards, every element o
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">idropwhile</span><span class="op">(</span><span class="va">object</span>, <span class="va">predicate</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">idropwhile</span><span class="op">(</span><span class="va">object</span>, <span class="va">predicate</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -73,12 +73,16 @@ long as the <code>predicate</code> function is true; afterwards, every element o
 <dd><p>a function that determines whether an element is <code>TRUE</code>
 or <code>FALSE</code>. The function is assumed to take only one argument.</p></dd>
 
+
+<dt>...</dt>
+<dd><p>Further arguments forwarded to <a href="iteror.html">iteror</a>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>iterator object</p>
+<p>An <a href="iteror.html">iteror</a> object.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>

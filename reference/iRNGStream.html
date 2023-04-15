@@ -115,11 +115,11 @@ steps), which can be used as "substream" seeds</p>
 <span class="r-in"><span><span class="va">.Random.seed</span> <span class="op">==</span> <span class="va">global.seed</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object '.Random.seed' not found</span>
 <span class="r-in"><span><span class="fu"><a href="take.html">take</a></span><span class="op">(</span><span class="va">it1</span>, <span class="fl">5</span>, <span class="st">"numeric"</span><span class="op">)</span> <span class="co"># 0 0 0 1 1</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 0 0 1 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 1 0 0 0</span>
 <span class="r-in"><span><span class="fu"><a href="take.html">take</a></span><span class="op">(</span><span class="va">it2</span>, <span class="fl">5</span>, <span class="st">"numeric"</span><span class="op">)</span> <span class="co"># 0 1 1 1 1</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 0 0 0 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 0 0 0 1</span>
 <span class="r-in"><span><span class="fu"><a href="take.html">take</a></span><span class="op">(</span><span class="va">it3</span>, <span class="fl">5</span>, <span class="st">"numeric"</span><span class="op">)</span> <span class="co"># 1 1 1 0 0</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 0 0 1 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 1 1 1 1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># none of this affects the global seed</span></span></span>
 <span class="r-in"><span><span class="va">global.seed</span> <span class="op">==</span> <span class="va">.Random.seed</span></span></span>

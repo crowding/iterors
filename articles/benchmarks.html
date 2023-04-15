@@ -169,17 +169,15 @@ par.</p>
 <div class="section level3">
 <h3 id="cartesian-product-of-vectors">Cartesian product of vectors<a class="anchor" aria-label="anchor" href="#cartesian-product-of-vectors"></a>
 </h3>
-<pre><code>```r
-igrid.bench &lt;- microbenchmark::microbenchmark(
-  # itertools2 = iter_consume(itertools2::iproduct(1:10, letters, month.name)),
-  itertools = iter_consume(itertools::product(1:10, letters, month.name)),
-  itertools2 = iter_consume(itertools2::iproduct(1:10, letters, month.name)),
-  iterors = iterors::consume(iterors::igrid(1:10, letters, month.name)),
-  times = 10)
-plotit(igrid.bench)
-```
-
-&lt;img src="/home/runner/work/iterors/iterors/docs/articles/benchmarks_files/figure-html/unnamed-chunk-8-1.png" width="672" /&gt;</code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">igrid.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
+<span>  <span class="co"># itertools2 = iter_consume(itertools2::iproduct(1:10, letters, month.name)),</span></span>
+<span>  itertools <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools/man/product.html" class="external-link">product</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">letters</span>, <span class="va">month.name</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  itertools2 <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span><span class="fu">itertools2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools2/man/iproduct.html" class="external-link">iproduct</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">letters</span>, <span class="va">month.name</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  iterors <span class="op">=</span> <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/igrid.html">igrid</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">letters</span>, <span class="va">month.name</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu">plotit</span><span class="op">(</span><span class="va">igrid.bench</span><span class="op">)</span></span></code></pre></div>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="random-number-generation">Random number generation<a class="anchor" aria-label="anchor" href="#random-number-generation"></a>
