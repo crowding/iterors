@@ -113,7 +113,7 @@ plotit(array_chunks.bench)
 
 ## Cartesian product of vectors
 
-    ```{R}
+```{R}
 igrid.bench <- microbenchmark::microbenchmark(
   # itertools2 = iter_consume(itertools2::iproduct(1:10, letters, month.name)),
   itertools = iter_consume(itertools::product(1:10, letters, month.name)),

@@ -7,9 +7,9 @@
 \alias{ifilterfalse}
 \title{Iterator that filters elements not satisfying a predicate function}
 \usage{
-ikeep(iterable, predicate)
+ikeep(iterable, predicate, ...)
 
-idrop(iterable, predicate)
+idrop(iterable, predicate, ...)
 }
 \arguments{
 \item{iterable}{an iterable object.}

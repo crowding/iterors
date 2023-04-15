@@ -4,16 +4,18 @@
 \alias{idropwhile}
 \title{Iterator that drops elements until the predicate function returns FALSE}
 \usage{
-idropwhile(object, predicate)
+idropwhile(object, predicate, ...)
 }
 \arguments{
 \item{object}{an iterable object}
 
 \item{predicate}{a function that determines whether an element is \code{TRUE}
 or \code{FALSE}. The function is assumed to take only one argument.}
+
+\item{...}{Further arguments forwarded to \link{iteror}.}
 }
 \value{
-iterator object
+An \link{iteror} object.
 }
 \description{
 Constructs an iterator that drops elements from the iterable \code{object} as

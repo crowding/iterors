@@ -5,15 +5,17 @@
 \alias{irle_inverse}
 \title{Run-length encoding iterator.}
 \usage{
-irle(obj, cmp = identical)
+irle(obj, cmp = identical, ...)
 
-irle_inverse(obj)
+irle_inverse(obj, ...)
 }
 \arguments{
 \item{obj}{An iterable}
 
 \item{cmp}{A function to use for comparison. It should take two
 arguments and return \code{TRUE} or \code{FALSE}.}
+
+\item{...}{further arguments forwarded to \code{\link[=iteror]{iteror(obj, ...)}}.}
 }
 \value{
 An iterator returning entries of the form \code{list(length=n, value=X)}.

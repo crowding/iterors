@@ -12,7 +12,8 @@
 #' @param object an iterable object
 #' @param predicate a function that determines whether an element is \code{TRUE}
 #' or \code{FALSE}. The function is assumed to take only one argument.
-#' @return iterator object
+#' @param ... Further arguments forwarded to [iteror].
+#' @return An [iteror] object.
 #'
 #' @examples
 #' # Filters out numbers exceeding 3
@@ -25,8 +26,8 @@
 #' # Same approach but uses an anonymous function
 #' it2 <- idropwhile(seq(2, 20, by=2), function(x) x <= 10)
 #' as.list(it2)
-idropwhile <- function(object, predicate) {
-  iter_obj <- iteror(object)
+idropwhile <- function(object, predicate, ...) {
+  iter_obj <- iteror(object, ...)
 
   nextOr_ <- function(or) {
     repeat {

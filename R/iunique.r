@@ -104,6 +104,7 @@ idedupe <- function(object, cmp=identical) {
 #' @param obj An iterable
 #' @param cmp A function to use for comparison. It should take two
 #'   arguments and return `TRUE` or `FALSE`.
+#' @param ... further arguments forwarded to [`iteror(obj, ...)`][iteror].
 #' @return An iterator returning entries of the form `list(length=n, value=X)`.
 #' @author Peter Meilstrup
 #' @seealso idedupe
@@ -113,8 +114,8 @@ idedupe <- function(object, cmp=identical) {
 #' take(rle, 10)
 #' take(irle_inverse(rle), 10)
 #' @export irle
-irle <- function(obj, cmp=identical) {
-  obj <- iteror(obj)
+irle <- function(obj, cmp=identical, ...) {
+  obj <- iteror(obj, ...)
   run <- 0
   ended <- FALSE
   last <- NULL
@@ -145,8 +146,8 @@ irle <- function(obj, cmp=identical) {
 #' @rdname irle
 #' @return `irle_inverse` recreates the original data from the output of `irle`.
 #' @export
-irle_inverse <- function(obj) {
-  obj <- iteror(obj)
+irle_inverse <- function(obj, ...) {
+  obj <- iteror(obj, ...)
   count <- 0
   val <- NULL
   nextOr_ <- function(or) {

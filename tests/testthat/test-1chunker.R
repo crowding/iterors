@@ -1,4 +1,5 @@
 test_that("template iteror constructor", {
+
   ivector <- count_template(
     input = alist(obj=),
     preamble = alist(
@@ -8,6 +9,7 @@ test_that("template iteror constructor", {
     output_chunk = function(ix, len) substitute(obj[ix + seq_len(len)])
   )
 
-  expect_equal(as.list(ivector(1:10)), 1:10)
-  expect_equal(as.list(ivector(1:10, chunkSize=TRUE)), 1:10)
+  expect_equal(as.numeric(ivector(1:10)), 1:10)
+  expect_equal(c(recursive=TRUE, as.list(ivector(1:10, chunkSize=3))),
+               1:10)
 })

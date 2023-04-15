@@ -39,16 +39,16 @@
 #' }
 #' it3 <- ikeep(letters, is_vowel)
 #' as.list(it3)
-ikeep <- function(iterable, predicate) {
+ikeep <- function(iterable, predicate, ...) {
   if (!is.function(predicate)) {
     stop("The 'predicate' must be a function that returns TRUE or FALSE.")
   }
 
-  iter_obj <- iteror(iterable)
+  iter_obj <- iteror(iterable, ...)
 
   nextOr_ <- function(or) {
     repeat {
-      next_elem <- nextOr(iter_obj, return(or))
+      next_elem <- iter_obj(or = return(or))
       if (predicate(next_elem)) {
         return(next_elem)
       }
@@ -89,12 +89,12 @@ ikeep <- function(iterable, predicate) {
 #' # nextOr(it, NA) continues through the rest of the consonants
 #'
 #' @rdname ikeep
-idrop <- function(iterable, predicate) {
+idrop <- function(iterable, predicate, ...) {
   if (!is.function(predicate)) {
     stop("The 'predicate' must a function that returns TRUE or FALSE.")
   }
 
-  iter_obj <- iteror(iterable)
+  iter_obj <- iteror(iterable, ...)
 
   nextOr_ <- function(or) {
     repeat {
