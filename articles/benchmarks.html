@@ -78,9 +78,11 @@
     
     
 <p>This document illustrates the differences in performance between
-<code>iterors</code> using <code>nextOr</code> style iteration and
-<code>iterators</code>/<code>itertools</code>/<code>itertools2</code>
-using <code>nextElem</code>/<code>tryCatch</code> style iteration.</p>
+<code>iterors</code> and previous packages
+<code>iterators</code>/<code>itertools</code>/<code>itertools2</code>.
+In compiling <code>iterors</code> package several functions have been
+optimized. Other gains come from the <code>nextOr</code> method avoiding
+the need for tryCatch.</p>
 <div class="section level2">
 <h2 id="basic-iterators-self-containedmemory-backed">Basic iterators (self-contained/memory-backed)<a class="anchor" aria-label="anchor" href="#basic-iterators-self-containedmemory-backed"></a>
 </h2>
@@ -89,7 +91,8 @@ using <code>nextElem</code>/<code>tryCatch</code> style iteration.</p>
 </h3>
 <p>Since the following tests will use different versions of
 <code>icount</code>, <code>iter_consume</code>, and
-<code>as.list</code>, first verify that those are roughly on par</p>
+<code>as.list</code>, first verify that those functions are roughly on
+par.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">as.list.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>  iter_consume <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span><span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html" class="external-link">icount</a></span><span class="op">(</span><span class="fl">3000</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -98,7 +101,7 @@ using <code>nextElem</code>/<code>tryCatch</code> style iteration.</p>
 <span>  iterors.as_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/icount.html">icount</a></span><span class="op">(</span><span class="fl">3000</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">as.list.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="simple-iteration-over-a-vector">Simple iteration over a vector<a class="anchor" aria-label="anchor" href="#simple-iteration-over-a-vector"></a>
@@ -109,7 +112,7 @@ using <code>nextElem</code>/<code>tryCatch</code> style iteration.</p>
 <span>    iterors <span class="op">=</span> <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/iteror.html">iteror</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span>  <span class="fu">plotit</span><span class="op">(</span><span class="va">vector.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="chunking-a-vector">Chunking a vector<a class="anchor" aria-label="anchor" href="#chunking-a-vector"></a>
@@ -120,7 +123,7 @@ using <code>nextElem</code>/<code>tryCatch</code> style iteration.</p>
 <span>  iterors <span class="op">=</span> <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/iteror.html">iteror</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6000</span>, chunkSize<span class="op">=</span><span class="fl">17</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">chunk.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="extracting-rows-or-columns">Extracting rows or columns<a class="anchor" aria-label="anchor" href="#extracting-rows-or-columns"></a>
@@ -136,7 +139,7 @@ using <code>nextElem</code>/<code>tryCatch</code> style iteration.</p>
 <span>  iterors.cols <span class="op">=</span> <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/iteror.html">iteror</a></span><span class="op">(</span><span class="va">arr</span>, by<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">slice.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="split-matrix-into-chunks">Split matrix into chunks<a class="anchor" aria-label="anchor" href="#split-matrix-into-chunks"></a>
@@ -146,13 +149,11 @@ using <code>nextElem</code>/<code>tryCatch</code> style iteration.</p>
 <span><span class="va">array_chunks.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>  itertools.rows <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools/man/isplitRows.html" class="external-link">isplitRows</a></span><span class="op">(</span><span class="va">arr</span>, chunkSize<span class="op">=</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  itertools.cols <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools/man/isplitCols.html" class="external-link">isplitCols</a></span><span class="op">(</span><span class="va">arr</span>, chunkSize<span class="op">=</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  itertools.iarray_rows <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools/man/iarray.html" class="external-link">iarray</a></span><span class="op">(</span><span class="va">arr</span>, MARGIN <span class="op">=</span> <span class="fl">1</span>, chunkSize<span class="op">=</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  itertools.iarray_cols <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools/man/iarray.html" class="external-link">iarray</a></span><span class="op">(</span><span class="va">arr</span>,MARGIN <span class="op">=</span> <span class="fl">2</span>, chunkSize<span class="op">=</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  iterors.rows <span class="op">=</span> <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/iteror.html">iteror</a></span><span class="op">(</span><span class="va">arr</span>, by<span class="op">=</span><span class="fl">1</span>, chunkSize<span class="op">=</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  iterors.cols <span class="op">=</span> <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/iteror.html">iteror</a></span><span class="op">(</span><span class="va">arr</span>, by<span class="op">=</span><span class="fl">2</span>, chunkSize<span class="op">=</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">array_chunks.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="enumerating-n-d-array-indices">Enumerating N-D array indices:<a class="anchor" aria-label="anchor" href="#enumerating-n-d-array-indices"></a>
@@ -163,20 +164,22 @@ using <code>nextElem</code>/<code>tryCatch</code> style iteration.</p>
 <span>    iterors <span class="op">=</span> <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/icount.html">icountn</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    times <span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
 <span> <span class="fu">plotit</span><span class="op">(</span><span class="va">icountn.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="cartesian-product-of-vectors">Cartesian product of vectors<a class="anchor" aria-label="anchor" href="#cartesian-product-of-vectors"></a>
 </h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">igrid.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
-<span>  <span class="co"># itertools2 = iter_consume(itertools2::iproduct(1:10, letters, month.name)),</span></span>
-<span>  itertools <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools/man/product.html" class="external-link">product</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">letters</span>, <span class="va">month.name</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  itertools2 <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span><span class="fu">itertools2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools2/man/iproduct.html" class="external-link">iproduct</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">letters</span>, <span class="va">month.name</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  iterors <span class="op">=</span> <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/igrid.html">igrid</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">letters</span>, <span class="va">month.name</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="fu">plotit</span><span class="op">(</span><span class="va">igrid.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<pre><code>```r
+igrid.bench &lt;- microbenchmark::microbenchmark(
+  # itertools2 = iter_consume(itertools2::iproduct(1:10, letters, month.name)),
+  itertools = iter_consume(itertools::product(1:10, letters, month.name)),
+  itertools2 = iter_consume(itertools2::iproduct(1:10, letters, month.name)),
+  iterors = iterors::consume(iterors::igrid(1:10, letters, month.name)),
+  times = 10)
+plotit(igrid.bench)
+```
+
+&lt;img src="/home/runner/work/iterors/iterors/docs/articles/benchmarks_files/figure-html/unnamed-chunk-8-1.png" width="672" /&gt;</code></pre>
 </div>
 <div class="section level3">
 <h3 id="random-number-generation">Random number generation<a class="anchor" aria-label="anchor" href="#random-number-generation"></a>
@@ -190,7 +193,7 @@ restoring the random number generator settings.</p>
 <span>    iterors.dependent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/rng.html">irunif</a></span><span class="op">(</span><span class="fl">100</span>, count<span class="op">=</span><span class="fl">100</span>, independent<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    times <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">sampling.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 </div>
 </div>
 <div class="section level2">
@@ -213,7 +216,7 @@ restoring the random number generator settings.</p>
 <span>    <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/ichain.html">icollapse</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/iapply.html">iapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fu">iterors</span><span class="fu">::</span><span class="va"><a href="../reference/icount.html">icount</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  times<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">chain.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="keeping-or-dropping-items-according-to-a-criterion">Keeping or dropping items according to a criterion<a class="anchor" aria-label="anchor" href="#keeping-or-dropping-items-according-to-a-criterion"></a>
@@ -224,7 +227,7 @@ restoring the random number generator settings.</p>
 <span>    iterors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/ikeep.html">ikeep</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/icount.html">icount</a></span><span class="op">(</span><span class="fl">5000</span><span class="op">)</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">ikeep.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="select-only-unique-values">Select only unique values<a class="anchor" aria-label="anchor" href="#select-only-unique-values"></a>
@@ -243,27 +246,27 @@ performance.</p>
 <span>       <span class="op">}</span>,</span>
 <span>       times<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">iunique.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 </div>
 <div class="section level3">
-<h3 id="icycle-irecycle">icycle / irecycle<a class="anchor" aria-label="anchor" href="#icycle-irecycle"></a>
+<h3 id="irecycle">irecycle<a class="anchor" aria-label="anchor" href="#irecycle"></a>
 </h3>
-<p>Note that <code><a href="https://rdrr.io/pkg/itertools2/man/icycle.html" class="external-link">itertools2::icycle</a></code> only works for cloneable,
-vector-based iterators, while the other two use a general purpose
-buffer.</p>
+<p>Note that <code><a href="https://rdrr.io/pkg/itertools2/man/icycle.html" class="external-link">itertools2::icycle</a></code> only works for
+self-contained vector-based iterators, while the other two use a general
+purpose buffer.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">icycle.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
-<span>  itertools2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">itertools2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools2/man/icycle.html" class="external-link">icycle</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  itertools2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">itertools2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools2/man/icycle.html" class="external-link">icycle</a></span><span class="op">(</span><span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html" class="external-link">icount</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  itertools <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools/man/recycle.html" class="external-link">recycle</a></span><span class="op">(</span><span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html" class="external-link">icount</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  iterors <span class="op">=</span> <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/irecycle.html">irecycle</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/icount.html">icount</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">icycle.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="itee">itee<a class="anchor" aria-label="anchor" href="#itee"></a>
 </h3>
-<p>Note that <code>itertools2::tee</code> only works for vetocr-based
+<p>Note that <code>itertools2::tee</code> only works for vector-based
 iterators it knows how to clone, while <code><a href="../reference/itee.html">iterors::itee</a></code> uses a
 general purpose buffering mechanism.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -280,7 +283,7 @@ general purpose buffering mechanism.</p>
 <span>  <span class="op">}</span>,</span>
 <span>  times<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">itee.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="sliding-window-iterators">Sliding window iterators<a class="anchor" aria-label="anchor" href="#sliding-window-iterators"></a>
@@ -300,7 +303,7 @@ n=4 and above, a general purpose queue is used.</p>
 <span>    iterors.w50<span class="op">=</span><span class="op">{</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/iwindow.html">iwindow</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, <span class="fl">50</span><span class="op">)</span><span class="op">)</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">iwindow.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span>list<span class="op">=</span><span class="va">marks</span>, times<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">iwindow.bench</span><span class="op">)</span></span></code></pre></div>
-<p><img src="benchmarks_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="benchmarks_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
