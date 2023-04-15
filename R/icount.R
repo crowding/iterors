@@ -43,6 +43,9 @@
 #' @examples
 #' x <- icount(5)
 #' repeat print(nextOr(x, break))
+#'
+#' it2 <- icount(100)
+#' all.equal(as.numeric(it2), 1:100)
 icount <- count_template(
   input=alist(count=Inf),
   output=function(ix) substitute(ix),

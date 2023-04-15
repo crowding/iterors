@@ -51,6 +51,9 @@ nextOr(it, NULL)  # expect NULL
 
 x <- icount(5)
 repeat print(nextOr(x, break))
+
+it2 <- icount(100)
+all.equal(as.numeric(it2), 1:100)
 as.list(icountn(c(2, 3)))
 }
 \seealso{
