@@ -15,7 +15,7 @@ irnorm(
   sd = 1,
   count = Inf,
   independent = FALSE,
-  seed = nextOr(rng.state$stream)
+  seed = rng.state$stream()
 )
 
 irbinom(
@@ -24,7 +24,7 @@ irbinom(
   prob,
   count = Inf,
   independent = FALSE,
-  seed = nextOr(rng.state$stream)
+  seed = rng.state$stream()
 )
 
 irnbinom(
@@ -34,16 +34,10 @@ irnbinom(
   mu,
   count = Inf,
   independent = FALSE,
-  seed = nextOr(rng.state$stream)
+  seed = rng.state$stream()
 )
 
-irpois(
-  n,
-  lambda,
-  count = Inf,
-  independent = FALSE,
-  seed = nextOr(rng.state$stream)
-)
+irpois(n, lambda, count = Inf, independent = FALSE, seed = rng.state$stream())
 
 isample(
   x,
@@ -52,7 +46,7 @@ isample(
   prob = NULL,
   count = Inf,
   independent = FALSE,
-  seed = nextOr(rng.state$stream)
+  seed = rng.state$stream()
 )
 
 irunif(
@@ -61,11 +55,11 @@ irunif(
   max = 1,
   count = Inf,
   independent = FALSE,
-  seed = nextOr(rng.state$stream)
+  seed = rng.state$stream()
 )
 }
 \arguments{
-\item{n}{see e.g. \link{rnorm}.}
+\item{n}{How many samples to compute per call; see e.g. \link{rnorm}.}
 
 \item{mean}{see \link{rnorm}.}
 

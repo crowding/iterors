@@ -108,7 +108,7 @@ irecycle <- function(iterable, times=NA_integer_) {
       bsize <<- min(2 * bsize, bsize.max)
       length(buffer) <<- bsize
     }
-    e <- nextOr(iterable.iter, {
+    e <- iterable.iter(or = {
       times <<- times - 1L  # will still be greater than zero
       length(buffer) <<- blen
       iterable <<- NULL
@@ -125,7 +125,7 @@ irecycle <- function(iterable, times=NA_integer_) {
 
   # This will be used once we've run through the underlying iterator
   nextOr.cycling <- function(or) {
-    nextOr(buffer.iter, {
+    buffer.iter(or = {
       if (!is.na(times) && times <= 1) {
         times <<- 0L
         return(or)
@@ -133,13 +133,13 @@ irecycle <- function(iterable, times=NA_integer_) {
       times <<- times - 1L
       buffer.iter <<- iteror(buffer)
       # If this throws 'StopIteration', we're done
-      nextOr(buffer.iter, or)
+      buffer.iter(or = or)
     })
   }
 
   # This handles the case when "times" is one (pretty useless case)
   nextOr.one <- function(or) {
-    nextOr(iterable.iter, or)
+    iterable.iter(or = or)
   }
 
   # This handles the case when "times" is zero

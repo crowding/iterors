@@ -47,7 +47,7 @@ itee <- function(obj, n, max=2^16-1) {
         if (len >= max) {
           stop("itee: queue is full")
         }
-        val <- nextOr(obj, return(or))
+        val <- obj(or = return(or))
         data$append(val)
       } else {
         val <- data$peek(ptr)

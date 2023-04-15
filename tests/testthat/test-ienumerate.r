@@ -107,6 +107,12 @@ test_that("ienumerate split array and rejoin", {
 
 })
 
+test_that("ienumerate chunked vector", {
+  actual <- nextOr(ienumerate(letters, chunks=4))
+  expected <- list(index=1:7, value=letters[1:7])
+  expect_equal(actual, expected)
+})
+
 test_that("ienumerate chunked array", {
 
   input <- array(1:504, c(7,8,9))

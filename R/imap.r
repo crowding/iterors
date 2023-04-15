@@ -44,7 +44,7 @@ imap <- function(f, ...) {
   }
 
   nextOr_ <- function(or) {
-    elem <- nextOr(iter_obj, return(or))
+    elem <- iter_obj(or = return(or))
     do.call(f, wrap(elem))
   }
 

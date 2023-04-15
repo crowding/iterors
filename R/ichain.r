@@ -34,11 +34,11 @@ icollapse <- function(obj, ...) {
 
   nextOr_ <- function(or) {
     if (is.null(current)) {
-      current <<- iteror(nextOr(obj, return(or)))
+      current <<- iteror(obj(or = return(or)))
     }
     repeat {
-      return(nextOr(current, {
-        current <<- iteror(nextOr(obj, return(or)))
+      return(current(or = {
+        current <<- iteror(obj(or = return(or)))
         next
       }))
     }

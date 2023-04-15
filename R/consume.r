@@ -28,7 +28,7 @@ consume <- function(obj, n=Inf) {
 
   i <- 0L
   while (i < n) {
-    nextOr(obj, break)
+    obj(or=break)
     i <- i + 1
   }
   invisible(obj)
@@ -74,6 +74,6 @@ nth <- function(it, n, or) {
   n <- as.integer(n)
   i <- 0
   for (i in seq_len(n))
-    last <- nextOr(it, return(or))
+    last <- it(or=return(or))
   last
 }

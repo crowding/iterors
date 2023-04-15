@@ -48,16 +48,6 @@ icount <- count_template(
   output=function(ix) substitute(ix),
   output_chunk=function(base, len) substitute(base + seq_len(len)))
 
-icount.internal <- function(n, recycle=FALSE) {
-  x <- n
-  x[1] <- 0
-  if (recycle) {
-    function(or) if (x >= n) (x[1] <<- 1L) else (x <<- x + 1L)
-  } else {
-    function(or) if (x >= n) or else (x <<- x + 1L)
-  }
-}
-
 #' Dividing Iterator
 #'
 #' Returns an iterator dividing a value into integer chunks, such that

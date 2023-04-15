@@ -53,7 +53,7 @@ test_that("iseq for decreasing sequence with from and to specified", {
 })
 
 test_that("iseq_len generates a finite sequence of integers", {
-  it <- iseq_len(4)
+  it <- icount(4)
   expect_equal(nextOr(it, NA), 1)
   expect_equal(nextOr(it, NA), 2)
   expect_equal(nextOr(it, NA), 3)
@@ -62,12 +62,12 @@ test_that("iseq_len generates a finite sequence of integers", {
 })
 
 test_that("First element of iseq_len with length 0 stops", {
-  it <- iseq_len(0)
+  it <- icount(0)
   expect_equal(nextOr(it, NA), NA)
 })
 
 test_that("iseq_along's generate a finite sequence of integers from a vector", {
-  it <- iseq_along(1:4)
+  it <- icount(length(1:4))
   expect_equal(nextOr(it, NA), 1)
   expect_equal(nextOr(it, NA), 2)
   expect_equal(nextOr(it, NA), 3)
@@ -76,7 +76,7 @@ test_that("iseq_along's generate a finite sequence of integers from a vector", {
 })
 
 test_that("iseq_along's generate a finite sequence of integers from a data.frame", {
-  it <- iseq_along(iris)
+  it <- icount(length(iris))
   expect_equal(nextOr(it, NA), 1)
   expect_equal(nextOr(it, NA), 2)
   expect_equal(nextOr(it, NA), 3)
@@ -86,7 +86,7 @@ test_that("iseq_along's generate a finite sequence of integers from a data.frame
 })
 
 test_that("First element of iseq_along applied to vector of length 0 yields StopIteration", {
-  it <- iseq_along(numeric(0))
+  it <- icount(length(numeric(0)))
   expect_equal(nextOr(it, NA), NA)
 })
 

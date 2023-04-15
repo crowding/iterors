@@ -21,7 +21,7 @@ quantify <- function(object) {
   it <- iteror(object)
   i <- 0
   repeat{
-    next_elem <- nextOr(it, break)
+    next_elem <- it(or = break)
     if (next_elem) {
       i <- i + 1
     }

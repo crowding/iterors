@@ -33,7 +33,7 @@ icompress <- function(object, selectors) {
 
   nextOr_ <- function(or) {
     repeat {
-      next_elem <- nextOr(iter_izip, return(or))
+      next_elem <- iter_izip(or = return(or))
       if (next_elem$select) {
         return(next_elem$obj)
       }

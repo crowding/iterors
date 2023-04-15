@@ -57,7 +57,7 @@ makeIwrapper <- function(FUN) {
       .(as.pairlist(c(formals(FUN),
                       alist(count=Inf,
                             independent=FALSE,
-                            seed=nextOr(rng.state$stream))))),
+                            seed=rng.state$stream())))),
       {
         list(..(lapply(names(formals(FUN)), as.name)))
         if (independent) {
@@ -102,8 +102,8 @@ makeIwrapper <- function(FUN) {
           }
           iteror(next_)
         }
-      }))
-
+      })
+    )
   eval(def, parent.frame())
 }
 
@@ -129,7 +129,7 @@ makeIwrapper <- function(FUN) {
 #'   numer iterators see the example under [iRNGStream].
 #' @return An iterator that is a wrapper around the corresponding
 #'   random number generator function.
-#' @param n see e.g. [rnorm].
+#' @param n How many samples to compute per call; see e.g. [rnorm].
 #' @param mean see [rnorm].
 #' @param sd see [rnorm].
 #' @param size see e.g. [rbinom].

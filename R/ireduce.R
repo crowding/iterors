@@ -37,7 +37,7 @@ ireduce <- function(obj, fun=`+`, init=0, ...) {
     stop("`fun` must be a function of two arguments")
   } else {
     repeat {
-      val <- nextOr(obj, break)
+      val <- obj(or = break)
       init <- fun(init, val, ...)
     }
   }

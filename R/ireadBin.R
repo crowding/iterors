@@ -100,7 +100,7 @@ ireadBin <- function(con, what='raw', n=1L, size=NA_integer_,
         close(con)
         con <<- NULL
       })
-      p <- nextOr(ipos, return(or)) #and close
+      p <- ipos(or = return(or)) #and close
       on.exit()
 
       # default value of "origin"

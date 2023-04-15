@@ -98,7 +98,7 @@ idrop <- function(iterable, predicate) {
 
   nextOr_ <- function(or) {
     repeat {
-      next_elem <- nextOr(iter_obj, return(or))
+      next_elem <- iter_obj(or = return(or))
       if (!predicate(next_elem)) {
         return(next_elem)
       }

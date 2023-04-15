@@ -122,7 +122,7 @@ irle <- function(obj, cmp=identical) {
   nextOr_ <- function(or) {
     if (ended) or
     else repeat {
-      val <- nextOr(obj, ended <<- TRUE)
+      val <- obj(or = ended <<- TRUE)
       if (run > 0) {
         if (!ended && cmp(val, last)) {
           run <- run + 1
@@ -151,7 +151,7 @@ irle_inverse <- function(obj) {
   val <- NULL
   nextOr_ <- function(or) {
     while (count <= 0) {
-      val <<- nextOr(obj, return(or))
+      val <<- obj(or = return(or))
       count <<- val$length
     }
     count <<- count - 1

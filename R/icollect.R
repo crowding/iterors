@@ -30,7 +30,7 @@ icollect <- function(x, mode="any", n=as.integer(2^31-1), ...) {
     length(a) <- size
     i <- i + 1
     for (i in i:size) {
-      a[i] <- wrap(nextOr(x, {length(a) <- i-1; return(a)}))
+      a[i] <- wrap(x(or = {length(a) <- i-1; return(a)}))
     }
     size <- min(2 * size, n)
   }

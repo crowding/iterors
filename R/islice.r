@@ -62,7 +62,7 @@ islice <- function(object, start=1, end=NULL, step=1) {
       if (i >= end) {
         return(or)
       }
-      val <- nextOr(object, return(or))
+      val <- object(or = return(or))
       i <<- i + 1
       if (i == at) {
         at <<- at + step

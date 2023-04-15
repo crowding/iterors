@@ -16,7 +16,7 @@ test_that("icount's default values generate the sequence 1, 2, ..", {
   expect_equal(i, 4)
 })
 
-test_that("iset works with a given initial value", {
+test_that("iseq works with a given initial value", {
   it <- iseq(from=42)
 
   i <- nextOr(it, NULL)

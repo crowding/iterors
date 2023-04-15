@@ -88,11 +88,11 @@ irep.each <- function(it, each) {
   nextOr_ <- if (each == 0) {
     function(or) or
   } else if (each == 1) {
-    function(or) nextOr(it, or)
+    it
   } else {
     function(or) {
       if (n <= 0) {
-        value <<- nextOr(it, or)
+        value <<- it(or = or)
         n <<- each
       }
       n <<- n - 1L
@@ -119,7 +119,7 @@ irep.times <- function(it, times) {
     while (n <= 0 && i < length(times)) {
       i <<- i + 1L
       n <<- times[i]
-      value <<- nextOr(it, return(or))
+      value <<- it(or = return(or))
     }
     if (n <= 0) {
       or

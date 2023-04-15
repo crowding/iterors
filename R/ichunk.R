@@ -82,7 +82,7 @@ ichunk <- function(iterable, size, mode='list', fill) {
     r <- vector(mode, floor(sendAt))
     i <- 0L
     while (i < sendAt) {
-      r[i+1L] <- wrap(nextOr(it, {
+      r[i+1L] <- wrap(it(or = {
         if (i == 0L) {
           return(or)
         } else if (doFill) {

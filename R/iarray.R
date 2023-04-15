@@ -166,7 +166,7 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
   nextOr_ <- if (mlen == 1) {
     if (quote) {
       function(or) {
-        m <- nextOr(it, return(or))
+        m <- it(or = return(or))
         j <- i + m
         q[[iq]] <- if (m > 1) call(':', i + 1, j) else j
         i <<- j
@@ -174,7 +174,7 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
       }
     } else {
       function(or) {
-        m <- nextOr(it, return(or))
+        m <- it(or = return(or))
         j <- i + m
         q[[iq]] <- if (m > 1) call(':', i + 1, j) else j
         i <<- j
@@ -183,7 +183,7 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
     }
   } else if (! missing(chunks)) {
     function(or) {
-      m <- nextOr(it, return(or))
+      m <- it(or = return(or))
       j <- i + m
       idx[[MARGIN[mlen]]] <- if (m > 1) call(':', i + 1, j) else j
       i <<- j
@@ -195,7 +195,7 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
     }
   } else if (! missing(chunkSize)) {
     function(or) {
-      m <- nextOr(it, return(or))
+      m <- it(or = return(or))
       j <- i + m
       idx[[MARGIN[mlen]]] <- if (m > 1) call(':', i + 1, j) else j
       i <<- j
@@ -207,7 +207,7 @@ iarray <- function(X, MARGIN, ..., chunks, chunkSize, drop,
     }
   } else {
     function(or) {
-      nextOr(it, return(or))  # returns 1 or
+      it(or = return(or))  # returns 1 or
       i <<- i + 1
       idx[[MARGIN[mlen]]] <- i
       mcall$MARGIN <- MARGIN[-mlen]

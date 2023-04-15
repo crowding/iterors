@@ -51,7 +51,7 @@ ibreak <- function(iterable, finished) {
       stopped <<- TRUE
       or
     } else
-      nextOr(it, or)
+      it(or = or)
   }
 
   iteror.internal(nextOr_)

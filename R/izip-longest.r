@@ -45,7 +45,7 @@ izip_longest <- function(..., fill=NA) {
     out <- rep(list(fill), length(iter_list))
     for (i in seq_along(iter_list)) {
       if (running[i]) {
-        out[i] <- list(nextOr(iter_list[[i]], {
+        out[i] <- list(iter_list[[i]](or = {
           running[i] <<- FALSE
           fill
         }))

@@ -42,7 +42,7 @@ ilimit <- function(iterable, n) {
   nextOr_ <- function(or) {
     if (n <= 0) return(or)
     n <<- n - 1L
-    nextOr(it, or)
+    it(or = or)
   }
 
   iteror(nextOr_)

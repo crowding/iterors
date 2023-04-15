@@ -71,7 +71,7 @@ isplit.default <- function(x, f, drop=FALSE, ...) {
 
   nextOr_ <- function(or) {
     repeat {
-      i <- nextOr(it, return(or))
+      i <- it(or = return(or))
       j <- iwhich(nf, i)
       if (!drop || length(j) > 0)
         break
@@ -90,7 +90,7 @@ isplit.default <- function(x, f, drop=FALSE, ...) {
 isplit.data.frame <- function(x, f, drop=FALSE, ...) {
   it <- isplit(seq_len(nrow(x)), f, drop=drop, ...)
   nextOr_ <- function(or) {
-    i <- nextOr(it, return(or))
+    i <- it(or = return(or))
     list(value=x[i$value,, drop=FALSE], key=i$key)
   }
   iteror.internal(nextOr_)

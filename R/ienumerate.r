@@ -55,11 +55,11 @@ ienumerate.default <- count_template(
     count <- length(obj)
   ),
   output = function(ix) substitute(list(index=ix, value=obj[[ix]])),
-  output_chunk <- function(ix, size) substitute({
-        index <- ix + seq_len(size)
-        list(index=index, value=obj[index])
-      })
-  )
+  output_chunk = function(ix, size) substitute({
+    index <- ix + seq_len(size)
+    list(index=index, value=obj[index])
+  })
+)
 
 #' @rdname ienumerate
 #' @export

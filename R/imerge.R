@@ -43,7 +43,7 @@ imerge <- function(...) {
   h <- vector('list', length(its))
   n <- 0L
   for (it in its) {
-    h[[n + 1L]] <- list(val=nextOr(it, break), it=it)
+    h[[n + 1L]] <- list(val = it(or = break), it = it)
     n <- n + 1L
   }
 
@@ -59,7 +59,7 @@ imerge <- function(...) {
       or
     } else {
       val <- h[[1]]$val
-      h[[1]]$val <<- nextOr(h[[1]]$it, {
+      h[[1]]$val <<- h[[1]]$it(or = {
         h[[1]] <<- h[[n]]
         n <<- n - 1L
         heapify(1L, n)

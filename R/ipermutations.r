@@ -46,7 +46,7 @@ ipermutations <- function(object, m=NULL) {
 
   nextOr_ <- function(or) {
     repeat {
-       indices <- unique(nextOr(iter_product, return(or)))
+       indices <- unique(iter_product(or = return(or)))
       if (length(indices) == m) {
         return(object[unlist(indices)])
       }

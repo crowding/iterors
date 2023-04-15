@@ -26,7 +26,7 @@ ikeepwhile <- function(object, predicate) {
   stop_iterating <- FALSE
   nextOr_ <- function(or) {
     if (stop_iterating) return(or)
-    next_elem <- nextOr(iter_obj, return(or))
+    next_elem <- iter_obj(or = return(or))
     if (predicate(next_elem)) {
       return(next_elem)
     } else {

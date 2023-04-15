@@ -54,7 +54,7 @@ ireadDouble <- function(con, buflen=16*1024, where=0) {
 
       # Refill our buffer
       ibuf <<- 0
-      buffer <<- nextOr(it, return(or))
+      buffer <<- it(or = return(or))
       on.exit()
     }
     ibuf <<- ibuf + 1

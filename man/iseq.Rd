@@ -2,8 +2,6 @@
 % Please edit documentation in R/iseq.r
 \name{iseq}
 \alias{iseq}
-\alias{iseq_len}
-\alias{iseq_along}
 \title{Iterators for sequence generation}
 \usage{
 iseq(
@@ -12,17 +10,16 @@ iseq(
   by = NULL,
   length_out = NULL,
   along_with = NULL,
-  recycle = FALSE
+  ...,
+  recycle = FALSE,
+  chunkSize,
+  chunks
 )
-
-iseq_len(length_out = NULL)
-
-iseq_along(along_with = NULL)
 }
 \arguments{
-\item{from}{the starting value of the sequence}
+\item{from}{the starting value of the sequence.}
 
-\item{to}{the end value of the sequence}
+\item{to}{the end value of the sequence.}
 
 \item{by}{increment of the sequence.}
 
@@ -31,11 +28,14 @@ which for \code{seq} will be rounded up if fractional.}
 
 \item{along_with}{the length of the sequence will match the length of this}
 
-\item{recycle}{Whether to restart the sequence after it reaches \code{to}.
-argument}
+\item{recycle}{Whether to restart the sequence after it reaches \code{to}.}
+
+\item{chunkSize}{Optional; return this many values per call.}
+
+\item{chunks}{Optional; return this many chunks.}
 }
 \value{
-sequence's iterator
+an \link{iteror}.
 }
 \description{
 Constructs iterators that generate regular sequences that follow the

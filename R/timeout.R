@@ -44,7 +44,7 @@ itimeout <- function(iterable, time) {
   nextOr_ <- function(or) {
     delta <- proc.time()[3] - starttime
     if (delta >= time) return(or)
-    nextOr(it, or)
+    it(or = or)
   }
 
   iteror.internal(nextOr_)

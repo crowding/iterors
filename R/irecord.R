@@ -66,7 +66,7 @@ irecord <- function(con, iterable) {
   }
   it <- iteror(iterable)
   repeat {
-    serialize(nextOr(it, break), con)
+    serialize(it(or = break), con)
   }
   invisible()
 }

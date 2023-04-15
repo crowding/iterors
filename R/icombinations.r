@@ -65,7 +65,7 @@ icombinations <- function(object, m, replacement=FALSE) {
 
   nextOr_ <- function(or) {
     repeat {
-      indices <- unlist(nextOr(iter_object, return(or)))
+      indices <- unlist(iter_object(or = return(or)))
       if (all(sort(indices) == indices)) {
         return(object[indices])
       }

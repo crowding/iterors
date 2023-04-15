@@ -31,8 +31,8 @@ iroundrobin <- function(...) {
       if (!any(has_elems)) {
         return(or)
       }
-      which_iter <- nextOr(it_cycle)
-      next_elem <- nextOr(iter_list[[which_iter]], {
+      which_iter <- it_cycle()
+      next_elem <- iter_list[[which_iter]](or = {
         has_elems[which_iter] <<- FALSE
         next
       })
