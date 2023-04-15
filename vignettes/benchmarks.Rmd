@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This document illustrates the differences in performance between `iterors` using `nextOr` style iteration and `iterators`/`itertools`/`itertools2` using `nextElem`/`tryCatch` style iteration.
+This document illustrates the differences in performance between `iterors` and previous packages `iterators`/`itertools`/`itertools2`.  In compiling  `iterors` package several functions have been optimized. Other gains come from the `nextOr` method  avoiding the need for tryCatch.
 
 ```{R, include=FALSE}
 #preliminaries
@@ -17,7 +17,7 @@ library(dplyr)
 require(iterators)
 require(itertools)
 require(itertools2)
-
+knitr::opts_chunk$set(fig.width=7, fig.height=2)
 plotit <- function(df) {
   summary <- df |>
     group_by(expr) |>
@@ -44,9 +44,9 @@ iter_consume <- function(it) {
 ## Consuming iterators
 
 Since the following tests will use different versions of `icount`, `iter_consume`, and `as.list`,
-first verify that those are roughly on par
+first verify that those functions are roughly on par.
 
-```{R, fig.asp=4}
+```{R}
 as.list.bench <- microbenchmark::microbenchmark(
   iter_consume = iter_consume(iterators::icount(3000)),
   iterors.consume = iterors::consume(iterors::icount(3000)),
@@ -57,7 +57,7 @@ plotit(as.list.bench)
 ```
 
 ## Simple iteration over a vector
-```{R, fig.asp=4}
+```{R}
 vector.bench <- microbenchmark::microbenchmark(
     iterators = iter_consume(iterators::iter(1:1000)),
     iterors = iterors::consume(iterors::iteror(1:1000)),
@@ -66,7 +66,7 @@ vector.bench <- microbenchmark::microbenchmark(
 ```
 
 ## Chunking a vector
-```{R, fig.asp=4}
+```{R}
 chunk.bench <- microbenchmark::microbenchmark(
   itertools = iter_consume(itertools::isplitVector(1:6000, chunkSize=17)),
   iterors = iterors::consume(iterors::iteror(1:6000, chunkSize=17)),
@@ -76,7 +76,7 @@ plotit(chunk.bench)
 
 ## Extracting rows or columns
 
-```{R, fig.asp=4}
+```{R}
 arr <- array(1:1000000, c(1000,1000))
 slice.bench <- microbenchmark::microbenchmark(
   iterators.rows = iter_consume(iterators::iter(arr, by="row")),
@@ -91,13 +91,11 @@ plotit(slice.bench)
 
 ## Split matrix into chunks
 
-```{R, fig.asp=4}
+```{R}
 arr <- array(1:1000000, c(1000,1000))
 array_chunks.bench <- microbenchmark::microbenchmark(
   itertools.rows = iter_consume(itertools::isplitRows(arr, chunkSize=7)),
   itertools.cols = iter_consume(itertools::isplitCols(arr, chunkSize=7)),
-  itertools.iarray_rows = iter_consume(itertools::iarray(arr, MARGIN = 1, chunkSize=7)),
-  itertools.iarray_cols = iter_consume(itertools::iarray(arr,MARGIN = 2, chunkSize=7)),
   iterors.rows = iterors::consume(iterors::iteror(arr, by=1, chunkSize=7)),
   iterors.cols = iterors::consume(iterors::iteror(arr, by=2, chunkSize=7)),
 times = 10)
@@ -105,7 +103,7 @@ plotit(array_chunks.bench)
 ```
 
 ## Enumerating N-D array indices:
-```{R, fig.asp=4}
+```{R}
  icountn.bench <- microbenchmark::microbenchmark(
    iterators = iter_consume(iterators::icountn(c(4,5,6,7))),
     iterors = iterors::consume(iterors::icountn(c(4,5,6,7))),
@@ -115,7 +113,7 @@ plotit(array_chunks.bench)
 
 ## Cartesian product of vectors
 
-```{R, fig.asp=2}
+    ```{R}
 igrid.bench <- microbenchmark::microbenchmark(
   # itertools2 = iter_consume(itertools2::iproduct(1:10, letters, month.name)),
   itertools = iter_consume(itertools::product(1:10, letters, month.name)),
@@ -129,7 +127,7 @@ plotit(igrid.bench)
 
 When `independent=TRUE` there is extra work in saving and restoring the 
 random number generator settings.
-```{R, fig.asp=4}
+```{R}
 sampling.bench <- microbenchmark::microbenchmark(
     iterators = as.list(iterators::irunif(100, count=100)),
     iterors.independent = as.list(iterors::irunif(100, count=100, independent=TRUE)),
@@ -141,7 +139,7 @@ plotit(sampling.bench)
 # Higher order iterators / iterator functions
 
 ## Chaining iterators end-to-end
-```{R, fig.asp=4}
+```{R}
 chain.bench <- microbenchmark::microbenchmark(
   itertools = iter_consume(
     do.call(itertools::chain,
@@ -158,7 +156,7 @@ plotit(chain.bench)
 ```
 
 ## Keeping or dropping items according to a criterion
-```{R, fig.asp=4}
+```{R}
 ikeep.bench <- microbenchmark::microbenchmark(
     iterators = as.list(itertools::ifilter(\(x) floor(sqrt(x))^2 == x, iterators::icount(5000))),
     iterors = as.list(iterors::ikeep(iterors::icount(5000), \(x) floor(sqrt(x))^2 == x)),
@@ -170,7 +168,7 @@ plotit(ikeep.bench)
 
 `iterors::iunique` uses a hash table for better performance.
 
-```{R, fig.asp=4}
+```{R}
 iunique.bench <- microbenchmark::microbenchmark(
        iterators = {
          it <- itertools2::iunique(iterators::isample(1:100, 1))
@@ -184,13 +182,13 @@ iunique.bench <- microbenchmark::microbenchmark(
 plotit(iunique.bench)
 ```
 
-## icycle / irecycle
+## irecycle
 
-Note that `itertools2::icycle` only works for cloneable, vector-based iterators, while the other two use a general purpose buffer.
+Note that `itertools2::icycle` only works for self-contained vector-based iterators, while the other two use a general purpose buffer.
 
-```{R, fig.asp=4}
+```{R}
 icycle.bench <- microbenchmark::microbenchmark(
-  itertools2 = as.list(itertools2::icycle(1:20, times = 20)),
+  itertools2 = as.list(itertools2::icycle(iterators::icount(20), times = 20)),
   itertools = iter_consume(itertools::recycle(iterators::icount(20), times = 20)),
   iterors = iterors::consume(iterors::irecycle(iterors::icount(20), times = 20)),
   times = 20)
@@ -199,11 +197,11 @@ plotit(icycle.bench)
 
 ## itee
 
-Note that `itertools2::tee` only works for vetocr-based iterators it
+Note that `itertools2::tee` only works for vector-based iterators it
 knows how to clone, while `iterors::itee` uses a general purpose
 buffering mechanism.
 
-```{R, fig.asp=4}
+```{R}
 itee.bench <- microbenchmark::microbenchmark(
   itertools2={
     iter_consume(
@@ -224,7 +222,7 @@ plotit(itee.bench)
 `iterors` uses specialized routines for n=2 and n=3. For n=4 and above, a
 general purpose queue is used.
 
-```{R, fig.asp=4}
+```{R}
 marks=c(alist(
   itertools2.w2={iter_consume(itertools2::ipairwise(1:200))}),
   if (exists("itripletwise", asNamespace("itertools2"), inherits=FALSE)) {

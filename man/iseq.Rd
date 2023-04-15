@@ -28,6 +28,8 @@ which for \code{seq} will be rounded up if fractional.}
 
 \item{along_with}{the length of the sequence will match the length of this}
 
+\item{...}{Unused.}
+
 \item{recycle}{Whether to restart the sequence after it reaches \code{to}.}
 
 \item{chunkSize}{Optional; return this many values per call.}

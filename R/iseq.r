@@ -24,6 +24,7 @@ bracelist <- function(x) `attributes<-`(as.list(x)[-1], NULL)
 #' @param length_out desired length of the sequence. A non-negative number,
 #' which for \code{seq} will be rounded up if fractional.
 #' @param along_with the length of the sequence will match the length of this
+#' @param ... Unused.
 #' @param chunkSize Optional; return this many values per call.
 #' @param chunks Optional; return this many chunks.
 #' @param recycle Whether to restart the sequence after it reaches `to`.
