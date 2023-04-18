@@ -4,13 +4,15 @@
 \alias{ibreak}
 \title{Create an iterator that can be told to stop}
 \usage{
-ibreak(iterable, finished)
+ibreak(iterable, finished, ...)
 }
 \arguments{
 \item{iterable}{Iterable to iterate over.}
 
 \item{finished}{Function that returns a logical value.  The iterator stops
 when this function returns \code{FALSE}.}
+
+\item{...}{Further arguments forwarded to \code{iteror}.}
 }
 \description{
 Create an iterator that iterates over another iterator until a specified

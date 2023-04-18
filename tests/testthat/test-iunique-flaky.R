@@ -1,11 +1,11 @@
-test_that("idedupe works with other data types", {
+test_that("idedup works with other data types", {
 
   x <- list(function(x=1) y,
             as.name("hooray"),
             environment(),
             list('a', list(4)),
             x~y)
-  it <- idedupe(rep(x, each=5))
+  it <- idedup(rep(x, each=5))
 
   expect_identical(nextOr(it), function(x=1) y)
   expect_identical(nextOr(it),  quote(hooray))

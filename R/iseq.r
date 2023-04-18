@@ -28,6 +28,7 @@ bracelist <- function(x) `attributes<-`(as.list(x)[-1], NULL)
 #' @param chunkSize Optional; return this many values per call.
 #' @param chunks Optional; return this many chunks.
 #' @param recycle Whether to restart the sequence after it reaches `to`.
+#' @seealso icount icountn
 #' @return an [iteror].
 #'
 #' @examples
@@ -84,3 +85,8 @@ iseq <- count_template(
   output = function(ix) substitute(base + by * ix),
   output_chunk = function(ix, len) substitute(base + by*(ix+seq_len(len)))
   )
+
+#' `iseq_along(obj)` is just an alias for icount(length(obj)).
+#' @rdname iseq
+#' @export
+iseq_along <- function(along_with, ...) icount(length(along_with), ...)

@@ -20,10 +20,11 @@
 #' @param obj an iterable object
 #' @param n the number of iterators to return
 #' @param max The maximum number of values to buffer.
+#' @param ... passed along to `iteror(obj, ...)`
 #' @return a list of \code{n} iterators.
 #' @author Peter Meilstrup
-itee <- function(obj, n, max=2^16-1) {
-  obj <- iteror(obj)
+itee <- function(obj, n, max=2^16-1, ...) {
+  obj <- iteror(obj, ...)
 
   n <- as.integer(n)
   if (length(n) != 1) {

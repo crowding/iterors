@@ -4,12 +4,14 @@
 \alias{irecycle}
 \title{Create a recycling iterator}
 \usage{
-irecycle(iterable, times = NA_integer_)
+irecycle(iterable, times = NA_integer_, ...)
 }
 \arguments{
-\item{iterable}{The iterable to recycle. If it is given a bare function (this behavior is copied from \code{icycle}}
+\item{iterable}{The iterable to recycle.}
 
-\item{times}{integer.  Number of times to recycle the values in the
+\item{times}{integer.  Number of times to recycle the values in the}
+
+\item{...}{Further arguments to be passed to
 iterator.  Default value of \code{NA_integer_} means to recycle forever.}
 }
 \description{
@@ -39,7 +41,7 @@ it2 <- irecycle(1:3, times=2)
 as.list(it2)
 
 # Can return the results from a function.
-it3 <- irecycle(function() rnorm(1))
+it3 <- iteror(function() rnorm(1), count=Inf)
 nextOr(it, NA)
 nextOr(it, NA)
 nextOr(it, NA)

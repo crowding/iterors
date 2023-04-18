@@ -33,6 +33,7 @@
 #' iterator.
 #' @param each non-negative integer.  Each element of the iterable is repeated
 #' \code{each} times.
+#' @param ... passed along to `iteror(iterable, ...)`
 #' @seealso \code{\link[base]{rep}}
 #' @keywords utilities
 #' @details Originally from the `itertools` package.
@@ -47,12 +48,12 @@
 #' unlist(as.list(irep(1:4, each=2, times=3)))
 #'
 #' @export irep
-irep <- function(iterable, times=NULL, length.out=NULL, each=NULL) {
+irep <- function(iterable, times=NULL, length.out=NULL, each=NULL, ...) {
   # Apply "each" first
   it <- if (!is.null(each)) {
-    irep.each(iteror(iterable), each)
+    irep.each(iteror(iterable, ...), each)
   } else {
-    iteror(iterable)
+    iteror(iterable, ...)
   }
 
   if (!is.null(length.out)) {
@@ -104,8 +105,8 @@ irep.each <- function(it, each) {
 }
 
 # Internal function used to handle the irep "times" argument
-irep.times <- function(it, times) {
-  it <- iteror(it)
+irep.times <- function(it, times, ...) {
+  it <- iteror(it, ...)
   times <- as.integer(times)
   if (length(times) == 0 || any(is.na(times) | times < 0)) {
     stop("invalid 'times' argument")
@@ -129,5 +130,5 @@ irep.times <- function(it, times) {
     }
   }
 
-  iteror(nextOr_)
+  iteror.internal(nextOr_)
 }

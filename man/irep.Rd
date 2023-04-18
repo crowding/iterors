@@ -4,7 +4,7 @@
 \alias{irep}
 \title{Create a repeating iterator}
 \usage{
-irep(iterable, times = NULL, length.out = NULL, each = NULL)
+irep(iterable, times = NULL, length.out = NULL, each = NULL, ...)
 }
 \arguments{
 \item{iterable}{The iterable to iterate over repeatedly.}
@@ -19,6 +19,8 @@ iterator.}
 
 \item{each}{non-negative integer.  Each element of the iterable is repeated
 \code{each} times.}
+
+\item{...}{passed along to \code{iteror(iterable, ...)}}
 }
 \description{
 Create an iterator version of the \code{rep} function.

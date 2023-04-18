@@ -2,14 +2,19 @@
 % Please edit documentation in R/consume.r
 \name{consume}
 \alias{consume}
+\alias{consume.iteror}
 \title{Consumes the first n elements of an iterator}
 \usage{
-consume(obj, n = Inf)
+consume(obj, n = Inf, ...)
+
+\method{consume}{iteror}(obj, n = Inf, ...)
 }
 \arguments{
-\item{obj}{an iteror object}
+\item{obj}{an iterable object}
 
 \item{n}{The number of elements to consume.}
+
+\item{...}{passed along to \link{iteror} constructor.}
 }
 \value{
 \code{obj}, invisibly.
@@ -29,4 +34,7 @@ it2 <- iteror(letters)
 consume(it2, 4)
 # Returns 'e'
 nextOr(it2, NA)
+}
+\seealso{
+take collect
 }

@@ -4,13 +4,15 @@
 \alias{ipad}
 \title{Iterator that returns an object followed indefinitely by a fill value}
 \usage{
-ipad(object, fill = NA)
+ipad(object, fill = NA, ...)
 }
 \arguments{
 \item{object}{an iterable object}
 
 \item{fill}{the value to pad the indefinite iterator after the initial
 \code{object} is consumed. Default: \code{NA}}
+
+\item{...}{Passed along to \link{iteror} constructor.}
 }
 \value{
 iterator that returns \code{object} followed indefinitely by the

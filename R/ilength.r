@@ -5,26 +5,37 @@
 #'
 #' @param object an iterable object
 #' @return the number of elements in the iterator
+#' @param ... passed along to [iteror] constructor.
+#' @seealso take consume as.list.iteror
 #'
 #' @examples
-#' ilength(1:5) == length(1:5)
+#' count(1:5) == length(1:5)
 #'
 #' it <- iteror(1:5)
-#' ilength(it) == length(1:5)
+#' count(it) == length(1:5)
 #'
 #' it2 <- ichain(1:3, 4:5, 6)
-#' ilength(it2)
+#' count(it2)
 #'
 #' it3 <- ichain(1:3, levels(iris$Species))
-#' ilength(it3)
+#' count(it3)
 #'
 #' @export
-ilength <- function(object) {
-  it <- iteror(object)
+count <- function(object, ...) {
+  UseMethod("count")
+}
 
+#' @exportS3Method
+count.default <- function(object, ...) {
+  count.iteror(iteror(object, ...))
+}
+
+#' @exportS3Method
+count.iteror <- function(object, ...) {
+  (function()NULL)(...)
   i <- 0
   repeat{
-    it(or = break)
+    object(or = break)
     i <- i + 1
   }
   i

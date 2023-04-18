@@ -4,14 +4,16 @@
 \alias{nth}
 \title{Returns the nth item of an iteror}
 \usage{
-nth(it, n, or)
+nth(it, n, or, ...)
 }
 \arguments{
 \item{it}{an iterable.}
 
 \item{n}{The index of the desired element to return.}
 
-\item{or}{An argument to force and return if the iteror is consumed.}
+\item{or}{If the iteror finishes before retuning \code{n} elements, this argument will be forced and returned.}
+
+\item{...}{passed along to \link{iteror} constructor.}
 }
 \value{
 The nth element of the iteror or the result of forcing \code{or}.
@@ -39,4 +41,7 @@ it4 <- iteror(letters)
 # Returns default value of "foo"
 nth(it4, 42, or="foo")
 
+}
+\seealso{
+take consume collect
 }

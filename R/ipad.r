@@ -7,6 +7,7 @@
 #' @param object an iterable object
 #' @param fill the value to pad the indefinite iterator after the initial
 #' \code{object} is consumed. Default: \code{NA}
+#' @param ... Passed along to [iteror] constructor.
 #' @return iterator that returns \code{object} followed indefinitely by the
 #' \code{fill} value
 #' @examples
@@ -23,7 +24,7 @@
 #' it3_ipad <- ipad(it3, fill=TRUE)
 #' as.list(islice(it3_ipad, end=10)) # Same as as.list(c(1:9, TRUE))
 #'
-ipad <- function(object, fill=NA) {
-  it <- iteror(object)
+ipad <- function(object, fill=NA, ...) {
+  it <- iteror(object, ...)
   ichain(it, irepeat(fill))
 }

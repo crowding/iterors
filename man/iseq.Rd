@@ -2,6 +2,7 @@
 % Please edit documentation in R/iseq.r
 \name{iseq}
 \alias{iseq}
+\alias{iseq_along}
 \title{Iterators for sequence generation}
 \usage{
 iseq(
@@ -15,6 +16,8 @@ iseq(
   chunkSize,
   chunks
 )
+
+iseq_along(along_with, ...)
 }
 \arguments{
 \item{from}{the starting value of the sequence.}
@@ -57,4 +60,7 @@ from}.
 \examples{
 it <- iseq(from=2, to=5)
 unlist(as.list(it)) == 2:5
+}
+\seealso{
+icount icountn
 }

@@ -29,6 +29,7 @@
 #' @param iterable Iterable to iterate over.
 #' @param finished Function that returns a logical value.  The iterator stops
 #' when this function returns \code{FALSE}.
+#' @param ... Further arguments forwarded to `iteror`.
 #' @keywords utilities
 #' @details Originally from the `itertools` package.
 #' @examples
@@ -41,9 +42,9 @@
 #' length(as.list(ibreak(icount(), mkfinished(0.1))))
 #'
 #' @export ibreak
-ibreak <- function(iterable, finished) {
+ibreak <- function(iterable, finished, ...) {
   force(finished)
-  it <- iteror(iterable)
+  it <- iteror(iterable, ...)
   stopped <- FALSE
 
   nextOr_ <- function(or) {

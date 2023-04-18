@@ -27,6 +27,7 @@
 #'
 #' @param iterable Iterable to iterate over.
 #' @param n Maximum number of values to return.
+#' @param ... Extra arguments for `iteror(iterable, ...)`
 #' @keywords utilities
 #' @details Originally from the `itertools` package.
 #' @examples
@@ -35,8 +36,8 @@
 #' as.list(ilimit(icount(), 3))
 #'
 #' @export ilimit
-ilimit <- function(iterable, n) {
-  it <- iteror(iterable)
+ilimit <- function(iterable, n, ...) {
+  it <- iteror(iterable, ...)
   n <- as.integer(n)
 
   nextOr_ <- function(or) {

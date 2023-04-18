@@ -24,8 +24,9 @@
 #' finishes, then we repeat the same sequence of values.
 #'
 #' @details Originally from the `itertools` package.
-#' @param iterable The iterable to recycle. If it is given a bare function (this behavior is copied from `icycle`
+#' @param iterable The iterable to recycle.
 #' @param times integer.  Number of times to recycle the values in the
+#' @param ... Further arguments to be passed to 
 #' iterator.  Default value of \code{NA_integer_} means to recycle forever.
 #' @keywords utilities
 #' @examples
@@ -47,14 +48,14 @@
 #' as.list(it2)
 #'
 #' # Can return the results from a function.
-#' it3 <- irecycle(function() rnorm(1))
+#' it3 <- iteror(function() rnorm(1), count=Inf)
 #' nextOr(it, NA)
 #' nextOr(it, NA)
 #' nextOr(it, NA)
 #' nextOr(it, NA)
 #'
 #' @export irecycle
-irecycle <- function(iterable, times=NA_integer_) {
+irecycle <- function(iterable, times=NA_integer_, ...) {
   # Manually check for a missing argument since "inherits" issues
   # a cryptic error message in that case
   if (missing(iterable)) {
@@ -71,9 +72,9 @@ irecycle <- function(iterable, times=NA_integer_) {
       if (is.finite(times)) {
         n <- times
         return(iteror.internal(
-          function(or) if (n <= 0) or else {n <<- n - 1; iterable()}))
+          function(or) if (n <= 0) or else {n <<- n - 1; iterable(...)}))
       } else {
-        return(iteror.internal(function(or) iterable()))
+        return(iteror.internal(function(or) iterable(...)))
       }
     }
   }
@@ -81,19 +82,14 @@ irecycle <- function(iterable, times=NA_integer_) {
   times <- as.integer(times)
 
   if (is.na(times) || times > 1) {
-    if (! inherits(iterable, 'iter')) {
-      buffer <- iterable
-      buffer.iter <- iteror(buffer)
-    } else {
-      iterable.iter <- iteror(iterable)
-      bsize <- 256  # allocated size of buffer
-      bsize.max <- 2 ^ 31 - 1  # maximum allowable allocated size of buffer
-      buffer <- vector('list', length=bsize)
-      blen <- 0  # number of values currently in buffer
-      buffer.iter <- NULL  # will become an iterator over buffer
-    }
+    iterable.iter <- iteror(iterable, ...)
+    bsize <- 256  # allocated size of buffer
+    bsize.max <- 2 ^ 31 - 1  # maximum allowable allocated size of buffer
+    buffer <- vector('list', length=bsize)
+    blen <- 0  # number of values currently in buffer
+    buffer.iter <- NULL  # will become an iterator over buffer
   } else if (times > 0) {
-    iterable.iter <- iteror(iterable)
+    iterable.iter <- iteror(iterable, ...)
   }
 
   # This is used until the underlying iterator runs out

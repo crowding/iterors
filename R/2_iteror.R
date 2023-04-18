@@ -60,7 +60,7 @@
 #' `nextOr(it)`. Different `iteror` methods exist for different data
 #' types and may take different optional arguments as listed in this
 #' page.
-#' 
+#'
 #' When called, an iterator may either return a new value or stop. The
 #' way an iteror signals a stop is that it does whatever you write in
 #' the argument `or`. For instance you can write `or=break` to exit a
@@ -167,7 +167,7 @@ iteror.iter <- function(obj, ...) {
 #'   give `NA` or `Inf` to never stop.
 #'
 #' @examples
-#' 
+#'
 #' # an iterator that counts from start to stop
 #' irange <- function(from=1, to=Inf) {
 #'   current <- from

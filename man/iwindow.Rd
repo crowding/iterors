@@ -4,7 +4,7 @@
 \alias{iwindow}
 \title{Construct a sliding window over an iterator}
 \usage{
-iwindow(obj, n, tail)
+iwindow(obj, n, tail, ...)
 }
 \arguments{
 \item{obj}{An iterable.}
@@ -13,6 +13,8 @@ iwindow(obj, n, tail)
 
 \item{tail}{If a value is given, tails will be included at
 the beginning and end of iteration, filled with the given value.}
+
+\item{...}{passed along to \code{iteror(object, ...)}}
 }
 \value{
 an iteror.

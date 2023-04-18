@@ -31,8 +31,9 @@
 #'
 #'
 #' @aliases irecord ireplay
-#' @param con A file path or open connection.
 #' @param iterable The iterable to record to the file.
+#' @param con A file path or open connection.
+#' @param ... passed along to `iteror(iterable, ...)`
 #' @keywords utilities
 #' @details Originally from the `itertools` package.
 #' @examples
@@ -41,11 +42,11 @@
 #'
 #' m1 <- matrix(rnorm(70), 7, 10)
 #' f1 <- tempfile()
-#' irecord(f1, iteror(m1, by='row', chunkSize=3))
+#' irecord(iteror(m1, by='row', chunkSize=3), f1)
 #'
 #' m2 <- matrix(1:50, 10, 5)
 #' f2 <- tempfile()
-#' irecord(f2, iteror(m2, by='column', chunkSize=3))
+#' irecord(iteror(m2, by='column', chunkSize=3), f2)
 #'
 #' # Perform a simple out-of-core matrix multiply
 #' p <- foreach(col=ireplay(f2), .combine='cbind') %:%
@@ -59,12 +60,12 @@
 #' unlink(c(f1, f2))
 #'
 #' @export irecord ireplay
-irecord <- function(con, iterable) {
+irecord <- function(iterable, con, ...) {
+  it <- iteror(iterable, ...)
   if (is.character(con)) {
     con <- file(con, 'wb')
     on.exit(close(con))
   }
-  it <- iteror(iterable)
   repeat {
     serialize(it(or = break), con)
   }

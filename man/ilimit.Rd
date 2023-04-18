@@ -4,12 +4,14 @@
 \alias{ilimit}
 \title{Create a limited iterator}
 \usage{
-ilimit(iterable, n)
+ilimit(iterable, n, ...)
 }
 \arguments{
 \item{iterable}{Iterable to iterate over.}
 
 \item{n}{Maximum number of values to return.}
+
+\item{...}{Extra arguments for \code{iteror(iterable, ...)}}
 }
 \description{
 Create an iterator that wraps a specified iterable a limited number of

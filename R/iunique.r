@@ -13,6 +13,7 @@
 #' @param digest Optionally specify a custom hash function
 #'   (e.g. `digest::digest`, `rlang::hash`). It should be a function
 #'   returning a character value.
+#' @param ... Extra arguments are forwarded to [iteror].
 #' @return an iterator that returns only the unique elements from
 #'   \code{object}
 #' @seealso idedupe
@@ -28,8 +29,8 @@
 #' it_unique <- iunique(x)
 #' as.list(it_unique) # 1 2 3 4 5
 #' @importFrom rlang hash
-iunique <- function(object, digest=rlang::hash) {
-  object <- iteror(object)
+iunique <- function(object, digest=rlang::hash, ...) {
+  object <- iteror(object, ...)
   unique_elems <- new.env()
   i <- 1
 
@@ -46,7 +47,7 @@ iunique <- function(object, digest=rlang::hash) {
     }
   }
 
-  iteror(nextOr_)
+  iteror.internal(nextOr_)
 }
 
 #' Drop duplicated items from an iterator.
@@ -58,6 +59,7 @@ iunique <- function(object, digest=rlang::hash) {
 #' @export
 #' @param object an iterable object
 #' @param cmp A function to use for comparison.
+#' @param ... passed along to `iteror(object, ...)`
 #' @return an iterator that skips over duplicate items from teh
 #'   unterlying iterator.
 #' @details Originated as `itertools2::iunique_lastseen`.
@@ -66,15 +68,15 @@ iunique <- function(object, digest=rlang::hash) {
 #'
 #' @examples
 #' it <- ichain(rep(1,4), rep(2, 5), 4:7, 2)
-#' it_iunique <- idedupe(it)
+#' it_iunique <- idedup(it)
 #' as.list(it_iunique) # 1 2 4 5 6 7 2
 #'
 #' it2 <- iteror(c('a', 'a', "A", 'a', 'a', "V"))
-#' idedupe <- idedupe(it2)
-#' as.list(idedupe) # a A a V
+#' idedupe <- idedup(it2)
+#' as.list(idedup) # a A a V
 #'
-idedupe <- function(object, cmp=identical) {
-  object <- iteror(object)
+idedup <- function(object, cmp=identical, ...) {
+  object <- iteror(object, ...)
   prev_elem <- NULL
   first_seen <- FALSE
 
@@ -90,7 +92,7 @@ idedupe <- function(object, cmp=identical) {
     }
   }
 
-  iteror(nextOr_)
+  iteror.internal(nextOr_)
 }
 
 #' Run-length encoding iterator.
@@ -111,8 +113,8 @@ idedupe <- function(object, cmp=identical) {
 #' @examples
 #' it <- isample(c(TRUE, FALSE), 1, replace=TRUE)
 #' rle <- irle(it)
-#' take(rle, 10)
-#' take(irle_inverse(rle), 10)
+#' x <- take(rle, 10)
+#' as.logical(irleinv(x))
 #' @export irle
 irle <- function(obj, cmp=identical, ...) {
   obj <- iteror(obj, ...)
@@ -144,9 +146,9 @@ irle <- function(obj, cmp=identical, ...) {
 }
 
 #' @rdname irle
-#' @return `irle_inverse` recreates the original data from the output of `irle`.
+#' @return `irleinv` recreates the original data from the output of `irle`.
 #' @export
-irle_inverse <- function(obj, ...) {
+irleinv <- function(obj, ...) {
   obj <- iteror(obj, ...)
   count <- 0
   val <- NULL

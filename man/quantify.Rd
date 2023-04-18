@@ -4,10 +4,12 @@
 \alias{quantify}
 \title{Count the number of times an iterable object is TRUE}
 \usage{
-quantify(object)
+quantify(object, ...)
 }
 \arguments{
 \item{object}{an iterable object}
+
+\item{...}{further arguments passed to \link{iteror}.}
 }
 \value{
 the number of \code{TRUE} elements

@@ -7,6 +7,7 @@
 #' @param n The width of the window to apply
 #' @param tail If a value is given, tails will be included at
 #' the beginning and end of iteration, filled with the given value.
+#' @param ... passed along to `iteror(object, ...)`
 #' @return an iteror.
 #' @author Peter Meilstrup
 #' @export
@@ -40,16 +41,16 @@
 #' nextOr(it) # list("b", "c", "d")
 #' nextOr(it) # list("c", "d", " ")
 #' nextOr(it) # list("d", " ", " ")
-iwindow <- function(obj, n, tail) {
+iwindow <- function(obj, n, tail, ...) {
   if (n==2 && missing(tail)) {
-    return(ipairwise(obj))
+    return(ipairwise(obj, ...))
   } else if (n==3 && missing(tail)) {
-    return(itripletwise(obj))
+    return(itripletwise(obj, ...))
   }
   hasTail <- !missing(tail)
   list(obj, n)
   dq <- deque()
-  obj <- iteror(obj)
+  obj <- iteror(obj, ...)
 
   stage <- "start"
   nn <- 0
@@ -96,8 +97,8 @@ iwindow <- function(obj, n, tail) {
 }
 
 
-itripletwise <- function(obj) {
-  obj <- iteror(obj)
+itripletwise <- function(obj, ...) {
+  obj <- iteror(obj, ...)
   init <- FALSE
   last_1 <- NULL
   last_2 <- NULL
@@ -117,8 +118,8 @@ itripletwise <- function(obj) {
 }
 
 
-ipairwise <- function(obj) {
-  obj <- iteror(obj)
+ipairwise <- function(obj, ...) {
+  obj <- iteror(obj, ...)
   init <- FALSE
   last <- NULL
 

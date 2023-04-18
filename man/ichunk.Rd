@@ -4,7 +4,7 @@
 \alias{ichunk}
 \title{Create a chunking iterator}
 \usage{
-ichunk(iterable, size, mode = "list", fill)
+ichunk(iterable, size, mode = "list", fill, ...)
 }
 \arguments{
 \item{iterable}{Iterable to iterate over.}
@@ -16,6 +16,8 @@ in each value issued by the resulting iterator.}
 
 \item{fill}{Value to use to pad the last chunk to size, if it is
 short. If missing, no padding will be done.}
+
+\item{...}{Further arguments will be forwarded to \code{iteror(iterable, ...)}.}
 }
 \description{
 Create an iterator that issues lists of values from the underlying iterable.

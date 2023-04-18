@@ -3,9 +3,11 @@
 #' Advances the iterator n-steps ahead without returning anything.
 #'
 #' @export
-#' @param obj an iteror object
+#' @param obj an iterable object
 #' @param n The number of elements to consume.
+#' @param ... passed along to [iteror] constructor.
 #' @return `obj`, invisibly.
+#' @seealso take collect
 #'
 #' @examples
 #' it <- iteror(1:10)
@@ -19,17 +21,24 @@
 #' consume(it2, 4)
 #' # Returns 'e'
 #' nextOr(it2, NA)
-consume <- function(obj, n=Inf) {
-  obj <- iteror(obj)
+consume <- function(obj, n=Inf, ...) UseMethod("consume")
+
+#' @exportS3Method
+#' @rdname consume
+consume.iteror <- function(obj, n=Inf, ...) {
+  obj <- iteror(obj, ...)
 
   if (n <= 0 | !is.numeric(n) | length(n) != 1) {
     stop("n must be a non-negative integer of length 1")
   }
 
-  i <- 0L
-  while (i < n) {
+  if (is.finite(n)) {
+    while (n > 0) {
+      obj(or=break)
+      n <- n - 1
+    }
+  } else repeat {
     obj(or=break)
-    i <- i + 1
   }
   invisible(obj)
 }
@@ -44,8 +53,10 @@ consume <- function(obj, n=Inf) {
 #' @export
 #' @param it an iterable.
 #' @param n The index of the desired element to return.
-#' @param or An argument to force and return if the iteror is consumed.
+#' @param or If the iteror finishes before retuning `n` elements, this argument will be forced and returned.
+#' @param ... passed along to [iteror] constructor.
 #' @return The nth element of the iteror or the result of forcing `or`.
+#' @seealso take consume collect
 #'
 #' @examples
 #' it <- iteror(1:10)
@@ -64,16 +75,18 @@ consume <- function(obj, n=Inf) {
 #' # Returns default value of "foo"
 #' nth(it4, 42, or="foo")
 #'
-nth <- function(it, n, or) {
-  it <- iteror(it)
+nth <- function(it, n, or, ...) {
+  it <- iteror(it, ...)
 
   if (n <= 0 | !is.numeric(n) | length(n) != 1) {
     stop("n must be a positive integer of length 1")
   }
 
   n <- as.integer(n)
-  i <- 0
-  for (i in seq_len(n))
-    last <- it(or=return(or))
+  last <- NULL
+  while (n > 0) {
+    last <- it(return(or))
+    n <- n - 1
+  }
   last
 }

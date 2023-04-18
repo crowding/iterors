@@ -11,6 +11,7 @@
 #' @param predicate a function that determines whether an element is
 #'   \code{TRUE} or \code{FALSE}. The function is assumed to take only
 #'   one argument.
+#' @param ... passed along to [iteror] constructor.
 #' @details Originally called 'ifilter' from package
 #'   `itertools`. Renamed because the order of arguments has changed
 #'   to put the iterable in the first argument, the better to be used
@@ -25,9 +26,9 @@
 #' it <- ikeep(1:10, is_even)
 #' as.list(it)
 #'
-#' # Similar idea here but anonymous function is used to filter out even
+#' # Similar idea here but anonymous function is used to retain only odd
 #' # numbers
-#' it2 <- ikeep(1:10, function(x) x %% 2 == 1)
+#' it2 <- idrop(1:10, function(x) x %% 2 == 0)
 #' nextOr(it2, NA) # 1
 #' nextOr(it2, NA) # 3
 #' nextOr(it2, NA) # 5
@@ -55,7 +56,7 @@ ikeep <- function(iterable, predicate, ...) {
     }
   }
 
-  iteror(nextOr_)
+  iteror.internal(nextOr_)
 }
 
 #' `idrop(iterable, predicate)` constructs an iterator that filters
@@ -74,7 +75,7 @@ ikeep <- function(iterable, predicate, ...) {
 #'
 #' # Similar idea here but anonymous function is used to filter out odd
 #' # numbers
-#' it2 <- ikeep(1:10, function(x) x %% 2 == 1)
+#' it2 <- idrop(1:10, function(x) x %% 2 == 1)
 #' as.list(it2)
 #'
 #' is_vowel <- function(x) {
@@ -105,5 +106,5 @@ idrop <- function(iterable, predicate, ...) {
     }
   }
 
-  iteror(nextOr_)
+  iteror.internal(nextOr_)
 }

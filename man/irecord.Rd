@@ -5,12 +5,14 @@
 \alias{ireplay}
 \title{Record and replay iterators}
 \usage{
-irecord(con, iterable)
+irecord(iterable, con, ...)
 }
 \arguments{
+\item{iterable}{The iterable to record to the file.}
+
 \item{con}{A file path or open connection.}
 
-\item{iterable}{The iterable to record to the file.}
+\item{...}{passed along to \code{iteror(iterable, ...)}}
 }
 \description{
 The \code{irecord} function records the values issued by a specified
@@ -30,11 +32,11 @@ suppressMessages(library(foreach))
 
 m1 <- matrix(rnorm(70), 7, 10)
 f1 <- tempfile()
-irecord(f1, iteror(m1, by='row', chunkSize=3))
+irecord(iteror(m1, by='row', chunkSize=3), f1)
 
 m2 <- matrix(1:50, 10, 5)
 f2 <- tempfile()
-irecord(f2, iteror(m2, by='column', chunkSize=3))
+irecord(iteror(m2, by='column', chunkSize=3), f2)
 
 # Perform a simple out-of-core matrix multiply
 p <- foreach(col=ireplay(f2), .combine='cbind') \%:\%

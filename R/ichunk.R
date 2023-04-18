@@ -31,6 +31,7 @@
 #' @param mode Mode of the objects returned by the iterator.
 #' @param fill Value to use to pad the last chunk to size, if it is
 #'   short. If missing, no padding will be done.
+#' @param ... Further arguments will be forwarded to `iteror(iterable, ...)`.
 #' @seealso \code{iteror.default}
 #' @keywords utilities
 #'
@@ -59,10 +60,10 @@
 #' nextOr(it2, NA)
 #'
 #' @export ichunk
-ichunk <- function(iterable, size, mode='list', fill) {
+ichunk <- function(iterable, size, mode='list', fill, ...) {
   force(iterable)
   force(size)
-  it <- iteror(iterable)
+  it <- iteror(iterable, ...)
   doFill <- !missing(fill)
   sendAt <- 0
 

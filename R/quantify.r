@@ -5,6 +5,7 @@
 #'
 #' @export
 #' @param object an iterable object
+#' @param ... further arguments passed to [iteror].
 #' @return the number of \code{TRUE} elements
 #'
 #' @seealso reduce
@@ -17,10 +18,10 @@
 #' x <- sample(c(TRUE, FALSE), size=10, replace=TRUE)
 #' quantify(x) # Equivalent to sum(x)
 #'
-quantify <- function(object) {
-  it <- iteror(object)
+quantify <- function(object, ...) {
+  it <- iteror(object, ...)
   i <- 0
-  repeat{
+  repeat {
     next_elem <- it(or = break)
     if (next_elem) {
       i <- i + 1

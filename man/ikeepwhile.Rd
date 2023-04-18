@@ -4,13 +4,15 @@
 \alias{ikeepwhile}
 \title{Iterator that returns elements while a predicate function returns TRUE}
 \usage{
-ikeepwhile(object, predicate)
+ikeepwhile(object, predicate, ...)
 }
 \arguments{
 \item{object}{an iterable object}
 
 \item{predicate}{a function that determines whether an element is \code{TRUE}
 or \code{FALSE}. The function is assumed to take only one argument.}
+
+\item{...}{passed along to \code{iteror(object, ...)}}
 }
 \value{
 iterator object

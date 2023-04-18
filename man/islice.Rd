@@ -4,7 +4,7 @@
 \alias{islice}
 \title{Iteror that returns selected elements from an iterable.}
 \usage{
-islice(object, start = 1, end = NULL, step = 1)
+islice(object, start = 1, end = NULL, step = 1, ...)
 }
 \arguments{
 \item{object}{iterable object through which this function iterates}
@@ -14,6 +14,8 @@ islice(object, start = 1, end = NULL, step = 1)
 \item{end}{the index of the last element to return from \code{object}}
 
 \item{step}{the step size of the sequence}
+
+\item{...}{passed along to \code{iteror(object, ...)}}
 }
 \value{
 iteror that returns \code{object} in sequence

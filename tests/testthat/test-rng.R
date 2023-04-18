@@ -36,3 +36,23 @@ test_that("RNG streams are independent", {
   expect_true(identical(matrix(result, 3, 5), answer))
 
 })
+
+test_that("converting seeds", {
+  if (exists('.Random.seed', where=.GlobalEnv, inherits=FALSE))
+    rm('.Random.seed', pos=.GlobalEnv)
+
+  st <- iRNGStream(42069)
+  expect_equal(nextOr(st),
+               c(10407L, 1962334501L,
+                 1957360453L, 182261958L,
+                 1552366930L,  -1175365792L,
+                 -1765451585L))
+
+  expect_false(exists(".Random.seed", envir=.GlobalEnv))
+})
+
+test_that("substream", {
+  sst <- iRNGSubStream(42069)
+  nextOr(sst)
+  isample(c(0, 1), 100)
+})

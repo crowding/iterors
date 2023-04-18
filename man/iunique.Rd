@@ -4,7 +4,7 @@
 \alias{iunique}
 \title{Iterator that extracts the unique elements from an iterable object}
 \usage{
-iunique(object, digest = rlang::hash)
+iunique(object, digest = rlang::hash, ...)
 }
 \arguments{
 \item{object}{an iterable object}
@@ -12,6 +12,8 @@ iunique(object, digest = rlang::hash)
 \item{digest}{Optionally specify a custom hash function
 (e.g. \code{digest::digest}, \code{rlang::hash}). It should be a function
 returning a character value.}
+
+\item{...}{Extra arguments are forwarded to \link{iteror}.}
 }
 \value{
 an iterator that returns only the unique elements from

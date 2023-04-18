@@ -48,5 +48,5 @@ imap <- function(f, ...) {
     do.call(f, wrap(elem))
   }
 
-  iteror(nextOr_)
+  iteror.internal(nextOr_)
 }

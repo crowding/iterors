@@ -28,12 +28,11 @@ New features:
     `iteror.data.frame`, `iteror.default` and `ienumerate.array`
     all have shared logic; all accept options `chunks`, `chunksize`
     and `recycle` with equivalent behavior.
-  * Meanwhile `checkFunc` arguments have been removed; instead use `ikeep()`.
   * `icount` and `icountn` preserve dimnames.
   * Multidimensional iterators `icountn`, `igrid`, `ienumerate.array` and
     `iteror.array` have option `rowMajor` to control the order of iteration.
   * `iunique` uses a hash table rather than linear scan, for much improved
-    performance; it also works with any type of R object.
+    performance; it also now works with any type of R object.
   * Random number iterators like `irunif`, `isample` and friends
     accept option `independent`; if TRUE, the iterator will maintain a
     private seed value, so that interleaving with other iterators does
@@ -46,10 +45,12 @@ New features:
 
 If you are coming from iterators/itertools/itertools2, all
 functionality should be preserved, but some may be under different
-names. Here's a translation guide:
+names. Here's a short transition guide:
 
+  * `checkFunc` arguments have been removed; instead use `ikeep()`.
   * `iterators::iapply(array, margin)` -> `iteror(array, by=margin)`
   * `iterators::recycle` -> `irecycle`
+  * `iterators::isplit(obj, ...)` -> `iteror(split(obj, ...))`
   * `itertools::ifilter(pred, iterable)` -> `ikeep(iterable, pred)`
   * `itertools::ifilterfalse(pred, iterable)` -> `idrop(iterable, pred)`
   * `itertools::isplitCols(obj, ...)` -> `iteror.array(obj, by="column", ...)`
@@ -57,13 +58,14 @@ names. Here's a translation guide:
   * `itertools::isplitRows(obj, ...)` -> `iteror.array(obj, by="row", ...)`
   * `itertools::isplitVector(n, )` -> `iteror.default(n, ...)`
   * `itertools::product` -> `igrid`
-  * `itertools::recycle` -> `irecycle`
-  * `itertools::timeout(secs)` -> itimeout(secs)
+  * `itertools::recycle(iter)` -> `irecycle(iter)`
+  * `itertools::recycle(function() {...}, times=N)` -> iteror(function() {...}, count=  * `itertools::timeout(secs)` -> itimeout(secs)
   * `itertools2::icount(start=1, step=3, stop=15)` -> `iseq(from=1, to=15, by=3)`
   * `itertools2::icycle` -> `irecycle`
   * `itertools2::idropwhile(pred, iterable)` -> `idropwhile(iterable, pred)`
   * `itertools2::ifilter(pred, iterable)` -> `ikeep(iterable, pred)`
   * `itertools2::ifilterfalse(pred, iterable)` -> `idrop(iterable, pred)`
+  * `itertools2::ilength` <- `count(obj)`
   * `itertools2::imap(f, it)` -> `iapply(it, f)`
                                  or `imap(f, it1, it2, ...)` (multiple iterables)
   * `itertools2::ipairwise(it)` -> `iwindow(it, 2)`

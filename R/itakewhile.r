@@ -7,6 +7,7 @@
 #' @param object an iterable object
 #' @param predicate a function that determines whether an element is \code{TRUE}
 #' or \code{FALSE}. The function is assumed to take only one argument.
+#' @param ... passed along to `iteror(object, ...)`
 #' @return iterator object
 #'
 #' @examples
@@ -20,8 +21,8 @@
 #' # Same approach but uses an anonymous function
 #' it2 <- ikeepwhile(seq(2, 100, by=2), function(x) x <= 10)
 #' unlist(as.list(it2)) == c(2, 4, 6, 8, 10)
-ikeepwhile <- function(object, predicate) {
-  iter_obj <- iteror(object)
+ikeepwhile <- function(object, predicate, ...) {
+  iter_obj <- iteror(object, ...)
 
   stop_iterating <- FALSE
   nextOr_ <- function(or) {

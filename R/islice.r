@@ -19,6 +19,7 @@
 #' @param start the index of the first element to return from \code{object}
 #' @param end the index of the last element to return from \code{object}
 #' @param step the step size of the sequence
+#' @param ... passed along to `iteror(object, ...)`
 #' @return iteror that returns \code{object} in sequence
 #' @details Originally from package `itertools2`.
 #'
@@ -34,10 +35,10 @@
 #'
 #' it3 <- islice(1:10, start=2, end=9, step=2)
 #' unlist(as.list(it3)) == c(2, 4, 6, 8)
-islice <- function(object, start=1, end=NULL, step=1) {
+islice <- function(object, start=1, end=NULL, step=1, ...) {
   start <- as.integer(start)
   step <- as.integer(step)
-  object <- iteror(object)
+  object <- iteror(object, ...)
 
   if (length(start) != 1 || start < 1) {
     stop("'start' must be positive integer of length 1")

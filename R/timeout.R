@@ -28,6 +28,7 @@
 #'
 #' @param iterable Iterable to iterate over.
 #' @param time The time interval to iterate for, in seconds.
+#' @param ... passed along to `iteror(iterable, ...)`
 #' @keywords utilities
 #' @details Originally from the `itertools` package.
 #' @examples
@@ -36,9 +37,9 @@
 #' length(as.list(itimeout(icount(), 0.1)))
 #'
 #' @export itimeout
-itimeout <- function(iterable, time) {
+itimeout <- function(iterable, time, ...) {
   force(time)
-  it <- iteror(iterable)
+  it <- iteror(iterable, ...)
   starttime <- proc.time()[3]
 
   nextOr_ <- function(or) {

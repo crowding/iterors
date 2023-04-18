@@ -16,7 +16,7 @@ test_that("irle", {
   result %is% target
 
   inv_target <- lapply(1:10, \(x) rep(x, x)) |> c(recursive = TRUE)
-  inv_result <- as.numeric(irle_inverse(result))
+  inv_result <- as.numeric(irleinv(result))
 
   inv_result %is% inv_target
 

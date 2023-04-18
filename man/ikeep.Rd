@@ -17,6 +17,8 @@ idrop(iterable, predicate, ...)
 \item{predicate}{a function that determines whether an element is
 \code{TRUE} or \code{FALSE}. The function is assumed to take only
 one argument.}
+
+\item{...}{passed along to \link{iteror} constructor.}
 }
 \value{
 iterator object
@@ -40,9 +42,9 @@ is_even <- function(x) {
 it <- ikeep(1:10, is_even)
 as.list(it)
 
-# Similar idea here but anonymous function is used to filter out even
+# Similar idea here but anonymous function is used to retain only odd
 # numbers
-it2 <- ikeep(1:10, function(x) x \%\% 2 == 1)
+it2 <- idrop(1:10, function(x) x \%\% 2 == 0)
 nextOr(it2, NA) # 1
 nextOr(it2, NA) # 3
 nextOr(it2, NA) # 5
@@ -63,7 +65,7 @@ as.list(it)
 
 # Similar idea here but anonymous function is used to filter out odd
 # numbers
-it2 <- ikeep(1:10, function(x) x \%\% 2 == 1)
+it2 <- idrop(1:10, function(x) x \%\% 2 == 1)
 as.list(it2)
 
 is_vowel <- function(x) {

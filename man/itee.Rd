@@ -4,7 +4,7 @@
 \alias{itee}
 \title{Create multiple iterators from one source}
 \usage{
-itee(obj, n, max = 2^16 - 1)
+itee(obj, n, max = 2^16 - 1, ...)
 }
 \arguments{
 \item{obj}{an iterable object}
@@ -12,6 +12,8 @@ itee(obj, n, max = 2^16 - 1)
 \item{n}{the number of iterators to return}
 
 \item{max}{The maximum number of values to buffer.}
+
+\item{...}{passed along to \code{iteror(obj, ...)}}
 }
 \value{
 a list of \code{n} iterators.

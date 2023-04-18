@@ -4,12 +4,14 @@
 \alias{itimeout}
 \title{Create a timeout iterator}
 \usage{
-itimeout(iterable, time)
+itimeout(iterable, time, ...)
 }
 \arguments{
 \item{iterable}{Iterable to iterate over.}
 
 \item{time}{The time interval to iterate for, in seconds.}
+
+\item{...}{passed along to \code{iteror(iterable, ...)}}
 }
 \description{
 Create an iterator that iterates over another iterator for a specified
