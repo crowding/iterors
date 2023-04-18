@@ -60,17 +60,21 @@ finishes, then we repeat the same sequence of values.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">irecycle</span><span class="op">(</span><span class="va">iterable</span>, times <span class="op">=</span> <span class="cn">NA_integer_</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">irecycle</span><span class="op">(</span><span class="va">iterable</span>, times <span class="op">=</span> <span class="cn">NA_integer_</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>iterable</dt>
-<dd><p>The iterable to recycle. If it is given a bare function (this behavior is copied from <code>icycle</code></p></dd>
+<dd><p>The iterable to recycle.</p></dd>
 
 
 <dt>times</dt>
-<dd><p>integer.  Number of times to recycle the values in the
+<dd><p>integer.  Number of times to recycle the values in the</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Further arguments to be passed to
 iterator.  Default value of <code>NA_integer_</code> means to recycle forever.</p></dd>
 
 </dl></div>
@@ -125,7 +129,7 @@ iterator.  Default value of <code>NA_integer_</code> means to recycle forever.</
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Can return the results from a function.</span></span></span>
-<span class="r-in"><span><span class="va">it3</span> <span class="op">&lt;-</span> <span class="fu">irecycle</span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">it3</span> <span class="op">&lt;-</span> <span class="fu"><a href="iteror.html">iteror</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, count<span class="op">=</span><span class="cn">Inf</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-in"><span><span class="fu"><a href="nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="cn">NA</span><span class="op">)</span></span></span>

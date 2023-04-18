@@ -54,7 +54,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">irep</span><span class="op">(</span><span class="va">iterable</span>, times <span class="op">=</span> <span class="cn">NULL</span>, length.out <span class="op">=</span> <span class="cn">NULL</span>, each <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">irep</span><span class="op">(</span><span class="va">iterable</span>, times <span class="op">=</span> <span class="cn">NULL</span>, length.out <span class="op">=</span> <span class="cn">NULL</span>, each <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -78,6 +78,10 @@ iterator.</p></dd>
 <dt>each</dt>
 <dd><p>non-negative integer.  Each element of the iterable is repeated
 <code>each</code> times.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>passed along to <code>iteror(iterable, ...)</code></p></dd>
 
 </dl></div>
     <div class="section level2">

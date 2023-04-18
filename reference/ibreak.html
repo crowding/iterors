@@ -60,7 +60,7 @@ foreach loop, for example.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ibreak</span><span class="op">(</span><span class="va">iterable</span>, <span class="va">finished</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ibreak</span><span class="op">(</span><span class="va">iterable</span>, <span class="va">finished</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -72,6 +72,10 @@ foreach loop, for example.</p>
 <dt>finished</dt>
 <dd><p>Function that returns a logical value.  The iterator stops
 when this function returns <code>FALSE</code>.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Further arguments forwarded to <code>iteror</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -88,7 +92,7 @@ when this function returns <code>FALSE</code>.</p></dd>
 <span class="r-in"><span>  <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">&gt;</span> <span class="va">starttime</span> <span class="op">+</span> <span class="va">time</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">ibreak</span><span class="op">(</span><span class="fu"><a href="icount.html">icount</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu">mkfinished</span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 15139</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 11247</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

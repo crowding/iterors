@@ -59,9 +59,19 @@
 
       <dl><dt>
           
+          <code><a href="collect.html">collect()</a></code> <code><a href="collect.html">as.list(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="collect.html">as.double(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="collect.html">as.numeric(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="collect.html">as.logical(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="collect.html">as.character(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="collect.html">as.vector(<i>&lt;iteror&gt;</i>)</a></code> 
+        </dt>
+        <dd>Collect all values from an iterable object</dd>
+      </dl><dl><dt>
+          
           <code><a href="consume.html">consume()</a></code> 
         </dt>
         <dd>Consumes the first n elements of an iterator</dd>
+      </dl><dl><dt>
+          
+          <code><a href="count.html">count()</a></code> 
+        </dt>
+        <dd>Consumes an iterator and computes its length</dd>
       </dl><dl><dt>
           
           <code><a href="dotproduct.html">dotproduct()</a></code> 
@@ -119,7 +129,7 @@
         <dd>Counting Iterators</dd>
       </dl><dl><dt>
           
-          <code><a href="idedupe.html">idedupe()</a></code> 
+          <code><a href="idedup.html">idedup()</a></code> 
         </dt>
         <dd>Drop duplicated items from an iterator.</dd>
       </dl><dl><dt>
@@ -152,11 +162,6 @@
           <code><a href="ikeepwhile.html">ikeepwhile()</a></code> 
         </dt>
         <dd>Iterator that returns elements while a predicate function returns TRUE</dd>
-      </dl><dl><dt>
-          
-          <code><a href="ilength.html">ilength()</a></code> 
-        </dt>
-        <dd>Consumes an iterator and computes its length</dd>
       </dl><dl><dt>
           
           <code><a href="ilimit.html">ilimit()</a></code> 
@@ -224,7 +229,7 @@
         <dd>Create a repeating iterator</dd>
       </dl><dl><dt>
           
-          <code><a href="irle.html">irle()</a></code> <code><a href="irle.html">irle_inverse()</a></code> 
+          <code><a href="irle.html">irle()</a></code> <code><a href="irle.html">irleinv()</a></code> 
         </dt>
         <dd>Run-length encoding iterator.</dd>
       </dl><dl><dt>
@@ -239,7 +244,7 @@
         <dd><code>is.iteror</code> indicates if an object is an iteror.</dd>
       </dl><dl><dt>
           
-          <code><a href="iseq.html">iseq()</a></code> 
+          <code><a href="iseq.html">iseq()</a></code> <code><a href="iseq.html">iseq_along()</a></code> 
         </dt>
         <dd>Iterators for sequence generation</dd>
       </dl><dl><dt>
@@ -247,11 +252,6 @@
           <code><a href="islice.html">islice()</a></code> 
         </dt>
         <dd>Iteror that returns selected elements from an iterable.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="isplit.html">isplit()</a></code> 
-        </dt>
-        <dd>Split Iterator</dd>
       </dl><dl><dt>
           
           <code><a href="istarmap.html">istarmap()</a></code> <code><a href="istarmap.html">istar()</a></code> 
@@ -294,14 +294,9 @@
         <dd>Construct a sliding window over an iterator</dd>
       </dl><dl><dt>
           
-          <code><a href="izip.html">izip()</a></code> 
+          <code><a href="izip.html">izip()</a></code> <code><a href="izip.html">izip_longest()</a></code> 
         </dt>
-        <dd>Create an iterator over multiple iterables</dd>
-      </dl><dl><dt>
-          
-          <code><a href="izip_longest.html">izip_longest()</a></code> 
-        </dt>
-        <dd>Iterator that iterates through several iterables concurrently.</dd>
+        <dd>Combine several iterables in parallel.</dd>
       </dl><dl><dt>
           
           <code><a href="makeIwrapper.html">makeIwrapper()</a></code> 

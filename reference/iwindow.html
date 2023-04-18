@@ -60,7 +60,7 @@ forward by one element each iteration.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">iwindow</span><span class="op">(</span><span class="va">obj</span>, <span class="va">n</span>, <span class="va">tail</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">iwindow</span><span class="op">(</span><span class="va">obj</span>, <span class="va">n</span>, <span class="va">tail</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -76,6 +76,10 @@ forward by one element each iteration.</p>
 <dt>tail</dt>
 <dd><p>If a value is given, tails will be included at
 the beginning and end of iteration, filled with the given value.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>passed along to <code>iteror(object, ...)</code></p></dd>
 
 </dl></div>
     <div class="section level2">

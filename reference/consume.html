@@ -54,17 +54,24 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">consume</span><span class="op">(</span><span class="va">obj</span>, n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">consume</span><span class="op">(</span><span class="va">obj</span>, n <span class="op">=</span> <span class="cn">Inf</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for iteror</span></span>
+<span><span class="fu">consume</span><span class="op">(</span><span class="va">obj</span>, n <span class="op">=</span> <span class="cn">Inf</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>obj</dt>
-<dd><p>an iteror object</p></dd>
+<dd><p>an iterable object</p></dd>
 
 
 <dt>n</dt>
 <dd><p>The number of elements to consume.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>passed along to <a href="iteror.html">iteror</a> constructor.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -72,6 +79,10 @@
     
 
 <p><code>obj</code>, invisibly.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>take collect</p></div>
     </div>
 
     <div class="section level2">

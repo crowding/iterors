@@ -67,15 +67,27 @@
 <div class="page-header"><h1 id="iterors">iterors<a class="anchor" aria-label="anchor" href="#iterors"></a>
 </h1></div>
 <p><!-- badges: start --> <a href="https://app.codecov.io/gh/crowding/iterors?branch=master" class="external-link"><img src="https://codecov.io/gh/crowding/iterors/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://github.com/crowding/iterors/actions/workflows/check_full.yaml" class="external-link"><img src="https://github.com/crowding/iterors/actions/workflows/check_full.yaml/badge.svg" alt="check_full"></a> <a href="https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <!-- badges: end --></p>
-<p>A fresh take on iterators in R. Designed to be cross-compatible with the <code>iterators</code> package, but using the <code>nextOr</code> method will offer better performance and more compact code. With batteries included: includes a collection of iterator constructors and combinators ported and harmonized from the <code>iterators</code>, <code>itertools</code>, and <code>itertools2</code> packages, as well as several new functions.</p>
+<p>A fresh take on iterators in R.</p>
+<div class="section level2">
+<h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
+</h2>
+<ul>
+<li>Main method <code>nextOr(iter, or)</code> allows shorter and simpler code.</li>
+<li>
+<code>iteror</code> objects are backward- and forward-compatible with existing code using <code>iterators</code> (such as the <code>foreach</code> package.)</li>
+<li>Optimized performance, with several times less overhead per item.</li>
+<li>Comes with a complete collection of iterator functions, ported and curated from packages <code>iterators</code>, <code>itertools</code>, and <code>itertools2</code>, and harmonized with uniform options</li>
+</ul>
+</div>
 <div class="section level2">
 <h2 id="how-is-it-different-from-iterators">How is it different from <code>iterators</code>?<a class="anchor" aria-label="anchor" href="#how-is-it-different-from-iterators"></a>
 </h2>
-<p><code>iterors</code> uses the method <code>nextOr(it, or)</code> to retrieve the next element. The lazily evaluated second argument specifies a sigil value <em>or</em> an action to take at the end of iteration. By contrast, <code>iterators</code> method <code>nextElem</code> takes only one argument and signals end of iteration by throwing an exception.</p>
+<p><code>iterors</code> uses the method <code>nextOr(it, or)</code> to retrieve the next element. The second argument <code>or</code> is lazily evaluated; it can specify a return value <em>or</em> an action to take at the end of iteration. In particular, <code>or</code> can be a normal control flow construct like <code><a href="https://rdrr.io/r/base/Control.html" class="external-link">break</a></code> or <code><a href="https://rdrr.io/r/base/Control.html" class="external-link">next</a></code> or <code>return</code>.</p>
 <p>For example, this is how you can compute a sum over an iteror <code>it</code>:</p>
 <pre class="{r}"><code><span><span class="va">total</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
-<span><span class="kw">repeat</span> <span class="va">total</span> <span class="op">&lt;-</span> <span class="va">total</span> <span class="op">+</span> <span class="fu"><a href="reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="kw">break</span><span class="op">)</span></span></code></pre>
-<p>By contrast, this is how you did this with <code>iterators</code>:</p>
+<span><span class="kw">repeat</span> </span>
+<span>  <span class="va">total</span> <span class="op">&lt;-</span> <span class="va">total</span> <span class="op">+</span> <span class="fu"><a href="reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="kw">break</span><span class="op">)</span></span></code></pre>
+<p>To contrast with the existing <code>iterators</code> package: In that package <code>nextElem</code> signals end of iteration by throwing an exception. Computing a sum over an iterator looked like this:</p>
 <pre class="{r}"><code><span><span class="va">total</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span></span>
 <span>  <span class="kw">repeat</span> <span class="va">total</span> <span class="op">&lt;-</span> <span class="va">total</span> <span class="op">+</span> <span class="fu">nextElem</span><span class="op">(</span><span class="va">it</span><span class="op">)</span>,</span>
@@ -83,18 +95,16 @@
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">conditionMessage</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"StopIteration"</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">)</span></span></code></pre>
-<p>Besides requiring less boilerplate, iterors also perform faster, particularly when using higher-order iterator functions (which used to require setting up and tearing down a tryCatch for every iteration.)</p>
-<p>A third benefit is that because <code>iterors</code> does not force you to use exceptions for flow control, debugging code using <code>iterors</code> is easier, as your stack traces are no longer swallowed by <code>tryCatch</code>.</p>
+<p>Besides requiring less boilerplate, iterator code written using <code>nextOr</code> also performs faster, particularly when using higher-order iterator functions. This is because <code>tryCatch</code> is a relatively expensive operation in R, especially when used once per item. It is also not possible to use <code><a href="https://rdrr.io/r/base/Control.html" class="external-link">break</a></code> or <code><a href="https://rdrr.io/r/base/Control.html" class="external-link">next</a></code> to break an outer loop from inside a <code>tryCatch</code> handler.</p>
+<p>The [benchmarking][] vignette illustrates that iterator computations using <code>iterors</code> can execute several times faster than using predecessors.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>For the time being, run the following after installing <a href="https://github.com/hadley/devtools" class="external-link">devtools</a>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'crowding/iterors'</span><span class="op">)</span></span></code></pre></div>
+<p><code>{R, eval=FALSE} devtools::install_github('crowding/iterors')</code></p>
 <p>When the package is released, you will be able to install the stable version from <a href="htxtp://cran.r-project.org/package=iterors">CRAN</a>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'iteror'</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><code>{R, eval=FALSE} install.packages('iteror', dependencies=TRUE)</code></p>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>

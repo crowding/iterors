@@ -48,7 +48,7 @@ entire iterator is consumed."><!-- mathjax --><script src="https://cdnjs.cloudfl
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Return the first n elements of an iterable object as a list</h1>
-      <small class="dont-index">Source: <a href="https://github.com/crowding/iterors/blob/HEAD/R/take.r" class="external-link"><code>R/take.r</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/crowding/iterors/blob/HEAD/R/icollect.R" class="external-link"><code>R/icollect.R</code></a></small>
       <div class="d-none name"><code>take.Rd</code></div>
     </div>
 
@@ -60,7 +60,7 @@ entire iterator is consumed.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">take</span><span class="op">(</span><span class="va">obj</span>, n <span class="op">=</span> <span class="fl">1</span>, mode <span class="op">=</span> <span class="st">"list"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">take</span><span class="op">(</span><span class="va">obj</span>, n <span class="op">=</span> <span class="fl">1</span>, mode <span class="op">=</span> <span class="st">"list"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -76,6 +76,10 @@ entire iterator is consumed.</p>
 <dt>mode</dt>
 <dd><p>What mode to use for the output vector.</p></dd>
 
+
+<dt>...</dt>
+<dd><p>passed along to <a href="iteror.html">iteror</a> constructor.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -88,9 +92,9 @@ entire iterator is consumed.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>A function <code>take</code> appeared in package <code>itertools2</code>.
-It is essentially similar to <code>as.vector.iteror(obj, mode=mode)</code> but limits
-the number of elements taken.</p>
+    <p>A function <code>take</code> first appeared in package <code>itertools2</code>.
+It is basically an alias for <a href="collect.html">collect</a> but defaults to taking
+one element.</p>
     </div>
 
     <div class="section level2">

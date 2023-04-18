@@ -72,17 +72,21 @@ memory.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">irecord</span><span class="op">(</span><span class="va">con</span>, <span class="va">iterable</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">irecord</span><span class="op">(</span><span class="va">iterable</span>, <span class="va">con</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>con</dt>
+    <dl><dt>iterable</dt>
+<dd><p>The iterable to record to the file.</p></dd>
+
+
+<dt>con</dt>
 <dd><p>A file path or open connection.</p></dd>
 
 
-<dt>iterable</dt>
-<dd><p>The iterable to record to the file.</p></dd>
+<dt>...</dt>
+<dd><p>passed along to <code>iteror(iterable, ...)</code></p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -97,11 +101,11 @@ memory.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">70</span><span class="op">)</span>, <span class="fl">7</span>, <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">f1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">irecord</span><span class="op">(</span><span class="va">f1</span>, <span class="fu"><a href="iteror.html">iteror</a></span><span class="op">(</span><span class="va">m1</span>, by<span class="op">=</span><span class="st">'row'</span>, chunkSize<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">irecord</span><span class="op">(</span><span class="fu"><a href="iteror.html">iteror</a></span><span class="op">(</span><span class="va">m1</span>, by<span class="op">=</span><span class="st">'row'</span>, chunkSize<span class="op">=</span><span class="fl">3</span><span class="op">)</span>, <span class="va">f1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">10</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">irecord</span><span class="op">(</span><span class="va">f2</span>, <span class="fu"><a href="iteror.html">iteror</a></span><span class="op">(</span><span class="va">m2</span>, by<span class="op">=</span><span class="st">'column'</span>, chunkSize<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">irecord</span><span class="op">(</span><span class="fu"><a href="iteror.html">iteror</a></span><span class="op">(</span><span class="va">m2</span>, by<span class="op">=</span><span class="st">'column'</span>, chunkSize<span class="op">=</span><span class="fl">3</span><span class="op">)</span>, <span class="va">f2</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Perform a simple out-of-core matrix multiply</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></span><span class="op">(</span>col<span class="op">=</span><span class="fu">ireplay</span><span class="op">(</span><span class="va">f2</span><span class="op">)</span>, .combine<span class="op">=</span><span class="st">'cbind'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">%:%</a></span></span></span>
