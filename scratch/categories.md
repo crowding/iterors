@@ -2,52 +2,18 @@
   -- If you want to create a file, visit that file with C-x C-f,
   -- then enter the text in that file’s own buffer. -->
 
-# Index of `iteror` functions
+# Index of `iteror` functions by theme
 
-## methods
+## Basic methods
 `hasNext`
 `is.iteror`
 `nextOr`
 `ihasNext`
 
-## Iterate over data held in memory
-`iteror.array`
-`iteror.default`
-`iteror.data.frame`
-`ienum`
-`ienumerate`
-`irepeat` # not to be confused with i_rep!
-
-## Counting or mathematically defined iterators
-`icombinations`
-`icount`
-`icountn`
-`idiv`
-`igrid`
-`ipermutations`
-`iseq`
-`iseq_along`
-
-## Random number generation
-`irnbinom`
-`irnorm`
-`irpois`
-`irunif`
-`isample`
-`irbinom`
-`iRNGStream`
-`iRNGSubStream`
-
-## Iterator constructors based on files/functions
-`iteror.function`
-`itabulate`
-`ireplay`
-`iread.table`
-`ireadBin`
-`ireadLines`
-`ireaddf`
-
 ## Consuming / summarizing an iteror
+
+###TODO: these should be s3 generic if they are not already.
+
 `as.vector` (`as.numeric`, `as.character`, ...)
 `as.numeric`
 `as.character`
@@ -63,36 +29,97 @@
 `dotproduct`
 `reduce`
 
+By convention, in this package functions that _construct_ an iterator have names beginning with "`i`".
+
+## Counting; mathematically defined iterators
+
+`icombinations`
+`icount`
+`icountn`
+`idiv`
+`igrid`
+`ipermutations`
+`iseq`
+`iseq_along`
+
+## Iterate over data in memory
+
+`iteror.array`
+`iteror.default`
+`iteror.data.frame`
+`ienum`
+`ienumerate` # !
+`irepeat` # not to be confused with i_rep!
+
+## Random number generation
+`irnbinom`
+`irnorm`
+`irpois`
+`irunif`
+`isample`
+`irbinom`
+`iRNGStream`
+`iRNGSubStream`
+
+## Iterators based on files/functions
+
+`itabulate` (???)
+`ireplay`
+`iread.table`
+`ireadBin`
+`ireadLines`
+`ireaddf`
+
+## Create an iterator with custom logic
+
+`iteror.function`
+
 ## Higher order iteror functions (construct iterators in terms of other iterors)
+
+By convention in this package, functions that transform iterors begin with `i_` with an underscore.
+
+### Operating on data
+
 `i_dotproduct`
 `i_accum`
 `i_apply`
+`i_enumerate` (iemuerate.iteror...)
+`i_map`
+`i_reduce`
+`i_star`
+`i_starmap`
+
+
+### Selection/filtering/limiting
+
+`i_keep`
+`i_keepwhile`
+`i_limit`
 `i_break`
-`i_chain`
-`i_chunk`
-`i_collapse`
 `i_compress`
 `i_dedupe`
 `i_drop`
 `i_dropwhile`
-`i_enumerate` (iemuerate.iteror...)
-`i_keep`
-`i_keepwhile`
-`i_limit`
-`i_map`
-`i_pad`
-`i_recycle`
-`i_reduce`
+`i_unique`
+`i_timeout`
+
+### Sequencing (selecting, repeating)
+
 `i_rep` (not to be confused with irepeat!)
 `i_rle`
 `i_rleinv`
-`i_roundrobin`
 `i_slice`
-`i_star`
-`i_starmap`
-`i_tee`
-`i_timeout`
-`i_unique`
+`i_pad`
+`i_recycle`
 `i_window`
+
+### Splitting and combining
+
+`i_chain`
+`i_collapse`
+`i_chunk`
+`i_tee`
 `i_zip`
 `i_zip_longest`
+`i_roundrobin`
+

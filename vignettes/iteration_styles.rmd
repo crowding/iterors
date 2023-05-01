@@ -1,0 +1,108 @@
+---
+title: "A Musical Introduction to Generators"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{A Musical Introduction to Generators}
+  %\VignetteEncoding{UTF-8}
+---
+
+\section{Adding a \texttt{hasNext} method to an iterator}
+
+At times it would be nice to write a loop that explicitly gets the
+values of an iterator.  Previously, this was an awkward experience
+with the `iterators` package, requiring boilerplate code to catch some
+exceptions and re-throw others. In the `iterators` packas you would write:
+
+<<consuming_iter_catch>>=
+x <- icount(10)
+tryCatch({
+  repeat
+  print(nextElem(x))
+}, error=function(err) {
+  if (conditionMessage="err") invisible() else stop(x)
+})
+@
+
+Sometimes it is useful to query whether there is a next element to an
+iterator, without necessarily extracting that element. One way to do
+that would be to define a new S3 method called \texttt{hasNext}.
+Here's the definition of a \texttt{hasNext} generic function:
+
+<<generichasnext>>=
+hasNext <- function(obj, ...) {
+  UseMethod('hasNext')
+}
+@
+
+We also need to define \texttt{hasNext} method for a iterator class
+that we'll call \texttt{ihasNextOr}:
+
+<<hasnextmethod>>=
+hasNext.ihasNextOr <- function(obj, ...) {
+  obj$hasNext()
+}
+@
+
+As you can see, an \texttt{ihasNextOr} object must be a list with a
+\texttt{hasNext} element that is a function.  That's the same technique that
+the \texttt{abstractiter} class uses to implement the \texttt{nextOr} method.
+
+Now we'll define a function, called \texttt{ihasNextOr}, that takes an
+arbitrary iterator and returns an \texttt{ihasNextOr} iterator that
+wraps the specified iterator.  That allows us to turn any iterator into
+an \texttt{ihasNextOr} iterator, thus providing it with a \texttt{hasNext}
+method:\footnote{Thanks to Hadley Wickham for contributing this
+function, which I only hacked up a little.  You can also find this
+function, along with \texttt{hasNext} and \texttt{hasNext.ihasNextOr} in
+the examples directory of the iterators packages.}
+
+<<ihasnext>>=
+ihasNext <- function(iter, ...) {
+  noValue <- new.env()
+  endIter <- new.env()
+  last <- noValue
+  nextOr_ <- function(or, ...) {
+    if (identical(last, noValue))
+      last <<- nextOr(iter, endIter)
+    if (identical(last, endIter))
+      or
+    else {
+      tmp <- last
+      last <<- noValue
+      tmp
+    }
+  }
+
+  hasNext_ <- function() {
+    if (identical(last, noValue))
+      last <<- nextOr(iter, endIter)
+    !identical(last, endIter)
+  }
+
+  it <- iteror(nextOr_)
+  it$hasNext <- hasNext_
+  structure(it, class=c("ihasNextOr", class(it)))
+}
+@
+
+When the \texttt{hasNext} method is called, it calls the
+\texttt{nextOr} method on the underlying iterator, and the resulting
+value is saved.  That value is then passed to the user when
+\texttt{nextOr} is called.  Of course, it also does the right thing if
+you don't call \texttt{hasNext}, or if you call it multiple times before
+calling \texttt{nextOr}.
+
+The `hasNext` method was introduced in `itertools` to improve the
+experience of iteration.
+
+So now we can easily create an \texttt{icount} iterator, and get its values
+in a while loop, without having to do any messy error handling:
+<<hasnextexample>>=
+it <- ihasNext(icount(3))
+while (hasNext(it)) {
+  print(nextOr(it))
+}
+@
+
+This

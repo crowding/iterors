@@ -1,6 +1,7 @@
 `%is%` <- expect_equal
 
-test_that("ireduce", {
+test_that("reduce", {
+
   it <- icount(5)
   sum(it) %is% 15 # sum(1:5)
 
@@ -14,7 +15,7 @@ test_that("ireduce", {
   prod(it, na.rm=TRUE) %is% 120
 
   it <- icount(5)
-  ireduce(it, paste0, "") %is% "12345"
+  reduce(it, paste0, "") %is% "12345"
 
   it <- icount(5)
   as.character(iaccum(it, paste0, "")) %is%

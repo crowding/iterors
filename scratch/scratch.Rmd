@@ -1,0 +1,12 @@
+For instance compare the performance of iterating over an `iterator::iter` versus an [iteror].
+
+```{R}
+bench <- microbenchmark::microbenchmark(
+  as.list(gen(for (i in iterators::iter(1:1000)) yield(i))),
+  as.list(gen(for (i in iteror(1:1000)) yield(i))),
+  times=10
+)
+summary(bench)[, c("expr", "median")]
+```
+
+Part of the difference comes from the fact that `gen` must use a `tryCatch` for each time to calls `nextElem` on an `iterator`. Whereas calling `nextOr` on an `iteror` does not involve many calls to `tryCatch`.

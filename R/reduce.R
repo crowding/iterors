@@ -28,7 +28,13 @@
 #' it <- icount(5)
 #' total <- 1
 #' repeat total <- total * nextOr(it, break)
-ireduce <- function(obj, fun=`+`, init=0, ...) {
+#'
+reduce <- function(obj, fun=`+`, init=0, ...) UseMethod("reduce")
+
+#' @rdname reduce
+#' @export
+#' @exportS3Method
+reduce.iteror <- function(obj, fun=`+`, init=0, ...) {
   obj <- iteror(obj)
   rgs <- formals(args(fun))
   if (!is.function(fun)
@@ -47,7 +53,7 @@ ireduce <- function(obj, fun=`+`, init=0, ...) {
 #' `iaccum(obj)` returns the iterator containing
 #' each intermediate result. The default settings
 #' produce a cumulative sum.
-#' @rdname ireduce
+#' @rdname reduce
 #' @examples
 #' # triangular numbers: 1, 1+2, 1+2+3, ...
 #' take(iaccum(icount()), 10, 'numeric')
@@ -70,23 +76,25 @@ iaccum <- function(obj, fun=`+`, init=0, ...) {
   iteror.internal(nextOr_)
 }
 
+#' @export
 #' @exportS3Method
-#' @rdname ireduce
+#' @rdname reduce
 sum.iteror <- function(..., na.rm=FALSE) {
   it <- ichain(...)
   if (na.rm) {
     it <- idrop(it, is.na)
   }
-  ireduce(it)
+  reduce(it)
 }
 
 #' @exportS3Method
-#' @rdname ireduce
+#' @export
+#' @rdname reduce
 #' @param na.rm Whether to drop NA values when computing sum or prod.
 prod.iteror <- function(..., na.rm=FALSE) {
   it <- ichain(...)
   if (na.rm) {
     it <- idrop(it, is.na)
   }
-  ireduce(it, `*`, 1)
+  reduce(it, `*`, 1)
 }

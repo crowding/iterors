@@ -57,7 +57,7 @@ makeIwrapper <- function(FUN) {
       .(as.pairlist(c(formals(FUN),
                       alist(count=Inf,
                             independent=FALSE,
-                            seed=rng.state$stream())))),
+                            seed=rng.state$stream())))), # see iterors-package.R
       {
         list(..(lapply(names(formals(FUN)), as.name)))
         if (independent) {
@@ -71,13 +71,18 @@ makeIwrapper <- function(FUN) {
           next_ <- function(or) {
             if (count > 0) {
               count <<- count - 1L
-
-              oldSeed <- get(".Random.seed", envir=.GlobalEnv)
+              if (exists('.Random.seed', where=.GlobalEnv, inherits=FALSE)) {
+                doRm <- FALSE
+                oldSeed <- get(".Random.seed", envir=.GlobalEnv)
+              } else doRm <- TRUE
               oldKind <- RNGkind("L'Ecuyer-CMRG")[1]
               assign('.Random.seed', seed, envir=.GlobalEnv)
               on.exit({
                 RNGkind(oldKind)
-                assign('.Random.seed', oldSeed, envir=.GlobalEnv)
+                if (doRm)
+                  rm('.Random.seed', pos=.GlobalEnv)
+                else
+                  assign('.Random.seed', oldSeed, envir=.GlobalEnv)
               })
               val <- .(substitute(FUN))(
                 ..(structure(lapply(names(formals(FUN)), as.name),
