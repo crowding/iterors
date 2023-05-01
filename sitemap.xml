@@ -16,6 +16,9 @@
     <loc>https://crowding.github.io/iterors/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://crowding.github.io/iterors/articles/iteration_styles.html</loc>
+  </url>
+  <url>
     <loc>https://crowding.github.io/iterors/authors.html</loc>
   </url>
   <url>
@@ -118,9 +121,6 @@
     <loc>https://crowding.github.io/iterors/reference/irecycle.html</loc>
   </url>
   <url>
-    <loc>https://crowding.github.io/iterors/reference/ireduce.html</loc>
-  </url>
-  <url>
     <loc>https://crowding.github.io/iterors/reference/irep.html</loc>
   </url>
   <url>
@@ -179,6 +179,9 @@
   </url>
   <url>
     <loc>https://crowding.github.io/iterors/reference/quantify.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/reduce.html</loc>
   </url>
   <url>
     <loc>https://crowding.github.io/iterors/reference/rng.html</loc>
