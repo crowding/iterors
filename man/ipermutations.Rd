@@ -2,7 +2,7 @@
 % Please edit documentation in R/ipermutations.R
 \name{ipermutations}
 \alias{ipermutations}
-\title{Iterator that generates all permutations of an iterable object.}
+\title{Iterator that generates all permutations of a vector.}
 \usage{
 ipermutations(object, m = NULL)
 }

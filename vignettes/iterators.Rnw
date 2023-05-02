@@ -59,7 +59,7 @@
 \renewcommand{\footrulewidth}{1pt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{Using The {\tt iterators} Package}
+\title{Using The {\tt iterors} Package}
 \author{Rich Calaway}
 
 
@@ -144,7 +144,7 @@ http://www.revolutionanalytics.com
 \section{Some Special Iterators}
 
 The notion of an iterator is new to R, but should be familiar to users of
-languages such as Python. The \texttt{iterators} package includes a number of
+languages such as Python. The \texttt{iterors} package includes a number of
 special functions that generate iterators for some common scenarios. For
 example, the
 \texttt{irnorm} function creates an iterator for which each value is drawn
@@ -174,5 +174,9 @@ nextOr(it)
 nextOr(it)
 nextOr(it)
 @
+
+\section{An Index of Iterors}
+
+
 
 \end{document}

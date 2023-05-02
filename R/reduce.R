@@ -1,8 +1,8 @@
 #' Compute the sum, product, or general reduction of an iterator.
 #'
-#' `ireduce(obj, fun)` applies a 2-argument function `fun` between
+#' `reduce(obj, fun)` applies a 2-argument function `fun` between
 #' successive elements of obj. For example if `fun` is `+`,
-#' `ireduce(it, `+`, init=0)` computes `0 + nextElem(it) +
+#' `reduce(it, `+`, init=0)` computes `0 + nextElem(it) +
 #' nextElem(it) + nextElem(it) + ...` until the iterator finishes,
 #' and returns the final value.
 #'
@@ -16,13 +16,13 @@
 #'
 #' @examples
 #' it <- icount(5)
-#' total <- ireduce(it, `+`) # sum(1:5)
+#' total <- reduce(it, `+`) # sum(1:5)
 #'
 #' it <- icount(5)
-#' ireduce(it, paste0, "") # "12345"
+#' reduce(it, paste0, "") # "12345"
 #'
 #' it <- icount(5)
-#' prod <- ireduce(it, `*`, init=1) # prod(1:5)
+#' prod <- reduce(it, `*`, init=1) # prod(1:5)
 #'
 #' # the above is equivalent to:
 #' it <- icount(5)

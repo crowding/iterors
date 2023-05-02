@@ -108,7 +108,16 @@ ienumerate.array <- count_template(
     indexer <- arrayIndexer(dim, rowMajor=rowMajor)
   ),
   preamble_chunk=alist(
-    indexer <- arrayIndexer(dim, rowMajor=rowMajor, chunk=TRUE)
+    indexer <- arrayIndexer(dim, rowMajor=rowMajor, chunk=TRUE),
+    # before permutation, if the input array has dim 7, 8, 9,
+    # going by dim 2,
+    # and we have a chnk size of 5,
+    # then our "out" has dim 7, 1, 9, 5,
+    # and we want to permute it to 7, 5, 9.
+    nd <- length(dim(obj)) + 1,
+    perm <- seq_len(nd),
+    perm[by[1]] <- nd,
+    perm[nd] <- by[1]
   ),
   output = function(ix)
     substitute({
@@ -123,20 +132,11 @@ ienumerate.array <- count_template(
       dim.out[by] <- 1
       out <- array(obj[c()], c(prod(dim.out), size))
       dim.out <- c(dim.out, size)
-      for (i in seq_len(size)) {
+      for (i in seq_len(size)) {  ## XXX: fix perf issue here, + think about block matrix iteration.
         args[by+1] <- ixes[i,]
         out[,i] <- do.call("[", args)
       }
       dim(out) <- dim.out
-      # at this point, if the input array has dim 7, 8, 9,
-      # going by dim 2,
-      # and we have a chnk size of 5,
-      # then our "out" has dim 7, 1, 9, 5,
-      # and we want to permute it to 7, 5, 9.
-      nd <- length(dim(obj)) + 1
-      perm <- seq_len(nd)
-      perm[by[1]] <- nd
-      perm[nd] <- by[1]
       out <- aperm(out, perm)
       dim(out) <- dim(out)[-nd]
       list(index=ixes, value=out)

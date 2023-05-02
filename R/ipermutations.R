@@ -1,4 +1,4 @@
-#' Iterator that generates all permutations of an iterable object.
+#' Iterator that generates all permutations of a vector.
 #'
 #' Constructs an iterator generates all permutations of an iterable object. By
 #' default, full-length permutations are generated. If \code{m} is specified,

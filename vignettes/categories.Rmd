@@ -1,0 +1,116 @@
+# Index of `iteror` functions by theme
+
+## Basic methods
+`is.iteror` -- Check whether a function has class 'iteror'
+`nextOr` -- Obtain the next element from an iteror.
+`iteror` -- Generic function to convert an object into an iteror
+
+## Consuming / summarizing an iteror
+
+###TODO: these should be s3 generic if they are not already.
+
+`as.character`, `as.numeric`, `as.logical`, `as.list` -- Collect all an iterator's values into the named type of vector.
+`as.vector` -- Specify the type of vector as an argument.
+`nextOr` -- Take the next element from an iterator.
+`take` -- Take some number of elements and return a vector.
+`consume` -- Take all or some of an iteror's elements and discard them.
+`count` -- Compute all elements, discard them and return their count.
+`record` -- Write an iterator's elements to a file.
+`nth` -- Compute and discard the first $n-1$ elements and return the $n$th.
+`quantify` -- Consume an iteror and return how many elements were TRUE.
+`dotproduct` -- Sum of products of corresponding elements of two iterors.
+`reduce` -- Combine all of iterator's values using a binary function, returning the final value.
+`sum.iteror` -- `reduce` using `+`.
+`prod.iteror` -- `reduce` using `*`.
+
+## Iterate over given data
+
+By convention, in this package functions that _construct_ an iterator have names beginning with "`i`".
+
+Many of these functions also have options for chunking and repeating the contents.
+
+`iteror.array` -- Iterate over an array along given dimensions
+`iteror.default` -- Iterate over a vector from first to last index.
+`iteror.data.frame` -- Iterate over rows or columns of a data frame.
+`ienum`, `ienumerate` -- return the elements of an iterable alongside it  index.
+`irepeat` -- Return one value over and over again.
+
+## Counting or other mathematically defined processes
+
+Many of these functions also accept options for chunking and repeating their contents.
+
+`icombinations` -- Enumerate all combinations of $m$ elements of the given vector, with or without replacement.
+`icount` -- Produce an integer series starting with 1.
+`icountn` -- Count along multiple indices in row-major or col-major order.
+`idiv` -- Return $n$ integers that add up to a given total.
+`igrid` -- Produce a sequence over the Cartesian product of the given vectors.
+`ipermutations` -- A sequence containing all permutations of a given vector.
+`iseq` -- Generate arithmetic sequences with customizable step size and origin.
+`iseq_along` -- Counting sequence parallel to a given vector.
+
+## Random number generation
+
+Random number iterators can be made reproducible by specifying `independent=TRUE` and specifying a seed.
+
+`irnbinom`, `irnorm`, `irpois`, `irunif`, `isample`, `irbinom` -- Draw samples from the given distribution.
+`iRNGStream`, `iRNGSubStream` -- Create a sequence of seed values so as to make parallel, decorrelated random streams.
+
+
+## Iterators dealing with files/functions
+
+`itabulate` (???)
+`ireplay` -- reads back values from a data file created with `record`
+`iread.table` -- Reads row-wise from delimited text files.
+`ireadBin` -- Read chunks from binary file connections.
+`ireaddouble` -- Read numbers from binary connections.
+`ireadLines` -- Read lines from text connections.
+`ireaddf` -- Read rows from several files in parallel (one per column)
+`record` -- Write values from an iterator to a file. `ireplay`
+
+## Custom iterations
+
+`iteror.function` -- Create an iteror with custom behavior.
+
+## Higher order iteror functions
+
+By convention in this package, functions that transform iterors -- creating a new iteror based on one or more underlying ones -- begin with `i_` with an underscore.
+
+### Operating on data within iterators.
+
+`i_accum` -- Apply a 2-argument function between an iteror's elements, and return a sequence of partial totals.
+`i_apply` -- Apply a given function to each element.
+`i_enumerate` -- Return a list along with each element.
+`i_star`, `i_starmap`, `i_map`  -- Apply a multiple-argument function to multiple parallel iterators.
+
+### Selection, filtering, limiting based on data
+
+`i_keep` -- Keep only elements for which an applied criterion function returns `TRUE`.
+`i_keepwhile` -- Keep elements only until an applied criterion returns `FALSE`.
+`i_limit` -- Keep only the first $n$ elements from the given iteror.
+`i_break` -- Return elements only while the given (no-argument) function evaluates to TRUE.
+`i_mask` -- Return elements for which a parallel iterator is TRUE.
+`i_dedupe` -- Discard elements that are identical the immediately preceding element.
+`i_drop` -- Discard elements for which a criterion function returns TRUE.
+`i_dropwhile` -- Discard elements from an iterator until the criterion function evaluates FALSE.
+`i_unique` -- Return only unique elements of an iterator using a hash table.
+`i_timeout` -- Return elements only until the timeout is reached.
+
+### Manipulating iterators like sequences (selecting, repeating)
+
+`i_rep` -- Repeat each element of an iterable a given number of times.
+`i_rle` -- Compress runs of identical adjacent elements, returning one value and a run length.
+`i_rleinv` -- Inverse transform of `i_rle`.
+`i_slice` -- Return elements based on a starting point ans stride
+`i_pad` -- After a given iterator ends, return the padding value
+`i_recycle` -- Record the values emitted by the underlying iterator and replay them
+`[i_window]` -- Return adjacent elements from the underlying iteror in a sliding window, advancing the window by one step.
+
+### Splitting and combining
+
+`i_chain` -- Take all values
+`i_collapse` -- Take all values from the list of
+`i_chunk` -- collect $n$ adjacent
+`i_tee` -- Split an iterator so that teh same values are
+`i_zip` -- Combine corresponding elments of parallel iterators into a list.
+`i_zip_longest` -- `izip` but pad any iterators that end early.
+`i_roundrobin` -- Return one element at a time from each of a series of iterors in rotation.

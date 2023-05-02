@@ -33,20 +33,20 @@ iaccum(obj, fun = `+`, init = 0, ...)
 The result of accumulation.
 }
 \description{
-\code{ireduce(obj, fun)} applies a 2-argument function \code{fun} between
+\code{reduce(obj, fun)} applies a 2-argument function \code{fun} between
 successive elements of obj. For example if \code{fun} is \code{+},
-\verb{ireduce(it, }+\verb{, init=0)} computes \code{0 + nextElem(it) + nextElem(it) + nextElem(it) + ...} until the iterator finishes,
+\verb{reduce(it, }+\verb{, init=0)} computes \code{0 + nextElem(it) + nextElem(it) + nextElem(it) + ...} until the iterator finishes,
 and returns the final value.
 }
 \examples{
 it <- icount(5)
-total <- ireduce(it, `+`) # sum(1:5)
+total <- reduce(it, `+`) # sum(1:5)
 
 it <- icount(5)
-ireduce(it, paste0, "") # "12345"
+reduce(it, paste0, "") # "12345"
 
 it <- icount(5)
-prod <- ireduce(it, `*`, init=1) # prod(1:5)
+prod <- reduce(it, `*`, init=1) # prod(1:5)
 
 # the above is equivalent to:
 it <- icount(5)
