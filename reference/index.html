@@ -24,7 +24,8 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
+    <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
+    <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference of iterors to. iteror function</a>
     <a class="dropdown-item" href="../articles/iteration_styles.html">A Musical Introduction to Generators</a>
   </div>
 </li>
@@ -60,9 +61,15 @@
 
       <dl><dt>
           
-          <code><a href="collect.html">collect()</a></code> <code><a href="collect.html">as.list(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="collect.html">as.double(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="collect.html">as.numeric(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="collect.html">as.logical(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="collect.html">as.character(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="collect.html">as.vector(<i>&lt;iteror&gt;</i>)</a></code> 
+          <code><a href="as.vector.iteror.html">as.list(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="as.vector.iteror.html">as.double(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="as.vector.iteror.html">as.numeric(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="as.vector.iteror.html">as.logical(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="as.vector.iteror.html">as.character(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="as.vector.iteror.html">as.vector(<i>&lt;iteror&gt;</i>)</a></code> 
         </dt>
-        <dd>Collect all values from an iterable object</dd>
+        <dd>Collect all (or some given number of) values from an iteror,
+returning a vector of the given type.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="concat.html">concat()</a></code> 
+        </dt>
+        <dd>Concatenate contents of multiple iterators into a vector.</dd>
       </dl><dl><dt>
           
           <code><a href="consume.html">consume()</a></code> 
@@ -95,17 +102,12 @@
         <dd>Apply a function to each element of an iterator.</dd>
       </dl><dl><dt>
           
-          <code><a href="iarray.html">iarray()</a></code> 
-        </dt>
-        <dd>Create nested iterators over an array.</dd>
-      </dl><dl><dt>
-          
           <code><a href="ibreak.html">ibreak()</a></code> 
         </dt>
         <dd>Create an iterator that can be told to stop</dd>
       </dl><dl><dt>
           
-          <code><a href="ichain.html">ichain()</a></code> <code><a href="ichain.html">icollapse()</a></code> 
+          <code><a href="ichain.html">icollapse()</a></code> <code><a href="ichain.html">ichain()</a></code> 
         </dt>
         <dd>Iteror that chains multiple arguments together into a single iterator</dd>
       </dl><dl><dt>
@@ -182,7 +184,7 @@
           
           <code><a href="ipermutations.html">ipermutations()</a></code> 
         </dt>
-        <dd>Iterator that generates all permutations of an iterable object.</dd>
+        <dd>Iterator that generates all permutations of a vector.</dd>
       </dl><dl><dt>
           
           <code><a href="iread.table.html">iread.table()</a></code> 
@@ -203,11 +205,6 @@
           <code><a href="ireaddf.html">ireaddf()</a></code> 
         </dt>
         <dd>Create an iterator to read data frames from files</dd>
-      </dl><dl><dt>
-          
-          <code><a href="irecord.html">irecord()</a></code> 
-        </dt>
-        <dd>Record and replay iterators</dd>
       </dl><dl><dt>
           
           <code><a href="irecycle.html">irecycle()</a></code> 
@@ -310,9 +307,20 @@
         <dd>Returns the nth item of an iteror</dd>
       </dl><dl><dt>
           
+          <code><a href="py_iteror.html">py_iteror()</a></code> 
+        </dt>
+        <dd>Wrap an iteror to use with Python code. Requires the
+<code>reticulate</code> package.</dd>
+      </dl><dl><dt>
+          
           <code><a href="quantify.html">quantify()</a></code> 
         </dt>
         <dd>Count the number of times an iterable object is TRUE</dd>
+      </dl><dl><dt>
+          
+          <code><a href="record.html">record()</a></code> 
+        </dt>
+        <dd>Record and replay iterators</dd>
       </dl><dl><dt>
           
           <code><a href="reduce.html">reduce()</a></code> <code><a href="reduce.html">iaccum()</a></code> <code><a href="reduce.html">sum(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="reduce.html">prod(<i>&lt;iteror&gt;</i>)</a></code> 
@@ -327,7 +335,7 @@
           
           <code><a href="take.html">take()</a></code> 
         </dt>
-        <dd>Return the first n elements of an iterable object as a list</dd>
+        <dd>Return the first n elements of an iterable object in a vector.</dd>
       </dl></div>
   </main></div>
 

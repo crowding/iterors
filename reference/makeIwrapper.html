@@ -30,7 +30,8 @@ irnorm &amp;lt;- makeIwrapper(rnorm)."><!-- mathjax --><script src="https://cdnj
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
+    <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
+    <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference of iterors to. iteror function</a>
     <a class="dropdown-item" href="../articles/iteration_styles.html">A Musical Introduction to Generators</a>
   </div>
 </li>
@@ -102,11 +103,11 @@ iterator constructoe (as are <code>irnorm</code>, <code>irunif</code>, etc.).</p
 <span class="r-in"><span><span class="co"># member samples from the sequence 1:100</span></span></span>
 <span class="r-in"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">mysample</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">5</span>, count <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 86 38 95  6 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 36 68 86 18 92</span>
 <span class="r-in"><span><span class="fu"><a href="nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 15 34 42 87 60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 69  4 98 50 88</span>
 <span class="r-in"><span><span class="fu"><a href="nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 12 26 41 65 66</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 87 49 26  6 97</span>
 <span class="r-in"><span><span class="fu"><a href="nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="cn">NULL</span><span class="op">)</span>  <span class="co"># NULL</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 </code></pre></div>
