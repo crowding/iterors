@@ -4,10 +4,10 @@
 \alias{quantify}
 \title{Count the number of times an iterable object is TRUE}
 \usage{
-quantify(object, ...)
+quantify(obj, ...)
 }
 \arguments{
-\item{object}{an iterable object}
+\item{obj}{an iterable object}
 
 \item{...}{further arguments passed to \link{iteror}.}
 }
@@ -25,7 +25,6 @@ quantify(it) # 2
 set.seed(42)
 x <- sample(c(TRUE, FALSE), size=10, replace=TRUE)
 quantify(x) # Equivalent to sum(x)
-
 }
 \seealso{
 reduce

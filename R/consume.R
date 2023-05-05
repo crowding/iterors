@@ -51,9 +51,10 @@ consume.iteror <- function(obj, n=Inf, ...) {
 #' length(iteror)} or \code{n} is 0, then the \code{iteror} is consumed.
 #'
 #' @export
-#' @param it an iterable.
+#' @param obj an iterable.
 #' @param n The index of the desired element to return.
-#' @param or If the iteror finishes before retuning `n` elements, this argument will be forced and returned.
+#' @param or If the iteror finishes before retuning `n` elements,
+#'           this argument will be forced and returned.
 #' @param ... passed along to [iteror] constructor.
 #' @return The nth element of the iteror or the result of forcing `or`.
 #' @seealso take consume collect
@@ -74,18 +75,25 @@ consume.iteror <- function(obj, n=Inf, ...) {
 #' it4 <- iteror(letters)
 #' # Returns default value of "foo"
 #' nth(it4, 42, or="foo")
-#'
-nth <- function(it, n, or, ...) {
-  it <- iteror(it, ...)
+nth <- function(obj, n, or, ...) UseMethod("nth")
 
+#' @exportS3Method
+nth.default <- function(obj, n, or, ...) {
+  nth.iteror(iteror(obj, ...), n=n, or=or)
+}
+
+#' @exportS3Method
+nth.iteror <- function(obj, n, or, ...) {
   if (n <= 0 | !is.numeric(n) | length(n) != 1) {
     stop("n must be a positive integer of length 1")
   }
 
+  stop_unused(...)
+
   n <- as.integer(n)
   last <- NULL
   while (n > 0) {
-    last <- it(return(or))
+    last <- obj(return(or))
     n <- n - 1
   }
   last

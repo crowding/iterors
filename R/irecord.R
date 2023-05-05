@@ -42,11 +42,11 @@
 #'
 #' m1 <- matrix(rnorm(70), 7, 10)
 #' f1 <- tempfile()
-#' irecord(iteror(m1, by='row', chunkSize=3), f1)
+#' record(iteror(m1, by='row', chunkSize=3), f1)
 #'
 #' m2 <- matrix(1:50, 10, 5)
 #' f2 <- tempfile()
-#' irecord(iteror(m2, by='column', chunkSize=3), f2)
+#' record(iteror(m2, by='column', chunkSize=3), f2)
 #'
 #' # Perform a simple out-of-core matrix multiply
 #' p <- foreach(col=ireplay(f2), .combine='cbind') %:%
@@ -59,8 +59,15 @@
 #' all.equal(p, m1 %*% m2)
 #' unlink(c(f1, f2))
 #'
-#' @export irecord ireplay
-irecord <- function(iterable, con, ...) {
+#' @export record ireplay
+record <- function(iterable, con, ...) UseMethod("record")
+
+record.default <- function(iterable, con, ...) {
+  record.iteror(iteror(iterable, ...), con=con)
+}
+
+#' @exportS3Method
+record.iteror <- function(iterable, con, ...) {
   it <- iteror(iterable, ...)
   if (is.character(con)) {
     con <- file(con, 'wb')

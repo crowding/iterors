@@ -227,6 +227,7 @@ iteror.function <- function(obj, ..., catch, sigil, count) {
   iteror.internal(fn)
 }
 
+
 iteror.internal <- function(fn, class=character(0)) {
   structure(fn, class=c(class, "iteror", "iter"))
 }

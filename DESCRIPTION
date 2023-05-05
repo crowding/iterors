@@ -18,12 +18,11 @@ Imports:
     rlang
 Encoding: UTF-8
 Suggests:
+    reticulate,
     combinat,
     testthat (>= 3.0.0),
     foreach,
     iterators (>= 1.0.7),
-    itertools,
-    itertools2,
     covr,
     microbenchmark,
     ggplot2,

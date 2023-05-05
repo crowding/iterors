@@ -2,18 +2,24 @@
 % Please edit documentation in R/collect.R
 \name{take}
 \alias{take}
-\title{Return the first n elements of an iterable object as a list}
+\alias{take.default}
+\alias{take.iteror}
+\title{Return the first n elements of an iterable object in a vector.}
 \usage{
 take(obj, n = 1, mode = "list", ...)
+
+\method{take}{default}(obj, n = 1, mode = "list", ...)
+
+\method{take}{iteror}(obj, n = 1, mode = "list", ...)
 }
 \arguments{
-\item{obj}{an iterable object}
+\item{obj}{An iterable object.}
 
-\item{n}{the number of elements to return.}
+\item{n}{The maximum number of elements to extract from the iteror.}
 
-\item{mode}{What mode to use for the output vector.}
+\item{mode}{The mode of vector to return.}
 
-\item{...}{passed along to \link{iteror} constructor.}
+\item{...}{Further arguments may be passed along to the \link{iteror} constructor.}
 }
 \value{
 a list of the first \code{n} items of the iterable
@@ -26,11 +32,15 @@ entire iterator is consumed.
 }
 \details{
 A function \code{take} first appeared in package \code{itertools2}.
-It is basically an alias for \link{collect} but defaults to taking
-one element.
+It is basically an alias for \link{as.list} but defaults to n=1.
 }
 \examples{
 take(1:10, 3) # 1 2 3
 take(icount(), 10) # 1:10
 take(icount(5), 10) # 1 2 3 4 5
+}
+\seealso{
+concat as.vector.iteror
+
+as.vector.iteror
 }

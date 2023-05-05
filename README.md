@@ -10,6 +10,7 @@ A fresh take on iterators in R.
 
  * Main method `nextOr(iter, or)` allows shorter and simpler code.
  * `iteror` objects are backward- and forward-compatible with existing code using `iterators` (such as the `foreach` package.)
+ * Can work with Python iterators, via the `reticulate` package. 
  * Optimized performance, with several times less overhead per item.
  * Comes with a complete collection of iterator functions, ported and curated from packages `iterators`, `itertools`, and `itertools2`, and harmonized with uniform options 
 
@@ -37,11 +38,9 @@ tryCatch(
 )
 ```
 
-Besides requiring less boilerplate, iterator code written using `nextOr` also performs faster, particularly when using higher-order iterator functions. This is because `tryCatch` is a relatively expensive operation in R, especially when used once per item. It is also not possible to use `break` or `next` to break an outer loop from inside a `tryCatch` handler.
+Besides requiring less boilerplate, iterator code written using `nextOr` also performs faster, particularly when using higher-order iterator functions. This is because `tryCatch` is a relatively expensive operation in R, especially when used once per item. It is also not possible to use `break` or `next` to exit a loop from inside a `tryCatch` handler, while `nextOr` is designed with that use in mind as shown above.
 
-The [benchmarking][] vignette illustrates that iterator computations using  `iterors` can execute several times faster than using predecessors.
-
-
+The [benchmarking][] vignette illustrates that iterator computations using  `iterors` can execute several times faster than using predecessor packages.
 
 ## Installation
 

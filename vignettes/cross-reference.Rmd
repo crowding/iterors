@@ -1,23 +1,35 @@
+---
+title: "Cross reference of iterors to. iteror function"
+output:
+  html_vignette:
+    self_contained: true
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Cross reference of iterators to iterator functions}
+  %\VignetteEncoding{UTF-8}
+---
+
 If you are coming from iterators/itertools/itertools2, all
 functionality should be preserved, but some may be under different
 names. Here's a short transition guide:
 
-  * `checkFunc` arguments have been removed; instead use `ikeep()`.
+  * `checkFunc` arguments have been removed; instead use `i_keep()`.
   * `iterators::iapply(array, margin)` -> `iteror(array, by=margin)`
-  * `iterators::recycle` -> `irecycle`
+  * `iterators::recycle` -> [`i_recycle`][i_recycle]
   * `iterators::isplit(obj, ...)` -> `iteror(split(obj, ...))`
-  * `itertools::ifilter(pred, iterable)` -> `ikeep(iterable, pred)`
-  * `itertools::ifilterfalse(pred, iterable)` -> `idrop(iterable, pred)`
+  * `itertools::ifilter(pred, iterable)` -> `i_keep(iterable, pred)`
+  * `itertools::ifilterfalse(pred, iterable)` -> `i_drop(iterable, pred)`
   * `itertools::isplitCols(obj, ...)` -> `iteror.array(obj, by="column", ...)`
   * `itertools::isplitIndices(n, ...)` -> `icount(n, ...)`
   * `itertools::isplitRows(obj, ...)` -> `iteror.array(obj, by="row", ...)`
   * `itertools::isplitVector(n, )` -> `iteror.default(n, ...)`
-  * `itertools::product` -> `igrid`
-  * `itertools::recycle(iter)` -> `irecycle(iter)`
-  * `itertools::recycle(function() {...}, times=N)` -> iteror(function() {...}, count=  * `itertools::timeout(secs)` -> itimeout(secs)
-  * `itertools2::icount(start=1, step=3, stop=15)` -> `iseq(from=1, to=15, by=3)`
-  * `itertools2::icycle` -> `irecycle`
-  * `itertools2::idropwhile(pred, iterable)` -> `idropwhile(iterable, pred)`
+  * `itertools::product` -> [`igrid`][igrid]
+  * `itertools::recycle(iter)` -> [`i_recycle(iter)`][i_recycle]
+  * `itertools::recycle(function() {...}, times=N)` -> [`iteror(function() {...}, count=N)`][iteror.function]
+  * `itertools::timeout(secs)` -> [`itimeout(secs)`][i_timeout]
+  * `itertools2::icount(start=1, step=3, stop=15)` -> [`iseq(from=1, to=15, by=3)`][iseq]
+  * `itertools2::icycle` -> [`irecycle`][irecycle]
+  * `itertools2::idropwhile(pred, iterable)` -> [`idropwhile(iterable, pred)`][idropwhile]
   * `itertools2::ifilter(pred, iterable)` -> `ikeep(iterable, pred)`
   * `itertools2::ifilterfalse(pred, iterable)` -> `idrop(iterable, pred)`
   * `itertools2::ilength` <- `count(obj)`

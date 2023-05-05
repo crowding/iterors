@@ -8,7 +8,7 @@ NEWS for iterors
   * Incorporated/ported "itertools" package.
   * Incorporated/ported "itertools2" package.  
 
-New methods:
+New functions:
 
   * `ienumerate.array` can iterate over arbitrary margins, providing you
     with a vector index.
@@ -21,7 +21,10 @@ New methods:
     an iterable (rather than `...`).
   * New iteror methods for `as.numeric`, `as.vector', `as.character`,
     and `as.logical`.
-  * `icollect` is an alias / generic for `as.list`, `as.numeric`, etc.
+  * `concat()` pastes chunks from an iterator into a vector.
+  * `iteror` can make an iterator from Python objects via the
+    `reticulate` package. In the other direction. `py_iteror` converts
+    an iteror into a Python object.
 
 New features:
 

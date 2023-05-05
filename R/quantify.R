@@ -4,7 +4,7 @@
 #' evaluate to \code{TRUE}.
 #'
 #' @export
-#' @param object an iterable object
+#' @param obj an iterable object
 #' @param ... further arguments passed to [iteror].
 #' @return the number of \code{TRUE} elements
 #'
@@ -17,15 +17,23 @@
 #' set.seed(42)
 #' x <- sample(c(TRUE, FALSE), size=10, replace=TRUE)
 #' quantify(x) # Equivalent to sum(x)
-#'
-quantify <- function(object, ...) {
-  it <- iteror(object, ...)
+quantify <- function(obj, ...)
+  UseMethod("quantify")
+
+#' @exportS3Method
+quantify.default <- function(obj, ...)
+  quantify.iteror(iteror(obj, ...))
+
+#' @exportS3Method
+quantify.iteror <- function(obj, ...) {
+  stop_unused(...)
   i <- 0
   repeat {
-    next_elem <- it(or = break)
+    next_elem <- obj(or = break)
     if (next_elem) {
       i <- i + 1
     }
   }
   i
 }
+

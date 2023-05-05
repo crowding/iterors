@@ -1,14 +1,13 @@
 #' Iteror that chains multiple arguments together into a single iterator
 #'
 #' `ichain` for iterators is analogous to [c()] on vectors. `ichain`
-#' constructs an [iteror] that returns elements from the first argument
-#' until it is exhausted. Then generates an iterator from the next
-#' argument and returns elements from it. This process continues until
-#' all arguments are exhausted.
+#' constructs an [iteror] that returns elements from the first
+#' argument until it is exhausted, then elements from the next
+#' argument, and so on until all arguments have been exhausted.
 #'
 #' @export
 #' @author Peter Meilstrup
-#' @param ... multiple arguments to iterate through in sequence
+#' @param ... multiple iterable arguments
 #' @return iteror that iterates through each argument in sequence
 #'
 #' @examples
@@ -20,29 +19,4 @@
 ichain <- function(...) {
   L <- iteror(list(...))
   icollapse(L)
-}
-
-#' @rdname ichain
-#' @param obj an iterable.
-#' @description `icollapse(obj)` takes an iterable that returns
-#'   iterables, and chains together all inner values of iterables into
-#'   one iterator. Analogous to `unlist(recursive=FALSE)`.
-#' @export
-icollapse <- function(obj, ...) {
-  obj <- iteror(obj, ...)
-  current <- NULL
-
-  nextOr_ <- function(or) {
-    if (is.null(current)) {
-      current <<- iteror(obj(or = return(or)))
-    }
-    repeat {
-      return(current(or = {
-        current <<- iteror(obj(or = return(or)))
-        next
-      }))
-    }
-  }
-
-  iteror.internal(nextOr_)
 }

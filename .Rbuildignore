@@ -10,3 +10,4 @@
 ^doc$
 ^Meta$
 ^scratch
+^vignettes/benchmarks\.Rmd$
