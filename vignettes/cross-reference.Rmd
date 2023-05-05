@@ -1,45 +1,49 @@
 ---
-title: "Cross reference of iterors to. iteror function"
+title: "Cross reference from iterarors/itertools to iterors"
 output:
   html_vignette:
     self_contained: true
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Cross reference of iterators to iterator functions}
+  %\VignetteIndexEntry{Cross reference from iterarors/itertools to iterors}
   %\VignetteEncoding{UTF-8}
 ---
 
-If you are coming from iterators/itertools/itertools2, all
+If you are coming from packages iterators/itertools/itertools2, all
 functionality should be preserved, but some may be under different
 names. Here's a short transition guide:
 
-  * `checkFunc` arguments have been removed; instead use `i_keep()`.
-  * `iterators::iapply(array, margin)` -> `iteror(array, by=margin)`
-  * `iterators::recycle` -> [`i_recycle`][i_recycle]
-  * `iterators::isplit(obj, ...)` -> `iteror(split(obj, ...))`
-  * `itertools::ifilter(pred, iterable)` -> `i_keep(iterable, pred)`
-  * `itertools::ifilterfalse(pred, iterable)` -> `i_drop(iterable, pred)`
-  * `itertools::isplitCols(obj, ...)` -> `iteror.array(obj, by="column", ...)`
-  * `itertools::isplitIndices(n, ...)` -> `icount(n, ...)`
-  * `itertools::isplitRows(obj, ...)` -> `iteror.array(obj, by="row", ...)`
-  * `itertools::isplitVector(n, )` -> `iteror.default(n, ...)`
-  * `itertools::product` -> [`igrid`][igrid]
-  * `itertools::recycle(iter)` -> [`i_recycle(iter)`][i_recycle]
-  * `itertools::recycle(function() {...}, times=N)` -> [`iteror(function() {...}, count=N)`][iteror.function]
-  * `itertools::timeout(secs)` -> [`itimeout(secs)`][i_timeout]
-  * `itertools2::icount(start=1, step=3, stop=15)` -> [`iseq(from=1, to=15, by=3)`][iseq]
-  * `itertools2::icycle` -> [`irecycle`][irecycle]
-  * `itertools2::idropwhile(pred, iterable)` -> [`idropwhile(iterable, pred)`][idropwhile]
-  * `itertools2::ifilter(pred, iterable)` -> `ikeep(iterable, pred)`
-  * `itertools2::ifilterfalse(pred, iterable)` -> `idrop(iterable, pred)`
-  * `itertools2::ilength` <- `count(obj)`
-  * `itertools2::imap(f, it)` -> `iapply(it, f)`
-                                 or `imap(f, it1, it2, ...)` (multiple iterables)
-  * `itertools2::ipairwise(it)` -> `iwindow(it, 2)`
-  * `itertools2::iproduct` -> `igrid`
-  * `itertools2::irep_len` -> `irep(length.out=n)`
-  * `itertools2::iseq_len` -> `icount`
-  * `itertools2::iseq_along(x)` -> `icount(length(x))`
-  * `itertools2::itakewhile(pred, iterable)` -> `ikeepwhile(iterable, pred)`     
-  * `itertools2::itripletwise(it)` -> `iwindow(it, 3)`
-  * `itertools2::iunique_lastseen()` -> `idedupe()`
+| iterators/itertools | iteror function |
+| --- | --- |
+| `iterators::iapply(array, margin)` | [`iteror`](../reference/iteror.html)`(array, by=margin)` |
+| `iterators::recycle` | [`i_recycle`](../reference/i_recycle.html) | 
+| `iterators::isplit(obj, ...)` | [`iteror`](../reference/iteror.html)`(split(obj, ...))` |
+| `itertools::ifilter(pred, iterable)` | [`i_keep`](../reference/i_keep.html)`(iterable, pred)` |
+| `itertools::ifilterfalse(pred, iterable)` | [`i_drop`](../reference/i_drop.html)`(iterable, pred)` |
+| `itertools::isplitCols(obj, ...)` | [`iteror.array`](../reference/iteror.array.html)`(obj, by="column", ...)` |
+| `itertools::isplitIndices(n, ...)` | [`icount`](../reference/icount.html)`(n, ...)`  |
+| `itertools::isplitRows(obj, ...)` | [`iteror.array`](../reference/iteror.array.html)`(obj, by="row", ...)` |
+| `itertools::isplitVector(n, )` | [`iteror.default`](../reference/iteror.default.html)`(n, ...)` |
+| `itertools::product` | [`igrid`](../reference/igrid.html) |
+| `itertools::recycle(iter)` | [`i_recycle`](../reference/i_recycle.html)`(iter)` |
+| `itertools::recycle(function() {...}, times=N)` | [`iteror`](../reference/iteror.html)`(function() {...}, count=N)` |
+| `itertools::timeout(secs)` | [`itimeout`](../reference/itimeout.html)`(secs)` |
+| `itertools2::icount(start=1, step=3, stop=15)` | [`iseq`](../reference/iseq.html)`(from=1, to=15, by=3)` |
+| `itertools2::icycle` | [`irecycle`](../reference/irecycle.html) |
+| `itertools2::idropwhile(pred, iterable)` | [`idropwhile`](../reference/idropwhile.html)`(iterable, pred)` |
+| `itertools2::ifilter(pred, iterable)` | [`ikeep`](../reference/ikeep.html)`(iterable, pred)` |
+| `itertools2::ifilterfalse(pred, iterable)` | [`idrop`](../reference/idrop.html)`(iterable, pred)` |
+| `itertools2::ilength` | [`count`](../reference/count.html)`(obj)` |
+| `itertools2::imap(f, it)` | [`iapply`](../reference/iapply.html)`(it, f)` or [`imap`](../reference/imap.html)`(f, it1, it2, ...)` |
+| `itertools2::ipairwise(it)` | [`iwindow`](../reference/iwindow.html)`(it, 2)` |
+| `itertools2::iproduct` | [`igrid`](../reference/igrid.html) |
+| `itertools2::irep_len` | [`irep`](../reference/irep.html)`(length.out=n)` |
+| `itertools2::iseq_len` | [`icount`](../reference/icount.html) |
+| `itertools2::iseq_along(x)` | [`icount`](../reference/icount.html)`(length(x))` |
+| `itertools2::itakewhile(pred, iterable)` | [`ikeepwhile`](../reference/ikeepwhile.html)`(iterable, pred)`      |
+| `itertools2::itripletwise(it)` | [`iwindow`](../reference/iwindow.html)`(it, 3)` |
+| `itertools2::iunique_lastseen()` | [`idedupe`](../reference/idedupe.html)`()` |
+
+Additionally: 
+
+  * `checkFunc` arguments have been removed; instead use [`i_keep`](../reference/i_keep.html)`()`.
