@@ -1,4 +1,5 @@
 #' @exportS3Method iteror data.frame
+#' @export
 #' @rdname iteror
 iteror.data.frame <- count_template(
   input = alist(obj=),

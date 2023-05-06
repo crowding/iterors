@@ -9,8 +9,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Index of `[iteror`] functions by task
-
 ## Basic methods
 
 * [`is.iteror`](../reference/is.iteror.html)(../reference/is.iteror.html) -- Check whether a function has class 'iteror'.
@@ -21,59 +19,58 @@ vignette: >
 
 Most of these functions are S3 generic.
 
-* [`as.character`](../reference/as.character.html), [`as.numeric`](../reference/as.numeric.html), [`as.logical`](../reference/as.logical.html), [`as.list`](../reference/as.list.html) -- Collect all an iteror's values into a vector.
-* [`as.vector`](../reference/as.vector.html) -- Collect values into a specified type of vector.
-* [`nextOr`](../reference/nextOr.html) -- Take the next element from an iteror.
-* [`take`](../reference/take.html) -- Take some number of elements and return them in a vector.
+* [`as.character`](../reference/as.vector.iteror.html), [`as.numeric`](../reference/as.list.html), [`as.logical`](../reference/as.vector.iteror.html), [`as.list`](../reference/as.logical.html) -- Collect all an iteror's values into a vector.
+* [`as.vector`](../reference/as.vector.iteror.html) -- Collect values into a specified type of vector.
 * [`concat`](../reference/concat.html) -- Paste an iteror's values end-to-end in one vector.
 * [`consume`](../reference/consume.html) -- Take all or some of an iteror's elements and discard them.
 * [`count`](../reference/count.html) -- Compute all elements, discard them and return their count.
-* [`record`](../reference/record.html) -- Write an iteror's elements to a file.
-* [`nth`](../reference/nth.html) -- Compute and discard the first $n-1$ elements and return the $n$th.
-* [`quantify`](../reference/quantify.html) -- Consume an iteror and return how many elements were TRUE.
 * [`dotproduct`](../reference/dotproduct.html) -- Sum of products of corresponding elements of two iterors.
+* [`nth`](../reference/nth.html) -- Compute and discard the first $n-1$ elements and return the $n$th.
+* [`prod.iteror`](../reference/reduce.html) -- Product of all an iteror's values (i.e. [`reduce`](../reference/reduce.html) using `*`.)
+* [`quantify`](../reference/quantify.html) -- Consume an iteror and return how many elements were TRUE.
+* [`record`](../reference/record.html) -- Write an iteror's elements to a file.
 * [`reduce`](../reference/reduce.html) -- Combine all of iteror's values using a binary function, returning the final value.
-* [`sum.iteror`](../reference/sum.iteror.html) -- Sum all values of an iteror (i.e. [`reduce`](../reference/reduce.html) using `+`.)
-* [`prod.iteror`](../reference/prod.iteror.html) -- Product of all an iteror's values (i.e. [`reduce`](../reference/reduce.html) using `*`.)
+* [`sum.iteror`](../reference/reduce.html) -- Sum all values of an iteror (i.e. [`reduce`](../reference/reduce.html) using `+`.)
+* [`take`](../reference/take.html) -- Take some number of elements and return them in a vector.
 
 ## Iterate over given data
 
 By convention, in this package functions that _construct_ an iterator have names beginning with "`i`".
 
-* [`iteror.array`](../reference/iteror.array.html) -- Iterate over an array along given dimensions.
-* [`iteror.default`](../reference/iteror.default.html) -- Iterate over a vector from first to last index.
-* [`iteror.data.frame`](../reference/iteror.data.frame.html) -- Iterate over rows or columns of a data frame.
-* [`ienum`](../reference/ienum.html), [`ienumerate`](../reference/ienumerate.html) -- return the elements of an iterable alongside it  index.
+* [`ienum`](../reference/ienumerate.html), [`ienumerate`](../reference/ienumerate.html) -- return the elements of an iterable alongside it  index.
 * [`irepeat`](../reference/irepeat.html) -- Return one value over and over again.
+* [`iteror.array`](../reference/iteror.html) -- Iterate over an array along given dimensions.
+* [`iteror.data.frame`](../reference/iteror.html) -- Iterate over rows or columns of a data frame.
+* [`iteror.default`](../reference/iteror.html) -- Iterate over a vector from first to last index.
 
 ## Counting or other mathematically defined processes
 
 * [`icombinations`](../reference/icombinations.html) -- Enumerate all combinations of $m$ elements of a given vector, with or without replacement.
 * [`icount`](../reference/icount.html) -- Produce an integer sequence starting with 1.
-* [`icountn`](../reference/icountn.html) -- Enumerate multiple indices, in either row-major or col-major order.
+* [`icountn`](../reference/icount.html) -- Enumerate multiple indices, in either row-major or col-major order.
 * [`idiv`](../reference/idiv.html) -- Return a sequence of $n$ integers that add up to a given total.
 * [`igrid`](../reference/igrid.html) -- Produce a sequence over the Cartesian product of the given vectors.
 * [`ipermutations`](../reference/ipermutations.html) -- A sequence containing all permutations of a given vector.
 * [`iseq`](../reference/iseq.html) -- Generate arithmetic sequences with specific step size and origin.
-* [`iseq_along`](../reference/iseq_along.html) -- Counting sequence parallel to a given vector.
+* [`iseq_along`](../reference/iseq.html) -- Counting sequence parallel to a given vector.
+
 
 ## Random number generation
 
 Random number iterators can be made reproducible by specifying `independent=TRUE` and specifying a seed value, though this has a performance cost.
 
-* [`irnbinom`](../reference/irnbinom.html), [`irnorm`](../reference/irnorm.html), [`irpois`](../reference/irpois.html), [`irunif`](../reference/irunif.html), [`isample`](../reference/isample.html), [`irbinom`](../reference/irbinom.html) -- Draw samples from the given distribution.
 * [`iRNGStream`](../reference/iRNGStream.html), [`iRNGSubStream`](../reference/iRNGSubStream.html) -- Create a sequence of seed values so as to make parallel, decorrelated random streams.
+* [`irnbinom`](../reference/rng.html), [`irnorm`](../reference/rng.html), [`irpois`](../reference/rng.html), [`irunif`](../reference/rng.html), [`isample`](../reference/rng.html), [`irbinom`](../reference/rng.html) -- Draw samples from the given distribution.
 
 
 ## Iterators dealing with files or functions
 
-* [`itabulate`](../reference/itabulate.html) -- Evaluate a function over an arithmetic sequence.
-* [`ireplay`](../reference/ireplay.html) -- reads back values from a data file created with [`record`](../reference/record.html)
 * [`iread.table`](../reference/iread.table.html) -- Reads row-wise from delimited text files.
 * [`ireadBin`](../reference/ireadBin.html) -- Read binary data from file connections.
-* [`ireaddouble`](../reference/ireaddouble.html) -- Read numbers from binary connections.
 * [`ireadLines`](../reference/ireadLines.html) -- Read lines from text connections.
 * [`ireaddf`](../reference/ireaddf.html) -- Read rows from several files in parallel (one per column).
+* [`ireplay`](../reference/record.html) -- reads back values from a data file created with [`record`](../reference/record.html)
+* [`itabulate`](../reference/itabulate.html) -- Evaluate a function over an arithmetic sequence.
 * [`record`](../reference/record.html) -- Write values from an iterator to a file.
 
 ## Custom iterators
@@ -93,33 +90,33 @@ By convention, in this package, functions that transform iterors -- creating a n
 
 ### Selection, filtering, limiting based on data
 
-* [`i_keep`](../reference/i_keep.html) -- Keep only elements for which an applied criterion function returns `TRUE`.
-* [`i_keepwhile`](../reference/i_keepwhile.html) -- Keep elements only until an applied criterion returns `FALSE`.
-* [`i_limit`](../reference/i_limit.html) -- Keep only the first $n$ elements from the given iteror.
 * [`i_break`](../reference/i_break.html) -- Return elements only while the given (no-argument) function evaluates to TRUE.
-* [`i_mask`](../reference/i_mask.html) -- Return elements for which a parallel iterator is TRUE.
 * [`i_dedupe`](../reference/i_dedupe.html) -- Discard elements that are identical the immediately preceding element.
 * [`i_drop`](../reference/i_drop.html) -- Discard elements for which a criterion function returns TRUE.
 * [`i_dropwhile`](../reference/i_dropwhile.html) -- Discard elements from an iterator until the criterion function evaluates FALSE.
-* [`i_unique`](../reference/i_unique.html) -- Return only unique elements of an iterator using a hash table.
+* [`i_keep`](../reference/i_keep.html) -- Keep only elements for which an applied criterion function returns `TRUE`.
+* [`i_keepwhile`](../reference/i_keepwhile.html) -- Keep elements only until an applied criterion returns `FALSE`.
+* [`i_limit`](../reference/i_limit.html) -- Keep only the first $n$ elements from the given iteror.
+* [`i_mask`](../reference/i_mask.html) -- Return elements for which a parallel iterator is TRUE.
 * [`i_timeout`](../reference/i_timeout.html) -- Return elements only until the timeout is reached.
+* [`i_unique`](../reference/i_unique.html) -- Return only unique elements of an iterator using a hash table.
 
 ### Manipulating iterators like sequences (selecting, repeating)
 
+
+
+### Splitting and combining
+* [`i_chain`](../reference/i_chain.html) -- Take all values
+* [`i_chunk`](../reference/i_chunk.html) -- collect $n$ adjacent
+* [`i_concat`](../reference/i_concat.html) -- Take all values from the list of
+* [`i_pad`](../reference/i_pad.html) -- After a given iterator ends, return the padding value.
+* [`i_recycle`](../reference/i_recycle.html) -- Record the values emitted by the underlying iterator and replay them.
 * [`i_rep`](../reference/i_rep.html) -- Repeat each element of an iterable a given number of times.
 * [`i_rle`](../reference/i_rle.html) -- Compress runs of identical adjacent elements, returning one value and a run length.
 * [`i_rleinv`](../reference/i_rleinv.html) -- Inverse transform of [`i_rle`](../reference/i_rle.html).
-* [`i_slice`](../reference/i_slice.html) -- Return elements based on a starting point ans stride.
-* [`i_pad`](../reference/i_pad.html) -- After a given iterator ends, return the padding value.
-* [`i_recycle`](../reference/i_recycle.html) -- Record the values emitted by the underlying iterator and replay them.
-* [`i_window`](../reference/i_window.html) -- Return adjacent elements from the underlying iteror in a sliding window.
-
-### Splitting and combining
-
-* [`i_chain`](../reference/i_chain.html) -- Take all values
-* [`i_concat`](../reference/i_concat.html) -- Take all values from the list of
-* [`i_chunk`](../reference/i_chunk.html) -- collect $n$ adjacent
-* [`i_tee`](../reference/i_tee.html) -- Split an iterator so that teh same values are
-* [`i_zip`](../reference/i_zip.html) -- Combine corresponding elments of parallel iterators into a list.
-* [`i_zip_longest`](../reference/i_zip_longest.html) -- [`izip`](../reference/izip.html) but pad any iterators that end early.
 * [`i_roundrobin`](../reference/i_roundrobin.html) -- Return one element at a time from each of a series of iterors in rotation.
+* [`i_slice`](../reference/i_slice.html) -- Return elements based on a starting point ans stride.
+* [`i_tee`](../reference/i_tee.html) -- Split an iterator so that teh same values are
+* [`i_window`](../reference/i_window.html) -- Return adjacent elements from the underlying iteror in a sliding window.
+* [`i_zip_longest`](../reference/i_zip_longest.html) -- [`izip`](../reference/izip.html) but pad any iterators that end early.
+* [`i_zip`](../reference/i_zip.html) -- Combine corresponding elments of parallel iterators into a list.

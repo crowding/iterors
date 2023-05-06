@@ -16,6 +16,8 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
+#FIXME does this even work? it's not tested or exported.
+
 ireadDouble <- function(con, buflen=16*1024, where=0) {
   opened <- if (is.character(con)) {
     con <- file(con, open='rb')

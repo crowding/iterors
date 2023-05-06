@@ -25,6 +25,7 @@
 #' as.list(it)
 #'
 #' @exportS3Method
+#' @export
 iteror.array <- function(obj, ...,
                          by=c("cell", "row", "column"),
                          chunkSize,

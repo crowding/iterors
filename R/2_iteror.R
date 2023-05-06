@@ -52,7 +52,7 @@
 # nextOr(i4)
 #
 
-#' Efficient, compact iteration.
+#' Make an iteror from a given object.
 #'
 #' `it <- iteror(obj, ...)` is a generic constructor that creates
 #' objects of class "iteror" from its input. An iteror outputs a
@@ -61,7 +61,7 @@
 #' types and may take different optional arguments as listed in this
 #' page.
 #'
-#' When called, an iterator may either return a new value or stop. The
+#' When called, an iteror may either return a new value or stop. The
 #' way an iteror signals a stop is that it does whatever you write in
 #' the argument `or`. For instance you can write `or=break` to exit a
 #' loop.Summing over an iteror this way looks like:
@@ -94,7 +94,7 @@
 #' (Note the use of new.env(). In R it is commonplace to use `NULL` or
 #' `NA` in the role of a sigil, but that only works until you have an
 #' iterator that needs to yield NULL itself. A safer alternative is to
-#' use a one-shot sigil value; `new.env()` works for this, as it
+#' use a one-shot sigil value; `new.env()` works well for this, as it
 #' constructs an object that is not [identical] to any other object in
 #' the R session.)
 #'
@@ -102,7 +102,7 @@
 #' attribute attached, and all `nextOr.iteror` does is call the
 #' function. So if you were in the mood, you could skip calling
 #' `nextOr` through S3 dispatch and call the function directly. If you
-#' take this approach, make sure you have called `iteror()` to ensure
+#' take this approach, make sure you have called `iteror()` first to ensure
 #' that you have a true `iteror` object.
 #'
 #' ```{R}
