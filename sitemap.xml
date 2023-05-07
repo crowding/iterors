@@ -10,6 +10,12 @@
     <loc>https://crowding.github.io/iterors/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://crowding.github.io/iterors/articles/README.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/articles/benchmarks.html</loc>
+  </url>
+  <url>
     <loc>https://crowding.github.io/iterors/articles/categories.html</loc>
   </url>
   <url>
@@ -19,7 +25,10 @@
     <loc>https://crowding.github.io/iterors/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://crowding.github.io/iterors/articles/iteration_styles.html</loc>
+    <loc>https://crowding.github.io/iterors/articles/iterors.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/articles/writing.html</loc>
   </url>
   <url>
     <loc>https://crowding.github.io/iterors/authors.html</loc>
@@ -140,6 +149,9 @@
   </url>
   <url>
     <loc>https://crowding.github.io/iterors/reference/islice.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/isplit.html</loc>
   </url>
   <url>
     <loc>https://crowding.github.io/iterors/reference/istarmap.html</loc>

@@ -24,15 +24,20 @@ irnorm &amp;lt;- makeIwrapper(rnorm)."><!-- mathjax --><script src="https://cdnj
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/iterors.html">Get started</a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iterators and tools</a>
+    <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
-    <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference of iterors to. iteror function</a>
-    <a class="dropdown-item" href="../articles/iteration_styles.html">A Musical Introduction to Generators</a>
+    <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
+    <a class="dropdown-item" href="../articles/writing.html">Writing Custom Iterators</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -103,11 +108,11 @@ iterator constructoe (as are <code>irnorm</code>, <code>irunif</code>, etc.).</p
 <span class="r-in"><span><span class="co"># member samples from the sequence 1:100</span></span></span>
 <span class="r-in"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">mysample</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">5</span>, count <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 36 68 86 18 92</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  7 75 11 77 63</span>
 <span class="r-in"><span><span class="fu"><a href="nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 69  4 98 50 88</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 98 15 37 14 90</span>
 <span class="r-in"><span><span class="fu"><a href="nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 87 49 26  6 97</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 49 28 82 59 17</span>
 <span class="r-in"><span><span class="fu"><a href="nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="cn">NULL</span><span class="op">)</span>  <span class="co"># NULL</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 </code></pre></div>
