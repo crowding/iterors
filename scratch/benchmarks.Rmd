@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This document illustrates the differences in performance between `iterors` and previous packages `iterators`/`itertools`/`itertools2`.  Basic gains come from the `nextOr` method  avoiding the need for `tryCatch`. Additionally, over the process of putting together the  `iterors` package, several functions have been optimized for performance.
+This document illustrates the differences in performance between `iterors` and previous packages `iterators`/`itertools`/`itertools2`.  Basic gains come from the `nextOr` method  avoiding the need for `tryCatch`, as well as the fact that iterors can be used simply as functions, skipping S3 dispatch. Additionally, over the process of curating the  `iterors` package, several iterator implementations have been optimized for performance.
 
 ```{R, include=FALSE}
 #preliminaries
@@ -39,20 +39,22 @@ iter_consume <- function(it) {
 }
 ```
 
-Because this is a more computationally intensive vignette, it is built manually and included in the released package statically.  The `Rmd` source is in the Git repo under the `scratch` directory. When this document was last built it was under these conditions: 
+Because this is a more computationally intensive vignette, it is built manually and included in the released package statically.  The `Rmd` source is in the Git repo under the `scratch` directory; knit it manually and copy it into the vignettes directory to publish. When this document was last built,  it was under these conditions:
 
 * iterors version `r packageVersion("iterors")`,  git revision `r system("git rev-parse --short=8 HEAD", intern=TRUE)` (`r system("git show -s --format=%ci HEAD")`)
+* itertools2 version `r packageVersion("itertools2")`
+* itertools version `r packageVersion("itertools")`
 * OS: `r Sys.info()["sysname"]` `r Sys.info()["release"]`
 * CPU: `r iterors:::cpu_info()`.
 * `r R.version$version.string`, svn rev `r R.version["svn rev"]`
-* iterators version `r packageVersion("iterors")`; itertools version `r packageVersion("itertools")`; itertools2 version `r packageVersion("itertools2")`
+
 
 # Basic iterators (self-contained/memory-backed)
 
 ## Consuming iterators
 
 Since the following tests will use different versions of `icount`, `iter_consume`, and `as.list`,
-first check whether those functions are roughly on par.
+first check how close those functions are.
 
 ```{R}
 as.list.bench <- microbenchmark::microbenchmark(

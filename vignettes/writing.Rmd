@@ -6,7 +6,7 @@ author:
   - Peter Meilstrup (adapted for package `iterors`)
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Index of `iteror` functions by task}
+  %\VignetteIndexEntry{Writing Custom Iterators}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -15,14 +15,12 @@ library(iterors)
 ```
 
 An _iterator_ is a special type of object that supplies data on
-demand, one element[^one] at a time.  This is a nice abstraction
+demand, one element [^one] at a time.  This is a nice abstraction
 that can help simplify many programs.  Iterators are particularly useful
 in parallel computing, since they facilitate splitting a problem into
 smaller pieces that can then be executed in parallel.
 
-\\[^one] An ``element'' in this case can be basically
-any object.  I don't mean to suggest that the data is necessarily returned
-as scalar values, for example.
+[^one]: An ``element'' in this case can be basically any object.  I don't mean to suggest that the data is necessarily returned as scalar values, for example.
 
 Iterators can also be used to reduce the total memory that is needed at
 any one time.  For example, if you want to process the lines of text in
@@ -59,7 +57,7 @@ write your own custom iterator.  Fortunately, that is fairly easy to do.
 
 ## What methods are needed for an iteror?
 
-Basically, an iteror is an S3 object whose base class is
+Basically, an `iteror` is an S3 object whose base class is
 `"iteror"`, which has defined methods called  `nextOr` and `iteror`.
 
 The function `iteror` is a generic method.  The purpose of the
@@ -74,7 +72,7 @@ When `iteror` is called on a list (or any object without a class) it finds the m
 `iteror.default`, which constructs an iterator which returns one element
 at a time from the given vector.
 
-If `x` is already of class `"iteror"` then `iteror(x)` simply returns `x` which
+If `x` is already of class `"iteror"` then `iteror(x)` simply returns `x`, which
 seems odd at first.  But the `iteror` method can be defined for
 other objects that don't define a `nextOr` method.  We call
 those objects _iterables_, meaning that you can iterate over them.
@@ -118,7 +116,7 @@ case where there isn't a next value. This is where the `iterors`
 package improves on `iterators` by giving you a few options for how to
 respond to the end of iteration.
 
-### Breaking at the end of iteration
+### Breaking out of a loop at end of iteration
 
 If you are consuming an iterator in a loop, the easiest (and often
 fastest) way to respond to the end of iteration so to break out of the
@@ -137,7 +135,7 @@ Because the `or` argument is lazily evaluated, the
 second argument. You can put any code into the `or` argument,
 which will come in useful below.
 
-### Detecting the end with a sigil
+### Detecting end of iteration with a sigil value
 
 Sometimes a break or return isn't the right action to take.  As we saw
 above, `nextOr` will return its second argument (whatever that
@@ -154,10 +152,14 @@ while (!is.null(val <- nextOr(x, NULL))) {
 
 Here, if `nextOr` returns `NULL`, the `while`
 loop will exit. A special value used like `NULL` is used above,
-is often called a _sigil value_. It's popular to use NULL as a
-sigil, but it's worth considering what would happen if there were an
-iterator that legitimately returns `NULL` as a value. For
-instance, this list contains some tricky values:
+is often called a _sigil value_.
+
+#### Unsafe sigil values
+
+It's popular in R to use `NULL` as a sigil, but it's worth considering
+what would happen if there were an iterator that legitimately returns
+`NULL` as a value. For instance, this list contains some tricky
+values:
 
 ```{R <bad_iter}
 bad_sigils <- list(
@@ -166,12 +168,12 @@ bad_sigils <- list(
   NA,
   list(),
   simpleError("StopIteration"),
-  try(stop("StopIteration", call.=FALSE)),
+  try(stop("StopIteration", call.=FALSE), silent=TRUE),
   "",
   numeric(0))
 ```
 
-If you were to try to enumerate this list, like:
+If you were to try to iterate over this list, like:
 
 ```{R enum}
 it <- iteror(bad_sigils)
@@ -180,37 +182,45 @@ while (!is.null(val <- nextOr(x, NULL))) {
 }
 ```
 
-This is a general problem with the sigil value scheme in dynamically-typed
-languages; any value you could use to signal a stop, could also be a
-legitimate value for an iterator to emit.
+The enumeration stops early because it mistakes `NULL`, a legitimate
+value in the list that we are iterating over, for `NULL` the sigil
+value. This is a general problem with the sigil value scheme in
+dynamically-typed languages; any value you could use to signal a stop,
+could also be a legitimate value for an iterator to emit.
 
-One way out of this problem is to construct a one-shot, _unique_ sigil
-value to use locally, just with this iteror. One easy way to do this by
-using `new.env()`. Consuming an iterator using a local sigil
-value looks like this:
+#### Safe sigil values
+
+A way to escape this problem is to construct a one-shot, _unique_
+sigil value to use locally, just with this iteror, and then throw
+away, not keeping it in your code. One easy way to do this by using
+`new.env()`. Consuming an iterator using a local sigil value looks
+like this:
 
 ```{R consuming_sigil}
-end.iter <- new.env()
+end_sigil <- new.env()
+it <- iteror(bad_sigils)
 repeat {
-  val <- nextOr(bad_iter, end.iter)
-  if (identical(val, end.iter)) break
+  val <- nextOr(it, end_sigil)
+  if (identical(val, end_sigil)) break
   print(val)
 }
 ```
 
 Because environments compare by reference, a newly constructed
-environment is guaranteed not to be `identical()` to any other
-object in the R session, and the check for identity is very fast (just
-a pointer comparison.) By using a local, private sigil value you avoid
-mistaking someone's legitimate value for your own sigil.
+environment is guaranteed not to be `identical()` to any other object
+in the R session, and the check for identity is very fast (just a
+pointer comparison.) By using a locally generated, unique sigil value
+you avoid mistaking a legitimate value in your data for the end of
+iteration.
 
 ## A simple iterator
 
 It's time to show the implementation of a very simple iterator.
 Although I've made it sound like you have to write your own `nextOr`
-methods, you can inherit one.  In fact, that's what all of the
-following examples do. The method `iteror.function` takes a function 
-you specify and wraps it in an object with class `iteror`.
+methods, you can use a standard one. In fact, that's what all of the
+following examples do. The method `iteror.function` takes a function
+you specify and wraps it in an object with class `iteror`, which has a
+`nextOr` method defined.
 
 Now here's a function that creates a very simple iterator, one that
 returns the same value `x` indefinitely.:
@@ -253,16 +263,16 @@ dispatch on; the argument 42 is just a vector of length 1 and
 this iterator by defining a normal function that returns the iterator.
 
 This iterator is quite simple to implement, and possibly even
-useful.[^3] The iterator returned by `iforever` is actually just the
+useful. [^3] The iterator returned by `iforever` is actually just the
 same function you provided, with the class `iteror` added. This means
 you get `nextOr` method already defined, whlch just delegates to your
 given function. Additionally since the returned object has class
 `iteror`, it inherits an `iteror` method that will return itself.
 
-\\[^3]: Be careful how you use this iterator!  If you pass it
-to `foreach`, it will result in an infinite loop unless you pair
-it with a non-infinite iterator.  Also, _never_ pass this to the
-`as.list` function without the `n` argument.
+[^3]: Be careful how you use this iterator!  If you pass it to
+    `foreach`, it will result in an infinite loop unless you pair it
+    with a non-infinite iterator.  Also, _never_ pass this to the
+    `as.list` function without the `n` argument.
 
 Of course, the reason this iterator is so simple is because it doesn't
 contain any state.  Most iterators need to contain some state, or it
@@ -303,7 +313,7 @@ of the variables `x` and `times`, but it also modifies the value of
 `times`.  This is accomplished by means of the "`<<-=`"[^1] operator,
 and the rules of lexical scoping.
 
-\\[^\1] It's commonly believed that `<<-` is only used to set
+[^1]: It's commonly believed that `<<-` is only used to set
 variables in the global environment, but that isn't true.  I think of
 it as an _inheriting_ assignment operator.}
 
@@ -393,10 +403,9 @@ things by writing functions that take in one iterator and construct a
 new one. In this example, we'll return an iterator that recycles the
 values of the wrapped iterator: [^2]
 
-\\[^2]: Actually, many of the
-standard `iteror` methods support a `recycle` argument.
-But this is a nice example, and a more general solution, since it
-works on any iterator.
+[^2]: Actually, many of the standard `iteror` methods support a
+`recycle` argument.  But this is a nice example, and a more general
+solution, since it works on any iterator.
 
 ```{R recyle}
 i_recycle <- function(it) {
