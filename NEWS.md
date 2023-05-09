@@ -1,9 +1,6 @@
-NEWS for iterors
-----------------------------
-
 # iterors  1.0
 
-Initial release
+Initial release.
 
   * Split off from "async" package.
   * Incorporated/ported "iterators" package.
@@ -26,7 +23,7 @@ New functions:
   * `concat()` pastes chunks from an iterator into a vector.
   * `iteror` can make an iterator from Python objects via the
     `reticulate` package. In the other direction. `py_iteror` converts
-    an iteror into a Python object.
+    an iteror into a Python iterable.
 
 New features:
 
