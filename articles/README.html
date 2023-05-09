@@ -45,7 +45,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iterators and tools</a>
-    <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
+    <a class="dropdown-item" href="../articles/benchmarks.html">UNKNOWN TITLE</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
     <a class="dropdown-item" href="../articles/writing.html">Writing Custom Iterators</a>
@@ -90,14 +90,14 @@
 <div class="section level2">
 <h2 id="iterors">iterors<a class="anchor" aria-label="anchor" href="#iterors"></a>
 </h2>
-<p><!-- badges: start --> <a href="https://codecov.io/gh/crowding/iterors" class="external-link"><img src="https://codecov.io/gh/crowding/iterors/branch/main/graph/badge.svg?token=kqLgHxP1Gh" alt="codecov"></a> <a href="https://github.com/crowding/iterors/actions/workflows/check_full.yaml" class="external-link"><img src="https://github.com/crowding/iterors/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <!-- badges: end --></p>
+<p><!-- badges: start --> <a href="https://CRAN.R-project.org/package=iterors" class="external-link"><img src="https://www.r-pkg.org/badges/version/iterors" alt="CRAN status"></a> <a href="https://github.com/crowding/iterors/actions/workflows/check_full.yaml" class="external-link"><img src="https://github.com/crowding/iterors/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://codecov.io/gh/crowding/iterors" class="external-link"><img src="https://codecov.io/gh/crowding/iterors/branch/main/graph/badge.svg?token=kqLgHxP1Gh" alt="codecov"></a> <!-- badges: end --></p>
 <p>A fresh take on iterators in R.</p>
 <div class="section level3">
 <h3 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
 </h3>
 <ul>
-<li>Main method is <code>nextOr(iter, or)</code>; allows simpler and
-faster code.</li>
+<li>Main method <code>nextOr(iter, or)</code>; allows simpler and faster
+code.</li>
 <li>
 <code>iteror</code> objects are cross-compatible with existing code
 using <code>iterators</code> (such as the <code>foreach</code>
@@ -148,11 +148,11 @@ item. It is also not possible(*) to use <code><a href="https://rdrr.io/r/base/Co
 <code><a href="https://rdrr.io/r/base/Control.html" class="external-link">next</a></code> to exit an outer loop from inside a
 <code>tryCatch</code> handler function. while <code>nextOr</code> is
 designed with that use in mind.</p>
-<p>The <a href="http://crowding.github.io/iterors/articles/benchmarks.html" class="external-link">benchmarking</a>
+<p>The <a href="https://crowding.github.io/iterors/articles/benchmarks.html">benchmarking</a>
 vignette illustrates that computations using <code>iterors</code> can
 execute several times faster than using <code>iterators</code>.</p>
 <p>The <code>iterors</code> package grew out of, and is a complement to,
-generators implemented in the <a href="http://crowding.github.io/async" class="external-link">async</a> package. <a href="https://crowding.github.io/async/reference/gen.html" class="external-link">async::gen</a>
+generators implemented in the <a href="https://crowding.github.io/async/" class="external-link">async</a> package. <a href="https://crowding.github.io/async/reference/gen.html" class="external-link">async::gen</a>
 lets you construct iterators with complex logic, using familiar
 imperative code with flow control constructs like <code>if</code>
 <code>for</code>, <code>switch</code> and so on. Meanwhile, functions in
@@ -163,22 +163,22 @@ complementary ways that you can work with sequential processes.</p>
 <div class="section level3">
 <h3 id="more-reading">More reading<a class="anchor" aria-label="anchor" href="#more-reading"></a>
 </h3>
-<p>For a quick introduction, see <a href="http://crowding.github.io/iterors/articles/iterors.html" class="external-link"><code>vignette("iterors")</code></a></p>
+<p>For a quick introduction, see <a href="https://crowding.github.io/iterors/articles/iterors.html"><code>vignette("iterors")</code></a></p>
 <p>For an index of <code>iteror</code> functions organized by task, see
-<a href="http://crowding.github.io/iterors/articles/categories.html" class="external-link"><code>vignette("categories", "iterors")</code></a></p>
+<a href="https://crowding.github.io/iterors/articles/categories.html"><code>vignette("categories", "iterors")</code></a></p>
 <p>If you are familiar with packages
 <code>iterators</code>/<code>itertools</code>/<code>itertools2</code>,
-some functions have been moved. See <a href="http://crowding.github.io/iterors/articles/cross-reference.html" class="external-link"><code>vignette("cross-reference", "iterors")</code></a></p>
-<p>To learn how to build custom iterors, see <a href="http://crowding.github.io/iterors/articles/writing.html" class="external-link"><code>vignette("writing", "iterors")</code></a></p>
+some functions have been moved. See <a href="https://crowding.github.io/iterors/articles/cross-reference.html"><code>vignette("cross-reference", "iterors")</code></a></p>
+<p>To learn how to build custom iterors, see <a href="https://crowding.github.io/iterors/articles/writing.html"><code>vignette("writing", "iterors")</code></a></p>
 </div>
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h3>
-<p>For prerelease, run the following after installing <a href="https://github.com/hadley/devtools" class="external-link">devtools</a>:</p>
+<p>For prerelease, run the following after installing <a href="https://github.com/hadley/devtools/" class="external-link">devtools</a>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'crowding/iterors'</span><span class="op">)</span></span></code></pre></div>
 <p>When the package is released, you will be able to install the stable
-version from <a href="http://cran.r-project.org/package=iterors" class="external-link">CRAN</a>:</p>
+version from <a href="https://cran.r-project.org/package=iterors" class="external-link">CRAN</a>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'iterors'</span>, dependencies<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
