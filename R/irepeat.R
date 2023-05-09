@@ -32,10 +32,10 @@
 #' @examples
 #'
 #' # Repeat a value 10 times
-#' unlist(as.list(irepeat(42, 10)))
+#' unlist(as.list(i_repeat(42, 10)))
 #'
-#' @export irepeat
-irepeat <- function(x, times) {
+#' @export i_repeat
+i_repeat <- function(x, times) {
   if (missing(times)) {
     nextOr_ <- function(or) {
       x

@@ -17,7 +17,7 @@ test_that("icountn", {
   expect_silent(for (v in vv) {
     ait <- icountn(v)
     xit <- xcountn(v)
-    cit <- imap(actual=ait, expected=xit, f=function(actual, expected) {
+    cit <- i_map(actual=ait, expected=xit, f=function(actual, expected) {
       same <- identical(actual, unname(unlist(expected)))
       if (!same ) {
         expect_equal(actual, unname(unlist(expected)))

@@ -35,5 +35,5 @@ itabulate <- function(f, start=1, step=1) {
     stop("'step' must be a numeric value of length 1")
   }
 
-  iapply(iseq(from=start, by=step), f)
+  i_apply(iseq(from=start, by=step), f)
 }

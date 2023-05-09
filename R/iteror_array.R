@@ -5,7 +5,7 @@
 #'   each call to \code{nextOr}.
 #' @param drop Whether to drop the array dimensions enumerated over.
 #' @param rowMajor If TRUE, will return slices in order with the first
-#'              indices varying fastest (same as in [ienumerate]).
+#'              indices varying fastest (same as in [i_enumerate]).
 #' @examples
 #' l <- iteror(letters, chunkSize=7)
 #' as.list(l)
@@ -39,7 +39,7 @@ iteror.array <- function(obj, ...,
                          chunkSize=chunkSize, chunks=chunks,
                          recycle=recycle)
   } else {
-    it <- iapply(ienumerate.array(obj, ..., by=by,
+    it <- i_apply(i_enumerate.array(obj, ..., by=by,
                                   chunkSize=chunkSize, chunks=chunks,
                                   recycle=recycle, drop=drop, rowMajor=rowMajor),
                  function(x)x$value)

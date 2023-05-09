@@ -19,6 +19,6 @@
 dotproduct <- function(vec1, vec2) {
   vec1 <- iteror(vec1)
   vec2 <- iteror(vec2)
-  it <- imap(prod, vec1, vec2)
+  it <- i_map(prod, vec1, vec2)
   sum(sapply(it, identity))
 }

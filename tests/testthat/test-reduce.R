@@ -18,7 +18,7 @@ test_that("reduce", {
   reduce(it, paste0, "") %is% "12345"
 
   it <- icount(5)
-  as.character(iaccum(it, paste0, "")) %is%
+  as.character(i_accum(it, paste0, "")) %is%
     c("1", "12", "123", "1234", "12345")
 
 })

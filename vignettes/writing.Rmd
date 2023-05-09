@@ -39,9 +39,9 @@ package.  The `iteror.array` method allows you to iterate over
 arrays, in much the same way as the standard `apply` function.
 `apply` has fixed rules on how the results are returned, which
 may require you to reshape the results, which can be inefficient, as
-well as inconvenient.  But since `iapply` doesn't process any
+well as inconvenient.  But since `i_apply` doesn't process any
 data or combine the results, it is more flexible.  You can use
-`iapply` with the `foreach` package to perform a parallel
+`i_apply` with the `foreach` package to perform a parallel
 `apply` operation, and combine the results any way you want via
 the `.combine` argument to `foreach`.
 
@@ -161,7 +161,7 @@ what would happen if there were an iterator that legitimately returns
 `NULL` as a value. For instance, this list contains some tricky
 values:
 
-```{R <bad_iter}
+```{R bad_iter}
 bad_sigils <- list(
   quote(.StopIteration),
   NULL,
@@ -173,7 +173,7 @@ bad_sigils <- list(
   numeric(0))
 ```
 
-If you were to try to iterate over this list, like:
+Suppose you iterate over this list using NULL as your end-of-iteration sigil, like this:
 
 ```{R enum}
 it <- iteror(bad_sigils)
@@ -248,9 +248,10 @@ nextOr(it, NULL)
 nextOr(it, NULL)
 ```
 
-You can also get values from an iterator using `as.list`.  But since
-this is an infinite iterator, you need to use the `n` argument to
-avoid getting stuck in an infinite look until you run out of memory:
+You can also get values from an iterator using `as.numeric`.  But
+since this is an infinite iterator, you need to also give an argument
+`n` argument to avoid getting stuck in an infinite loop until you run
+out of memory:
 
 ```{R runiter1.part2}
 as.numeric(it, n=6)
@@ -283,10 +284,10 @@ stop.  Managing the state is usually the real trick to writing iterators.
 
 Let's modify the previous iterator `iforever` to stop after it
 returns a certain number of values.  I'll call the new function
-`irep`, and give it another argument called `times`:
+`i_rep`, and give it another argument called `times`:
 
 ```{R iter2}
-irep <- function(x, times) {
+i_rep <- function(x, times) {
   nextOr_ <- function(or) {
     if (times > 0) {
       times <<- times - 1
@@ -303,11 +304,11 @@ irep <- function(x, times) {
 Now let's try it out:
 
 ```{R runiter2}
-it <- irep(7, 6)
+it <- i_rep(7, 6)
 unlist(as.list(it))
 ```
 
-The differences between `iforever` and `irep` are in the inner
+The differences between `iforever` and `i_rep` are in the inner
 function `nextOr_`. This inner function not only accesses the values
 of the variables `x` and `times`, but it also modifies the value of
 `times`.  This is accomplished by means of the "`<<-=`"[^1] operator,
@@ -327,16 +328,16 @@ argument.
 Technically, this kind of function that refers to enclosing variables
 is called a _closure_, and is a fundamental feature of `R`.  The
 important thing to remember is that `nextOr_` is able to get the value
-of variables that were passed as arguments to `irep`, and it can
+of variables that were passed as arguments to `i_rep`, and it can
 modify those values using the `<<-` operator.  These are _not_ global
 variables: they are defined in the enclosing environment of the
 `nextOr_` function.  You can create as many iterators as you want
-using the `irep` function, and they will all work as expected without
+using the `i_rep` function, and they will all work as expected without
 conflicts.
 
-Note that this iterator only uses the arguments to `irep` to
+Note that this iterator only uses the arguments to `i_rep` to
 store its state.  If any other state variables are needed, they can be
-defined anywhere inside the `irep` function.
+defined anywhere inside the `i_rep` function.
 
 ## Using an iterator inside an iterator
 
@@ -440,16 +441,16 @@ unlist(as.list(it, n=9))
 
 ## Limiting infinite iterators
 
-I was tempted to add an argument to the `irecycle` function to
+I was tempted to add an argument to the `i_recycle` function to
 limit the number of values that it returns, because sometimes you want
 to recycle for awhile, but not forever.  I didn't do that, because
-rather than make `irecycle` more complicated, I decided to
+rather than make `i_recycle` more complicated, I decided to
 write another function that takes an iterator and returns a
 modified iterator. Functions like this are _composable_; the
 limiting function can be applied to any underlying iterator instead of
-just `irecycle`.
+just `i_recycle`.
 
-```{R ilimit}
+```{R i_limit}
 i_limit <- function(it, times) {
   it <- iteror(it)
 
@@ -469,33 +470,33 @@ By convention, the `iterors` package uses the prefix `i_` for this
 kind of composing iterator function, and a bare `i` for functions that
 build an iterator based on basic data.
 
-Note that this looks an awful lot like the `irep` function that
-we implemented previously.  In fact, using `ilimit`, we can
-implement `irep` using `iforever` much more simply, and
+Note that this looks an awful lot like the `i_rep` function that
+we implemented previously.  In fact, using `i_limit`, we can
+implement `i_rep` using `iforever` much more simply, and
 without duplication of code:
 
-```{R irep2}
-irep2 <- function(x, times)
+```{R i_rep2}
+i_rep2 <- function(x, times)
   i_limit(iforever(x), times)
 ```
 
-To demonstrate `irep2`:
+To demonstrate `i_rep2`:
 
-```{R testirep2}
-it <- irep2('foo', 3)
+```{R testi_rep2}
+it <- i_rep2('foo', 3)
 repeat {
   print(nextOr(it, break))
 }
 ```
 
 Here's one last example.  Let's recycle a vector three times using
-`ilimit`, and convert it back into a vector using
+`i_limit`, and convert it back into a vector using
 `as.numeric`:
 
-```{R testirecycle}
+```{R testi_recycle}
 iterable <- 1:3
 n <- 3
-it <- i_limit(irecycle(iterable), n * length(iterable))
+it <- i_limit(i_recycle(iterable), n * length(iterable))
 as.numeric(it)
 ```
 

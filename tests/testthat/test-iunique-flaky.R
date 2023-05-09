@@ -16,7 +16,7 @@ test_that("idedup works with other data types", {
 
 })
 
-test_that("iunique with general data types", {
+test_that("i_unique with general data types", {
   fn <- quote(function(x=1) y)
 
   x <- list(eval(fn),
@@ -30,7 +30,7 @@ test_that("iunique with general data types", {
             x~y,
             eval(fn))
 
-  expect_equal(as.list(iunique(x)),
+  expect_equal(as.list(i_unique(x)),
                list(
                  eval(fn),
                  as.name("hooray"),

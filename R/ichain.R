@@ -1,6 +1,6 @@
 #' Iteror that chains multiple arguments together into a single iterator
 #'
-#' `ichain` for iterators is analogous to [c()] on vectors. `ichain`
+#' `i_chain` for iterators is analogous to [c()] on vectors. `i_chain`
 #' constructs an [iteror] that returns elements from the first
 #' argument until it is exhausted, then elements from the next
 #' argument, and so on until all arguments have been exhausted.
@@ -11,12 +11,12 @@
 #' @return iteror that iterates through each argument in sequence
 #'
 #' @examples
-#' it <- ichain(1:3, 4:5, 6)
+#' it <- i_chain(1:3, 4:5, 6)
 #' as.list(it)
 #'
-#' it2 <- ichain(1:3, levels(iris$Species))
+#' it2 <- i_chain(1:3, levels(iris$Species))
 #' as.list(it2)
-ichain <- function(...) {
+i_chain <- function(...) {
   L <- iteror(list(...))
   icollapse(L)
 }

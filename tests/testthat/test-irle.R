@@ -1,22 +1,22 @@
 `%is%` <- expect_equal
 
 
-test_that("irle", {
+test_that("i_rle", {
 
   target <- lapply(1:10, \(x) list(length=x, value=x))
 
   result <- (
     as.list(
-      irle(
+      i_rle(
         icollapse(
-          iapply(
+          i_apply(
             icount(10),
-            \(x) irep.times(x, x))))))
+            \(x) i_rep.times(x, x))))))
 
   result %is% target
 
   inv_target <- lapply(1:10, \(x) rep(x, x)) |> c(recursive = TRUE)
-  inv_result <- as.numeric(irleinv(result))
+  inv_result <- as.numeric(i_rleinv(result))
 
   inv_result %is% inv_target
 

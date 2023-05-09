@@ -4,11 +4,11 @@
 #' elements within the list \code{x}.
 #'
 #' The iteror returned is exhausted when the shortest element in \code{x}
-#' is exhausted. Note that \code{istarmap} does not recycle arguments as
+#' is exhausted. Note that \code{i_starmap} does not recycle arguments as
 #' \code{\link[base]{Map}} does.
 #'
-#' The primary difference between \code{istarmap} and
-#' \code{\link[iterors]{imap}} is that the former expects an iterable object
+#' The primary difference between \code{i_starmap} and
+#' \code{\link[iterors]{i_map}} is that the former expects an iterable object
 #' whose elements are already grouped together, while the latter case groups the
 #' arguments together before applying the given function. The choice is a matter
 #' of style and convenience.
@@ -23,25 +23,25 @@
 #' pow <- function(x, y) {
 #'   x^y
 #' }
-#' it <- istarmap(pow, list(c(2, 3, 10), c(5, 2, 3)))
+#' it <- i_starmap(pow, list(c(2, 3, 10), c(5, 2, 3)))
 #' unlist(as.list(it)) == c(32, 9, 1000)
 #'
 #' # Similar to the above, but because the second vector is exhausted after two
 #' # calls to `nextElem`, the iterator is exhausted.
-#' it2 <- istarmap(pow, list(c(2, 3, 10), c(5, 2)))
+#' it2 <- i_starmap(pow, list(c(2, 3, 10), c(5, 2)))
 #' unlist(as.list(it2)) == c(32, 9)
 #'
 #' # Another similar example but with lists instead of vectors
-#' it3 <- istarmap(pow, list(list(2, 3, 10), list(5, 2, 3)))
+#' it3 <- i_starmap(pow, list(list(2, 3, 10), list(5, 2, 3)))
 #' as.list(it3)
 #'
 #' # Computes sum of each row in the iris data set
 #' # Numerically equivalent to base::rowSums()
 #' tolerance <- sqrt(.Machine$double.eps)
 #' iris_x <- iris[, -5]
-#' it4 <- istarmap(sum, iris_x)
+#' it4 <- i_starmap(sum, iris_x)
 #' unlist(as.list(it4)) - rowSums(iris_x) < tolerance
-istarmap <- function(f, x) {
+i_starmap <- function(f, x) {
   f <- match.fun(f)
   iter_list <- lapply(x, iteror)
 
@@ -53,6 +53,6 @@ istarmap <- function(f, x) {
   iteror.internal(nextOr_)
 }
 
-#' @rdname istarmap
+#' @rdname i_starmap
 #' @export
-istar <- istarmap
+i_star <- i_starmap

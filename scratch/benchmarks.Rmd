@@ -157,44 +157,44 @@ chain.bench <- microbenchmark::microbenchmark(
     do.call(itertools::chain,
             lapply(1:50, iterators::icount))),
     itertools2 = iter_consume(
-      do.call(itertools2::ichain,
+      do.call(itertools2::i_chain,
               lapply(1:50, iterators::icount))),
   iterors =
-    iterors::consume(do.call(iterors::ichain, lapply(1:50, iterors::icount))),
+    iterors::consume(do.call(iterors::i_chain, lapply(1:50, iterors::icount))),
   iterors.collapse =
-    iterors::consume(iterors::icollapse(iterors::iapply(1:50, iterors::icount))),
+    iterors::consume(iterors::icollapse(iterors::i_apply(1:50, iterors::icount))),
   times=10)
 plotit(chain.bench)
 ```
 
 ## Keeping or dropping items according to a criterion
 ```{R}
-ikeep.bench <- microbenchmark::microbenchmark(
+i_keep.bench <- microbenchmark::microbenchmark(
     iterators = as.list(itertools::ifilter(\(x) floor(sqrt(x))^2 == x, iterators::icount(5000))),
-    iterors = as.list(iterors::ikeep(iterors::icount(5000), \(x) floor(sqrt(x))^2 == x)),
+    iterors = as.list(iterors::i_keep(iterors::icount(5000), \(x) floor(sqrt(x))^2 == x)),
     times = 10)
-plotit(ikeep.bench)
+plotit(i_keep.bench)
 ```
 
 ## Select only unique values
 
-`iterors::iunique` uses a hash table for better performance.
+`iterors::i_unique` uses a hash table for better performance.
 
 ```{R}
-iunique.bench <- microbenchmark::microbenchmark(
+i_unique.bench <- microbenchmark::microbenchmark(
        iterators = {
-         it <- itertools2::iunique(iterators::isample(1:100, 1))
+         it <- itertools2::i_unique(iterators::isample(1:100, 1))
          as.numeric(itertools2::take(it, 100))
        },
        iterors = {
-         it <- iterors::iunique(iterors::isample(1:100, 1, independent=FALSE))
+         it <- iterors::i_unique(iterors::isample(1:100, 1, independent=FALSE))
          iterors::take(it, 100, "numeric")
        },
        times=10)
-plotit(iunique.bench)
+plotit(i_unique.bench)
 ```
 
-## irecycle
+## i_recycle
 
 Note that `itertools2::icycle` only works for self-contained vector-based iterators, while the other two use a general purpose buffer.
 
@@ -202,31 +202,31 @@ Note that `itertools2::icycle` only works for self-contained vector-based iterat
 icycle.bench <- microbenchmark::microbenchmark(
   itertools2 = as.list(itertools2::icycle(iterators::icount(20), times = 20)),
   itertools = iter_consume(itertools::recycle(iterators::icount(20), times = 20)),
-  iterors = iterors::consume(iterors::irecycle(iterors::icount(20), times = 20)),
+  iterors = iterors::consume(iterors::i_recycle(iterors::icount(20), times = 20)),
   times = 20)
 plotit(icycle.bench)
 ```
 
-## itee
+## i_tee
 
 Note that `itertools2::tee` only works for vector-based iterators it
-knows how to clone, while `iterors::itee` uses a general purpose
+knows how to clone, while `iterors::i_tee` uses a general purpose
 buffering mechanism.
 
 ```{R}
-itee.bench <- microbenchmark::microbenchmark(
+i_tee.bench <- microbenchmark::microbenchmark(
   itertools2={
     iter_consume(
       do.call(itertools::chain,
-        itertools2::itee(1:20, n=20)))
+        itertools2::i_tee(1:20, n=20)))
   },
   iterors={
     iterors::consume(
       iterors::icollapse(
-        iterors::itee(iterors::icount(20), n=20)))
+        iterors::i_tee(iterors::icount(20), n=20)))
   },
   times=20)
-plotit(itee.bench)
+plotit(i_tee.bench)
 ```
 
 ## Sliding window iterators
@@ -241,10 +241,10 @@ marks=c(alist(
     alist(itertools2.w3={iter_consume(itertools2::itripletwise(1:200))})
   },
   alist(
-    iterors.w2={iterors::consume(iterors::iwindow(1:200, 2))},
-    iterors.w3={iterors::consume(iterors::iwindow(1:200, 3))},
-    iterors.w4={iterors::consume(iterors::iwindow(1:200, 4))},
-    iterors.w50={iterors::consume(iterors::iwindow(1:200, 50))}))
-iwindow.bench <- microbenchmark::microbenchmark(list=marks, times=10)
-plotit(iwindow.bench)
+    iterors.w2={iterors::consume(iterors::i_window(1:200, 2))},
+    iterors.w3={iterors::consume(iterors::i_window(1:200, 3))},
+    iterors.w4={iterors::consume(iterors::i_window(1:200, 4))},
+    iterors.w50={iterors::consume(iterors::i_window(1:200, 50))}))
+i_window.bench <- microbenchmark::microbenchmark(list=marks, times=10)
+plotit(i_window.bench)
 ```

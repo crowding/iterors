@@ -16,20 +16,20 @@
 #' @param ... Extra arguments are forwarded to [iteror].
 #' @return an iterator that returns only the unique elements from
 #'   \code{object}
-#' @seealso idedupe
+#' @seealso i_dedupe
 #'
 #' @examples
-#' it <- ichain(rep(1, 4), rep(2, 5), 4:7, 2)
-#' as.list(iunique(it)) # 1 2 4 5 6 7
+#' it <- i_chain(rep(1, 4), rep(2, 5), 4:7, 2)
+#' as.list(i_unique(it)) # 1 2 4 5 6 7
 #'
 #' it2 <- iterators::iter(c('a', 'a', "A", "V"))
-#' as.list(iunique(it2)) # a A V
+#' as.list(i_unique(it2)) # a A V
 #'
 #' x <- as.character(gl(5, 10))
-#' it_unique <- iunique(x)
+#' it_unique <- i_unique(x)
 #' as.list(it_unique) # 1 2 3 4 5
 #' @importFrom rlang hash
-iunique <- function(object, digest=rlang::hash, ...) {
+i_unique <- function(object, digest=rlang::hash, ...) {
   object <- iteror(object, ...)
   unique_elems <- new.env()
   i <- 1
@@ -64,15 +64,15 @@ iunique <- function(object, digest=rlang::hash, ...) {
 #'   unterlying iterator.
 #' @details Originated as `itertools2::iunique_lastseen`.
 #'   \code{object}.
-#' @seealso irle
+#' @seealso i_rle
 #'
 #' @examples
-#' it <- ichain(rep(1,4), rep(2, 5), 4:7, 2)
-#' it_iunique <- idedup(it)
-#' as.list(it_iunique) # 1 2 4 5 6 7 2
+#' it <- i_chain(rep(1,4), rep(2, 5), 4:7, 2)
+#' it_i_unique <- idedup(it)
+#' as.list(it_i_unique) # 1 2 4 5 6 7 2
 #'
 #' it2 <- iteror(c('a', 'a', "A", 'a', 'a', "V"))
-#' idedupe <- idedup(it2)
+#' i_dedupe <- idedup(it2)
 #' as.list(idedup) # a A a V
 #'
 idedup <- function(object, cmp=identical, ...) {
@@ -99,7 +99,7 @@ idedup <- function(object, cmp=identical, ...) {
 #'
 #' This is an iterator equivalent of [rle]; it produces one output
 #' value for each run if identical values in its input, along with the
-#' lenght of the run. `irle_inverse()` performs the inverse
+#' lenght of the run. `i_rle_inverse()` performs the inverse
 #' transformstion.
 #'
 #' @author Peter Meilstrup
@@ -109,14 +109,14 @@ idedup <- function(object, cmp=identical, ...) {
 #' @param ... further arguments forwarded to [`iteror(obj, ...)`][iteror].
 #' @return An iterator returning entries of the form `list(length=n, value=X)`.
 #' @author Peter Meilstrup
-#' @seealso idedupe
+#' @seealso i_dedupe
 #' @examples
 #' it <- isample(c(TRUE, FALSE), 1, replace=TRUE)
-#' rle <- irle(it)
+#' rle <- i_rle(it)
 #' x <- take(rle, 10)
-#' as.logical(irleinv(x))
-#' @export irle
-irle <- function(obj, cmp=identical, ...) {
+#' as.logical(i_rleinv(x))
+#' @export i_rle
+i_rle <- function(obj, cmp=identical, ...) {
   obj <- iteror(obj, ...)
   run <- 0
   ended <- FALSE
@@ -145,10 +145,10 @@ irle <- function(obj, cmp=identical, ...) {
   iteror.internal(nextOr_)
 }
 
-#' @rdname irle
-#' @return `irleinv` recreates the original data from the output of `irle`.
+#' @rdname i_rle
+#' @return `i_rleinv` recreates the original data from the output of `i_rle`.
 #' @export
-irleinv <- function(obj, ...) {
+i_rleinv <- function(obj, ...) {
   obj <- iteror(obj, ...)
   count <- 0
   val <- NULL

@@ -3,7 +3,7 @@
 \name{reduce}
 \alias{reduce}
 \alias{reduce.iteror}
-\alias{iaccum}
+\alias{i_accum}
 \alias{sum.iteror}
 \alias{prod.iteror}
 \title{Compute the sum, product, or general reduction of an iterator.}
@@ -12,7 +12,7 @@ reduce(obj, fun = `+`, init = 0, ...)
 
 \method{reduce}{iteror}(obj, fun = `+`, init = 0, ...)
 
-iaccum(obj, fun = `+`, init = 0, ...)
+i_accum(obj, fun = `+`, init = 0, ...)
 
 \method{sum}{iteror}(..., na.rm = FALSE)
 
@@ -54,7 +54,7 @@ total <- 1
 repeat total <- total * nextOr(it, break)
 
 # triangular numbers: 1, 1+2, 1+2+3, ...
-take(iaccum(icount()), 10, 'numeric')
+take(i_accum(icount()), 10, 'numeric')
 }
 \author{
 Peter Meilstrup

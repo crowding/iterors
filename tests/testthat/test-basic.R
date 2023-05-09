@@ -101,7 +101,7 @@ test_that("iteror from functions", {
   ic <- iteror(sigilFunc(), sigil='the end')
   id <- iteror(sigilFunc(), count=10)
 
-  expect_length(as.list(izip(ia, ib, ic, id)), 10)
+  expect_length(as.list(i_zip(ia, ib, ic, id)), 10)
 
   ia(NULL) %is% NULL
   ib(NULL) %is% NULL

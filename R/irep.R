@@ -39,33 +39,33 @@
 #' @details Originally from the `itertools` package.
 #' @examples
 #'
-#' unlist(as.list(irep(1:4, 2)))
-#' unlist(as.list(irep(1:4, each=2)))
-#' unlist(as.list(irep(1:4, c(2,2,2,2))))
-#' unlist(as.list(irep(1:4, c(2,1,2,1))))
-#' unlist(as.list(irep(1:4, each=2, len=4)))
-#' unlist(as.list(irep(1:4, each=2, len=10)))
-#' unlist(as.list(irep(1:4, each=2, times=3)))
+#' unlist(as.list(i_rep(1:4, 2)))
+#' unlist(as.list(i_rep(1:4, each=2)))
+#' unlist(as.list(i_rep(1:4, c(2,2,2,2))))
+#' unlist(as.list(i_rep(1:4, c(2,1,2,1))))
+#' unlist(as.list(i_rep(1:4, each=2, len=4)))
+#' unlist(as.list(i_rep(1:4, each=2, len=10)))
+#' unlist(as.list(i_rep(1:4, each=2, times=3)))
 #'
-#' @export irep
-irep <- function(iterable, times=NULL, length.out=NULL, each=NULL, ...) {
+#' @export i_rep
+i_rep <- function(iterable, times=NULL, length.out=NULL, each=NULL, ...) {
   # Apply "each" first
   it <- if (!is.null(each)) {
-    irep.each(iteror(iterable, ...), each)
+    i_rep.each(iteror(iterable, ...), each)
   } else {
     iteror(iterable, ...)
   }
 
   if (!is.null(length.out)) {
     # Ignore "times" if "length.out" is specified
-    ilimit(irecycle(it), length.out)
+    i_limit(i_recycle(it), length.out)
   } else if (!is.null(times)) {
     if (length(times) == 1) {
       # If "times" has a single value, recycle that many times
-      irecycle(it, times)
+      i_recycle(it, times)
     } else {
       # If "times" has multiple values, it's kind of like "each"
-      irep.times(it, times)
+      i_rep.times(it, times)
     }
   } else {
     # Neither "length.out" or "times" was specified
@@ -73,8 +73,8 @@ irep <- function(iterable, times=NULL, length.out=NULL, each=NULL, ...) {
   }
 }
 
-# Internal function used to handle the irep "each" argument
-irep.each <- function(it, each) {
+# Internal function used to handle the i_rep "each" argument
+i_rep.each <- function(it, each) {
   each <- as.integer(each[1])
 
   if (is.na(each)) {
@@ -104,8 +104,8 @@ irep.each <- function(it, each) {
   iteror(nextOr_)
 }
 
-# Internal function used to handle the irep "times" argument
-irep.times <- function(it, times, ...) {
+# Internal function used to handle the i_rep "times" argument
+i_rep.times <- function(it, times, ...) {
   it <- iteror(it, ...)
   times <- as.integer(times)
   if (length(times) == 0 || any(is.na(times) | times < 0)) {

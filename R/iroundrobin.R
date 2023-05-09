@@ -14,12 +14,12 @@
 #' it <- iteror(c("A", "B", "C"))
 #' it2 <- iteror("D")
 #' it3 <- iteror(c("E", "F"))
-#' as.list(iroundrobin(it, it2, it3)) # A D E B F C
+#' as.list(i_roundrobin(it, it2, it3)) # A D E B F C
 #'
-#' it_rr <- iroundrobin(1:3, 4:5, 7:10)
+#' it_rr <- i_roundrobin(1:3, 4:5, 7:10)
 #' as.list(it_rr) # 1 4 7 2 5 8 3 9 10
 #'
-iroundrobin <- function(...) {
+i_roundrobin <- function(...) {
   iter_list <- lapply(list(...), iteror)
   num_iters <- length(iter_list)
 

@@ -1,7 +1,7 @@
-test_that("Apply icompress to an integer sequence", {
+test_that("Apply i_mask to an integer sequence", {
   n <- 10
   selectors <- rep(c(F, T), n)
-  it <- icompress(1:10, selectors)
+  it <- i_mask(1:10, selectors)
 
   expect_equal(nextOr(it, NA), 2)
   expect_equal(nextOr(it, NA), 4)
@@ -11,9 +11,9 @@ test_that("Apply icompress to an integer sequence", {
   expect_equal(nextOr(it, NA), NA)
 })
 
-test_that("Apply icompress to an integer sequence using anonymous function", {
+test_that("Apply i_mask to an integer sequence using anonymous function", {
   n <- 10
-  it <- icompress(1:10, rep(c(T, F), n))
+  it <- i_mask(1:10, rep(c(T, F), n))
 
   expect_equal(nextOr(it, NA), 1)
   expect_equal(nextOr(it, NA), 3)
@@ -23,8 +23,8 @@ test_that("Apply icompress to an integer sequence using anonymous function", {
   expect_equal(nextOr(it, NA), NA)
 })
 
-test_that("Apply icompress to a character vector", {
-  it <- icompress(letters, letters %in% c('a', 'e', 'i', 'o', 'u'))
+test_that("Apply i_mask to a character vector", {
+  it <- i_mask(letters, letters %in% c('a', 'e', 'i', 'o', 'u'))
 
   expect_equal(nextOr(it, NA), 'a')
   expect_equal(nextOr(it, NA), 'e')

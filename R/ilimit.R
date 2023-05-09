@@ -33,10 +33,10 @@
 #' @examples
 #'
 #' # Limit icount to only return three values
-#' as.list(ilimit(icount(), 3))
+#' as.list(i_limit(icount(), 3))
 #'
-#' @export ilimit
-ilimit <- function(iterable, n, ...) {
+#' @export i_limit
+i_limit <- function(iterable, n, ...) {
   it <- iteror(iterable, ...)
   n <- as.integer(n)
 

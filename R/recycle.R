@@ -32,10 +32,10 @@
 #' @examples
 #'
 #' # Recycle over 'a', 'b', and 'c' three times
-#' i <- irecycle(letters[1:3], 3)
+#' i <- i_recycle(letters[1:3], 3)
 #' as.character(i)
 #'
-#' it <- irecycle(1:3)
+#' it <- i_recycle(1:3)
 #' nextOr(it, NA) # 1
 #' nextOr(it, NA) # 2
 #' nextOr(it, NA) # 3
@@ -44,7 +44,7 @@
 #' nextOr(it, NA) # 3
 #' nextOr(it, NA) # 1
 #'
-#' it2 <- irecycle(1:3, times=2)
+#' it2 <- i_recycle(1:3, times=2)
 #' as.list(it2)
 #'
 #' # Can return the results from a function.
@@ -54,8 +54,8 @@
 #' nextOr(it, NA)
 #' nextOr(it, NA)
 #'
-#' @export irecycle
-irecycle <- function(iterable, times=NA_integer_, ...) {
+#' @export i_recycle
+i_recycle <- function(iterable, times=NA_integer_, ...) {
   # Manually check for a missing argument since "inherits" issues
   # a cryptic error message in that case
   if (missing(iterable)) {

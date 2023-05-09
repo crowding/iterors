@@ -15,7 +15,7 @@ test_that("test01", {
         mean(x)
     }
     expect_equal(expected, actual)
-    it <- irepeat(list(where = 0, origin = "current"), n)
+    it <- i_repeat(list(where = 0, origin = "current"), n)
     it <- ireadBin("testbin", double(), n = n, ipos = it)
     actual <- foreach(x = it) %do% {
         mean(x)
@@ -33,14 +33,14 @@ test_that("test02", {
         mean(x)
     }
     close(zz)
-    it <- irepeat(0, n)
+    it <- i_repeat(0, n)
     it <- ireadBin("testbin", "double", n = n, ipos = it)
     actual <- foreach(x = it) %do% {
         mean(x)
     }
     expected <- rep(expected[1], n)
     expect_equal(expected, actual)
-    it <- irepeat(list(where = 0, origin = "start"), n)
+    it <- i_repeat(list(where = 0, origin = "start"), n)
     it <- ireadBin("testbin", double(), n = n, ipos = it)
     actual <- foreach(x = it) %do% {
         mean(x)

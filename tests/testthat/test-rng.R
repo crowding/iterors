@@ -34,7 +34,7 @@ test_that("RNG streams are independent", {
 
   # and this is independent of order in which
   # we call them...
-  result <- take(iroundrobin(it1, it2, it3), 15, "numeric")
+  result <- take(i_roundrobin(it1, it2, it3), 15, "numeric")
   expect_true(identical(matrix(result, 3, 5), answer))
 
 })

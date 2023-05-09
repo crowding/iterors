@@ -1,6 +1,6 @@
 library(iterors)
 
-ilimit <- function(it, times) {
+i_limit <- function(it, times) {
   it <- iteror(it)
 
   nextOr_ <- function(or) {
@@ -15,7 +15,7 @@ ilimit <- function(it, times) {
   iteror.internal(nextOr_)
 }
 
-it <- ilimit(icount(Inf), 3)
+it <- i_limit(icount(Inf), 3)
 print(nextOr(it, "done"))
 print(nextOr(it, "done"))
 print(nextOr(it, "done"))

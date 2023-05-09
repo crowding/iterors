@@ -1,6 +1,6 @@
 #' Construct a sliding window over an iterator
 #'
-#' Each element returned by `iwindow(obj)` consists of `n` consecutive
+#' Each element returned by `i_window(obj)` consists of `n` consecutive
 #' elements from the underlying `obj`, with the window advancing
 #' forward by one element each iteration.
 #' @param obj An iterable.
@@ -14,34 +14,34 @@
 #' @examples
 #'
 #' #' @examples
-#' it <- iwindow(iteror(letters[1:4]), 2)
+#' it <- i_window(iteror(letters[1:4]), 2)
 #' nextOr(it, NA) # list("a", "b")
 #' nextOr(it, NA) # list("b", "c")
 #' nextOr(it, NA) # list("c", "d")
 #'
-#' it2 <- iwindow(icount(5), 2)
+#' it2 <- i_window(icount(5), 2)
 #' nextOr(it2, NA) # list(1, 2)
 #' nextOr(it2, NA) # list(2, 3)
 #' nextOr(it2, NA) # list(3, 4)
 #' nextOr(it2, NA) # list(4, 5)
 #'
-#' it <- iwindow(letters[1:4], 2)
+#' it <- i_window(letters[1:4], 2)
 #' nextOr(it, NA) # list("a", "b")
 #' nextOr(it, NA) # list("b", "c")
 #' nextOr(it, NA) # list("c", "d")
 #'
-#' it <- iwindow(letters[1:4], 3)
+#' it <- i_window(letters[1:4], 3)
 #' nextOr(it) # list("a", "b", "c")
 #' nextOr(it) # list("b", "c", "d")
 #'
-#' it <- iwindow(letters[1:4], 3, tail=" ")
+#' it <- i_window(letters[1:4], 3, tail=" ")
 #' nextOr(it) # list(" ", " ", "a")
 #' nextOr(it) # list(" ", "a", "b")
 #' nextOr(it) # list("a", "b", "c")
 #' nextOr(it) # list("b", "c", "d")
 #' nextOr(it) # list("c", "d", " ")
 #' nextOr(it) # list("d", " ", " ")
-iwindow <- function(obj, n, tail, ...) {
+i_window <- function(obj, n, tail, ...) {
   if (n==2 && missing(tail)) {
     return(ipairwise(obj, ...))
   } else if (n==3 && missing(tail)) {

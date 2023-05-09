@@ -36,6 +36,6 @@ them end to end into one vector.  In other words \code{concat} is to
 }
 \examples{
 
-it <- iapply(icount(), seq_len) # [1], [1, 2], [1, 2, 3], ...
+it <- i_apply(icount(), seq_len) # [1], [1, 2], [1, 2, 3], ...
 concat(it, n=4, mode="numeric")  # [1, 1, 2, 1, 2, 3, 1, 2, 3, 4]
 }

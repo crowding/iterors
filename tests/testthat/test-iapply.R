@@ -20,7 +20,7 @@ test_that("iterate over 3D arrays", {
 
 })
 
-test_that("iapply on matrices", {
+test_that("i_apply on matrices", {
   test <- function(actual, it) {
     expected <- nextOr(it)
     expect_equal(expected, actual)

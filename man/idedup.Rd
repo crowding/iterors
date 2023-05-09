@@ -27,15 +27,15 @@ Originated as \code{itertools2::iunique_lastseen}.
 \code{object}.
 }
 \examples{
-it <- ichain(rep(1,4), rep(2, 5), 4:7, 2)
-it_iunique <- idedup(it)
-as.list(it_iunique) # 1 2 4 5 6 7 2
+it <- i_chain(rep(1,4), rep(2, 5), 4:7, 2)
+it_i_unique <- idedup(it)
+as.list(it_i_unique) # 1 2 4 5 6 7 2
 
 it2 <- iteror(c('a', 'a', "A", 'a', 'a', "V"))
-idedupe <- idedup(it2)
+i_dedupe <- idedup(it2)
 as.list(idedup) # a A a V
 
 }
 \seealso{
-irle
+i_rle
 }

@@ -1,4 +1,4 @@
-# unifying ienumerate, isplitrows, isplitcols, chunk and chunkSize.????
+# unifying i_enumerate, isplitrows, isplitcols, chunk and chunkSize.????
 
 .max_safe_int <- 2^.Machine$double.digits
 

@@ -1,8 +1,8 @@
-test_that("ienumerate over numeric vector", {
+test_that("i_enumerate over numeric vector", {
   set.seed(42)
   x <- rnorm(5)
 
-  it <- ienumerate(x)
+  it <- i_enumerate(x)
 
   i <- nextOr(it, NA)
   expect_equal(i$index, 1)
@@ -27,26 +27,26 @@ test_that("ienumerate over numeric vector", {
   expect_equal(nextOr(it, NA), NA)
 })
 
-test_that("ienumerate chunks", {
+test_that("i_enumerate chunks", {
   expected <- do.call(rbind, as.list(
-    iapply(ienumerate(seq(1, 1000, by=3)),
+    i_apply(i_enumerate(seq(1, 1000, by=3)),
            as.data.frame)))
   actual <- do.call(rbind, as.list(
-    iapply(ienumerate(seq(1, 1000, by=3), chunkSize=5),
+    i_apply(i_enumerate(seq(1, 1000, by=3), chunkSize=5),
            as.data.frame)))
   expect_equal(expected, actual)
   actual2 <- do.call(rbind, as.list(
-    iapply(ienumerate(seq(1, 1000, by=3), chunks=12),
+    i_apply(i_enumerate(seq(1, 1000, by=3), chunks=12),
            as.data.frame)))
   expect_equal(expected, actual2)
 })
 
 
-test_that("ienum over numeric vector", {
+test_that("i_enum over numeric vector", {
   set.seed(42)
   x <- rnorm(5)
 
-  it <- ienum(x)
+  it <- i_enum(x)
 
   i <- nextOr(it, NA)
   expect_equal(i$index, 1)
@@ -71,12 +71,12 @@ test_that("ienum over numeric vector", {
   expect_equal(nextOr(it, NA), NA)
 })
 
-test_that("ienumerate split array and rejoin", {
+test_that("i_enumerate split array and rejoin", {
 
   input <- array(1:24, c(2,3,4))
 
   for (by in list(1, 2, 3, c(1, 2), c(2,3), c(1, 3), c(3, 1), c(3, 2))) {
-    slices <- as.list(ienum(input, by=by))
+    slices <- as.list(i_enum(input, by=by))
     out <- array(0, c(2, 3, 4))
     ix <- alist( , , )
     d <- dim(input)
@@ -90,7 +90,7 @@ test_that("ienumerate split array and rejoin", {
   }
 
   for (by in list(1, 2, 3, c(1, 2), c(2,3), c(1, 3), c(3, 1), c(3, 2))) {
-    slices <- as.list(ienum(input, by=by, drop=TRUE))
+    slices <- as.list(i_enum(input, by=by, drop=TRUE))
     out <- array(0, c(2, 3, 4))
     ix <- alist( , , )
     d <- dim(input)
@@ -107,18 +107,18 @@ test_that("ienumerate split array and rejoin", {
 
 })
 
-test_that("ienumerate chunked vector", {
-  actual <- nextOr(ienumerate(letters, chunks=4))
+test_that("i_enumerate chunked vector", {
+  actual <- nextOr(i_enumerate(letters, chunks=4))
   expected <- list(index=1:7, value=letters[1:7])
   expect_equal(actual, expected)
 })
 
-test_that("ienumerate chunked array", {
+test_that("i_enumerate chunked array", {
 
   input <- array(1:504, c(7,8,9))
 
   for (by in list(1, 2, 3, c(1, 2), c(2,3), c(1, 3), c(3, 1), c(3, 2))) {
-    slices <- as.list(ienum(input, by=by, chunkSize=5))
+    slices <- as.list(i_enum(input, by=by, chunkSize=5))
     out <- array(0, c(7, 8, 9))
     ix_in <- alist( , , )
     ix_out <- ix_in
@@ -140,8 +140,8 @@ test_that("ienumerate chunked array", {
 
 })
 
-test_that("ienumerate over data.frame", {
-  it <- ienumerate(iris)
+test_that("i_enumerate over data.frame", {
+  it <- i_enumerate(iris)
 
   i <- nextOr(it, NA)
   expect_equal(i$index, 1)
@@ -166,8 +166,8 @@ test_that("ienumerate over data.frame", {
   expect_equal(nextOr(it, NA), NA)
 })
 
-test_that("ienum over data.frame", {
-  it <- ienum(iris)
+test_that("i_enum over data.frame", {
+  it <- i_enum(iris)
 
   i <- nextOr(it, NA)
   expect_equal(i$index, 1)

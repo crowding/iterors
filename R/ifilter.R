@@ -1,12 +1,12 @@
 #' Iterator that filters elements not satisfying a predicate function
 #'
-#' `ikeep(iterable, predicate)` constructs an iterator that filters
+#' `i_keep(iterable, predicate)` constructs an iterator that filters
 #' elements from iterable returning only those for which the predicate
 #' is \code{TRUE}.
 #'
 #' @export
 #' @aliases ifilter
-#' @seealso idrop ikeepwhile idropwhile
+#' @seealso i_drop i_keepwhile i_dropwhile
 #' @param iterable an iterable object.
 #' @param predicate a function that determines whether an element is
 #'   \code{TRUE} or \code{FALSE}. The function is assumed to take only
@@ -23,12 +23,12 @@
 #' is_even <- function(x) {
 #'   x %% 2 == 0
 #' }
-#' it <- ikeep(1:10, is_even)
+#' it <- i_keep(1:10, is_even)
 #' as.list(it)
 #'
 #' # Similar idea here but anonymous function is used to retain only odd
 #' # numbers
-#' it2 <- idrop(1:10, function(x) x %% 2 == 0)
+#' it2 <- i_drop(1:10, function(x) x %% 2 == 0)
 #' nextOr(it2, NA) # 1
 #' nextOr(it2, NA) # 3
 #' nextOr(it2, NA) # 5
@@ -38,9 +38,9 @@
 #' is_vowel <- function(x) {
 #'   x %in% c('a', 'e', 'i', 'o', 'u')
 #' }
-#' it3 <- ikeep(letters, is_vowel)
+#' it3 <- i_keep(letters, is_vowel)
 #' as.list(it3)
-ikeep <- function(iterable, predicate, ...) {
+i_keep <- function(iterable, predicate, ...) {
   if (!is.function(predicate)) {
     stop("The 'predicate' must be a function that returns TRUE or FALSE.")
   }
@@ -59,7 +59,7 @@ ikeep <- function(iterable, predicate, ...) {
   iteror.internal(nextOr_)
 }
 
-#' `idrop(iterable, predicate)` constructs an iterator that filters
+#' `i_drop(iterable, predicate)` constructs an iterator that filters
 #' elements from iterable returning only those for which the predicate
 #' is \code{FALSE}.
 #'
@@ -70,18 +70,18 @@ ikeep <- function(iterable, predicate, ...) {
 #' is_even <- function(x) {
 #'   x %% 2 == 0
 #' }
-#' it <- idrop(1:10, is_even)
+#' it <- i_drop(1:10, is_even)
 #' as.list(it)
 #'
 #' # Similar idea here but anonymous function is used to filter out odd
 #' # numbers
-#' it2 <- idrop(1:10, function(x) x %% 2 == 1)
+#' it2 <- i_drop(1:10, function(x) x %% 2 == 1)
 #' as.list(it2)
 #'
 #' is_vowel <- function(x) {
 #'   x %in% c('a', 'e', 'i', 'o', 'u')
 #' }
-#' it3 <- idrop(letters, is_vowel)
+#' it3 <- i_drop(letters, is_vowel)
 #' nextOr(it3, NA) # b
 #' nextOr(it3, NA) # c
 #' nextOr(it3, NA) # d
@@ -89,8 +89,8 @@ ikeep <- function(iterable, predicate, ...) {
 #' nextOr(it3, NA) # g
 #' # nextOr(it, NA) continues through the rest of the consonants
 #'
-#' @rdname ikeep
-idrop <- function(iterable, predicate, ...) {
+#' @rdname i_keep
+i_drop <- function(iterable, predicate, ...) {
   if (!is.function(predicate)) {
     stop("The 'predicate' must a function that returns TRUE or FALSE.")
   }

@@ -2,7 +2,7 @@ library(iterors)
 
 # This functions returns an iterator that recycles the values of
 # the specified iterator
-irecycle <- function(it) {
+i_recycle <- function(it) {
 
   values <- as.list(iteror(it))
   i <- length(values)
@@ -16,10 +16,10 @@ irecycle <- function(it) {
   }
 
   obj <- list(nextElem=nextEl)
-  class(obj) <- c('irecycle', 'abstractiter', 'iter')
+  class(obj) <- c('i_recycle', 'abstractiter', 'iter')
   obj
 }
 
-it <- irecycle(icount(3))
+it <- i_recycle(icount(3))
 for (i in 1:9)
   print(nextElem(it))

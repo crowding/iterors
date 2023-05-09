@@ -42,25 +42,25 @@
 #' @examples
 #'
 #' # Split the vector 1:10 into "chunks" with a maximum length of three
-#' it <- ichunk(1:10, 3)
+#' it <- i_chunk(1:10, 3)
 #' repeat print(unlist(nextOr(it, break)))
 #'
 #' # Same as previous, but return integer vectors rather than lists
-#' it <- ichunk(1:10, 3, mode='integer')
+#' it <- i_chunk(1:10, 3, mode='integer')
 #' repeat print(unlist(nextOr(it, break)))
 #'
-#' #' it <- ichunk(iterators::iter(1:5), 2, fill=NA)
+#' #' it <- i_chunk(iterators::iter(1:5), 2, fill=NA)
 #' # List: list(1, 2, 3)
 #' nextOr(it, NULL)
 #' # List: list(4, 5, NA)
 #' nextOr(it, NULL)
 #'
-#' it2 <- ichunk(levels(iris$Species), 4, fill="weeee")
+#' it2 <- i_chunk(levels(iris$Species), 4, fill="weeee")
 #' # Returns: list("setosa", "versicolor", "virginica", "weeee")
 #' nextOr(it2, NA)
 #'
-#' @export ichunk
-ichunk <- function(iterable, size, mode='list', fill, ...) {
+#' @export i_chunk
+i_chunk <- function(iterable, size, mode='list', fill, ...) {
   force(iterable)
   force(size)
   it <- iteror(iterable, ...)

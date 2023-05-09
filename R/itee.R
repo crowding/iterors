@@ -1,6 +1,6 @@
 #' Create multiple iterators from one source
 #'
-#' `itee(obj, n)` consumes and buffers the output of a single iterator
+#' `i_tee(obj, n)` consumes and buffers the output of a single iterator
 #' `obj` so that it can be read by `n` independent sub-iterators.
 #'
 #' It works by saving the output of source `obj` in a queue, while
@@ -23,7 +23,7 @@
 #' @param ... passed along to `iteror(obj, ...)`
 #' @return a list of \code{n} iterators.
 #' @author Peter Meilstrup
-itee <- function(obj, n, max=2^16-1, ...) {
+i_tee <- function(obj, n, max=2^16-1, ...) {
   obj <- iteror(obj, ...)
 
   n <- as.integer(n)
@@ -46,7 +46,7 @@ itee <- function(obj, n, max=2^16-1, ...) {
       ptr <- pointers[[id]]
       if (len < ptr) {
         if (len >= max) {
-          stop("itee: queue is full")
+          stop("i_tee: queue is full")
         }
         val <- obj(or = return(or))
         data$append(val)

@@ -1,6 +1,6 @@
-test_that("itee returns n independent numeric vectors", {
+test_that("i_tee returns n independent numeric vectors", {
   # Iterate through each of the iterators without any order in mind
-  iter_list <- itee(1:5, n=3)
+  iter_list <- i_tee(1:5, n=3)
   expect_equal(nextOr(iter_list[[1]], NA), 1)
   expect_equal(nextOr(iter_list[[1]], NA), 2)
   expect_equal(nextOr(iter_list[[1]], NA), 3)
@@ -32,10 +32,10 @@ test_that("itee returns n independent numeric vectors", {
 })
 
 # Based on GitHub Issue #36
-test_that("itee returns n independent numeric vectors based on n iterators", {
+test_that("i_tee returns n independent numeric vectors based on n iterators", {
   # Iterate through each of the iterators without any order in mind
   it <- iteror(1:5)
-  iter_list <- itee(it, n=3)
+  iter_list <- i_tee(it, n=3)
   expect_equal(nextOr(iter_list[[1]], NA), 1)
   expect_equal(nextOr(iter_list[[1]], NA), 2)
   expect_equal(nextOr(iter_list[[1]], NA), 3)

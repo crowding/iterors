@@ -1,8 +1,8 @@
-test_that("Apply ikeep to an integer sequence", {
+test_that("Apply i_keep to an integer sequence", {
   is_even <- function(x) {
     x %% 2 == 0
   }
-  it <- ikeep(1:10, is_even)
+  it <- i_keep(1:10, is_even)
 
   expect_equal(nextOr(it, NA), 2)
   expect_equal(nextOr(it, NA), 4)
@@ -12,8 +12,8 @@ test_that("Apply ikeep to an integer sequence", {
   expect_equal(nextOr(it, NA), NA)
 })
 
-test_that("Apply ikeep to an integer sequence using anonymous function", {
-  it <- ikeep(1:10, function(x) x %% 2 == 1)
+test_that("Apply i_keep to an integer sequence using anonymous function", {
+  it <- i_keep(1:10, function(x) x %% 2 == 1)
 
   expect_equal(nextOr(it, NA), 1)
   expect_equal(nextOr(it, NA), 3)
@@ -23,11 +23,11 @@ test_that("Apply ikeep to an integer sequence using anonymous function", {
   expect_equal(nextOr(it, NA), NA)
 })
 
-test_that("Apply ikeep to a character vector", {
+test_that("Apply i_keep to a character vector", {
   is_vowel <- function(x) {
     x %in% c('a', 'e', 'i', 'o', 'u')
   }
-  it <- ikeep(letters, is_vowel)
+  it <- i_keep(letters, is_vowel)
 
   expect_equal(nextOr(it, NA), 'a')
   expect_equal(nextOr(it, NA), 'e')
@@ -40,10 +40,10 @@ test_that("Apply ikeep to a character vector", {
 test_that("test01", {
     odd <- function(x) x%%2 == 1
     even <- function(x) x%%2 == 0
-    actual <- as.list(ikeep(1:10, odd))
+    actual <- as.list(i_keep(1:10, odd))
     expected <- as.list(Filter(odd, 1:10))
     expect_equal(expected, actual)
-    actual <- as.list(idrop(1:10, odd))
+    actual <- as.list(i_drop(1:10, odd))
     expected <- as.list(Filter(even, 1:10))
     expect_equal(expected, actual)
 })

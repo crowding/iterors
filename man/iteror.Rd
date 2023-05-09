@@ -9,7 +9,7 @@
 \alias{iteror.matrix}
 \alias{iteror.data.frame}
 \alias{iteror.python.builtin.object}
-\title{Efficient, compact iteration.}
+\title{Make an iteror from a given object.}
 \usage{
 iteror(obj, ...)
 
@@ -64,7 +64,7 @@ each call to \code{nextOr}.}
 \item{drop}{Whether to drop the array dimensions enumerated over.}
 
 \item{rowMajor}{If TRUE, will return slices in order with the first
-indices varying fastest (same as in \link{ienumerate}).}
+indices varying fastest (same as in \link{i_enumerate}).}
 }
 \description{
 \code{it <- iteror(obj, ...)} is a generic constructor that creates
@@ -75,7 +75,7 @@ types and may take different optional arguments as listed in this
 page.
 }
 \details{
-When called, an iterator may either return a new value or stop. The
+When called, an iteror may either return a new value or stop. The
 way an iteror signals a stop is that it does whatever you write in
 the argument \code{or}. For instance you can write \code{or=break} to exit a
 loop.Summing over an iteror this way looks like:
@@ -106,7 +106,7 @@ repeat \{
 (Note the use of new.env(). In R it is commonplace to use \code{NULL} or
 \code{NA} in the role of a sigil, but that only works until you have an
 iterator that needs to yield NULL itself. A safer alternative is to
-use a one-shot sigil value; \code{new.env()} works for this, as it
+use a one-shot sigil value; \code{new.env()} works well for this, as it
 constructs an object that is not \link{identical} to any other object in
 the R session.)
 
@@ -114,7 +114,7 @@ Note that \code{iteror} objects are simply functions with a class
 attribute attached, and all \code{nextOr.iteror} does is call the
 function. So if you were in the mood, you could skip calling
 \code{nextOr} through S3 dispatch and call the function directly. If you
-take this approach, make sure you have called \code{iteror()} to ensure
+take this approach, make sure you have called \code{iteror()} first to ensure
 that you have a true \code{iteror} object.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{sum <- 0

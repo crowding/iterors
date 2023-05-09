@@ -15,7 +15,7 @@
 #'   \item{value:}{the current value of \code{object}}
 #' }
 #'
-#' \code{ienum} is an alias to \code{ienumerate} to save a few keystrokes.
+#' \code{i_enum} is an alias to \code{i_enumerate} to save a few keystrokes.
 #'
 #' @export
 #' @param obj object to return indefinitely.
@@ -26,11 +26,11 @@
 #'
 #' @examples
 #' set.seed(42)
-#' it <- ienumerate(rnorm(5))
+#' it <- i_enumerate(rnorm(5))
 #' as.list(it)
 #'
 #' # Iterates through the columns of the iris data.frame
-#' it2 <- ienum(iris)
+#' it2 <- i_enum(iris)
 #' nextOr(it2, NA)
 #' nextOr(it2, NA)
 #' nextOr(it2, NA)
@@ -38,18 +38,29 @@
 #' nextOr(it2, NA)
 #'
 #' @export
-#' @rdname ienumerate
+#' @rdname i_enumerate
+i_enumerate <- function(obj, ...) {
+  UseMethod("i_enumerate")
+}
+
+#' @export
+#' @details These are two closely closely related functions:
+#'   `i_enumerate` accepts an iterable, and will only emit a single
+#'   index starting with 1. `ienumerate` is a generic with methods for
+#'   vectors and arrays, supporting all chunking and recycling
+#'   options, and returning multiple indices for arrays.
+#' @rdname i_enumerate
 ienumerate <- function(obj, ...) {
-  UseMethod("ienumerate")
+  obj <- iteror(obj, ...)
+  i_zip(index=icount(), value=obj)
 }
 
 #' @exportS3Method
-ienumerate.iteror <- function(obj, ...) {
-  izip(index=icount(), value=obj)
-}
+i_enumerate.iteror <- ienumerate
 
+#' @rdname i_enumerate
 #' @exportS3Method
-ienumerate.default <- count_template(
+i_enumerate.default <- count_template(
   input = alist(obj = ),
   preamble=alist(
     count <- length(obj)
@@ -61,13 +72,13 @@ ienumerate.default <- count_template(
   })
 )
 
-#' @rdname ienumerate
+#' @rdname i_enumerate
 #' @export
-ienum <- ienumerate
+i_enum <- i_enumerate
 
 #' @exportS3Method
-#' @rdname ienumerate
-#' @description The `ienumerate` method for arrays allows splitting an
+#' @rdname i_enumerate
+#' @description The `i_enumerate` method for arrays allows splitting an
 #'   array by arbitrary margins, including by multiple margins. The
 #'   `index` element returned will be a vector (or if chunking is used, a
 #'   matrix) of indices.
@@ -84,10 +95,10 @@ ienum <- ienumerate
 #' @author Peter Meilstrup
 #' @examples
 #' a <- array(1:27, c(3, 3, 3))
-#' as.list(ienumerate(a, by=c(1, 2), drop=TRUE))
-#' as.list(ienumerate(a, by=c(3), drop=FALSE))
-#' as.list(ienumerate(a, by=c(2, 3), chunkSize=7))
-ienumerate.array <- count_template(
+#' as.list(i_enumerate(a, by=c(1, 2), drop=TRUE))
+#' as.list(i_enumerate(a, by=c(3), drop=FALSE))
+#' as.list(i_enumerate(a, by=c(2, 3), chunkSize=7))
+i_enumerate.array <- count_template(
   input = alist(obj = ),
   options = alist(by=c("cell", "row", "column"), rowMajor=TRUE, drop=FALSE),
   preamble = alist(

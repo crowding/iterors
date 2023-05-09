@@ -39,10 +39,10 @@
 #'   starttime <- proc.time()[3]
 #'   function() proc.time()[3] > starttime + time
 #' }
-#' length(as.list(ibreak(icount(), mkfinished(0.1))))
+#' length(as.list(i_break(icount(), mkfinished(0.1))))
 #'
-#' @export ibreak
-ibreak <- function(iterable, finished, ...) {
+#' @export i_break
+i_break <- function(iterable, finished, ...) {
   force(finished)
   it <- iteror(iterable, ...)
   stopped <- FALSE

@@ -24,10 +24,10 @@ count(1:5) == length(1:5)
 it <- iteror(1:5)
 count(it) == length(1:5)
 
-it2 <- ichain(1:3, 4:5, 6)
+it2 <- i_chain(1:3, 4:5, 6)
 count(it2)
 
-it3 <- ichain(1:3, levels(iris$Species))
+it3 <- i_chain(1:3, levels(iris$Species))
 count(it3)
 
 }

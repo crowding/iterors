@@ -4,7 +4,7 @@ library(iterors)
 # of a specified length.
 # can specify either "chunks" or "chunkSize" arguments
 # since that is what the "idiv" function supports.
-ichunk <- function(n, ...) {
+i_chunk <- function(n, ...) {
  i <- 1
  it <- idiv(n, ...)
 
@@ -19,10 +19,10 @@ ichunk <- function(n, ...) {
 }
 
 # create a sequence iterator that returns three subvectors
-it <- ichunk(25, chunks=3)
+it <- i_chunk(25, chunks=3)
 print(as.list(it))
 
 # create a sequence iterator that returns subvectors
 # with a maximum length of 10
-it <- ichunk(25, chunkSize=10)
+it <- i_chunk(25, chunkSize=10)
 print(as.list(it))

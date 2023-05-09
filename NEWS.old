@@ -121,7 +121,7 @@ Prior NEWS/ChangeLog for itertools:
   elements from it. This process continues until all arguments are exhausted.
   Chaining is useful for treating consecutive sequences as a single sequence.
 
-* `icompress()`: Iterator that filters elements where corresponding selector is
+* `i_mask()`: Iterator that filters elements where corresponding selector is
   false. Returns only those elements for which the corresponding 'selector' is
   `TRUE`.
 
@@ -132,9 +132,9 @@ Prior NEWS/ChangeLog for itertools:
 * `idropwhile()`: Iterator that drops elements until the predicate function
   returns `FALSE`.
 
-* `ienum()`: Alias to `ienumerate()` to save a few keystrokes.
+* `i_enum()`: Alias to `i_enumerate()` to save a few keystrokes.
 
-* `ienumerate()`: Iterator that returns the elements of an object along with
+* `i_enumerate()`: Iterator that returns the elements of an object along with
   their indices. This function is intended to follow the convention used in
   Python's `enumerate` function.
 

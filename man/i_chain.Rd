@@ -2,12 +2,12 @@
 % Please edit documentation in R/i_concat.R, R/ichain.R
 \name{icollapse}
 \alias{icollapse}
-\alias{ichain}
+\alias{i_chain}
 \title{Iteror that chains multiple arguments together into a single iterator}
 \usage{
 icollapse(obj, ...)
 
-ichain(...)
+i_chain(...)
 }
 \arguments{
 \item{obj}{an iterable.}
@@ -22,16 +22,16 @@ iteror that iterates through each argument in sequence
 iterables, and chains together all inner values of iterables into
 one iterator. Analogous to \code{unlist(recursive=FALSE)}.
 
-\code{ichain} for iterators is analogous to \code{\link[=c]{c()}} on vectors. \code{ichain}
+\code{i_chain} for iterators is analogous to \code{\link[=c]{c()}} on vectors. \code{i_chain}
 constructs an \link{iteror} that returns elements from the first
 argument until it is exhausted, then elements from the next
 argument, and so on until all arguments have been exhausted.
 }
 \examples{
-it <- ichain(1:3, 4:5, 6)
+it <- i_chain(1:3, 4:5, 6)
 as.list(it)
 
-it2 <- ichain(1:3, levels(iris$Species))
+it2 <- i_chain(1:3, levels(iris$Species))
 as.list(it2)
 }
 \author{

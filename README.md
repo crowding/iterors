@@ -78,22 +78,22 @@ two complementary ways that you can work with sequential processes.
 ## More reading
 
 For a quick introduction, see
-[`vignette("iterors")`](http://crowding.github.io/iterors/docs/articles/iterors.html)
+[`vignette("iterors")`](http://crowding.github.io/iterors/articles/iterors.html)
 
 For an index of `iteror` functions organized by task, see
 [`vignette("categories",
-"iterors")`](http://crowding.github.io/iterors/docs/articles/categories.html)
+"iterors")`](http://crowding.github.io/iterors/articles/categories.html)
 
 If you are familiar with packages `iterators`/`itertools`/`itertools2`,
 some functions have been moved. See [`vignette("cross-reference",
-"iterors")`](http://crowding.github.io/iterors/docs/articles/cross-reference.html)
+"iterors")`](http://crowding.github.io/iterors/articles/cross-reference.html)
 
 To learn how to build custom iterors, see [`vignette("writing",
-"iterors")`](http://crowding.github.io/iterors/docs/articles/writing.html)
+"iterors")`](http://crowding.github.io/iterors/articles/writing.html)
 
 ## Installation
 
-For prerelease, run the following after installing
+For a prerelease version, run the following after installing
 [devtools](https://github.com/hadley/devtools):
 
 ``` r

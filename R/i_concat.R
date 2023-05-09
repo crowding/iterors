@@ -1,4 +1,4 @@
-#' @rdname ichain
+#' @rdname i_chain
 #' @param obj an iterable.
 #' @description `icollapse(obj)` takes an iterable that returns
 #'   iterables, and chains together all inner values of iterables into

@@ -34,10 +34,10 @@
 #' @examples
 #'
 #' # See how high we can count in a tenth of a second
-#' length(as.list(itimeout(icount(), 0.1)))
+#' length(as.list(i_timeout(icount(), 0.1)))
 #'
-#' @export itimeout
-itimeout <- function(iterable, time, ...) {
+#' @export i_timeout
+i_timeout <- function(iterable, time, ...) {
   force(time)
   it <- iteror(iterable, ...)
   starttime <- proc.time()[3]

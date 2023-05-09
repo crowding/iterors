@@ -15,13 +15,13 @@
 #' not_too_large <- function(x) {
 #'   x <= 5
 #' }
-#' it <- ikeepwhile(1:100, not_too_large)
+#' it <- i_keepwhile(1:100, not_too_large)
 #' unlist(as.list(it)) == 1:5
 #'
 #' # Same approach but uses an anonymous function
-#' it2 <- ikeepwhile(seq(2, 100, by=2), function(x) x <= 10)
+#' it2 <- i_keepwhile(seq(2, 100, by=2), function(x) x <= 10)
 #' unlist(as.list(it2)) == c(2, 4, 6, 8, 10)
-ikeepwhile <- function(object, predicate, ...) {
+i_keepwhile <- function(object, predicate, ...) {
   iter_obj <- iteror(object, ...)
 
   stop_iterating <- FALSE

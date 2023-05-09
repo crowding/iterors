@@ -24,18 +24,18 @@
 #' @details Originally from package `itertools2`.
 #'
 #' @examples
-#' it <- islice(1:5, start=2)
+#' it <- i_slice(1:5, start=2)
 #' nextOr(it, NULL) # 2
 #' nextOr(it, NULL) # 3
 #' nextOr(it, NULL) # 4
 #' nextOr(it, NULL) # 5
 #'
-#' it2 <- islice(1:10, start=2, end=5)
+#' it2 <- i_slice(1:10, start=2, end=5)
 #' unlist(as.list(it2)) == 2:5
 #'
-#' it3 <- islice(1:10, start=2, end=9, step=2)
+#' it3 <- i_slice(1:10, start=2, end=9, step=2)
 #' unlist(as.list(it3)) == c(2, 4, 6, 8)
-islice <- function(object, start=1, end=NULL, step=1, ...) {
+i_slice <- function(object, start=1, end=NULL, step=1, ...) {
   start <- as.integer(start)
   step <- as.integer(step)
   object <- iteror(object, ...)

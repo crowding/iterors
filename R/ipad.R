@@ -13,18 +13,18 @@
 #' @examples
 #'
 #' it <- iteror(1:9)
-#' it_ipad <- ipad(it)
-#' as.list(islice(it_ipad, end=9)) # Same as as.list(1:9)
+#' it_i_pad <- i_pad(it)
+#' as.list(i_slice(it_i_pad, end=9)) # Same as as.list(1:9)
 #'
 #' it2 <- iteror(1:9)
-#' it2_ipad <- ipad(it2)
-#' as.list(islice(it2_ipad, end=10)) # Same as as.list(c(1:9, NA))
+#' it2_i_pad <- i_pad(it2)
+#' as.list(i_slice(it2_i_pad, end=10)) # Same as as.list(c(1:9, NA))
 #'
 #' it3 <- iteror(1:9)
-#' it3_ipad <- ipad(it3, fill=TRUE)
-#' as.list(islice(it3_ipad, end=10)) # Same as as.list(c(1:9, TRUE))
+#' it3_i_pad <- i_pad(it3, fill=TRUE)
+#' as.list(i_slice(it3_i_pad, end=10)) # Same as as.list(c(1:9, TRUE))
 #'
-ipad <- function(object, fill=NA, ...) {
+i_pad <- function(object, fill=NA, ...) {
   it <- iteror(object, ...)
-  ichain(it, irepeat(fill))
+  i_chain(it, i_repeat(fill))
 }
