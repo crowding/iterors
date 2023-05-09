@@ -62,7 +62,7 @@ a `tryCatch` handler function. while `nextOr` is designed with that use
 in mind.
 
 The
-[benchmarking](http://crowding.github.io/iterors/docs/articles/benchmarks.html)
+[benchmarking](http://crowding.github.io/iterors/articles/benchmarks.html)
 vignette illustrates that computations using `iterors` can execute
 several times faster than using `iterators`.
 
@@ -93,7 +93,7 @@ To learn how to build custom iterors, see [`vignette("writing",
 
 ## Installation
 
-For a prerelease version, run the following after installing
+For prerelease, run the following after installing
 [devtools](https://github.com/hadley/devtools):
 
 ``` r

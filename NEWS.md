@@ -1,7 +1,9 @@
 NEWS for iterors
 ----------------------------
 
-1.0     2023-05-01    Initial release.
+# iterors  1.0
+
+Initial release
 
   * Split off from "async" package.
   * Incorporated/ported "iterators" package.
@@ -19,7 +21,7 @@ New functions:
     and `prod()`.
   * `i_chain(...)` has a companion function `icollapse(it)` which accepts
     an iterable (rather than `...`).
-  * New iteror methods for `as.numeric`, `as.vector', `as.character`,
+  * New iteror methods for `as.numeric`, `as.vector`, `as.character`,
     and `as.logical`.
   * `concat()` pastes chunks from an iterator into a vector.
   * `iteror` can make an iterator from Python objects via the
@@ -47,3 +49,4 @@ New features:
   * `i_tee` works for any iterator, using a dynamic queue,
     where previously `itertools::i_tee` only worked for
     memory-backed iterators.
+  * Python compatibility: `py_iteror` wraps an iterator so that it can be used by Python code via package `reticulate`. Meanwhile `iteror` has a method for Python objects, allowing Python iterators to be used transparently with iterors code.

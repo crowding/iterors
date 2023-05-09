@@ -284,10 +284,10 @@ stop.  Managing the state is usually the real trick to writing iterators.
 
 Let's modify the previous iterator `iforever` to stop after it
 returns a certain number of values.  I'll call the new function
-`i_rep`, and give it another argument called `times`:
+`irep`, and give it another argument called `times`:
 
 ```{R iter2}
-i_rep <- function(x, times) {
+irep <- function(x, times) {
   nextOr_ <- function(or) {
     if (times > 0) {
       times <<- times - 1
@@ -304,11 +304,11 @@ i_rep <- function(x, times) {
 Now let's try it out:
 
 ```{R runiter2}
-it <- i_rep(7, 6)
+it <- irep(7, 6)
 unlist(as.list(it))
 ```
 
-The differences between `iforever` and `i_rep` are in the inner
+The differences between `iforever` and `irep` are in the inner
 function `nextOr_`. This inner function not only accesses the values
 of the variables `x` and `times`, but it also modifies the value of
 `times`.  This is accomplished by means of the "`<<-=`"[^1] operator,
@@ -328,16 +328,16 @@ argument.
 Technically, this kind of function that refers to enclosing variables
 is called a _closure_, and is a fundamental feature of `R`.  The
 important thing to remember is that `nextOr_` is able to get the value
-of variables that were passed as arguments to `i_rep`, and it can
+of variables that were passed as arguments to `irep`, and it can
 modify those values using the `<<-` operator.  These are _not_ global
 variables: they are defined in the enclosing environment of the
 `nextOr_` function.  You can create as many iterators as you want
-using the `i_rep` function, and they will all work as expected without
+using the `irep` function, and they will all work as expected without
 conflicts.
 
-Note that this iterator only uses the arguments to `i_rep` to
+Note that this iterator only uses the arguments to `irep` to
 store its state.  If any other state variables are needed, they can be
-defined anywhere inside the `i_rep` function.
+defined anywhere inside the `irep` function.
 
 ## Using an iterator inside an iterator
 
@@ -470,20 +470,20 @@ By convention, the `iterors` package uses the prefix `i_` for this
 kind of composing iterator function, and a bare `i` for functions that
 build an iterator based on basic data.
 
-Note that this looks an awful lot like the `i_rep` function that
+Note that this looks an awful lot like the `irep` function that
 we implemented previously.  In fact, using `i_limit`, we can
-implement `i_rep` using `iforever` much more simply, and
+implement `irep` using `iforever` much more simply, and
 without duplication of code:
 
-```{R i_rep2}
-i_rep2 <- function(x, times)
+```{R irep2}
+irep2 <- function(x, times)
   i_limit(iforever(x), times)
 ```
 
-To demonstrate `i_rep2`:
+To demonstrate `irep2`:
 
-```{R testi_rep2}
-it <- i_rep2('foo', 3)
+```{R testirep2}
+it <- irep2('foo', 3)
 repeat {
   print(nextOr(it, break))
 }
