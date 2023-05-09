@@ -51,6 +51,9 @@
     <a class="dropdown-item" href="../articles/writing.html">Writing Custom Iterators</a>
   </div>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -380,10 +383,10 @@ iterators.</p>
 </h2>
 <p>Let’s modify the previous iterator <code>iforever</code> to stop
 after it returns a certain number of values. I’ll call the new function
-<code>i_rep</code>, and give it another argument called
+<code>irep</code>, and give it another argument called
 <code>times</code>:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">i_rep</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">times</span><span class="op">)</span> <span class="op">{</span></span>
+<code class="sourceCode R"><span><span class="va">irep</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">times</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">nextOr_</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">or</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="va">times</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
 <span>      <span class="va">times</span> <span class="op">&lt;&lt;-</span> <span class="va">times</span> <span class="op">-</span> <span class="fl">1</span></span>
@@ -397,10 +400,10 @@ after it returns a certain number of values. I’ll call the new function
 <span><span class="op">}</span></span></code></pre></div>
 <p>Now let’s try it out:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/i_rep.html">i_rep</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">6</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">irep</span><span class="op">(</span><span class="fl">7</span>, <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="va">it</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 7 7 7 7 7 7</span></span></code></pre>
-<p>The differences between <code>iforever</code> and <code>i_rep</code>
+<p>The differences between <code>iforever</code> and <code>irep</code>
 are in the inner function <code>nextOr_</code>. This inner function not
 only accesses the values of the variables <code>x</code> and
 <code>times</code>, but it also modifies the value of
@@ -419,15 +422,15 @@ it alone, allowing R to be lazy in treating that argument.</p>
 is called a <em>closure</em>, and is a fundamental feature of
 <code>R</code>. The important thing to remember is that
 <code>nextOr_</code> is able to get the value of variables that were
-passed as arguments to <code>i_rep</code>, and it can modify those
-values using the <code>&lt;&lt;-</code> operator. These are <em>not</em>
-global variables: they are defined in the enclosing environment of the
+passed as arguments to <code>irep</code>, and it can modify those values
+using the <code>&lt;&lt;-</code> operator. These are <em>not</em> global
+variables: they are defined in the enclosing environment of the
 <code>nextOr_</code> function. You can create as many iterators as you
-want using the <code>i_rep</code> function, and they will all work as
+want using the <code>irep</code> function, and they will all work as
 expected without conflicts.</p>
-<p>Note that this iterator only uses the arguments to <code>i_rep</code>
+<p>Note that this iterator only uses the arguments to <code>irep</code>
 to store its state. If any other state variables are needed, they can be
-defined anywhere inside the <code>i_rep</code> function.</p>
+defined anywhere inside the <code>irep</code> function.</p>
 </div>
 <div class="section level2">
 <h2 id="using-an-iterator-inside-an-iterator">Using an iterator inside an iterator<a class="anchor" aria-label="anchor" href="#using-an-iterator-inside-an-iterator"></a>
@@ -556,17 +559,16 @@ just <code>i_recycle</code>.</p>
 <code>i_</code> for this kind of composing iterator function, and a bare
 <code>i</code> for functions that build an iterator based on basic
 data.</p>
-<p>Note that this looks an awful lot like the <code>i_rep</code>
-function that we implemented previously. In fact, using
-<code>i_limit</code>, we can implement <code>i_rep</code> using
-<code>iforever</code> much more simply, and without duplication of
-code:</p>
+<p>Note that this looks an awful lot like the <code>irep</code> function
+that we implemented previously. In fact, using <code>i_limit</code>, we
+can implement <code>irep</code> using <code>iforever</code> much more
+simply, and without duplication of code:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">i_rep2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">times</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">irep2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">times</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="../reference/i_limit.html">i_limit</a></span><span class="op">(</span><span class="fu">iforever</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="va">times</span><span class="op">)</span></span></code></pre></div>
-<p>To demonstrate <code>i_rep2</code>:</p>
+<p>To demonstrate <code>irep2</code>:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">i_rep2</span><span class="op">(</span><span class="st">'foo'</span>, <span class="fl">3</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">irep2</span><span class="op">(</span><span class="st">'foo'</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="kw">repeat</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="kw">break</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
