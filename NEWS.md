@@ -16,7 +16,7 @@ New functions:
   * New functions `i_rle()` and `i_rle_inverse()` for run-length encoding.
   * Introduced accumulation methods `i_accum()`, `reduce()`, and `sum()`
     and `prod()`.
-  * `i_chain(...)` has a companion function `icollapse(it)` which accepts
+  * `i_chain(...)` has a companion function `i_concat(it)` which accepts
     an iterable (rather than `...`).
   * New iteror methods for `as.numeric`, `as.vector`, `as.character`,
     and `as.logical`.

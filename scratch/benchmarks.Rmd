@@ -162,7 +162,7 @@ chain.bench <- microbenchmark::microbenchmark(
   iterors =
     iterors::consume(do.call(iterors::i_chain, lapply(1:50, iterors::icount))),
   iterors.collapse =
-    iterors::consume(iterors::icollapse(iterors::i_apply(1:50, iterors::icount))),
+    iterors::consume(iterors::i_concat(iterors::i_apply(1:50, iterors::icount))),
   times=10)
 plotit(chain.bench)
 ```
@@ -222,7 +222,7 @@ i_tee.bench <- microbenchmark::microbenchmark(
   },
   iterors={
     iterors::consume(
-      iterors::icollapse(
+      iterors::i_concat(
         iterors::i_tee(iterors::icount(20), n=20)))
   },
   times=20)

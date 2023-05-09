@@ -106,7 +106,7 @@ By convention, in this package, functions that transform iterators -- creating a
 * [`i_keep`](../reference/i_keep.html) -- Keep only elements for which an applied criterion function returns `TRUE`.
 * [`i_keepwhile`](../reference/i_keepwhile.html) -- Keep elements only until an applied criterion returns `FALSE`.
 * [`i_limit`](../reference/i_limit.html) -- Keep only the first $n$ elements from the given iteror.
-* [`i_mask`](../reference/i_mask.html) -- Return elements for which a parallel iterator is TRUE. (FIXME where is this?)
+* [`i_mask`](../reference/i_mask.html) -- Return elements for which a parallel iterator is TRUE.
 * [`i_rle`](../reference/i_rle.html) -- Compress runs of identical adjacent elements, returning one value and a run length.
 * [`i_rleinv`](../reference/i_rle.html) -- Inverse transform of [`i_rle`](../reference/i_rle.html).
 * [`i_timeout`](../reference/i_timeout.html) -- Return elements only until the timeout is reached.
@@ -115,9 +115,8 @@ By convention, in this package, functions that transform iterators -- creating a
 ### Combining / splitting multiple iterators
 
 * [`i_chain`](../reference/i_chain.html) -- String all values from each iterable argument together.
-* [`i_concat`](../reference/i_chain.html) -- Take all values from the list of... FIXME where is this?
+* [`i_concat`](../reference/i_chain.html) -- String an iterable of iterables together.
 * [`i_roundrobin`](../reference/i_roundrobin.html) -- Return one element at a time from each of a series of iterors in rotation.
 * [`i_tee`](../reference/i_tee.html) -- Split an iterator into multiple iterators yielding the same sequence. 
 * [`i_zip`](../reference/i_zip.html) -- Combine corresponding elements of parallel iterators into a list.
 * [`i_zip_longest`](../reference/i_zip.html) -- [`i_zip`](../reference/i_zip.html) but pad any iterators that end early.
-

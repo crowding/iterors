@@ -18,5 +18,5 @@
 #' as.list(it2)
 i_chain <- function(...) {
   L <- iteror(list(...))
-  icollapse(L)
+  i_concat(L)
 }

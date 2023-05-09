@@ -8,7 +8,7 @@ test_that("i_rle", {
   result <- (
     as.list(
       i_rle(
-        icollapse(
+        i_concat(
           i_apply(
             icount(10),
             \(x) i_rep.times(x, x))))))
