@@ -58,22 +58,79 @@
     <loc>https://crowding.github.io/iterors/reference/iRNGStream.html</loc>
   </url>
   <url>
-    <loc>https://crowding.github.io/iterors/reference/iapply.html</loc>
+    <loc>https://crowding.github.io/iterors/reference/i_apply.html</loc>
   </url>
   <url>
-    <loc>https://crowding.github.io/iterors/reference/ibreak.html</loc>
+    <loc>https://crowding.github.io/iterors/reference/i_break.html</loc>
   </url>
   <url>
-    <loc>https://crowding.github.io/iterors/reference/ichain.html</loc>
+    <loc>https://crowding.github.io/iterors/reference/i_chain.html</loc>
   </url>
   <url>
-    <loc>https://crowding.github.io/iterors/reference/ichunk.html</loc>
+    <loc>https://crowding.github.io/iterors/reference/i_chunk.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_dropwhile.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_enumerate.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_keep.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_keepwhile.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_limit.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_map.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_mask.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_pad.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_recycle.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_rep.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_repeat.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_rle.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_roundrobin.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_slice.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_starmap.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_tee.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_timeout.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_unique.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_window.html</loc>
+  </url>
+  <url>
+    <loc>https://crowding.github.io/iterors/reference/i_zip.html</loc>
   </url>
   <url>
     <loc>https://crowding.github.io/iterors/reference/icombinations.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/icompress.html</loc>
   </url>
   <url>
     <loc>https://crowding.github.io/iterors/reference/icount.html</loc>
@@ -85,31 +142,10 @@
     <loc>https://crowding.github.io/iterors/reference/idiv.html</loc>
   </url>
   <url>
-    <loc>https://crowding.github.io/iterors/reference/idropwhile.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/ienumerate.html</loc>
-  </url>
-  <url>
     <loc>https://crowding.github.io/iterors/reference/igrid.html</loc>
   </url>
   <url>
-    <loc>https://crowding.github.io/iterors/reference/ikeep.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/ikeepwhile.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/ilimit.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/imap.html</loc>
-  </url>
-  <url>
     <loc>https://crowding.github.io/iterors/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/ipad.html</loc>
   </url>
   <url>
     <loc>https://crowding.github.io/iterors/reference/ipermutations.html</loc>
@@ -127,58 +163,22 @@
     <loc>https://crowding.github.io/iterors/reference/ireaddf.html</loc>
   </url>
   <url>
-    <loc>https://crowding.github.io/iterors/reference/irecycle.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/irep.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/irepeat.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/irle.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/iroundrobin.html</loc>
-  </url>
-  <url>
     <loc>https://crowding.github.io/iterors/reference/is.iteror.html</loc>
   </url>
   <url>
     <loc>https://crowding.github.io/iterors/reference/iseq.html</loc>
   </url>
   <url>
-    <loc>https://crowding.github.io/iterors/reference/islice.html</loc>
-  </url>
-  <url>
     <loc>https://crowding.github.io/iterors/reference/isplit.html</loc>
   </url>
   <url>
-    <loc>https://crowding.github.io/iterors/reference/istarmap.html</loc>
-  </url>
-  <url>
     <loc>https://crowding.github.io/iterors/reference/itabulate.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/itee.html</loc>
   </url>
   <url>
     <loc>https://crowding.github.io/iterors/reference/iteror.function.html</loc>
   </url>
   <url>
     <loc>https://crowding.github.io/iterors/reference/iteror.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/itimeout.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/iunique.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/iwindow.html</loc>
-  </url>
-  <url>
-    <loc>https://crowding.github.io/iterors/reference/izip.html</loc>
   </url>
   <url>
     <loc>https://crowding.github.io/iterors/reference/makeIwrapper.html</loc>

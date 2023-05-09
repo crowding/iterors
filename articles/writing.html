@@ -111,11 +111,11 @@ package. The <code>iteror.array</code> method allows you to iterate over
 arrays, in much the same way as the standard <code>apply</code>
 function. <code>apply</code> has fixed rules on how the results are
 returned, which may require you to reshape the results, which can be
-inefficient, as well as inconvenient. But since <code>iapply</code>
+inefficient, as well as inconvenient. But since <code>i_apply</code>
 doesn’t process any data or combine the results, it is more flexible.
-You can use <code>iapply</code> with the <code>foreach</code> package to
-perform a parallel <code>apply</code> operation, and combine the results
-any way you want via the <code>.combine</code> argument to
+You can use <code>i_apply</code> with the <code>foreach</code> package
+to perform a parallel <code>apply</code> operation, and combine the
+results any way you want via the <code>.combine</code> argument to
 <code>foreach</code>.</p>
 <p>Another iterator that comes in the <code>iterors</code> package is
 the <code>isplit</code> function, which works much like the standard
@@ -261,7 +261,8 @@ list contains some tricky values:</p>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span><span class="st">"StopIteration"</span>, call.<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>, silent<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  <span class="st">""</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>If you were to try to iterate over this list, like:</p>
+<p>Suppose you iterate over this list using NULL as your
+end-of-iteration sigil, like this:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/iteror.html">iteror</a></span><span class="op">(</span><span class="va">bad_sigils</span><span class="op">)</span></span>
 <span><span class="kw">while</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">val</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">x</span>, <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -344,10 +345,10 @@ useful, as we’ll see in a later example.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 42</span></span></code></pre>
-<p>You can also get values from an iterator using <code>as.list</code>.
-But since this is an infinite iterator, you need to use the
-<code>n</code> argument to avoid getting stuck in an infinite look until
-you run out of memory:</p>
+<p>You can also get values from an iterator using
+<code>as.numeric</code>. But since this is an infinite iterator, you
+need to also give an argument <code>n</code> argument to avoid getting
+stuck in an infinite loop until you run out of memory:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">it</span>, n<span class="op">=</span><span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 42 42 42 42 42 42</span></span></code></pre>
@@ -379,10 +380,10 @@ iterators.</p>
 </h2>
 <p>Let’s modify the previous iterator <code>iforever</code> to stop
 after it returns a certain number of values. I’ll call the new function
-<code>irep</code>, and give it another argument called
+<code>i_rep</code>, and give it another argument called
 <code>times</code>:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">irep</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">times</span><span class="op">)</span> <span class="op">{</span></span>
+<code class="sourceCode R"><span><span class="va">i_rep</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">times</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">nextOr_</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">or</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="va">times</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
 <span>      <span class="va">times</span> <span class="op">&lt;&lt;-</span> <span class="va">times</span> <span class="op">-</span> <span class="fl">1</span></span>
@@ -396,10 +397,10 @@ after it returns a certain number of values. I’ll call the new function
 <span><span class="op">}</span></span></code></pre></div>
 <p>Now let’s try it out:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/irep.html">irep</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">6</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/i_rep.html">i_rep</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="va">it</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 7 7 7 7 7 7</span></span></code></pre>
-<p>The differences between <code>iforever</code> and <code>irep</code>
+<p>The differences between <code>iforever</code> and <code>i_rep</code>
 are in the inner function <code>nextOr_</code>. This inner function not
 only accesses the values of the variables <code>x</code> and
 <code>times</code>, but it also modifies the value of
@@ -418,15 +419,15 @@ it alone, allowing R to be lazy in treating that argument.</p>
 is called a <em>closure</em>, and is a fundamental feature of
 <code>R</code>. The important thing to remember is that
 <code>nextOr_</code> is able to get the value of variables that were
-passed as arguments to <code>irep</code>, and it can modify those values
-using the <code>&lt;&lt;-</code> operator. These are <em>not</em> global
-variables: they are defined in the enclosing environment of the
+passed as arguments to <code>i_rep</code>, and it can modify those
+values using the <code>&lt;&lt;-</code> operator. These are <em>not</em>
+global variables: they are defined in the enclosing environment of the
 <code>nextOr_</code> function. You can create as many iterators as you
-want using the <code>irep</code> function, and they will all work as
+want using the <code>i_rep</code> function, and they will all work as
 expected without conflicts.</p>
-<p>Note that this iterator only uses the arguments to <code>irep</code>
+<p>Note that this iterator only uses the arguments to <code>i_rep</code>
 to store its state. If any other state variables are needed, they can be
-defined anywhere inside the <code>irep</code> function.</p>
+defined anywhere inside the <code>i_rep</code> function.</p>
 </div>
 <div class="section level2">
 <h2 id="using-an-iterator-inside-an-iterator">Using an iterator inside an iterator<a class="anchor" aria-label="anchor" href="#using-an-iterator-inside-an-iterator"></a>
@@ -522,21 +523,21 @@ would still end up saving values that will never be recycled, so I’ve
 opted to keep this simple.</p>
 <p>Let’s try it out:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">i_recycle</span><span class="op">(</span><span class="fu"><a href="../reference/icount.html">icount</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/i_recycle.html">i_recycle</a></span><span class="op">(</span><span class="fu"><a href="../reference/icount.html">icount</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="va">it</span>, n<span class="op">=</span><span class="fl">9</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 1 2 3 1 2 3 1 2 3</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="limiting-infinite-iterators">Limiting infinite iterators<a class="anchor" aria-label="anchor" href="#limiting-infinite-iterators"></a>
 </h2>
-<p>I was tempted to add an argument to the <code>irecycle</code>
+<p>I was tempted to add an argument to the <code>i_recycle</code>
 function to limit the number of values that it returns, because
 sometimes you want to recycle for awhile, but not forever. I didn’t do
-that, because rather than make <code>irecycle</code> more complicated, I
-decided to write another function that takes an iterator and returns a
+that, because rather than make <code>i_recycle</code> more complicated,
+I decided to write another function that takes an iterator and returns a
 modified iterator. Functions like this are <em>composable</em>; the
 limiting function can be applied to any underlying iterator instead of
-just <code>irecycle</code>.</p>
+just <code>i_recycle</code>.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">i_limit</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">it</span>, <span class="va">times</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">it</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/iteror.html">iteror</a></span><span class="op">(</span><span class="va">it</span><span class="op">)</span></span>
@@ -555,16 +556,17 @@ just <code>irecycle</code>.</p>
 <code>i_</code> for this kind of composing iterator function, and a bare
 <code>i</code> for functions that build an iterator based on basic
 data.</p>
-<p>Note that this looks an awful lot like the <code>irep</code> function
-that we implemented previously. In fact, using <code>ilimit</code>, we
-can implement <code>irep</code> using <code>iforever</code> much more
-simply, and without duplication of code:</p>
+<p>Note that this looks an awful lot like the <code>i_rep</code>
+function that we implemented previously. In fact, using
+<code>i_limit</code>, we can implement <code>i_rep</code> using
+<code>iforever</code> much more simply, and without duplication of
+code:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">irep2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">times</span><span class="op">)</span></span>
-<span>  <span class="fu">i_limit</span><span class="op">(</span><span class="fu">iforever</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="va">times</span><span class="op">)</span></span></code></pre></div>
-<p>To demonstrate <code>irep2</code>:</p>
+<code class="sourceCode R"><span><span class="va">i_rep2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">times</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/i_limit.html">i_limit</a></span><span class="op">(</span><span class="fu">iforever</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="va">times</span><span class="op">)</span></span></code></pre></div>
+<p>To demonstrate <code>i_rep2</code>:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">irep2</span><span class="op">(</span><span class="st">'foo'</span>, <span class="fl">3</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">i_rep2</span><span class="op">(</span><span class="st">'foo'</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="kw">repeat</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="kw">break</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
@@ -572,12 +574,12 @@ simply, and without duplication of code:</p>
 <span><span class="co">## [1] "foo"</span></span>
 <span><span class="co">## [1] "foo"</span></span></code></pre>
 <p>Here’s one last example. Let’s recycle a vector three times using
-<code>ilimit</code>, and convert it back into a vector using
+<code>i_limit</code>, and convert it back into a vector using
 <code>as.numeric</code>:</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iterable</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
-<span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">i_limit</span><span class="op">(</span><span class="fu"><a href="../reference/irecycle.html">irecycle</a></span><span class="op">(</span><span class="va">iterable</span><span class="op">)</span>, <span class="va">n</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">iterable</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/i_limit.html">i_limit</a></span><span class="op">(</span><span class="fu"><a href="../reference/i_recycle.html">i_recycle</a></span><span class="op">(</span><span class="va">iterable</span><span class="op">)</span>, <span class="va">n</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">iterable</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">it</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 1 2 3 1 2 3 1 2 3</span></span></code></pre>
 <p>Sort of a complicated version of:</p>

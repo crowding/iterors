@@ -89,14 +89,14 @@
 </h2>
 <ul>
 <li>
-<a href="../reference/is.iteror.html"><code>is.iteror</code></a>(../reference/is.iteror.html)
-– Check whether a function has class ‘iteror’.</li>
+<a href="../reference/is.iteror.html"><code>is.iteror</code></a> –
+Check whether a function has class ‘iteror’.</li>
 <li>
-<a href="../reference/nextOr.html"><code>nextOr</code></a>(../reference/nextOr.html)
-– Obtain the next element from an iteror.</li>
+<a href="../reference/nextOr.html"><code>nextOr</code></a> – Obtain
+the next element from an iteror.</li>
 <li>
-<a href="../reference/iteror.html"><code>iteror</code></a>(../reference/iteror.html)`
-– Generic function to convert a given object into an iteror.</li>
+<a href="../reference/iteror.html"><code>iteror</code></a> – Generic
+function to convert a given object into an iteror.</li>
 </ul>
 </div>
 <div class="section level2">
@@ -106,8 +106,9 @@
 <ul>
 <li>
 <a href="../reference/as.vector.iteror.html"><code>as.character</code></a>,
-<a href="../reference/as.list.html"><code>as.numeric</code></a>, <a href="../reference/as.vector.iteror.html"><code>as.logical</code></a>,
-<a href="../reference/as.logical.html"><code>as.list</code></a> –
+<a href="../reference/as.vector.iteror.html"><code>as.numeric</code></a>,
+<a href="../reference/as.vector.iteror.html"><code>as.logical</code></a>,
+<a href="../reference/as.vector.iteror.html"><code>as.list</code></a> –
 Collect all an iteror’s values into a vector.</li>
 <li>
 <a href="../reference/as.vector.iteror.html"><code>as.vector</code></a> –
@@ -161,7 +162,7 @@ iterator have names beginning with “<code>i</code>”.</p>
 <a href="../reference/ienumerate.html"><code>ienum</code></a>, <a href="../reference/ienumerate.html"><code>ienumerate</code></a> – return
 the elements of an iterable alongside it index.</li>
 <li>
-<a href="../reference/irepeat.html"><code>irepeat</code></a> –
+<a href="../reference/i_repeat.html"><code>i_repeat</code></a> –
 Return one value over and over again.</li>
 <li>
 <a href="../reference/iteror.html"><code>iteror.array</code></a> –
@@ -215,8 +216,8 @@ has a performance cost.</p>
 <ul>
 <li>
 <a href="../reference/iRNGStream.html"><code>iRNGStream</code></a>,
-<a href="../reference/iRNGSubStream.html"><code>iRNGSubStream</code></a>
-– Create a sequence of seed values so as to make parallel, decorrelated
+<a href="../reference/iRNGStream.html"><code>iRNGSubStream</code></a> –
+Create a sequence of seed values so as to make parallel, decorrelated
 random streams.</li>
 <li>
 <a href="../reference/rng.html"><code>irnbinom</code></a>, <a href="../reference/rng.html"><code>irnorm</code></a>, <a href="../reference/rng.html"><code>irpois</code></a>, <a href="../reference/rng.html"><code>irunif</code></a>, <a href="../reference/rng.html"><code>isample</code></a>, <a href="../reference/rng.html"><code>irbinom</code></a> – Draw samples
@@ -261,17 +262,44 @@ values from an iterator to a file.</li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="higher-order-iteror-functions">Higher order iteror functions<a class="anchor" aria-label="anchor" href="#higher-order-iteror-functions"></a>
+<h2 id="higher-order-iterator-functions">Higher order iterator functions<a class="anchor" aria-label="anchor" href="#higher-order-iterator-functions"></a>
 </h2>
-<p>By convention, in this package, functions that transform iterors –
-creating a new iteror based on one or more underlying ones – begin with
-<code>i_</code>, with an underscore.</p>
+<p>By convention, in this package, functions that transform iterators –
+creating a new iterator based on one or more underlying iterables –
+begin with <code>i_</code>, with an underscore.</p>
+<div class="section level3">
+<h3 id="iterators-as-sequences-looping-repeating-indexing">Iterators as sequences – Looping, repeating, indexing<a class="anchor" aria-label="anchor" href="#iterators-as-sequences-looping-repeating-indexing"></a>
+</h3>
+<ul>
+<li>
+<a href="../reference/i_chunk.html"><code>i_chunk</code></a> –
+collect <span class="math inline">\(n\)</span> adjacent values from an
+iterable and return a list.</li>
+<li>
+<a href="../reference/i_pad.html"><code>i_pad</code></a> – After a
+given iterator ends, return a padding value indefinitely.</li>
+<li>
+<a href="../reference/i_recycle.html"><code>i_recycle</code></a> –
+Record the values emitted by the underlying iterator and replay
+them.</li>
+<li>
+<a href="../reference/i_rep.html"><code>i_rep</code></a> – Repeat
+each element of an iterable a given number of times.</li>
+<li>
+<a href="../reference/i_slice.html"><code>i_slice</code></a> –
+Return elements based on a starting point ans stride.</li>
+<li>
+<a href="../reference/i_window.html"><code>i_window</code></a> –
+Return adjacent elements from the underlying iteror in a sliding
+window.</li>
+</ul>
+</div>
 <div class="section level3">
 <h3 id="operating-on-data-within-iterators">Operating on data within iterators<a class="anchor" aria-label="anchor" href="#operating-on-data-within-iterators"></a>
 </h3>
 <ul>
 <li>
-<a href="../reference/i_accum.html"><code>i_accum</code></a> – Apply
+<a href="../reference/reduce.html"><code>i_accum</code></a> – Apply
 a 2-argument function between an iteror’s elements, and return a
 sequence of partial totals.</li>
 <li>
@@ -279,14 +307,14 @@ sequence of partial totals.</li>
 a given function to each element.</li>
 <li>
 <a href="../reference/i_enumerate.html"><code>i_enumerate</code></a>
-– Return a list along with each element.</li>
+– Return an index along with each element.</li>
 <li>
-<a href="../reference/i_star.html"><code>i_star</code></a>, <a href="../reference/i_starmap.html"><code>i_starmap</code></a>, <a href="../reference/i_map.html"><code>i_map</code></a> – Apply a
+<a href="../reference/i_starmap.html"><code>i_star</code></a>, <a href="../reference/i_starmap.html"><code>i_starmap</code></a>, <a href="../reference/i_map.html"><code>i_map</code></a> – Apply a
 multiple-argument function to multiple parallel iterators.</li>
 </ul>
 </div>
 <div class="section level3">
-<h3 id="selection-filtering-limiting-based-on-data">Selection, filtering, limiting based on data<a class="anchor" aria-label="anchor" href="#selection-filtering-limiting-based-on-data"></a>
+<h3 id="selection-filtering-limiting">Selection, filtering, limiting<a class="anchor" aria-label="anchor" href="#selection-filtering-limiting"></a>
 </h3>
 <ul>
 <li>
@@ -294,11 +322,11 @@ multiple-argument function to multiple parallel iterators.</li>
 Return elements only while the given (no-argument) function evaluates to
 TRUE.</li>
 <li>
-<a href="../reference/i_dedupe.html"><code>i_dedupe</code></a> –
+<a href="../reference/i_dedup.html"><code>i_dedup</code></a> –
 Discard elements that are identical the immediately preceding
 element.</li>
 <li>
-<a href="../reference/i_drop.html"><code>i_drop</code></a> – Discard
+<a href="../reference/i_keep.html"><code>i_drop</code></a> – Discard
 elements for which a criterion function returns TRUE.</li>
 <li>
 <a href="../reference/i_dropwhile.html"><code>i_dropwhile</code></a>
@@ -318,70 +346,47 @@ only the first <span class="math inline">\(n\)</span> elements from the
 given iteror.</li>
 <li>
 <a href="../reference/i_mask.html"><code>i_mask</code></a> – Return
-elements for which a parallel iterator is TRUE.</li>
-<li>
-<a href="../reference/i_timeout.html"><code>i_timeout</code></a> –
-Return elements only until the timeout is reached.</li>
-<li>
-<a href="../reference/i_unique.html"><code>i_unique</code></a> –
-Return only unique elements of an iterator using a hash table.</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="manipulating-iterators-like-sequences-selecting-repeating">Manipulating iterators like sequences (selecting, repeating)<a class="anchor" aria-label="anchor" href="#manipulating-iterators-like-sequences-selecting-repeating"></a>
-</h3>
-</div>
-<div class="section level3">
-<h3 id="splitting-and-combining">Splitting and combining<a class="anchor" aria-label="anchor" href="#splitting-and-combining"></a>
-</h3>
-<ul>
-<li>
-<a href="../reference/i_chain.html"><code>i_chain</code></a> – Take
-all values</li>
-<li>
-<a href="../reference/i_chunk.html"><code>i_chunk</code></a> –
-collect <span class="math inline">\(n\)</span> adjacent</li>
-<li>
-<a href="../reference/i_concat.html"><code>i_concat</code></a> –
-Take all values from the list of</li>
-<li>
-<a href="../reference/i_pad.html"><code>i_pad</code></a> – After a
-given iterator ends, return the padding value.</li>
-<li>
-<a href="../reference/i_recycle.html"><code>i_recycle</code></a> –
-Record the values emitted by the underlying iterator and replay
-them.</li>
-<li>
-<a href="../reference/i_rep.html"><code>i_rep</code></a> – Repeat
-each element of an iterable a given number of times.</li>
+elements for which a parallel iterator is TRUE. (FIXME where is
+this?)</li>
 <li>
 <a href="../reference/i_rle.html"><code>i_rle</code></a> – Compress
 runs of identical adjacent elements, returning one value and a run
 length.</li>
 <li>
-<a href="../reference/i_rleinv.html"><code>i_rleinv</code></a> –
+<a href="../reference/i_rle.html"><code>i_rleinv</code></a> –
 Inverse transform of <a href="../reference/i_rle.html"><code>i_rle</code></a>.</li>
+<li>
+<a href="../reference/i_timeout.html"><code>i_timeout</code></a> –
+Return elements only until the timeout is reached.</li>
+<li>
+<a href="../reference/i_unique.html"><code>i_unique</code></a> –
+Pass along only unique elements of an iterator, using a hash table.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="combining-splitting-multiple-iterators">Combining / splitting multiple iterators<a class="anchor" aria-label="anchor" href="#combining-splitting-multiple-iterators"></a>
+</h3>
+<ul>
+<li>
+<a href="../reference/i_chain.html"><code>i_chain</code></a> –
+String all values from each iterable argument together.</li>
+<li>
+<a href="../reference/i_chain.html"><code>i_concat</code></a> – Take
+all values from the list of… FIXME where is this?</li>
 <li>
 <a href="../reference/i_roundrobin.html"><code>i_roundrobin</code></a> –
 Return one element at a time from each of a series of iterors in
 rotation.</li>
 <li>
-<a href="../reference/i_slice.html"><code>i_slice</code></a> –
-Return elements based on a starting point ans stride.</li>
-<li>
 <a href="../reference/i_tee.html"><code>i_tee</code></a> – Split an
-iterator so that teh same values are</li>
-<li>
-<a href="../reference/i_window.html"><code>i_window</code></a> –
-Return adjacent elements from the underlying iteror in a sliding
-window.</li>
-<li>
-<a href="../reference/i_zip_longest.html"><code>i_zip_longest</code></a> –
-<a href="../reference/izip.html"><code>izip</code></a> but pad any
-iterators that end early.</li>
+iterator into multiple iterators yielding the same sequence.</li>
 <li>
 <a href="../reference/i_zip.html"><code>i_zip</code></a> – Combine
-corresponding elments of parallel iterators into a list.</li>
+corresponding elements of parallel iterators into a list.</li>
+<li>
+<a href="../reference/i_zip.html"><code>i_zip_longest</code></a> –
+<a href="../reference/i_zip.html"><code>i_zip</code></a> but pad any
+iterators that end early.</li>
 </ul>
 </div>
 </div>

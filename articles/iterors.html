@@ -128,10 +128,10 @@ iterator can be an endless source of values:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ifun</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/iteror.html">iteror</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">or</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">9</span>, <span class="fl">4</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">ifun</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 9 8 1 4</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 7 1 8 6</span></span></code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">ifun</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 1 1 3 0</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 4 3 8 3</span></span></code></pre>
 <p>For practical applications, iterators can be paired with
 <code>foreach</code> to obtain parallel results quite easily:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">library</span>(foreach)</span></code></pre></div>
@@ -175,12 +175,12 @@ distribution:</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/crowding/iterors" class="external-link">iterors</a></span><span class="op">)</span></span>
 <span><span class="va">itrn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rng.html">irnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">itrn</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1]  0.19999816 -0.58809668 -0.07817033  0.63756808 -0.67743289 -0.62657165</span></span>
-<span><span class="co">##  [7]  1.21002848  0.45104228  1.44483572 -0.15532901</span></span></code></pre>
+<pre><code><span><span class="co">##  [1]  0.69321271 -1.42835978  2.06323239 -0.77958101 -1.86471916 -0.28709442</span></span>
+<span><span class="co">##  [7] -0.01258327  2.14919290  1.50742719 -0.02409438</span></span></code></pre>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">itrn</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1]  0.82069772 -0.39501822  0.67726303  1.55419040 -1.11813909 -0.05998082</span></span>
-<span><span class="co">##  [7]  0.57341988 -0.82533725 -0.75506351 -0.85690609</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] -0.02200045  1.49948400  0.71932901  1.22671432  0.37034014 -0.97868910</span></span>
+<span><span class="co">##  [7]  1.56010009  1.68010533  0.75694254 -0.12047058</span></span></code></pre>
 <p>Similarly, the <code>irunif</code>, <code>irbinom</code>, and
 <code>irpois</code> functions create iterators which draw their values
 from uniform, binomial, and Poisson distributions, respectively.</p>
@@ -189,12 +189,12 @@ from uniform, binomial, and Poisson distributions, respectively.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">itru</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rng.html">irunif</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">itru</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] 0.4758093 0.3551526 0.3169280 0.4870447 0.4010244 0.5503518 0.6511811</span></span>
-<span><span class="co">##  [8] 0.1076526 0.1646077 0.7173262</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] 0.09513828 0.47951671 0.80271834 0.90055574 0.05305626 0.10915228</span></span>
+<span><span class="co">##  [7] 0.12025675 0.79184287 0.59815604 0.01703047</span></span></code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">itru</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] 0.97390157 0.06353208 0.29952342 0.26936686 0.43959150 0.82063578</span></span>
-<span><span class="co">##  [7] 0.69827965 0.84749154 0.71477685 0.50608251</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] 0.83198084 0.92876868 0.32435233 0.76126598 0.58347621 0.64989883</span></span>
+<span><span class="co">##  [7] 0.04831486 0.73495205 0.73124799 0.53522905</span></span></code></pre>
 <p>These random number generators are an indefinite process, but
 generally, iterators can come to an end. To specify what to do it the
 iterator ends, give <code>nextOr</code> a second argument, named

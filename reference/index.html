@@ -102,34 +102,129 @@ returning a vector of the given type.</dd>
         <dd>Iterators over parallel random-number seeds.</dd>
       </dl><dl><dt>
           
-          <code><a href="iapply.html">iapply()</a></code> 
+          <code><a href="i_apply.html">i_apply()</a></code> 
         </dt>
         <dd>Apply a function to each element of an iterator.</dd>
       </dl><dl><dt>
           
-          <code><a href="ibreak.html">ibreak()</a></code> 
+          <code><a href="i_break.html">i_break()</a></code> 
         </dt>
         <dd>Create an iterator that can be told to stop</dd>
       </dl><dl><dt>
           
-          <code><a href="ichain.html">icollapse()</a></code> <code><a href="ichain.html">ichain()</a></code> 
+          <code><a href="i_chain.html">icollapse()</a></code> <code><a href="i_chain.html">i_chain()</a></code> 
         </dt>
         <dd>Iteror that chains multiple arguments together into a single iterator</dd>
       </dl><dl><dt>
           
-          <code><a href="ichunk.html">ichunk()</a></code> 
+          <code><a href="i_chunk.html">i_chunk()</a></code> 
         </dt>
         <dd>Create a chunking iterator</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_dropwhile.html">i_dropwhile()</a></code> 
+        </dt>
+        <dd>Iterator that drops elements until the predicate function returns FALSE</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_enumerate.html">i_enumerate()</a></code> <code><a href="i_enumerate.html">ienumerate()</a></code> <code><a href="i_enumerate.html">i_enum()</a></code> 
+        </dt>
+        <dd>Iterator that returns the elements of an object along with their indices</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_keep.html">i_keep()</a></code> <code><a href="i_keep.html">i_drop()</a></code> 
+        </dt>
+        <dd>Iterator that filters elements not satisfying a predicate function</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_keepwhile.html">i_keepwhile()</a></code> 
+        </dt>
+        <dd>Iterator that returns elements while a predicate function returns TRUE</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_limit.html">i_limit()</a></code> 
+        </dt>
+        <dd>Create a limited iterator</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_map.html">i_map()</a></code> 
+        </dt>
+        <dd>Iterator that applies a given function to several iterables concurrently.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_mask.html">i_mask()</a></code> 
+        </dt>
+        <dd>Iterator that filters elements where corresponding selector is false.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_pad.html">i_pad()</a></code> 
+        </dt>
+        <dd>Iterator that returns an object followed indefinitely by a fill value</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_recycle.html">i_recycle()</a></code> 
+        </dt>
+        <dd>Create a recycling iterator</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_rep.html">i_rep()</a></code> 
+        </dt>
+        <dd>Create a repeating iterator</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_repeat.html">i_repeat()</a></code> 
+        </dt>
+        <dd>Create a repeating iterator</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_rle.html">i_rle()</a></code> <code><a href="i_rle.html">i_rleinv()</a></code> 
+        </dt>
+        <dd>Run-length encoding iterator.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_roundrobin.html">i_roundrobin()</a></code> 
+        </dt>
+        <dd>Iteror that traverses each given iterable in a roundrobin order</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_slice.html">i_slice()</a></code> 
+        </dt>
+        <dd>Iteror that returns selected elements from an iterable.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_starmap.html">i_starmap()</a></code> <code><a href="i_starmap.html">i_star()</a></code> 
+        </dt>
+        <dd>Iteror that applies a given function to the elements of an iterable.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_tee.html">i_tee()</a></code> 
+        </dt>
+        <dd>Create multiple iterators from one source</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_timeout.html">i_timeout()</a></code> 
+        </dt>
+        <dd>Create a timeout iterator</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_unique.html">i_unique()</a></code> 
+        </dt>
+        <dd>Iterator that extracts the unique elements from an iterable object</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_window.html">i_window()</a></code> 
+        </dt>
+        <dd>Construct a sliding window over an iterator</dd>
+      </dl><dl><dt>
+          
+          <code><a href="i_zip.html">i_zip()</a></code> <code><a href="i_zip.html">i_zip_longest()</a></code> 
+        </dt>
+        <dd>Combine several iterables in parallel.</dd>
       </dl><dl><dt>
           
           <code><a href="icombinations.html">icombinations()</a></code> 
         </dt>
         <dd>Iterator that generates all combinations of a vector taken m at a time.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="icompress.html">icompress()</a></code> 
-        </dt>
-        <dd>Iterator that filters elements where corresponding selector is false.</dd>
       </dl><dl><dt>
           
           <code><a href="icount.html">icount()</a></code> <code><a href="icount.html">icountn()</a></code> 
@@ -147,44 +242,9 @@ returning a vector of the given type.</dd>
         <dd>Dividing Iterator</dd>
       </dl><dl><dt>
           
-          <code><a href="idropwhile.html">idropwhile()</a></code> 
-        </dt>
-        <dd>Iterator that drops elements until the predicate function returns FALSE</dd>
-      </dl><dl><dt>
-          
-          <code><a href="ienumerate.html">ienumerate()</a></code> <code><a href="ienumerate.html">ienum()</a></code> 
-        </dt>
-        <dd>Iterator that returns the elements of an object along with their indices</dd>
-      </dl><dl><dt>
-          
           <code><a href="igrid.html">igrid()</a></code> 
         </dt>
         <dd>Iterator that covers the Cartesian product of the arguments.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="ikeep.html">ikeep()</a></code> <code><a href="ikeep.html">idrop()</a></code> 
-        </dt>
-        <dd>Iterator that filters elements not satisfying a predicate function</dd>
-      </dl><dl><dt>
-          
-          <code><a href="ikeepwhile.html">ikeepwhile()</a></code> 
-        </dt>
-        <dd>Iterator that returns elements while a predicate function returns TRUE</dd>
-      </dl><dl><dt>
-          
-          <code><a href="ilimit.html">ilimit()</a></code> 
-        </dt>
-        <dd>Create a limited iterator</dd>
-      </dl><dl><dt>
-          
-          <code><a href="imap.html">imap()</a></code> 
-        </dt>
-        <dd>Iterator that applies a given function to several iterables concurrently.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="ipad.html">ipad()</a></code> 
-        </dt>
-        <dd>Iterator that returns an object followed indefinitely by a fill value</dd>
       </dl><dl><dt>
           
           <code><a href="ipermutations.html">ipermutations()</a></code> 
@@ -212,31 +272,6 @@ returning a vector of the given type.</dd>
         <dd>Create an iterator to read data frames from files</dd>
       </dl><dl><dt>
           
-          <code><a href="irecycle.html">irecycle()</a></code> 
-        </dt>
-        <dd>Create a recycling iterator</dd>
-      </dl><dl><dt>
-          
-          <code><a href="irep.html">irep()</a></code> 
-        </dt>
-        <dd>Create a repeating iterator</dd>
-      </dl><dl><dt>
-          
-          <code><a href="irepeat.html">irepeat()</a></code> 
-        </dt>
-        <dd>Create a repeating iterator</dd>
-      </dl><dl><dt>
-          
-          <code><a href="irle.html">irle()</a></code> <code><a href="irle.html">irleinv()</a></code> 
-        </dt>
-        <dd>Run-length encoding iterator.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="iroundrobin.html">iroundrobin()</a></code> 
-        </dt>
-        <dd>Iteror that traverses each given iterable in a roundrobin order</dd>
-      </dl><dl><dt>
-          
           <code><a href="is.iteror.html">is.iteror()</a></code> 
         </dt>
         <dd><code>is.iteror</code> indicates if an object is an iteror.</dd>
@@ -247,19 +282,9 @@ returning a vector of the given type.</dd>
         <dd>Iterators for sequence generation</dd>
       </dl><dl><dt>
           
-          <code><a href="islice.html">islice()</a></code> 
-        </dt>
-        <dd>Iteror that returns selected elements from an iterable.</dd>
-      </dl><dl><dt>
-          
           <code><a href="isplit.html">isplit()</a></code> 
         </dt>
         <dd>Split Iterator</dd>
-      </dl><dl><dt>
-          
-          <code><a href="istarmap.html">istarmap()</a></code> <code><a href="istarmap.html">istar()</a></code> 
-        </dt>
-        <dd>Iteror that applies a given function to the elements of an iterable.</dd>
       </dl><dl><dt>
           
           <code><a href="itabulate.html">itabulate()</a></code> 
@@ -267,39 +292,14 @@ returning a vector of the given type.</dd>
         <dd>Iterator that maps a function to a sequence of numeric values</dd>
       </dl><dl><dt>
           
-          <code><a href="itee.html">itee()</a></code> 
-        </dt>
-        <dd>Create multiple iterators from one source</dd>
-      </dl><dl><dt>
-          
           <code><a href="iteror.html">iteror()</a></code> 
         </dt>
-        <dd>Efficient, compact iteration.</dd>
+        <dd>Make an iteror from a given object.</dd>
       </dl><dl><dt>
           
           <code><a href="iteror.function.html">iteror.function</a></code> 
         </dt>
         <dd>Construct an iteror object with custom-programmed behavior.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="itimeout.html">itimeout()</a></code> 
-        </dt>
-        <dd>Create a timeout iterator</dd>
-      </dl><dl><dt>
-          
-          <code><a href="iunique.html">iunique()</a></code> 
-        </dt>
-        <dd>Iterator that extracts the unique elements from an iterable object</dd>
-      </dl><dl><dt>
-          
-          <code><a href="iwindow.html">iwindow()</a></code> 
-        </dt>
-        <dd>Construct a sliding window over an iterator</dd>
-      </dl><dl><dt>
-          
-          <code><a href="izip.html">izip()</a></code> <code><a href="izip.html">izip_longest()</a></code> 
-        </dt>
-        <dd>Combine several iterables in parallel.</dd>
       </dl><dl><dt>
           
           <code><a href="makeIwrapper.html">makeIwrapper()</a></code> 
@@ -333,7 +333,7 @@ returning a vector of the given type.</dd>
         <dd>Record and replay iterators</dd>
       </dl><dl><dt>
           
-          <code><a href="reduce.html">reduce()</a></code> <code><a href="reduce.html">iaccum()</a></code> <code><a href="reduce.html">sum(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="reduce.html">prod(<i>&lt;iteror&gt;</i>)</a></code> 
+          <code><a href="reduce.html">reduce()</a></code> <code><a href="reduce.html">i_accum()</a></code> <code><a href="reduce.html">sum(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="reduce.html">prod(<i>&lt;iteror&gt;</i>)</a></code> 
         </dt>
         <dd>Compute the sum, product, or general reduction of an iterator.</dd>
       </dl><dl><dt>

@@ -87,14 +87,20 @@
 <p>If you are coming from packages iterators/itertools/itertools2, all
 functionality should be preserved, but some may be under different
 names. Here’s a short transition guide:</p>
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
-<col width="50%">
-<col width="50%">
+<col width="18%">
+<col width="40%">
+<col width="1%">
+<col width="18%">
+<col width="21%">
 </colgroup>
 <thead><tr class="header">
 <th>iterators/itertools</th>
 <th>iteror function</th>
+<th></th>
+<th></th>
+<th></th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -102,163 +108,245 @@ names. Here’s a short transition guide:</p>
 <td>
 <a href="../reference/iteror.html"><code>iteror</code></a><code>(array, by=margin)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td><code>iterators::recycle</code></td>
 <td><a href="../reference/i_recycle.html"><code>i_recycle</code></a></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="odd">
-<td><code>iterators::isplit(obj, ...)</code></td>
-<td>
-<a href="../reference/iteror.html"><code>iteror</code></a><code>(split(obj, ...))</code>
-</td>
-</tr>
-<tr class="even">
 <td><code>itertools::ifilter(pred, iterable)</code></td>
 <td>
 <a href="../reference/i_keep.html"><code>i_keep</code></a><code>(iterable, pred)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>itertools::ifilterfalse(pred, iterable)</code></td>
 <td>
 <a href="../reference/i_drop.html"><code>i_drop</code></a><code>(iterable, pred)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>itertools::isplitCols(obj, ...)</code></td>
 <td>
 <a href="../reference/iteror.array.html"><code>iteror.array</code></a><code>(obj, by="column", ...)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>itertools::isplitIndices(n, ...)</code></td>
 <td>
 <a href="../reference/icount.html"><code>icount</code></a><code>(n, ...)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>itertools::isplitRows(obj, ...)</code></td>
 <td>
-<a href="../reference/iteror.array.html"><code>iteror.array</code></a><code>(obj, by="row", ...)</code>
+<a href="../reference/iteror.html"><code>iteror.array</code></a><code>(obj, by="row", ...)</code>
 </td>
-</tr>
-<tr class="odd">
-<td><code>itertools::isplitVector(n, )</code></td>
-<td>
-<a href="../reference/iteror.default.html"><code>iteror.default</code></a><code>(n, ...)</code>
-</td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="even">
-<td><code><a href="https://rdrr.io/pkg/itertools/man/product.html" class="external-link">itertools::product</a></code></td>
-<td><a href="../reference/igrid.html"><code>igrid</code></a></td>
+<td><code>itertools::isplitVector(n, )</code></td>
+<td>
+<a href="../reference/iteror.html"><code>iteror.default</code></a><code>(n, ...)</code>
+</td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="odd">
+<td><code><a href="https://rdrr.io/pkg/itertools/man/product.html" class="external-link">itertools::product</a></code></td>
+<td><a href="../reference/igrid.html"><code>igrid</code></a></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
 <td><code>itertools::recycle(iter)</code></td>
 <td>
 <a href="../reference/i_recycle.html"><code>i_recycle</code></a><code>(iter)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>itertools::recycle(function() {...}, times=N)</code></td>
 <td>
 <a href="../reference/iteror.html"><code>iteror</code></a><code>(function() {...}, count=N)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>itertools::timeout(secs)</code></td>
 <td>
-<a href="../reference/itimeout.html"><code>itimeout</code></a><code>(secs)</code>
+<a href="../reference/i_timeout.html"><code>i_timeout</code></a><code>(secs)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code><a href="https://rdrr.io/pkg/itertools2/man/icompress.html" class="external-link">itertools2::icompress</a></code></td>
+<td><a href="../reference/i_mask.html"><code>i_mask</code></a></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td><code>itertools2::icount(start=1, step=3, stop=15)</code></td>
 <td>
 <a href="../reference/iseq.html"><code>iseq</code></a><code>(from=1, to=15, by=3)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td><code><a href="https://rdrr.io/pkg/itertools2/man/icycle.html" class="external-link">itertools2::icycle</a></code></td>
-<td><a href="../reference/irecycle.html"><code>irecycle</code></a></td>
+<td><a href="../reference/i_recycle.html"><code>i_recycle</code></a></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td><code>itertools2::idropwhile(pred, iterable)</code></td>
 <td>
-<a href="../reference/idropwhile.html"><code>idropwhile</code></a><code>(iterable, pred)</code>
+<a href="../reference/i_dropwhile.html"><code>i_dropwhile</code></a><code>(iterable, pred)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td><code>itertools2::ifilter(pred, iterable)</code></td>
 <td>
-<a href="../reference/ikeep.html"><code>ikeep</code></a><code>(iterable, pred)</code>
+<a href="../reference/i_keep.html"><code>i_keep</code></a><code>(iterable, pred)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td><code>itertools2::ifilterfalse(pred, iterable)</code></td>
 <td>
-<a href="../reference/idrop.html"><code>idrop</code></a><code>(iterable, pred)</code>
+<a href="../reference/i_keep.html"><code>i_drop</code></a><code>(iterable, pred)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td><code><a href="https://rdrr.io/pkg/itertools2/man/ilength.html" class="external-link">itertools2::ilength</a></code></td>
 <td>
 <a href="../reference/count.html"><code>count</code></a><code>(obj)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td><code>itertools2::imap(f, it)</code></td>
 <td>
-<a href="../reference/iapply.html"><code>iapply</code></a><code>(it, f)</code>
-or <a href="../reference/imap.html"><code>imap</code></a><code>(f, it1, it2, ...)</code>
+<a href="../reference/i_apply.html"><code>i_apply</code></a><code>(it, f)</code>
+or <a href="../reference/i_map.html"><code>i_map</code></a><code>(f, it1, it2, ...)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td><code>itertools2::ipairwise(it)</code></td>
 <td>
-<a href="../reference/iwindow.html"><code>iwindow</code></a><code>(it, 2)</code>
+<a href="../reference/i_window.html"><code>i_window</code></a><code>(it, 2)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td><code><a href="https://rdrr.io/pkg/itertools2/man/iproduct.html" class="external-link">itertools2::iproduct</a></code></td>
 <td><a href="../reference/igrid.html"><code>igrid</code></a></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td><code><a href="https://rdrr.io/pkg/itertools2/man/irep.html" class="external-link">itertools2::irep_len</a></code></td>
 <td>
-<a href="../reference/irep.html"><code>irep</code></a><code>(length.out=n)</code>
+<a href="../reference/i_rep.html"><code>i_rep</code></a><code>(length.out=n)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td><code><a href="https://rdrr.io/pkg/itertools2/man/iseq.html" class="external-link">itertools2::iseq_len</a></code></td>
 <td><a href="../reference/icount.html"><code>icount</code></a></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td><code>itertools2::iseq_along(x)</code></td>
 <td>
 <a href="../reference/icount.html"><code>icount</code></a><code>(length(x))</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td><code>itertools2::itakewhile(pred, iterable)</code></td>
 <td>
-<a href="../reference/ikeepwhile.html"><code>ikeepwhile</code></a><code>(iterable, pred)</code>
+<a href="../reference/i_keepwhile.html"><code>i_keepwhile</code></a><code>(iterable, pred)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="odd">
 <td><code>itertools2::itripletwise(it)</code></td>
 <td>
-<a href="../reference/iwindow.html"><code>iwindow</code></a><code>(it, 3)</code>
+<a href="../reference/i_window.html"><code>i_window</code></a><code>(it, 3)</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr class="even">
 <td><code>itertools2::iunique_lastseen()</code></td>
 <td>
-<a href="../reference/idedupe.html"><code>idedupe</code></a><code>()</code>
+<a href="../reference/i_dedup.html"><code>i_dedup</code></a><code>()</code>
 </td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<p>Additionally:</p>
+<p>Other notes:</p>
 <ul>
 <li>
 <code>checkFunc</code> arguments have been removed; instead use <a href="../reference/i_keep.html"><code>i_keep</code></a><code>()</code>.</li>

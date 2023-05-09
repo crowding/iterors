@@ -122,7 +122,7 @@ par.</p>
 <span>  times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">as.list.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-2-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-2</p>
+<img src="static_figure/unnamed-chunk-2-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-2</p>
 </div>
 <p>Note that we are using our own function <code>iter_consume</code>, as
 <code>itertools::consume</code> has poor performance due to invoking
@@ -138,7 +138,7 @@ par.</p>
 <span>    times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span>  <span class="fu">plotit</span><span class="op">(</span><span class="va">vector.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-3-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-3</p>
+<img src="static_figure/unnamed-chunk-3-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-3</p>
 </div>
 </div>
 <div class="section level3">
@@ -151,7 +151,7 @@ par.</p>
 <span>  times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">chunk.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-4-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-4</p>
+<img src="static_figure/unnamed-chunk-4-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-4</p>
 </div>
 </div>
 <div class="section level3">
@@ -169,7 +169,7 @@ par.</p>
 <span>times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">slice.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-5-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-5</p>
+<img src="static_figure/unnamed-chunk-5-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-5</p>
 </div>
 </div>
 <div class="section level3">
@@ -185,7 +185,7 @@ par.</p>
 <span>times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">array_chunks.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-6-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-6</p>
+<img src="static_figure/unnamed-chunk-6-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-6</p>
 </div>
 </div>
 <div class="section level3">
@@ -198,7 +198,7 @@ par.</p>
 <span>    times <span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
 <span> <span class="fu">plotit</span><span class="op">(</span><span class="va">icountn.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-7-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-7</p>
+<img src="static_figure/unnamed-chunk-7-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-7</p>
 </div>
 </div>
 <div class="section level3">
@@ -213,7 +213,7 @@ par.</p>
 <span>  times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">igrid.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-8-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-8</p>
+<img src="static_figure/unnamed-chunk-8-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-8</p>
 </div>
 </div>
 <div class="section level3">
@@ -229,7 +229,7 @@ restoring the random number generator settings.</p>
 <span>    times <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">sampling.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-9-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-9</p>
+<img src="static_figure/unnamed-chunk-9-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-9</p>
 </div>
 </div>
 </div>
@@ -245,54 +245,54 @@ restoring the random number generator settings.</p>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/itertools/man/chain.html" class="external-link">chain</a></span>,</span>
 <span>            <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fu">iterators</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/iterators/man/icount.html" class="external-link">icount</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    itertools2 <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="fu">itertools2</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/itertools2/man/ichain.html" class="external-link">ichain</a></span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="fu">itertools2</span><span class="fu">::</span><span class="va">i_chain</span>,</span>
 <span>              <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fu">iterators</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/iterators/man/icount.html" class="external-link">icount</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  iterors <span class="op">=</span></span>
-<span>    <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="va"><a href="../reference/ichain.html">ichain</a></span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fu">iterors</span><span class="fu">::</span><span class="va"><a href="../reference/icount.html">icount</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="va"><a href="../reference/i_chain.html">i_chain</a></span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fu">iterors</span><span class="fu">::</span><span class="va"><a href="../reference/icount.html">icount</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  iterors.collapse <span class="op">=</span></span>
-<span>    <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/ichain.html">icollapse</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/iapply.html">iapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fu">iterors</span><span class="fu">::</span><span class="va"><a href="../reference/icount.html">icount</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/i_chain.html">icollapse</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/i_apply.html">i_apply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fu">iterors</span><span class="fu">::</span><span class="va"><a href="../reference/icount.html">icount</a></span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  times<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">chain.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-10-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-10</p>
+<img src="static_figure/unnamed-chunk-10-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-10</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="keeping-or-dropping-items-according-to-a-criterion">Keeping or dropping items according to a criterion<a class="anchor" aria-label="anchor" href="#keeping-or-dropping-items-according-to-a-criterion"></a>
 </h3>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ikeep.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">i_keep.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>    iterators <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools/man/ifilter.html" class="external-link">ifilter</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">==</span> <span class="va">x</span>, <span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html" class="external-link">icount</a></span><span class="op">(</span><span class="fl">5000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    iterors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/ikeep.html">ikeep</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/icount.html">icount</a></span><span class="op">(</span><span class="fl">5000</span><span class="op">)</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    iterors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/i_keep.html">i_keep</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/icount.html">icount</a></span><span class="op">(</span><span class="fl">5000</span><span class="op">)</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="fu">plotit</span><span class="op">(</span><span class="va">ikeep.bench</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">plotit</span><span class="op">(</span><span class="va">i_keep.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-11-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-11</p>
+<img src="static_figure/unnamed-chunk-11-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-11</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="select-only-unique-values">Select only unique values<a class="anchor" aria-label="anchor" href="#select-only-unique-values"></a>
 </h3>
-<p><code><a href="../reference/iunique.html">iterors::iunique</a></code> uses a hash table for better
+<p><code><a href="../reference/i_unique.html">iterors::i_unique</a></code> uses a hash table for better
 performance.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">iunique.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">i_unique.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>       iterators <span class="op">=</span> <span class="op">{</span></span>
-<span>         <span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">itertools2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools2/man/iunique.html" class="external-link">iunique</a></span><span class="op">(</span><span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/makeIwrapper.html" class="external-link">isample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span>         <span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">itertools2</span><span class="fu">::</span><span class="fu">i_unique</span><span class="op">(</span><span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/makeIwrapper.html" class="external-link">isample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span>         <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu">itertools2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools2/man/take.html" class="external-link">take</a></span><span class="op">(</span><span class="va">it</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
 <span>       <span class="op">}</span>,</span>
 <span>       iterors <span class="op">=</span> <span class="op">{</span></span>
-<span>         <span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/iunique.html">iunique</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/rng.html">isample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">1</span>, independent<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<span>         <span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/i_unique.html">i_unique</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/rng.html">isample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">1</span>, independent<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span>         <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/take.html">take</a></span><span class="op">(</span><span class="va">it</span>, <span class="fl">100</span>, <span class="st">"numeric"</span><span class="op">)</span></span>
 <span>       <span class="op">}</span>,</span>
 <span>       times<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
-<span><span class="fu">plotit</span><span class="op">(</span><span class="va">iunique.bench</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">plotit</span><span class="op">(</span><span class="va">i_unique.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-12-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-12</p>
+<img src="static_figure/unnamed-chunk-12-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-12</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="irecycle">irecycle<a class="anchor" aria-label="anchor" href="#irecycle"></a>
+<h3 id="i_recycle">i_recycle<a class="anchor" aria-label="anchor" href="#i_recycle"></a>
 </h3>
 <p>Note that <code><a href="https://rdrr.io/pkg/itertools2/man/icycle.html" class="external-link">itertools2::icycle</a></code> only works for
 self-contained vector-based iterators, while the other two use a general
@@ -301,35 +301,35 @@ purpose buffer.</p>
 <code class="sourceCode R"><span><span class="va">icycle.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>  itertools2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">itertools2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools2/man/icycle.html" class="external-link">icycle</a></span><span class="op">(</span><span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html" class="external-link">icount</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  itertools <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools/man/recycle.html" class="external-link">recycle</a></span><span class="op">(</span><span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html" class="external-link">icount</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  iterors <span class="op">=</span> <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/irecycle.html">irecycle</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/icount.html">icount</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  iterors <span class="op">=</span> <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/i_recycle.html">i_recycle</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/icount.html">icount</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">icycle.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-13-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-13</p>
+<img src="static_figure/unnamed-chunk-13-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-13</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="itee">itee<a class="anchor" aria-label="anchor" href="#itee"></a>
+<h3 id="i_tee">i_tee<a class="anchor" aria-label="anchor" href="#i_tee"></a>
 </h3>
 <p>Note that <code>itertools2::tee</code> only works for vector-based
-iterators it knows how to clone, while <code><a href="../reference/itee.html">iterors::itee</a></code> uses a
-general purpose buffering mechanism.</p>
+iterators it knows how to clone, while <code><a href="../reference/i_tee.html">iterors::i_tee</a></code> uses
+a general purpose buffering mechanism.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">itee.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">i_tee.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>  itertools2<span class="op">=</span><span class="op">{</span></span>
 <span>    <span class="fu">iter_consume</span><span class="op">(</span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/itertools/man/chain.html" class="external-link">chain</a></span>,</span>
-<span>        <span class="fu">itertools2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools2/man/itee.html" class="external-link">itee</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, n<span class="op">=</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>        <span class="fu">itertools2</span><span class="fu">::</span><span class="fu">i_tee</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, n<span class="op">=</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">}</span>,</span>
 <span>  iterors<span class="op">=</span><span class="op">{</span></span>
 <span>    <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span></span>
-<span>      <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/ichain.html">icollapse</a></span><span class="op">(</span></span>
-<span>        <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/itee.html">itee</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/icount.html">icount</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, n<span class="op">=</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/i_chain.html">icollapse</a></span><span class="op">(</span></span>
+<span>        <span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/i_tee.html">i_tee</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/icount.html">icount</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, n<span class="op">=</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">}</span>,</span>
 <span>  times<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span>
-<span><span class="fu">plotit</span><span class="op">(</span><span class="va">itee.bench</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">plotit</span><span class="op">(</span><span class="va">i_tee.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-14-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-14</p>
+<img src="static_figure/unnamed-chunk-14-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-14</p>
 </div>
 </div>
 <div class="section level3">
@@ -344,14 +344,14 @@ n=4 and above, a general purpose queue is used.</p>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">alist</a></span><span class="op">(</span>itertools2.w3<span class="op">=</span><span class="op">{</span><span class="fu">iter_consume</span><span class="op">(</span><span class="fu">itertools2</span><span class="fu">::</span><span class="fu">itripletwise</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">)</span><span class="op">)</span><span class="op">}</span><span class="op">)</span></span>
 <span>  <span class="op">}</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">alist</a></span><span class="op">(</span></span>
-<span>    iterors.w2<span class="op">=</span><span class="op">{</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/iwindow.html">iwindow</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>,</span>
-<span>    iterors.w3<span class="op">=</span><span class="op">{</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/iwindow.html">iwindow</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>,</span>
-<span>    iterors.w4<span class="op">=</span><span class="op">{</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/iwindow.html">iwindow</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>,</span>
-<span>    iterors.w50<span class="op">=</span><span class="op">{</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/iwindow.html">iwindow</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, <span class="fl">50</span><span class="op">)</span><span class="op">)</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">iwindow.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span>list<span class="op">=</span><span class="va">marks</span>, times<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
-<span><span class="fu">plotit</span><span class="op">(</span><span class="va">iwindow.bench</span><span class="op">)</span></span></code></pre></div>
+<span>    iterors.w2<span class="op">=</span><span class="op">{</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/i_window.html">i_window</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>,</span>
+<span>    iterors.w3<span class="op">=</span><span class="op">{</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/i_window.html">i_window</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>,</span>
+<span>    iterors.w4<span class="op">=</span><span class="op">{</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/i_window.html">i_window</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>,</span>
+<span>    iterors.w50<span class="op">=</span><span class="op">{</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/consume.html">consume</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/i_window.html">i_window</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, <span class="fl">50</span><span class="op">)</span><span class="op">)</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">i_window.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span>list<span class="op">=</span><span class="va">marks</span>, times<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu">plotit</span><span class="op">(</span><span class="va">i_window.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="figure/unnamed-chunk-15-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-15</p>
+<img src="static_figure/unnamed-chunk-15-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-15</p>
 </div>
 </div>
 </div>

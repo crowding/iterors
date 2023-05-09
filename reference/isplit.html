@@ -111,10 +111,9 @@ dropped.</p></dd>
 <span class="r-in"><span><span class="va">expected</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">f</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="va">expected</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>    <span class="va">actual</span> <span class="op">&lt;-</span> <span class="fu">nextElem</span><span class="op">(</span><span class="va">it</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">actual</span> <span class="op">&lt;-</span> <span class="fu"><a href="nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="kw">break</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="va">actual</span><span class="op">$</span><span class="va">value</span> <span class="op">==</span> <span class="va">i</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in nextElem(it):</span> could not find function "nextElem"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

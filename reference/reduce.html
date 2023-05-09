@@ -75,7 +75,7 @@ and returns the final value.</p>
 <span><span class="co"># S3 method for iteror</span></span>
 <span><span class="fu">reduce</span><span class="op">(</span><span class="va">obj</span>, fun <span class="op">=</span> <span class="va">`+`</span>, init <span class="op">=</span> <span class="fl">0</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">iaccum</span><span class="op">(</span><span class="va">obj</span>, fun <span class="op">=</span> <span class="va">`+`</span>, init <span class="op">=</span> <span class="fl">0</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">i_accum</span><span class="op">(</span><span class="va">obj</span>, fun <span class="op">=</span> <span class="va">`+`</span>, init <span class="op">=</span> <span class="fl">0</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for iteror</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">...</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -135,7 +135,7 @@ and returns the final value.</p>
 <span class="r-in"><span><span class="kw">repeat</span> <span class="va">total</span> <span class="op">&lt;-</span> <span class="va">total</span> <span class="op">*</span> <span class="fu"><a href="nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="kw">break</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># triangular numbers: 1, 1+2, 1+2+3, ...</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="take.html">take</a></span><span class="op">(</span><span class="fu">iaccum</span><span class="op">(</span><span class="fu"><a href="icount.html">icount</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, <span class="fl">10</span>, <span class="st">'numeric'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="take.html">take</a></span><span class="op">(</span><span class="fu">i_accum</span><span class="op">(</span><span class="fu"><a href="icount.html">icount</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, <span class="fl">10</span>, <span class="st">'numeric'</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  3  6 10 15 21 28 36 45 55</span>
 </code></pre></div>
     </div>
