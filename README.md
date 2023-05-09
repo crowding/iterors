@@ -3,10 +3,11 @@ The iterors package: Fast, compact iterators and tools
 
 # iterors
 
-<!-- badges: start -->
-[![codecov](https://codecov.io/gh/crowding/iterors/branch/main/graph/badge.svg?token=kqLgHxP1Gh)](https://codecov.io/gh/crowding/iterors)
+<!-- badges: start --> [![CRAN
+status](https://www.r-pkg.org/badges/version/iterors)](https://CRAN.R-project.org/package=iterors)
 [![R-CMD-check](https://github.com/crowding/iterors/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/crowding/iterors/actions/workflows/check_full.yaml)
 [![pkgdown](https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml)
+[![codecov](https://codecov.io/gh/crowding/iterors/branch/main/graph/badge.svg?token=kqLgHxP1Gh)](https://codecov.io/gh/crowding/iterors)
 <!-- badges: end -->
 
 A fresh take on iterators in R.
@@ -62,12 +63,12 @@ a `tryCatch` handler function. while `nextOr` is designed with that use
 in mind.
 
 The
-[benchmarking](http://crowding.github.io/iterors/articles/benchmarks.html)
+[benchmarking](https://crowding.github.io/iterors/articles/benchmarks.html)
 vignette illustrates that computations using `iterors` can execute
 several times faster than using `iterators`.
 
 The `iterors` package grew out of, and is a complement to, generators
-implemented in the [async](http://crowding.github.io/async) package.
+implemented in the [async](https://crowding.github.io/async/) package.
 [async::gen](https://crowding.github.io/async/reference/gen.html) lets
 you construct iterators with complex logic, using familiar imperative
 code with flow control constructs like `if` `for`, `switch` and so on.
@@ -78,30 +79,30 @@ two complementary ways that you can work with sequential processes.
 ## More reading
 
 For a quick introduction, see
-[`vignette("iterors")`](http://crowding.github.io/iterors/articles/iterors.html)
+[`vignette("iterors")`](https://crowding.github.io/iterors/articles/iterors.html)
 
 For an index of `iteror` functions organized by task, see
 [`vignette("categories",
-"iterors")`](http://crowding.github.io/iterors/articles/categories.html)
+"iterors")`](https://crowding.github.io/iterors/articles/categories.html)
 
 If you are familiar with packages `iterators`/`itertools`/`itertools2`,
 some functions have been moved. See [`vignette("cross-reference",
-"iterors")`](http://crowding.github.io/iterors/articles/cross-reference.html)
+"iterors")`](https://crowding.github.io/iterors/articles/cross-reference.html)
 
 To learn how to build custom iterors, see [`vignette("writing",
-"iterors")`](http://crowding.github.io/iterors/articles/writing.html)
+"iterors")`](https://crowding.github.io/iterors/articles/writing.html)
 
 ## Installation
 
 For prerelease, run the following after installing
-[devtools](https://github.com/hadley/devtools):
+[devtools](https://github.com/hadley/devtools/):
 
 ``` r
 devtools::install_github('crowding/iterors')
 ```
 
 When the package is released, you will be able to install the stable
-version from [CRAN](http://cran.r-project.org/package=iterors):
+version from [CRAN](https://cran.r-project.org/package=iterors):
 
 ``` r
 install.packages('iterors', dependencies=TRUE)

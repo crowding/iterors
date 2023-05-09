@@ -1,4 +1,4 @@
----
+--
 title: "Benchmarking Iteration"
 output: rmarkdown::html_vignette
 vignette: >
@@ -7,22 +7,26 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This document illustrates the differences in performance between `iterors` and previous packages `iterators`/`itertools`/`itertools2`.  Basic gains come from the `nextOr` method  avoiding the need for `tryCatch`. Additionally, over the process of putting together the  `iterors` package, several functions have been optimized for performance.
+This document illustrates the differences in performance between `iterors` and previous packages `iterators`/`itertools`/`itertools2`.  Basic gains come from the `nextOr` method  avoiding the need for `tryCatch`, as well as the fact that iterors can be used simply as functions, skipping S3 dispatch. Additionally, over the process of curating the `iterors` package, several iterator implementations have been optimized for performance. 
 
-Because this is a more computationally intensive vignette, it is built manually and included in the released package statically.  The Rmd source is in the Git repo under the `scratch` directory. When this document was last built under these conditions:
 
-* iterors version 1.0,  git revision 58d4f259
+
+Because this is a more computationally intensive vignette, it is built manually and included in the released package statically.  The `Rmd` source is in the Git repo under the `scratch` directory; knit it manually and copy it into the vignettes directory to publish. When this document was last built, it was under these conditions:
+
+* iterors version 1.0,  git revision 584769a8 ()
+* itertools2 version 0.1.1
+* itertools version 0.1.3
 * OS: Linux 5.4.0-148-generic
 * CPU: Intel(R) Core(TM) i5 CPU       M 520  @ 2.40GHz.
-* R version: R version 4.3.0 (2023-04-21), svn rev 84292
-* iterators version 1.0, itertools version 0.1.3; itertools2 version 0.1.1
+* R version 4.3.0 (2023-04-21), svn rev 84292
+
 
 # Basic iterators (self-contained/memory-backed)
 
 ## Consuming iterators
 
 Since the following tests will use different versions of `icount`, `iter_consume`, and `as.list`,
-first verify that those functions are roughly on par.
+first check how close those functions are.
 
 
 ```r
@@ -150,7 +154,7 @@ chain.bench <- microbenchmark::microbenchmark(
     do.call(itertools::chain,
             lapply(1:50, iterators::icount))),
     itertools2 = iter_consume(
-      do.call(itertools2::i_chain,
+      do.call(itertools2::ichain,
               lapply(1:50, iterators::icount))),
   iterors =
     iterors::consume(do.call(iterors::i_chain, lapply(1:50, iterors::icount))),
@@ -163,6 +167,7 @@ plotit(chain.bench)
 ![plot of chunk unnamed-chunk-10](static_figure/unnamed-chunk-10-1.png)
 
 ## Keeping or dropping items according to a criterion
+
 
 ```r
 i_keep.bench <- microbenchmark::microbenchmark(
@@ -182,7 +187,7 @@ plotit(i_keep.bench)
 ```r
 i_unique.bench <- microbenchmark::microbenchmark(
        iterators = {
-         it <- itertools2::i_unique(iterators::isample(1:100, 1))
+         it <- itertools2::iunique(iterators::isample(1:100, 1))
          as.numeric(itertools2::take(it, 100))
        },
        iterors = {
@@ -223,7 +228,7 @@ i_tee.bench <- microbenchmark::microbenchmark(
   itertools2={
     iter_consume(
       do.call(itertools::chain,
-        itertools2::i_tee(1:20, n=20)))
+        itertools2::itee(1:20, n=20)))
   },
   iterors={
     iterors::consume(
