@@ -56,7 +56,7 @@ i_keep <- function(iterable, predicate, ...) {
     }
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 #' `i_drop(iterable, predicate)` constructs an iterator that filters
@@ -106,5 +106,5 @@ i_drop <- function(iterable, predicate, ...) {
     }
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }

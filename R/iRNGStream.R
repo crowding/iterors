@@ -81,7 +81,7 @@ iRNGStream <- function(seed) {
   # Define the "Next Element" function for the iterator
   nextOr_ <- function(or) (seed <<- nextRNGStream(seed))
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 iRNGSubStream <- function(seed) {
@@ -96,7 +96,7 @@ iRNGSubStream <- function(seed) {
   # Define the "Next Element" function for the iterator
   nextOr_ <- function(or) (seed <<- nextRNGSubStream(seed))
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 convseed <- function(iseed) {

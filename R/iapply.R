@@ -16,5 +16,5 @@
 i_apply <- function(obj, f, ...) {
   obj <- iteror(obj, ...)
   nextOr_ <- function(or) f(obj(or = return(or)), ...)
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }

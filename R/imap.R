@@ -48,5 +48,5 @@ i_map <- function(f, ...) {
     do.call(f, wrap(elem))
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }

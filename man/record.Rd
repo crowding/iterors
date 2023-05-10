@@ -2,7 +2,6 @@
 % Please edit documentation in R/irecord.R
 \name{record}
 \alias{record}
-\alias{irecord}
 \alias{ireplay}
 \title{Record and replay iterators}
 \usage{
@@ -16,7 +15,7 @@ record(iterable, con, ...)
 \item{...}{passed along to \code{iteror(iterable, ...)}}
 }
 \description{
-The \code{irecord} function records the values issued by a specified
+The \code{record} function records the values issued by a specified
 iterator to a file or connection object.  The \code{ireplay} function
 returns an iterator that will replay those values.  This is useful for
 iterating concurrently over multiple, large matrices or data frames that you

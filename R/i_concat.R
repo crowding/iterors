@@ -20,5 +20,5 @@ i_concat <- function(obj, ...) {
     }
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }

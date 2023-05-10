@@ -33,7 +33,6 @@
 #'   short. If missing, no padding will be done.
 #' @param ... Further arguments will be forwarded to `iteror(iterable, ...)`.
 #' @seealso \code{iteror.default}
-#' @keywords utilities
 #'
 #' Argument `size` does not need to be an integer, for instance a
 #'   `chunk` of 3.5 will produce chunks of sizes 3 and 4
@@ -99,5 +98,5 @@ i_chunk <- function(iterable, size, mode='list', fill, ...) {
     r
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }

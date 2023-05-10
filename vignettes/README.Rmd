@@ -14,7 +14,7 @@ vignette: >
 
   <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/iterors)](https://CRAN.R-project.org/package=iterors)     [![R-CMD-check](https://github.com/crowding/iterors/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/crowding/iterors/actions/workflows/check_full.yaml) [![pkgdown](https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml)
-[![codecov](https://codecov.io/gh/crowding/iterors/branch/main/graph/badge.svg?token=kqLgHxP1Gh)](https://codecov.io/gh/crowding/iterors)
+[![codecov](https://codecov.io/gh/crowding/iterors/branch/main/graph/badge.svg?token=kqLgHxP1Gh)](https://app.codecov.io/gh/crowding/iterors)
   <!-- badges: end -->
 
 
@@ -75,7 +75,7 @@ To learn how to build custom iterors, see
 
 ## Installation
 
-For prerelease, run the following after installing [devtools](https://github.com/hadley/devtools/):
+For prerelease, run the following after installing [devtools](https://github.com/r-lib/devtools):
 
 ```{R, eval=FALSE}
 devtools::install_github('crowding/iterors')

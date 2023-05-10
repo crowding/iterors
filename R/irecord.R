@@ -21,7 +21,7 @@
 
 #' Record and replay iterators
 #'
-#' The \code{irecord} function records the values issued by a specified
+#' The \code{record} function records the values issued by a specified
 #' iterator to a file or connection object.  The \code{ireplay} function
 #' returns an iterator that will replay those values.  This is useful for
 #' iterating concurrently over multiple, large matrices or data frames that you
@@ -30,7 +30,7 @@
 #' memory.
 #'
 #'
-#' @aliases irecord ireplay
+#' @aliases record ireplay
 #' @param iterable The iterable to record to the file.
 #' @param con A file path or open connection.
 #' @param ... passed along to `iteror(iterable, ...)`
@@ -62,13 +62,14 @@
 #' @export record ireplay
 record <- function(iterable, con, ...) UseMethod("record")
 
+#' @exportS3Method
 record.default <- function(iterable, con, ...) {
   record.iteror(iteror(iterable, ...), con=con)
 }
 
 #' @exportS3Method
 record.iteror <- function(iterable, con, ...) {
-  it <- iteror(iterable, ...)
+  stop_unused(...)
   if (is.character(con)) {
     con <- file(con, 'wb')
     on.exit(close(con))

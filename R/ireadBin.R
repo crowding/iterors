@@ -141,5 +141,5 @@ ireadBin <- function(con, what='raw', n=1L, size=NA_integer_,
     }
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }

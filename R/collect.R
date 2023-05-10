@@ -1,5 +1,5 @@
 collectIteror <- function(x, mode="list", n=as.integer(2^31-1), ...) {
-  (\()NULL)(...)
+  stop_unused(...)
   if (!is.numeric(n) || length(n) != 1 || n < 0) {
     stop("n must be a positive integer of length 1")
   }

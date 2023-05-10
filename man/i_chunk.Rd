@@ -46,35 +46,9 @@ nextOr(it2, NA)
 }
 \seealso{
 \code{iteror.default}
+
+Argument \code{size} does not need to be an integer, for instance a
+\code{chunk} of 3.5 will produce chunks of sizes 3 and 4
+alternating. The precise behavior will be subject to floating
+point precision.
 }
-\keyword{3}
-\keyword{3.5}
-\keyword{4}
-\keyword{Argument}
-\keyword{The}
-\keyword{`chunk`}
-\keyword{`size`}
-\keyword{a}
-\keyword{alternating.}
-\keyword{an}
-\keyword{and}
-\keyword{be}
-\keyword{behavior}
-\keyword{chunks}
-\keyword{does}
-\keyword{floating}
-\keyword{for}
-\keyword{instance}
-\keyword{integer,}
-\keyword{need}
-\keyword{not}
-\keyword{of}
-\keyword{point}
-\keyword{precise}
-\keyword{precision.}
-\keyword{produce}
-\keyword{sizes}
-\keyword{subject}
-\keyword{to}
-\keyword{utilities}
-\keyword{will}

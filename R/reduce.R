@@ -73,7 +73,7 @@ i_accum <- function(obj, fun=`+`, init=0, ...) {
     init <<- fun(init, val, ...)
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 #' @export

@@ -47,7 +47,7 @@ i_unique <- function(object, digest=rlang::hash, ...) {
     }
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 #' Drop duplicated items from an iterator.
@@ -92,7 +92,7 @@ idedup <- function(object, cmp=identical, ...) {
     }
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 #' Run-length encoding iterator.
@@ -142,7 +142,7 @@ i_rle <- function(obj, cmp=identical, ...) {
       }
     }
   }
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 #' @rdname i_rle
@@ -160,5 +160,5 @@ i_rleinv <- function(obj, ...) {
     count <<- count - 1
     val$value
   }
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }

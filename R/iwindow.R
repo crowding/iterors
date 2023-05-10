@@ -93,7 +93,7 @@ i_window <- function(obj, n, tail, ...) {
       })
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 

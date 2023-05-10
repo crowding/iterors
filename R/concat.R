@@ -39,7 +39,7 @@ concat.iteror <- function(obj, mode = "list", n = Inf,
   if (length(n) != 1 || n < 0) {
     stop("n must be a positive number of length 1")
   }
-  (function()NULL)(...)
+  stop_unused(...)
 
   size <- min(64, n)
   a <- vector(mode, length=size)

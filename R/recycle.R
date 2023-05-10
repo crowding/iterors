@@ -71,10 +71,10 @@ i_recycle <- function(iterable, times=NA_integer_, ...) {
       #legacy icycle behavior: a bare function will be called that many times
       if (is.finite(times)) {
         n <- times
-        return(iteror.internal(
+        return(iteror_internal(
           function(or) if (n <= 0) or else {n <<- n - 1; iterable(...)}))
       } else {
-        return(iteror.internal(function(or) iterable(...)))
+        return(iteror_internal(function(or) iterable(...)))
       }
     }
   }

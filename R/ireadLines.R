@@ -70,7 +70,7 @@ ireadLines <- function(con, n=1, ...) {
     r
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 
@@ -223,5 +223,5 @@ iread.table <- function(file, ..., verbose=FALSE) {
     r
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }

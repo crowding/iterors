@@ -130,5 +130,5 @@ i_rep.times <- function(it, times, ...) {
     }
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }

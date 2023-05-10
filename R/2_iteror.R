@@ -135,7 +135,7 @@ iteror.iter <- function(obj, ...) {
       error=function(e)
         if (identical(conditionMessage(e), 'StopIteration')) or else stop(e))
   }
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 #' Construct an iteror object with custom-programmed behavior.
@@ -152,6 +152,7 @@ iteror.iter <- function(obj, ...) {
 #' how to detect end of iteration.
 #'
 #' @exportS3Method iteror "function"
+#' @export
 #' @rdname iteror.function
 #' @param obj A function. It should have having an argument named "or"
 #' @return An object of mode "function" and class "iteror".
@@ -190,7 +191,7 @@ iteror.iter <- function(obj, ...) {
 #' }
 #' take(irand(5, 10), 10)
 iteror.function <- function(obj, ..., catch, sigil, count) {
-  (function() NULL)(...) # reject extra args
+  stop_unused(...) # reject extra args
   if ("or" %in% names(formals(obj))) {
     fn <- obj
   } else {
@@ -224,12 +225,12 @@ iteror.function <- function(obj, ..., catch, sigil, count) {
       stop("iteror: function must have an 'or' argument, or else specify one of 'catch', 'sigil' or 'count'")
     }
   }
-  iteror.internal(fn)
+  iteror_internal(fn)
 }
 
 
-iteror.internal <- function(fn, class=character(0)) {
-  structure(fn, class=c(class, "iteror", "iter"))
+iteror_internal <- function(obj, class=character(0)) {
+  structure(obj, class=c(class, "iteror", "iter"))
 }
 
 #' @exportS3Method

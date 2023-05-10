@@ -133,11 +133,11 @@ total # sum of 1:10
 ```
 
 For an index of `iteror` functions organized by task, see
-[`vignette("categories", "iterors")`](http://crowding.github.io/iterors/articles/categories.html)
+[`vignette("categories", "iterors")`](https://crowding.github.io/iterors/articles/categories.html)
 
 If you are familiar with packages `iterators`/`itertools`/`itertools2`, some functions have been moved. See 
-[`vignette("cross-reference", "iterors")`](http://crowding.github.io/iterors/articles/cross-reference.html)
+[`vignette("cross-reference", "iterors")`](https://crowding.github.io/iterors/articles/cross-reference.html)
 
 To learn how to build custom iterors, see
-[`vignette("writing", "iterors")`](http://crowding.github.io/iterors/articles/writing.html)
+[`vignette("writing", "iterors")`](https://crowding.github.io/iterors/articles/writing.html)
 

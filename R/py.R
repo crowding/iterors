@@ -14,7 +14,7 @@ iteror.python.builtin.object <- function(obj, ...) {
     if (identical(val, sigil)) or else val
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 

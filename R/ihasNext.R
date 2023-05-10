@@ -96,7 +96,7 @@ ihasNext.iteror <- function(obj, ...) {
     !identical(last, endIter)
   }
 
-  it <- iteror.internal(nextOr_)
+  it <- iteror_internal(nextOr_)
   structure(it, class=c("ihasNextOr", class(it)), hasNext=hasNext_)
 }
 

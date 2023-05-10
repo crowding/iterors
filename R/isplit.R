@@ -81,7 +81,7 @@ isplit.default <- function(x, f, drop=FALSE, ...) {
     list(value=x[j], key=key)
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 # define the data frame method which uses the default method
@@ -92,5 +92,5 @@ isplit.data.frame <- function(x, f, drop=FALSE, ...) {
     i <- nextOr(it, return(or))
     list(value=x[i$value,, drop=FALSE], key=i$key)
   }
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }

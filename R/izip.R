@@ -46,7 +46,7 @@ i_zip <- function(...) {
     }
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 #' For `[i_zip_longest]`, any iterators that finish early are padded
@@ -100,5 +100,5 @@ i_zip_longest <- function(..., fill=NA) {
     out
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }

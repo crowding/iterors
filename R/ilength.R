@@ -32,7 +32,7 @@ count.default <- function(object, ...) {
 
 #' @exportS3Method
 count.iteror <- function(object, ...) {
-  (function()NULL)(...)
+  stop_unused(...)
   i <- 0
   repeat{
     object(or = break)

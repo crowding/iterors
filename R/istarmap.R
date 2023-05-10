@@ -50,7 +50,7 @@ i_starmap <- function(f, x) {
     do.call(f, next_args)
   }
 
-  iteror.internal(nextOr_)
+  iteror_internal(nextOr_)
 }
 
 #' @rdname i_starmap

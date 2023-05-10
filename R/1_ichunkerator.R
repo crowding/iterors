@@ -24,7 +24,7 @@ count_template <- function(input,
 
   body <- bquote(splice=TRUE, {
     .( if (!("..." %in% names(input)))
-      quote((function() NULL)(...))) # any leftover arguments are an error
+      quote(stop_unused(...))) # any leftover arguments are an error
     ..(preamble)
 
     if (!is.numeric(count) || length(count) != 1 || is.na(count))
@@ -118,7 +118,7 @@ count_template <- function(input,
       }
     }
 
-    iteror.internal(nextOr_)
+    iteror_internal(nextOr_)
   })
 
   eval(call("function", args, body), parent.env(environment()))

@@ -105,10 +105,12 @@ deque <- function(len=64) {
 
 }
 
-format.deque <- function(obj, ...) {
-  paste0("<Deque (", obj$getLength(), " items)>")
+#' @exportS3Method
+format.deque <- function(object, ...) {
+  paste0("<deque (", object$getLength(), " items)>")
 }
 
-summary.deque <- function(obj, ...) {
-  list(length=obj$getLength())
+#' @exportS3Method
+summary.deque <- function(object, ...) {
+  list(length=object$getLength())
 }
