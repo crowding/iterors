@@ -87,6 +87,8 @@
 
     
     
+<!-- Do not edit README.md in the repo root directly; 
+  edit vignettes/README.Rmd and then run devtools::build_vignettes() -->
 <!-- badges: start -->
 <p><a href="https://CRAN.R-project.org/package=iterors" class="external-link"><img src="https://www.r-pkg.org/badges/version/iterors" alt="CRAN status"></a> <a href="https://github.com/crowding/iterors/actions/workflows/check_full.yaml" class="external-link"><img src="https://github.com/crowding/iterors/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a> <a href="https://app.codecov.io/gh/crowding/iterors" class="external-link"><img src="https://codecov.io/gh/crowding/iterors/branch/main/graph/badge.svg?token=kqLgHxP1Gh" alt="codecov"></a> <!-- badges: end --></p>
 <p>A fresh take on iterators in R, leading to faster, shorter code.</p>
@@ -123,12 +125,11 @@ or <code><a href="https://rdrr.io/r/base/Control.html" class="external-link">nex
 <code>it</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">total</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
-<span><span class="kw">repeat</span></span>
-<span>  <span class="va">total</span> <span class="op">&lt;-</span> <span class="va">total</span> <span class="op">+</span> <span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="kw">break</span><span class="op">)</span></span></code></pre></div>
-<p>To contrast with the existing <code>iterators</code> package: In that
+<span><span class="kw">repeat</span> <span class="va">total</span> <span class="op">&lt;-</span> <span class="va">total</span> <span class="op">+</span> <span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="kw">break</span><span class="op">)</span></span></code></pre></div>
+<p>To contrast with the previous <code>iterators</code> package: In that
 package <code>nextElem</code> signals end of iteration by throwing an
-exception, which means all iterator code happened inside a
-<code>tryCatch.</code> Computing a sum over an iterator looked like
+exception, which means all iterator code had to be written inside a
+<code>tryCatch</code>. Computing a sum over an iterator looked like
 this:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">total</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
@@ -150,13 +151,14 @@ designed with that use in mind.</p>
 vignette illustrates that computations using <code>iterors</code> can
 execute several times faster than using <code>iterators</code>.</p>
 <p>The <code>iterors</code> package grew out of, and is a complement to,
-generators implemented in the <a href="https://crowding.github.io/async/" class="external-link">async</a> package. <a href="https://crowding.github.io/async/reference/gen.html" class="external-link">async::gen</a>
+the generators implemented in the <a href="https://crowding.github.io/async/" class="external-link">async</a> package. <a href="https://crowding.github.io/async/reference/gen.html" class="external-link">async::gen</a>
 lets you construct iterators with complex logic, using familiar
-imperative code with flow control constructs like <code>if</code>
-<code>for</code>, <code>switch</code> and so on. Meanwhile, functions in
-this package <code>iterors</code> let you manipulate the output of such
-a generator in functional style. These two packages form two
-complementary ways that you can work with sequential processes.</p>
+imperative code with ordinary flow control constructs like
+<code>if</code> <code>for</code>, <code>switch</code> and so on.
+Meanwhile, functions in this package <code>iterors</code> let you
+manipulate the output of such a generator in functional style. These two
+packages form two complementary ways to work with sequential
+processes.</p>
 </div>
 <div class="section level2">
 <h2 id="more-reading">More reading<a class="anchor" aria-label="anchor" href="#more-reading"></a>
@@ -183,7 +185,18 @@ version from <a href="https://cran.r-project.org/package=iterors" class="externa
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
 </h2>
-<p>GPL-3</p>
+<p>Copyright (c) 2023 Peter Meilstrup. This package as a whole is
+released under the GNU General Public License (GPL) version 3.0, or (at
+your option) any later version.</p>
+<p>Portions of this package are derived from the <code>iterators</code>
+package, copyright (c) 2008-2010 Revolution Analytics.</p>
+<p>Portions of this package are derived from the
+<code>itertools</code>package, copyright (c) 2015 Steve Weston.</p>
+<p>Portions of this package are derived from the <code>itertools2</code>
+package, copyright (c) 2015 John A. Ramey.</p>
+<p>Where functions in this package are derived from previous works, this
+is noted in the Rd documentation, and the original license notice is
+retained at the top of the relevant source files.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
