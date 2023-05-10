@@ -40,7 +40,7 @@ memory."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iterators and tools</a>
-    <a class="dropdown-item" href="../articles/benchmarks.html">UNKNOWN TITLE</a>
+    <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
     <a class="dropdown-item" href="../articles/writing.html">Writing Custom Iterators</a>
@@ -112,12 +112,10 @@ memory.</p>
 <span class="r-in"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">70</span><span class="op">)</span>, <span class="fl">7</span>, <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">f1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">record</span><span class="op">(</span><span class="fu"><a href="iteror.html">iteror</a></span><span class="op">(</span><span class="va">m1</span>, by<span class="op">=</span><span class="st">'row'</span>, chunkSize<span class="op">=</span><span class="fl">3</span><span class="op">)</span>, <span class="va">f1</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in it(or = break):</span> could not find function "it"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">10</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">record</span><span class="op">(</span><span class="fu"><a href="iteror.html">iteror</a></span><span class="op">(</span><span class="va">m2</span>, by<span class="op">=</span><span class="st">'column'</span>, chunkSize<span class="op">=</span><span class="fl">3</span><span class="op">)</span>, <span class="va">f2</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in it(or = break):</span> could not find function "it"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Perform a simple out-of-core matrix multiply</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">foreach</a></span><span class="op">(</span>col<span class="op">=</span><span class="fu">ireplay</span><span class="op">(</span><span class="va">f2</span><span class="op">)</span>, .combine<span class="op">=</span><span class="st">'cbind'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/foreach/man/foreach.html" class="external-link">%:%</a></span></span></span>
@@ -127,9 +125,16 @@ memory.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/dimnames.html" class="external-link">dimnames</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]       [,3]       [,4]       [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  19.939931  37.987451  56.034971   74.08249   92.13001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   4.977286   9.523644  14.070002   18.61636   23.16272</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]   4.289386  -3.875437 -12.040260  -20.20508  -28.36991</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -12.543284 -13.287506 -14.031729  -14.77595  -15.52017</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -19.103148 -46.572138 -74.041129 -101.51012 -128.97911</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,]   1.819314   6.919221  12.019127   17.11903   22.21894</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [7,]   1.047657   5.516499   9.985342   14.45418   18.92303</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">m1</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">m2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "target is NULL, current is matrix"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

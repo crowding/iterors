@@ -45,7 +45,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="articles/README.html">The iterors package: Fast, compact iterators and tools</a>
-    <a class="dropdown-item" href="articles/benchmarks.html">UNKNOWN TITLE</a>
+    <a class="dropdown-item" href="articles/benchmarks.html">Benchmarking Iteration</a>
     <a class="dropdown-item" href="articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
     <a class="dropdown-item" href="articles/writing.html">Writing Custom Iterators</a>
@@ -76,21 +76,17 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="the-iterors-package-fast-compact-iterators-and-tools">The iterors package: Fast, compact iterators and tools<a class="anchor" aria-label="anchor" href="#the-iterors-package-fast-compact-iterators-and-tools"></a>
 </h1></div>
-</div>
-<div class="section level1">
-<h1 id="iterors">iterors<a class="anchor" aria-label="anchor" href="#iterors"></a>
-</h1>
 <!-- badges: start -->
 
-<p>A fresh take on iterators in R.</p>
+<p>A fresh take on iterators in R, leading to faster, shorter code.</p>
 <div class="section level2">
 <h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
 </h2>
 <ul>
-<li>Main method is <code>nextOr(iter, or)</code>; allows simpler and faster code.</li>
+<li>Main method <code>nextOr(iter, or)</code>; allows simpler and faster code.</li>
 <li>
 <code>iteror</code> objects are cross-compatible with existing code using <code>iterators</code> (such as the <code>foreach</code> package.)</li>
-<li>Optimized performance, with several times less overhead per item.</li>
+<li>Optimized performance, with often several times less overhead per item.</li>
 <li>Compatible with Python iterators, via the <code>reticulate</code> package.</li>
 <li>Comes with batteries included: a complete collection of iterator functions, ported, curated and harmonized from packages <code>iterators</code>, <code>itertools</code>, and <code>itertools2</code>,</li>
 </ul>
@@ -128,7 +124,7 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>For prerelease, run the following after installing <a href="https://github.com/hadley/devtools/" class="external-link">devtools</a>:</p>
+<p>For prerelease, run the following after installing <a href="https://github.com/r-lib/devtools" class="external-link">devtools</a>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'crowding/iterors'</span><span class="op">)</span></span></code></pre></div>
 <p>When the package is released, you will be able to install the stable version from <a href="https://cran.r-project.org/package=iterors" class="external-link">CRAN</a>:</p>
@@ -141,7 +137,6 @@
 <p>GPL-3</p>
 </div>
 </div>
-
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
@@ -184,7 +179,7 @@
 <li><a href="https://CRAN.R-project.org/package=iterors" class="external-link"><img src="https://www.r-pkg.org/badges/version/iterors" alt="CRAN status"></a></li>
 <li><a href="https://github.com/crowding/iterors/actions/workflows/check_full.yaml" class="external-link"><img src="https://github.com/crowding/iterors/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></li>
-<li><a href="https://codecov.io/gh/crowding/iterors" class="external-link"><img src="https://codecov.io/gh/crowding/iterors/branch/main/graph/badge.svg?token=kqLgHxP1Gh" alt="codecov"></a></li>
+<li><a href="https://app.codecov.io/gh/crowding/iterors" class="external-link"><img src="https://codecov.io/gh/crowding/iterors/branch/main/graph/badge.svg?token=kqLgHxP1Gh" alt="codecov"></a></li>
 </ul>
 </div>
 
