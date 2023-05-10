@@ -10,25 +10,22 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# iterors
-
-  <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/iterors)](https://CRAN.R-project.org/package=iterors)     [![R-CMD-check](https://github.com/crowding/iterors/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/crowding/iterors/actions/workflows/check_full.yaml) [![pkgdown](https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml)
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/iterors)](https://CRAN.R-project.org/package=iterors) [![R-CMD-check](https://github.com/crowding/iterors/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/crowding/iterors/actions/workflows/check_full.yaml) [![pkgdown](https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml)
 [![codecov](https://codecov.io/gh/crowding/iterors/branch/main/graph/badge.svg?token=kqLgHxP1Gh)](https://app.codecov.io/gh/crowding/iterors)
-  <!-- badges: end -->
+<!-- badges: end -->
 
 
-
-A fresh take on iterators in R.
+A fresh take on iterators in R, leading to faster, shorter code.
 
 ## Features
 
  * Main method `nextOr(iter, or)`; allows simpler and faster code.
  * `iteror` objects are cross-compatible with existing code using `iterators` (such as the `foreach` package.)
- * Optimized performance, with several times less overhead per item.
+ * Optimized performance, with often several times less overhead per item.
  * Compatible with Python iterators, via the `reticulate` package.
  * Comes with batteries included: a complete collection of iterator functions, ported, curated and harmonized from packages `iterators`, `itertools`, and `itertools2`,
- 
+
 ## How is it different from `iterators`?
 
 `iterors` uses the method `nextOr(it, or)` to retrieve the next element. The trick is that the second argument `or` is lazily evaluated, so it can specify a return value _or_ an action to take at the end of iteration. In particular, `or` can be a control flow operator like `break` or `next` or `return`.
@@ -61,13 +58,13 @@ The `iterors` package grew out of, and is a complement to, generators implemente
 
 ## More reading
 
-For a quick introduction, see 
+For a quick introduction, see
 [`vignette("iterors")`](https://crowding.github.io/iterors/articles/iterors.html)
 
 For an index of `iteror` functions organized by task, see
 [`vignette("categories", "iterors")`](https://crowding.github.io/iterors/articles/categories.html)
 
-If you are familiar with packages `iterators`/`itertools`/`itertools2`, some functions have been moved. See 
+If you are familiar with packages `iterators`/`itertools`/`itertools2`, some functions have been moved. See
 [`vignette("cross-reference", "iterors")`](https://crowding.github.io/iterors/articles/cross-reference.html)
 
 To learn how to build custom iterors, see

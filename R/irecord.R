@@ -75,7 +75,7 @@ record.iteror <- function(iterable, con, ...) {
     on.exit(close(con))
   }
   repeat {
-    serialize(it(or = break), con)
+    serialize(iterable(or = break), con)
   }
   invisible()
 }

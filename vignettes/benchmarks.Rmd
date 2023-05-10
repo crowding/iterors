@@ -1,4 +1,4 @@
---
+---
 title: "Benchmarking Iteration"
 output: rmarkdown::html_vignette
 vignette: >
@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This document illustrates the differences in performance between `iterors` and previous packages `iterators`/`itertools`/`itertools2`.  Basic gains come from the `nextOr` method  avoiding the need for `tryCatch`, as well as the fact that iterors can be used simply as functions, skipping S3 dispatch. Additionally, over the process of curating the `iterors` package, several iterator implementations have been optimized for performance. 
+This document illustrates the differences in performance between `iterors` and previous packages `iterators`/`itertools`/`itertools2`.  Basic gains come from the `nextOr` method  avoiding the need for `tryCatch`, as well as the fact that iterors can be used simply as functions, skipping S3 dispatch. Additionally, over the process of curating the `iterors` package, several iterator implementations have been optimized for performance.
 
 
 

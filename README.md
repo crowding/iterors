@@ -1,23 +1,24 @@
 The iterors package: Fast, compact iterators and tools
 ================
 
-# iterors
+<!-- badges: start -->
 
-<!-- badges: start --> [![CRAN
+[![CRAN
 status](https://www.r-pkg.org/badges/version/iterors)](https://CRAN.R-project.org/package=iterors)
 [![R-CMD-check](https://github.com/crowding/iterors/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/crowding/iterors/actions/workflows/check_full.yaml)
 [![pkgdown](https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/crowding/iterors/actions/workflows/pkgdown.yaml)
-[![codecov](https://codecov.io/gh/crowding/iterors/branch/main/graph/badge.svg?token=kqLgHxP1Gh)](https://codecov.io/gh/crowding/iterors)
+[![codecov](https://codecov.io/gh/crowding/iterors/branch/main/graph/badge.svg?token=kqLgHxP1Gh)](https://app.codecov.io/gh/crowding/iterors)
 <!-- badges: end -->
 
-A fresh take on iterators in R.
+A fresh take on iterators in R, leading to faster, shorter code.
 
 ## Features
 
-  - Main method is `nextOr(iter, or)`; allows simpler and faster code.
+  - Main method `nextOr(iter, or)`; allows simpler and faster code.
   - `iteror` objects are cross-compatible with existing code using
     `iterators` (such as the `foreach` package.)
-  - Optimized performance, with several times less overhead per item.
+  - Optimized performance, with often several times less overhead per
+    item.
   - Compatible with Python iterators, via the `reticulate` package.
   - Comes with batteries included: a complete collection of iterator
     functions, ported, curated and harmonized from packages `iterators`,
@@ -95,7 +96,7 @@ To learn how to build custom iterors, see [`vignette("writing",
 ## Installation
 
 For prerelease, run the following after installing
-[devtools](https://github.com/hadley/devtools/):
+[devtools](https://github.com/r-lib/devtools):
 
 ``` r
 devtools::install_github('crowding/iterors')

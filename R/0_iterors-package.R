@@ -3,10 +3,10 @@ rng.state <- new.env()
 .onLoad <- function(lib, pkg) {
   delayedAssign("stream", assign.env=rng.state,
                 eval.env=environment(),
-                value=iRNGStream(convseed(get(".Random.seed", envir=.GlobalEnv))))
+                value=iRNGStream(convseed(get(".Random.seed", envir=.GlobalEnv)))) #nocovr
 }
 
-stop_unused <- function(...) (function()NULL)(...)
+stop_unused <- function() NULL
 
 cpu_info <- function() {
   cmd <- "awk '/model name/' /proc/cpuinfo"
