@@ -1,6 +1,7 @@
 ^cran-comments\.md$
 ^LICENSE\.md$
 ^LICENSE\.apache$
+^LICENSE$
 ^codecov\.yml$
 ^\.github$
 ^NEWS.old$

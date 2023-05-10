@@ -1,12 +1,12 @@
 Package: iterors
 Type: Package
-Title: Efficient, Compact Iterators and Tools
+Title: Fast, Compact Iterators and Tools
 Version: 1.0
 Maintainer: Peter Meilstrup <peter.meilstrup@gmail.com>
 Authors@R: c(person("Peter", "Meilstrup",
                     role=c("cre", "aut", "cph"), email="peter.meilstrup@gmail.com"),
              person("Folashade", "Daniel", role="aut"),
-             person("Revolution", "Analytics", role=c("aut", "cph")),
+             person("Revolution Analytics", role=c("aut", "cph")),
              person("Steve", "Weston", role=c("aut", "cph")),
              person("John A.", "Ramey", role=c("aut", "cph")),
              person("Kayla", "Schaefer", role="aut"),
@@ -23,15 +23,11 @@ Suggests:
     testthat (>= 3.0.0),
     foreach,
     iterators (>= 1.0.7),
-    covr,
-    microbenchmark,
-    ggplot2,
     rmarkdown,
-    knitr,
-    dplyr
+    knitr
 URL: https://github.com/crowding/iterors,
     https://crowding.github.io/iterors/
-License: GPL (>= 3) + file LICENSE
+License: GPL (>= 3)
 Roxygen: list(markdown=TRUE)
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr

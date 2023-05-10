@@ -1,6 +1,9 @@
 The iterors package: Fast, compact iterators and tools
 ================
 
+<!-- Do not edit README.md in the repo root directly; 
+  edit vignettes/README.Rmd and then run devtools::build_vignettes() -->
+
 <!-- badges: start -->
 
 [![CRAN
@@ -36,14 +39,13 @@ For example, this is how you can compute a sum over an iteror `it`:
 
 ``` r
 total <- 0
-repeat
-  total <- total + nextOr(it, break)
+repeat total <- total + nextOr(it, break)
 ```
 
-To contrast with the existing `iterators` package: In that package
+To contrast with the previous `iterators` package: In that package
 `nextElem` signals end of iteration by throwing an exception, which
-means all iterator code happened inside a `tryCatch.` Computing a sum
-over an iterator looked like this:
+means all iterator code had to be written inside a `tryCatch`. Computing
+a sum over an iterator looked like this:
 
 ``` r
 total <- 0
@@ -68,14 +70,15 @@ The
 vignette illustrates that computations using `iterors` can execute
 several times faster than using `iterators`.
 
-The `iterors` package grew out of, and is a complement to, generators
-implemented in the [async](https://crowding.github.io/async/) package.
+The `iterors` package grew out of, and is a complement to, the
+generators implemented in the [async](https://crowding.github.io/async/)
+package.
 [async::gen](https://crowding.github.io/async/reference/gen.html) lets
 you construct iterators with complex logic, using familiar imperative
-code with flow control constructs like `if` `for`, `switch` and so on.
-Meanwhile, functions in this package `iterors` let you manipulate the
-output of such a generator in functional style. These two packages form
-two complementary ways that you can work with sequential processes.
+code with ordinary flow control constructs like `if` `for`, `switch` and
+so on. Meanwhile, functions in this package `iterors` let you manipulate
+the output of such a generator in functional style. These two packages
+form two complementary ways to work with sequential processes.
 
 ## More reading
 
@@ -111,4 +114,19 @@ install.packages('iterors', dependencies=TRUE)
 
 ## License
 
-GPL-3
+Copyright (c) 2023 Peter Meilstrup. This package as a whole is released
+under the GNU General Public License (GPL) version 3.0, or (at your
+option) any later version.
+
+Portions of this package are derived from the `iterators` package,
+copyright (c) 2008-2010 Revolution Analytics.
+
+Portions of this package are derived from the `itertools`package,
+copyright (c) 2015 Steve Weston.
+
+Portions of this package are derived from the `itertools2` package,
+copyright (c) 2015 John A. Ramey.
+
+Where functions in this package are derived from previous works, this is
+noted in the Rd documentation, and the original license notice is
+retained at the top of the relevant source files.
