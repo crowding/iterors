@@ -157,7 +157,7 @@ pattern looks like:</p>
 <p>(Here I'm using <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env()</a></code> as a signal value. In R it is
 commonplace to use <code>NULL</code> or <code>NA</code> as a kind of signal value, but
 that only works until you have an iterator that needs to yield NULL
-itself. A safer alternative is to use a local, one-shot sigil value;
+itself. A safer alternative is to use a local, one-shot signal value;
 <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env()</a></code> is ideal, as it constructs an object that is
 not <a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a> to any other object in the R session.)</p>
 <p>Note that <code>iteror</code> objects are simply functions with a class

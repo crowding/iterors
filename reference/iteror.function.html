@@ -80,7 +80,7 @@ to signal end of iteration, force and immediately return <code>or</code>.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for `function`</span></span>
-<span><span class="fu"><a href="iteror.html">iteror</a></span><span class="op">(</span><span class="va">obj</span>, <span class="va">...</span>, <span class="va">catch</span>, <span class="va">sigil</span>, <span class="va">count</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="iteror.html">iteror</a></span><span class="op">(</span><span class="va">obj</span>, <span class="va">...</span>, <span class="va">catch</span>, <span class="va">signal</span>, <span class="va">count</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -99,10 +99,10 @@ e.g. <code>catch="StopIteration"</code> to interpret that an error with
 that message as end of iteration.</p></dd>
 
 
-<dt>sigil</dt>
+<dt>signal</dt>
 <dd><p>If <code>obj</code> does not have an <code>or</code> argument, you can specify
 a special value to watch for end of iteration. Stop will be signaled
-if the function result is <code><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical()</a></code> to <code>sigil</code>.</p></dd>
+if the function result is <code><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical()</a></code> to <code>signal</code>.</p></dd>
 
 
 <dt>count</dt>
@@ -123,7 +123,7 @@ give <code>NA</code> or <code>Inf</code> to never stop.</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>You can also provide <code>obj</code> a simple function of no arguments, as
-long as you specify one of <code>catch</code>, <code>sigil</code>, or <code>count</code> to specify
+long as you specify one of <code>catch</code>, <code>signal</code>, or <code>count</code> to specify
 how to detect end of iteration.</p>
     </div>
 
