@@ -16,18 +16,13 @@
 #'
 #' @examples
 #' it <- icount(5)
-#' total <- reduce(it, `+`) # sum(1:5)
+#' total <- reduce(it, `+`) # 15
 #'
 #' it <- icount(5)
 #' reduce(it, paste0, "") # "12345"
 #'
 #' it <- icount(5)
-#' prod <- reduce(it, `*`, init=1) # prod(1:5)
-#'
-#' # the above is equivalent to:
-#' it <- icount(5)
-#' total <- 1
-#' repeat total <- total * nextOr(it, break)
+#' reduce(it, `*`, init=1) # 120
 #'
 reduce <- function(obj, fun=`+`, init=0, ...) UseMethod("reduce")
 
@@ -50,6 +45,7 @@ reduce.iteror <- function(obj, fun=`+`, init=0, ...) {
   init
 }
 
+#' @description
 #' `i_accum(obj)` returns the iterator containing
 #' each intermediate result. The default settings
 #' produce a cumulative sum.
@@ -79,6 +75,7 @@ i_accum <- function(obj, fun=`+`, init=0, ...) {
 #' @export
 #' @exportS3Method
 #' @rdname reduce
+#' @description `sum.iteror(it)` is equivalent to \code{reduce(it, `+`)}
 sum.iteror <- function(..., na.rm=FALSE) {
   it <- i_chain(...)
   if (na.rm) {
@@ -91,6 +88,7 @@ sum.iteror <- function(..., na.rm=FALSE) {
 #' @export
 #' @rdname reduce
 #' @param na.rm Whether to drop NA values when computing sum or prod.
+#' @description `prod.iteror(it)` is equivalent to \code{reduce(it, `*`)}.
 prod.iteror <- function(..., na.rm=FALSE) {
   it <- i_chain(...)
   if (na.rm) {

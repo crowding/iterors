@@ -4,7 +4,7 @@
 \alias{iteror.array}
 \alias{iteror.matrix}
 \alias{iteror.data.frame}
-\title{Iterate over an array or data frame by specified dimensiont.}
+\title{Iterate over an array or data frame by a specified dimension.}
 \usage{
 \method{iteror}{array}(
   obj,
@@ -53,7 +53,7 @@ indices varying fastest (same as in \link{i_enumerate}).}
 an iteror yielding from \code{obj} along the specified dimensions.
 }
 \description{
-Iterate over an array or data frame by specified dimensiont.
+Iterate over an array or data frame by a specified dimension.
 }
 \examples{
 l <- iteror(letters, chunkSize=7)

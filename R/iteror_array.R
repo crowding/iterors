@@ -1,5 +1,5 @@
 
-#' Iterate over an array or data frame by specified dimensiont.
+#' Iterate over an array or data frame by a specified dimension.
 #'
 #' @param obj An object to iterate over.
 #' @param by Which dimension to slice an array or data frame by. Can be "cell",

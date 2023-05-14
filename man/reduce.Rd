@@ -37,21 +37,24 @@ The result of accumulation.
 successive elements of obj. For example if \code{fun} is \code{+},
 \verb{reduce(it, }+\verb{, init=0)} computes \code{0 + nextElem(it) + nextElem(it) + nextElem(it) + ...} until the iterator finishes,
 and returns the final value.
+
+\code{i_accum(obj)} returns the iterator containing
+each intermediate result. The default settings
+produce a cumulative sum.
+
+\code{sum.iteror(it)} is equivalent to \code{reduce(it, `+`)}
+
+\code{prod.iteror(it)} is equivalent to \code{reduce(it, `*`)}.
 }
 \examples{
 it <- icount(5)
-total <- reduce(it, `+`) # sum(1:5)
+total <- reduce(it, `+`) # 15
 
 it <- icount(5)
 reduce(it, paste0, "") # "12345"
 
 it <- icount(5)
-prod <- reduce(it, `*`, init=1) # prod(1:5)
-
-# the above is equivalent to:
-it <- icount(5)
-total <- 1
-repeat total <- total * nextOr(it, break)
+reduce(it, `*`, init=1) # 120
 
 # triangular numbers: 1, 1+2, 1+2+3, ...
 take(i_accum(icount()), 10, 'numeric')

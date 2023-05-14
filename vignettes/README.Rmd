@@ -1,12 +1,12 @@
 ---
-title: "The iterors package: Fast, compact iterators and tools"
+title: "The iterors package: Fast, compact iteration and tools"
 output:
   html_vignette:
     readme: true
     self_contained: true
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{The iterors package: Fast, compact iterators and tools}
+  %\VignetteIndexEntry{The iterors package: Fast, compact iterations and tools}
   %\VignetteEncoding{UTF-8}
 ---
 
