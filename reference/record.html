@@ -39,7 +39,7 @@ memory."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iterators and tools</a>
+    <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iteration and tools</a>
     <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
@@ -100,6 +100,12 @@ memory.</p>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    
+
+<p>NULL, invisibly.</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Originally from the <code>itertools</code> package.</p>
     </div>
@@ -125,14 +131,14 @@ memory.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/dimnames.html" class="external-link">dimnames</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]       [,3]       [,4]       [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  19.939931  37.987451  56.034971   74.08249   92.13001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   4.977286   9.523644  14.070002   18.61636   23.16272</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]   4.289386  -3.875437 -12.040260  -20.20508  -28.36991</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -12.543284 -13.287506 -14.031729  -14.77595  -15.52017</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -19.103148 -46.572138 -74.041129 -101.51012 -128.97911</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,]   1.819314   6.919221  12.019127   17.11903   22.21894</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [7,]   1.047657   5.516499   9.985342   14.45418   18.92303</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]        [,2]       [,3]        [,4]       [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -21.1771221  -84.223287 -147.26945 -210.315616 -273.36178</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  -6.6125157    4.793028   16.19857   27.604116   39.00966</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -13.2022428  -69.043421 -124.88460 -180.725778 -236.56696</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -19.6042625  -59.131578  -98.65889 -138.186209 -177.71352</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]  -0.8738235    2.152578    5.17898    8.205382   11.23178</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] -40.5754812 -101.910772 -163.24606 -224.581355 -285.91665</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [7,]  -6.1334548   -9.883544  -13.63363  -17.383723  -21.13381</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">p</span>, <span class="va">m1</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">m2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">f1</span>, <span class="va">f2</span><span class="op">)</span><span class="op">)</span></span></span>

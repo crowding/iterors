@@ -27,7 +27,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iterators and tools</a>
+    <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iteration and tools</a>
     <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
@@ -92,7 +92,7 @@ returning a vector of the given type.</dd>
           
           <code><a href="dotproduct.html">dotproduct()</a></code> 
         </dt>
-        <dd>Computes the dot product of two iterable objects</dd>
+        <dd>Computes the dot product of two iterable objects.</dd>
       </dl><dl><dt>
           
           <code><a href="hasNext.html">hasNext()</a></code> <code><a href="hasNext.html">ihasNext()</a></code> 
@@ -102,7 +102,7 @@ returning a vector of the given type.</dd>
           
           <code><a href="iRNGStream.html">iRNGStream()</a></code> 
         </dt>
-        <dd>Iterators over parallel random-number seeds.</dd>
+        <dd>Iterators over distant random-number seeds.</dd>
       </dl><dl><dt>
           
           <code><a href="i_apply.html">i_apply()</a></code> 
@@ -112,7 +112,7 @@ returning a vector of the given type.</dd>
           
           <code><a href="i_break.html">i_break()</a></code> 
         </dt>
-        <dd>Create an iterator that can be told to stop</dd>
+        <dd>Create an iterator that can be told to stop.</dd>
       </dl><dl><dt>
           
           <code><a href="i_chain.html">i_concat()</a></code> <code><a href="i_chain.html">i_chain()</a></code> 
@@ -122,7 +122,7 @@ returning a vector of the given type.</dd>
           
           <code><a href="i_chunk.html">i_chunk()</a></code> 
         </dt>
-        <dd>Create a chunking iterator</dd>
+        <dd>Combine an iterator's values into chunks.</dd>
       </dl><dl><dt>
           
           <code><a href="i_dropwhile.html">i_dropwhile()</a></code> 
@@ -147,7 +147,7 @@ returning a vector of the given type.</dd>
           
           <code><a href="i_limit.html">i_limit()</a></code> 
         </dt>
-        <dd>Create a limited iterator</dd>
+        <dd>Limit the length of an iterator.</dd>
       </dl><dl><dt>
           
           <code><a href="i_map.html">i_map()</a></code> 
@@ -172,7 +172,7 @@ returning a vector of the given type.</dd>
           
           <code><a href="i_rep.html">i_rep()</a></code> 
         </dt>
-        <dd>Create a repeating iterator</dd>
+        <dd>Repeat values from an iterator.</dd>
       </dl><dl><dt>
           
           <code><a href="i_repeat.html">i_repeat()</a></code> 
@@ -300,6 +300,11 @@ returning a vector of the given type.</dd>
         <dd>Make an iteror from a given object.</dd>
       </dl><dl><dt>
           
+          <code><a href="iteror.array.html">iteror(<i>&lt;array&gt;</i>)</a></code> <code><a href="iteror.array.html">iteror(<i>&lt;matrix&gt;</i>)</a></code> <code><a href="iteror.array.html">iteror(<i>&lt;data.frame&gt;</i>)</a></code> 
+        </dt>
+        <dd>Iterate over an array or data frame by a specified dimension.</dd>
+      </dl><dl><dt>
+          
           <code><a href="iteror.function.html">iteror.function</a></code> 
         </dt>
         <dd>Construct an iteror object with custom-programmed behavior.</dd>
@@ -320,15 +325,14 @@ returning a vector of the given type.</dd>
         <dd>Returns the nth item of an iteror</dd>
       </dl><dl><dt>
           
-          <code><a href="py_iteror.html">py_iteror()</a></code> 
-        </dt>
-        <dd>Wrap an iteror to use with Python code. Requires the
-<code>reticulate</code> package.</dd>
-      </dl><dl><dt>
-          
           <code><a href="quantify.html">quantify()</a></code> 
         </dt>
         <dd>Count the number of times an iterable object is TRUE</dd>
+      </dl><dl><dt>
+          
+          <code><a href="r_to_py.iteror.html">r_to_py(<i>&lt;iteror&gt;</i>)</a></code> <code><a href="r_to_py.iteror.html">iteror(<i>&lt;python.builtin.object&gt;</i>)</a></code> 
+        </dt>
+        <dd>Wrap an iteror to appear as a Python iterator or vice versa.</dd>
       </dl><dl><dt>
           
           <code><a href="record.html">record()</a></code> 

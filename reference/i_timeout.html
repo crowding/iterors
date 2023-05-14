@@ -31,7 +31,7 @@ for something, or run a test for awhile, and then stop."><!-- mathjax --><script
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iterators and tools</a>
+    <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iteration and tools</a>
     <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
@@ -58,7 +58,7 @@ for something, or run a test for awhile, and then stop."><!-- mathjax --><script
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Create a timeout iterator</h1>
-      <small class="dont-index">Source: <a href="https://github.com/crowding/iterors/blob/HEAD/R/timeout.R" class="external-link"><code>R/timeout.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/crowding/iterors/blob/HEAD/R/i_timeout.R" class="external-link"><code>R/i_timeout.R</code></a></small>
       <div class="d-none name"><code>i_timeout.Rd</code></div>
     </div>
 
@@ -88,6 +88,12 @@ for something, or run a test for awhile, and then stop.</p>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    
+
+<p>an <a href="iteror.html">iteror</a> yielding values from <code>iterable</code> so long as <code>time</code> is in the future</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Originally from the <code>itertools</code> package.</p>
     </div>
@@ -97,7 +103,7 @@ for something, or run a test for awhile, and then stop.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># See how high we can count in a tenth of a second</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">i_timeout</span><span class="op">(</span><span class="fu"><a href="icount.html">icount</a></span><span class="op">(</span><span class="op">)</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 14943</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 15101</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

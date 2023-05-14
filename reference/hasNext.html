@@ -31,7 +31,7 @@ iterator has another element."><!-- mathjax --><script src="https://cdnjs.cloudf
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iterators and tools</a>
+    <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iteration and tools</a>
     <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
@@ -95,10 +95,10 @@ element.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>A class <code>ihasNext</code> was introduced in the <code>itertools</code>
-package to try to lessen the boilerplate around extracting the
+package to try to reduce the boilerplate around extracting the
 next value using <a href="https://rdrr.io/pkg/iterators/man/nextElem.html" class="external-link">iterators::nextElem</a>.  <code>ihasNext</code> is included
-in <code>iterors</code> for continuity; however, it is not needed for this
-purpose when using the <a href="nextOr.html">nextOr</a> iteration method, as you can
+in <code>iterors</code> for backward compatibility with iterator code; however,
+it is less needed when using the <a href="nextOr.html">nextOr</a> iteration method, as you can
 directly give an action to take at end of iteration.</p>
     </div>
 
@@ -136,8 +136,8 @@ directly give an action to take at end of iteration.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         obj[[i]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55da97d1cc80&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55da98f3a0f0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x561506d14d78&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x561505b30f30&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "iteror" "iter"  </span>
 <span class="r-in"><span>  <span class="kw">repeat</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="kw">break</span><span class="op">)</span><span class="op">)</span></span></span>

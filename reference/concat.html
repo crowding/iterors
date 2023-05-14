@@ -31,7 +31,7 @@ as.list.iteror as c is to list."><!-- mathjax --><script src="https://cdnjs.clou
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iterators and tools</a>
+    <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iteration and tools</a>
     <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
@@ -70,7 +70,7 @@ them end to end into one vector.  In other words <code>concat</code> is to
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">concat</span><span class="op">(</span><span class="va">obj</span>, mode <span class="op">=</span> <span class="st">"list"</span>, n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fl">2</span><span class="op">^</span><span class="fl">31</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">concat</span><span class="op">(</span><span class="va">obj</span>, mode <span class="op">=</span> <span class="st">"list"</span>, n <span class="op">=</span> <span class="cn">Inf</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for default</span></span>
 <span><span class="fu">concat</span><span class="op">(</span><span class="va">obj</span>, mode <span class="op">=</span> <span class="st">"list"</span>, n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fl">2</span><span class="op">^</span><span class="fl">31</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
@@ -90,8 +90,7 @@ them end to end into one vector.  In other words <code>concat</code> is to
 
 
 <dt>n</dt>
-<dd><p>The maximum number of input elements to extract from the
-iteror.</p></dd>
+<dd><p>The maximum number of times to call <code>nextOr(obj)</code>.</p></dd>
 
 
 <dt>...</dt>
@@ -99,14 +98,20 @@ iteror.</p></dd>
 
 
 <dt>length.out</dt>
-<dd><p>The approximate size of the output vector (after
-elements have been pasted together). If the iteror ends (or emits
-N elements) before emitting this many, the result. If the
-iterator does not end early the output will have at least
-<code>length.out</code> elements (depending on how large the last chunk
-was.)</p></dd>
+<dd><p>The target size of the output vector (after
+results have been pasted together). If the iteror ends (or emits
+<code>n</code> results) before emitting this many elements, the result will be
+shorter than <code>length.out</code>. If the iterator does not end early, the output
+will have at least <code>length.out</code> elements, and possibly more,
+as the entire last chunk will be included.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    
+
+<p>a vector with mode <code>mode</code>.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -114,6 +119,8 @@ was.)</p></dd>
 <span class="r-in"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu"><a href="i_apply.html">i_apply</a></span><span class="op">(</span><span class="fu"><a href="icount.html">icount</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">seq_len</span><span class="op">)</span> <span class="co"># [1], [1, 2], [1, 2, 3], ...</span></span></span>
 <span class="r-in"><span><span class="fu">concat</span><span class="op">(</span><span class="va">it</span>, n<span class="op">=</span><span class="fl">4</span>, mode<span class="op">=</span><span class="st">"numeric"</span><span class="op">)</span>  <span class="co"># [1, 1, 2, 1, 2, 3, 1, 2, 3, 4]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1 1 2 1 2 3 1 2 3 4</span>
+<span class="r-in"><span><span class="fu">concat</span><span class="op">(</span><span class="va">it</span>, length.out<span class="op">=</span><span class="fl">4</span>, mode<span class="op">=</span><span class="st">"numeric"</span><span class="op">)</span>  <span class="co"># [1, 1, 2, 1, 2, 3, 1, 2, 3, 4]</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1 2 3 4 5</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -44,7 +44,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iterators and tools</a>
+    <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iteration and tools</a>
     <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
@@ -95,11 +95,15 @@
 <a href="../reference/is.iteror.html"><code>is.iteror</code></a> –
 Check whether a function has class ‘iteror’.</li>
 <li>
+<a href="../reference/iteror.html"><code>iteror</code></a> – Generic
+function to convert a given object into an iteror.</li>
+<li>
 <a href="../reference/nextOr.html"><code>nextOr</code></a> – Obtain
 the next element from an iteror.</li>
 <li>
-<a href="../reference/iteror.html"><code>iteror</code></a> – Generic
-function to convert a given object into an iteror.</li>
+<a href="../reference/r_to_py.iteror.html"><code>r_to_py.iteror</code></a>
+– Make an iteror act as a Python iterator (requires package
+<code>reticulate</code>)</li>
 </ul>
 </div>
 <div class="section level2">
@@ -158,8 +162,9 @@ number of elements and return them in a vector.</li>
 <div class="section level2">
 <h2 id="iterate-over-given-data">Iterate over given data<a class="anchor" aria-label="anchor" href="#iterate-over-given-data"></a>
 </h2>
-<p>By convention, in this package functions that <em>construct</em> an
-iterator have names beginning with “<code>i</code>”.</p>
+<p>By convention, functions in this package that <em>construct</em> an
+iterator in terms of basic data or other objects have names beginning
+with “<code>i</code>”.</p>
 <ul>
 <li>
 <a href="../reference/ienumerate.html"><code>ienum</code></a>, <a href="../reference/ienumerate.html"><code>ienumerate</code></a> – return
@@ -269,14 +274,14 @@ values from an iterator to a file.</li>
 </h2>
 <p>By convention, in this package, functions that transform iterators –
 creating a new iterator based on one or more underlying iterables –
-begin with <code>i_</code>, with an underscore.</p>
+begin with “<code>i_</code>”, with an underscore.</p>
 <div class="section level3">
 <h3 id="iterators-as-sequences-looping-repeating-indexing">Iterators as sequences – Looping, repeating, indexing<a class="anchor" aria-label="anchor" href="#iterators-as-sequences-looping-repeating-indexing"></a>
 </h3>
 <ul>
 <li>
 <a href="../reference/i_chunk.html"><code>i_chunk</code></a> –
-collect <span class="math inline">\(n\)</span> adjacent values from an
+Collect <span class="math inline">\(n\)</span> adjacent values from an
 iterable and return a list.</li>
 <li>
 <a href="../reference/i_pad.html"><code>i_pad</code></a> – After a
