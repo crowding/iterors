@@ -54,20 +54,13 @@ makeIwrapper <- function(FUN) {
     splice=TRUE,
     .(quote(`function`))(
       .(as.pairlist(c(formals(FUN),
-                      alist(count=Inf,
-                            independent=!missing(seed),
-                            seed=)))),
+                      list(count=quote(Inf),
+                           independent=quote(!missing(seed)),
+                           seed=quote(expr=))))),
       {
         list(..(lapply(names(formals(FUN)), as.name)))
         if (independent) {
-          ## if (RNGkind()[1] != "L'Ecuyer-CMRG") {
-          ## message("Independent random number stream requested; changing to `RNGkind(\"L'Ecuyer-CMRG\")`. (To suppress this message, run that command yourself.)")
-          ##   RNGkind("L'Ecuyer-CMRG")
-          ## }
-          if (!exists(".Random.seed", where=.GlobalEnv, inherits=FALSE)) {
-            RNGkind("L'Ecuyer-CMRG")
-            set.seed(NULL)
-          }
+          check_switch_lecuyer()
 
           if (missing(seed))
             seed <- rng.state$stream() # see iterors-package.R
@@ -81,10 +74,8 @@ makeIwrapper <- function(FUN) {
             if (count > 0) {
               count <<- count - 1L
               oldSeed <- .Random.seed
-              oldKind <- RNGkind("L'Ecuyer-CMRG")[1]
               assign('.Random.seed', seed, envir=.GlobalEnv)
               on.exit({
-                RNGkind(oldKind)
                 assign('.Random.seed', oldSeed, envir=.GlobalEnv)
               })
               val <- .(substitute(FUN))(
@@ -115,13 +106,24 @@ makeIwrapper <- function(FUN) {
   eval(def, parent.frame())
 }
 
+check_switch_lecuyer <- function() {
+  if (!exists(".Random.seed", where=.GlobalEnv, inherits=FALSE)) {
+    RNGkind("L'Ecuyer-CMRG")
+    set.seed(NULL)
+  } else {
+    if (RNGkind()[1] != "L'Ecuyer-CMRG") {
+      message("Independent RNG streams requested; changing to `RNGkind(\"L'Ecuyer-CMRG\")`\n(To suppress this message, run that command beforehand.)")
+      RNGkind("L'Ecuyer-CMRG")
+    }
+  }
+}
 
 #' @rdname rng
 #' @title Random Number Iterators
 #'
-#' @description These function returns an iterator that returns random
-#'   numbers of various distributions.  Each one is a wrapper around a
-#'   standard \code{R} function.
+#' @description These functions return an iterator that produces random
+#'   numbers of various distributions. Each one is a wrapper around a
+#'   base R function.
 #'
 #' @param count number of times that the iterator will fire.  If not
 #'   specified, it will fire values forever.
@@ -129,7 +131,8 @@ makeIwrapper <- function(FUN) {
 #'   random state, so that its output is reproducible and independent
 #'   of anything else in the program; this comes at some performance
 #'   cost. If you do not specify `seed` a seed value will be chosen
-#'   for you.
+#'   for you. This will switch R to using the "L'Ecuyer-CMRG" generator,
+#'   printing a message if it is not already so.
 #' @param seed A specific seed value for reproducibility. If given,
 #'   `independent=TRUE` is implied. Well separated seed values can be
 #'   obtained from [iRNGStream].
@@ -149,6 +152,9 @@ makeIwrapper <- function(FUN) {
 #' @param max see [runif].
 #'
 #' @details Originally from the `iterators` package.
+#'
+#' For more details on the L'Ecuyer-CMRG generator, see
+#' `vignette("parallel", package="parallel")`.
 #' @examples
 #'
 #' # create an iterator that returns three random numbers

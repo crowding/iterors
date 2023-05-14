@@ -14,8 +14,8 @@
 #'   enabled). If FALSE, results are returned as a list (or data.frame
 #'   if chunking).
 #' @param recycle If TRUE, the iteror starts over on reaching the end.
-#' @param chunks Optional; how many rows to return in each step.
-#' @param chunkSize Optional; how many chunks to divide the input into.
+#' @param chunkSize Optional; how many rows to return in each step.
+#' @param chunks Optional; how many chunks to divide the input into.
 #' @return an [iteror] that iterates through each element from the
 #'   Cartesian product of its arguments.
 #' @examples

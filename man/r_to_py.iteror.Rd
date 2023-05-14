@@ -2,30 +2,42 @@
 % Please edit documentation in R/py.R
 \name{r_to_py.iteror}
 \alias{r_to_py.iteror}
-\title{Wrap an iteror to pass to Python functions, via the
-\code{reticulate} package.}
+\alias{iteror.python.builtin.object}
+\title{Wrap an iteror to appear as a Python iterator or vice versa.}
 \usage{
 \method{r_to_py}{iteror}(x, convert = FALSE, ...)
+
+\method{iteror}{python.builtin.object}(obj, ...)
 }
 \arguments{
 \item{x}{An iterable object.}
 
-\item{...}{Passed along to \link{iteror(x, ...)}.}
+\item{convert}{does nothing.}
+
+\item{...}{Passed along to \code{\link[=iteror]{iteror(x, ...)}}.}
+
+\item{obj}{A Python object (as viewed by package \code{reticulate}.)}
 }
 \value{
-a Python iterator.
+\code{r_to_py(it)} returns a Python iterator.
+
+Method \code{iteror.python.builtin.object} returns an \link{iteror}.
 }
 \description{
-Wrap an iteror to pass to Python functions, via the
-\code{reticulate} package.
+This requires the \code{reticulate} package to be installed.
 }
 \examples{
-pit <- r_to_py(iseq(2, 11, 5))
+pit <- reticulate::r_to_py(iseq(2, 11, 5))
 reticulate::iter_next(pit, NULL)
 reticulate::iter_next(pit, NULL)
 reticulate::iter_next(pit, NULL)
 
+# create an R iterator and ask Python to sum it
 triangulars <- icount() |> i_accum() |> i_limit(10)
 builtins <- reticulate::import_builtins()
 builtins$sum(triangulars) # r_to_py is called automatically
+
+# create a generator in Python and sum it in R
+pit <- reticulate::py_eval("(n for n in range(1, 25) if n \% 3 == 0)")
+sum(iteror(pit))
 }

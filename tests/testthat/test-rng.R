@@ -4,7 +4,12 @@ answer <- rbind(c(0, 1, 0, 0, 1),
                 c(0, 1, 0, 0, 0),
                 c(0, 0, 0, 1, 1))
 
-x <- rnorm(1)
+test_that("will switch generators and message you", {
+  RNGkind("Mersenne-Twister")
+  expect_equal(RNGkind()[1], "Mersenne-Twister")
+  expect_message(irnorm(1, independent=TRUE), "L'Ecuyer")
+  expect_equal(RNGkind()[1], "L'Ecuyer-CMRG")
+})
 
 test_that("converting seeds", {
   if (!exists('.Random.seed', where=.GlobalEnv, inherits=FALSE))

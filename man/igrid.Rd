@@ -18,9 +18,9 @@ igrid(
 
 \item{recycle}{If TRUE, the iteror starts over on reaching the end.}
 
-\item{chunkSize}{Optional; how many chunks to divide the input into.}
+\item{chunkSize}{Optional; how many rows to return in each step.}
 
-\item{chunks}{Optional; how many rows to return in each step.}
+\item{chunks}{Optional; how many chunks to divide the input into.}
 
 \item{simplify}{If TRUE, inputs are coerced to a common data type
 and results are returned in a vector (or matrix if chunking is

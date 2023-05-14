@@ -1,9 +1,13 @@
 
-#' Constructor method 
-#' @param by for `iteror.array`, how to split up an array or data frame. Can be "cell",
+#' Iterate over an array or data frame by specified dimensiont.
+#'
+#' @param obj An object to iterate over.
+#' @param by Which dimension to slice an array or data frame by. Can be "cell",
 #'   "row", "column", or numeric dimensions.
-#' @param chunkSize the number of elements of \code{by} to return with
-#'   each call to \code{nextOr}.
+#' @param ... Undocumented.
+#' @param chunkSize The thickness of the slice to take along the specified dimension.
+#' @param chunks How many slices to take.
+#' @param recycle If TRUE, the iteror starts over on reaching the end.
 #' @param drop Whether to drop the array dimensions enumerated over.
 #' @param rowMajor If TRUE, will return slices in order with the first
 #'              indices varying fastest (same as in [i_enumerate]).
@@ -49,6 +53,6 @@ iteror.array <- function(obj, ...,
   it
 }
 
-#' @rdname iteror
+#' @rdname iteror.array
 #' @exportS3Method
 iteror.matrix <- iteror.array

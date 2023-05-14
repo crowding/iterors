@@ -1,6 +1,6 @@
 #' @exportS3Method iteror data.frame
 #' @export
-#' @rdname iteror
+#' @rdname iteror.array
 iteror.data.frame <- count_template(
   input = alist(obj=),
   options = alist(by=c("column", "row")),

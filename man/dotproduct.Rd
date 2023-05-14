@@ -2,7 +2,7 @@
 % Please edit documentation in R/dotproduct.R
 \name{dotproduct}
 \alias{dotproduct}
-\title{Computes the dot product of two iterable objects}
+\title{Computes the dot product of two iterable objects.}
 \usage{
 dotproduct(vec1, vec2)
 }

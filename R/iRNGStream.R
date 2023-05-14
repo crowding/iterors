@@ -73,6 +73,8 @@
 #' @importFrom parallel nextRNGStream nextRNGSubStream
 #' @export iRNGStream iRNGSubStream
 iRNGStream <- function(seed) {
+  check_switch_lecuyer()
+
   # Convert a single number into the appropriate vector for "L'Ecuyer-CMRG"
   if (length(seed) == 1) {
     seed <- convseed(seed)
@@ -88,6 +90,8 @@ iRNGStream <- function(seed) {
 }
 
 iRNGSubStream <- function(seed) {
+  check_switch_lecuyer()
+
   # Convert a single number into the appropriate vector for "L'Ecuyer-CMRG"
   if (length(seed) == 1) {
     seed <- convseed(seed)
@@ -103,18 +107,8 @@ iRNGSubStream <- function(seed) {
 }
 
 convseed <- function(iseed) {
-  saveseed <- if (exists('.Random.seed', where=.GlobalEnv, inherits=FALSE))
-    get('.Random.seed', pos=.GlobalEnv, inherits=FALSE)
-  saverng <- RNGkind("L'Ecuyer-CMRG")
-
-  on.exit({
-    RNGkind(saverng[1])
-    if (is.null(saveseed))
-      rm('.Random.seed', pos=.GlobalEnv)
-    else
-      assign('.Random.seed', saveseed, pos=.GlobalEnv)
-  })
-
+  saveseed <- .Random.seed
+  on.exit(assign('.Random.seed', saveseed, pos=.GlobalEnv))
   set.seed(iseed)
   get('.Random.seed', pos=.GlobalEnv, inherits=FALSE)
 }

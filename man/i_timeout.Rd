@@ -14,7 +14,7 @@ i_timeout(iterable, time, ...)
 \item{...}{passed along to \code{iteror(iterable, ...)}}
 }
 \value{
-an \link{iteror} yielding values from underlying \link{iterable}.
+an \link{iteror} yielding values from \code{iterable} so long as \code{time} is in the future
 }
 \description{
 Create an iterator that iterates over another iterator for a specified

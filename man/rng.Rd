@@ -43,7 +43,8 @@ specified, it will fire values forever.}
 random state, so that its output is reproducible and independent
 of anything else in the program; this comes at some performance
 cost. If you do not specify \code{seed} a seed value will be chosen
-for you.}
+for you. This will switch R to using the "L'Ecuyer-CMRG" generator,
+printing a message if it is not already so.}
 
 \item{seed}{A specific seed value for reproducibility. If given,
 \code{independent=TRUE} is implied. Well separated seed values can be
@@ -70,12 +71,15 @@ An iterator that is a wrapper around the corresponding
 random number generator function.
 }
 \description{
-These function returns an iterator that returns random
-numbers of various distributions.  Each one is a wrapper around a
-standard \code{R} function.
+These functions return an iterator that produces random
+numbers of various distributions. Each one is a wrapper around a
+base R function.
 }
 \details{
 Originally from the \code{iterators} package.
+
+For more details on the L'Ecuyer-CMRG generator, see
+\code{vignette("parallel", package="parallel")}.
 }
 \examples{
 

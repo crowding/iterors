@@ -1,4 +1,4 @@
-#' Computes the dot product of two iterable objects
+#' Computes the dot product of two iterable objects.
 #'
 #' Returns the dot product of two numeric iterables of equal length
 #'

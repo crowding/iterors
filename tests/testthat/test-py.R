@@ -11,7 +11,7 @@ test_that("Iteror from Python object", {
 test_that("Python object from iteror", {
   skip_if_no_python()
 
-  pit <- r_to_py(iseq(2, 11, 3))
+  pit <- reticulate::r_to_py(iseq(2, 11, 3))
   expect_equal(reticulate::iter_next(pit), 2)
   expect_equal(reticulate::iter_next(pit), 5)
   expect_equal(reticulate::iter_next(pit), 8)
@@ -32,7 +32,7 @@ test_that("round trip both ways", {
   builtins <- reticulate::import_builtins()
   pit <- reticulate::py_eval("range(2, 11, 3)")
   rit <- iteror(pit)
-  pit2 <- r_to_py(rit)
+  pit2 <- reticulate::r_to_py(rit)
   # note py has a different idea about the upper limit
   expect_equal(
     builtins$list(pit2),
