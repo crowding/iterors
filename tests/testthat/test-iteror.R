@@ -20,3 +20,4 @@ test_that("compatibility with iterators", {
     iterators::nextElem(it2) %is% 120
     expect_error(iterators::nextElem(it2), "StopIteration")
 })
+

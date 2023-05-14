@@ -78,7 +78,7 @@ repeat \{
 (Here I'm using \code{new.env()} as a signal value. In R it is
 commonplace to use \code{NULL} or \code{NA} as a kind of signal value, but
 that only works until you have an iterator that needs to yield NULL
-itself. A safer alternative is to use a local, one-shot sigil value;
+itself. A safer alternative is to use a local, one-shot signal value;
 \code{new.env()} is ideal, as it constructs an object that is
 not \link{identical} to any other object in the R session.)
 

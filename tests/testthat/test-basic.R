@@ -91,15 +91,15 @@ test_that("iteror from functions", {
     function() {i <- 0; function(or) if (i >= 10) or else (i <<- i + 1)})
   throwingFunc <- (
     function() {i <- 0; function() if (i >= 10) stop('the end') else (i <<- i + 1)})
-  sigilFunc <- (
+  signalFunc <- (
     function() {i <- 0; function() {if (i >= 10) 'the end' else (i <<- i + 1)}})
   countFunc <- (
     function() {i <- 0; function() (i <<- i + 1)})
 
   ia <- iteror(normalFunc())
   ib <- iteror(throwingFunc(), catch='the end')
-  ic <- iteror(sigilFunc(), sigil='the end')
-  id <- iteror(sigilFunc(), count=10)
+  ic <- iteror(signalFunc(), signal='the end')
+  id <- iteror(signalFunc(), count=10)
 
   expect_length(as.list(i_zip(ia, ib, ic, id)), 10)
 

@@ -84,7 +84,7 @@
 #' (Here I'm using `new.env()` as a signal value. In R it is
 #' commonplace to use `NULL` or `NA` as a kind of signal value, but
 #' that only works until you have an iterator that needs to yield NULL
-#' itself. A safer alternative is to use a local, one-shot sigil value;
+#' itself. A safer alternative is to use a local, one-shot signal value;
 #' `new.env()` is ideal, as it constructs an object that is
 #' not [identical] to any other object in the R session.)
 #'
@@ -142,7 +142,7 @@ iteror.iter <- function(obj, ...) {
 #' to signal end of iteration, force and immediately return `or`.
 #'
 #' You can also provide `obj` a simple function of no arguments, as
-#' long as you specify one of `catch`, `sigil`, or `count` to specify
+#' long as you specify one of `catch`, `signal`, or `count` to specify
 #' how to detect end of iteration.
 #'
 #' @exportS3Method iteror "function"
@@ -154,9 +154,9 @@ iteror.iter <- function(obj, ...) {
 #' @param catch If `obj` does not have an `or` argument, specify
 #'   e.g. `catch="StopIteration"` to interpret that an error with
 #'   that message as end of iteration.
-#' @param sigil If `obj` does not have an `or` argument, you can specify
+#' @param signal If `obj` does not have an `or` argument, you can specify
 #'   a special value to watch for end of iteration. Stop will be signaled
-#'   if the function result is [identical()] to `sigil`.
+#'   if the function result is [identical()] to `signal`.
 #' @param count If `obj` does not have an `or` argument, you can specify
 #'   how many calls before stop iteration, or
 #'   give `NA` or `Inf` to never stop.
@@ -184,21 +184,21 @@ iteror.iter <- function(obj, ...) {
 #'  iteror(function() runif(1, min=min, max=max), count=Inf)
 #' }
 #' take(irand(5, 10), 10)
-iteror.function <- function(obj, ..., catch, sigil, count) {
+iteror.function <- function(obj, ..., catch, signal, count) {
   stop_unused(...) # reject extra args
   if ("or" %in% names(formals(obj))) {
     fn <- obj
   } else {
-    if (!missing(sigil)) {
-      force(sigil)
-      fn <- function(or) {
-        x <- obj()
-        if (identical(x, sigil)) or else x
+    if (!missing(signal)) {
+      force(signal)
+      fn <- function(or, ...) {
+        x <- obj(...)
+        if (identical(x, signal)) or else x
       }
     } else if (!missing(catch)) {
       force(catch)
-      fn <- function(or) {
-        tryCatch(obj(), error=function(e) {
+      fn <- function(or, ...) {
+        tryCatch(obj(...), error=function(e) {
           if (identical(conditionMessage(e), catch)) {
             or
           } else stop(e)
@@ -206,17 +206,17 @@ iteror.function <- function(obj, ..., catch, sigil, count) {
       }
     } else if (!missing(count)) {
       if (is.finite(count)) {
-        fn <- function(or) {
+        fn <- function(or, ...) {
           if (count > 0) {
             count <<- count - 1L
-            obj()
+            obj(...)
           } else or
         }
       } else {
-        fn <- function(or) obj()
+        fn <- function(or, ...) obj(...)
       }
     } else {
-      stop("iteror: function must have an 'or' argument, or else specify one of 'catch', 'sigil' or 'count'")
+      stop("iteror: function must have an 'or' argument, or else specify one of 'catch', 'signal' or 'count'")
     }
   }
   iteror_internal(fn)
