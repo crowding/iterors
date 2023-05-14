@@ -60,4 +60,3 @@ as.list(icountn(c(2, 3)))
 For more control over starting number and step size, see
 \link{iseq}.
 }
-\keyword{utilities}

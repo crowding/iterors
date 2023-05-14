@@ -49,4 +49,3 @@ nextOr(it)
 nextOr(it, NULL)  # end of iterator
 
 }
-\keyword{utilities}

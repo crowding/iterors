@@ -43,4 +43,3 @@ nextOr(it)
 nextOr(it)
 nextOr(it, NULL)  # NULL
 }
-\keyword{utilities}

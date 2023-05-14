@@ -2,7 +2,7 @@
 % Please edit documentation in R/ibreak.R
 \name{i_break}
 \alias{i_break}
-\title{Create an iterator that can be told to stop}
+\title{Create an iterator that can be told to stop.}
 \usage{
 i_break(iterable, finished, ...)
 }
@@ -13,6 +13,9 @@ i_break(iterable, finished, ...)
 when this function returns \code{FALSE}.}
 
 \item{...}{Further arguments forwarded to \code{iteror}.}
+}
+\value{
+an iteror which will stop when \code{finished()} is \code{TRUE}
 }
 \description{
 Create an iterator that iterates over another iterator until a specified
@@ -32,4 +35,3 @@ mkfinished <- function(time) {
 length(as.list(i_break(icount(), mkfinished(0.1))))
 
 }
-\keyword{utilities}

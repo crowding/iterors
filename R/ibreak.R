@@ -19,7 +19,7 @@
 
 
 
-#' Create an iterator that can be told to stop
+#' Create an iterator that can be told to stop.
 #'
 #' Create an iterator that iterates over another iterator until a specified
 #' function returns \code{FALSE}. This can be useful for breaking out of a
@@ -30,7 +30,7 @@
 #' @param finished Function that returns a logical value.  The iterator stops
 #' when this function returns \code{FALSE}.
 #' @param ... Further arguments forwarded to `iteror`.
-#' @keywords utilities
+#' @return an iteror which will stop when `finished()` is `TRUE`
 #' @details Originally from the `itertools` package.
 #' @examples
 #'

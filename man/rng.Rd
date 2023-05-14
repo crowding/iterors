@@ -9,35 +9,13 @@
 \alias{isample}
 \title{Random Number Iterators}
 \usage{
-irnorm(
-  n,
-  mean = 0,
-  sd = 1,
-  count = Inf,
-  independent = FALSE,
-  seed = rng.state$stream()
-)
+irnorm(n, mean = 0, sd = 1, count = Inf, independent = !missing(seed), seed)
 
-irbinom(
-  n,
-  size,
-  prob,
-  count = Inf,
-  independent = FALSE,
-  seed = rng.state$stream()
-)
+irbinom(n, size, prob, count = Inf, independent = !missing(seed), seed)
 
-irnbinom(
-  n,
-  size,
-  prob,
-  mu,
-  count = Inf,
-  independent = FALSE,
-  seed = rng.state$stream()
-)
+irnbinom(n, size, prob, mu, count = Inf, independent = !missing(seed), seed)
 
-irpois(n, lambda, count = Inf, independent = FALSE, seed = rng.state$stream())
+irpois(n, lambda, count = Inf, independent = !missing(seed), seed)
 
 isample(
   x,
@@ -45,18 +23,11 @@ isample(
   replace = FALSE,
   prob = NULL,
   count = Inf,
-  independent = FALSE,
-  seed = rng.state$stream()
+  independent = !missing(seed),
+  seed
 )
 
-irunif(
-  n,
-  min = 0,
-  max = 1,
-  count = Inf,
-  independent = FALSE,
-  seed = rng.state$stream()
-)
+irunif(n, min = 0, max = 1, count = Inf, independent = !missing(seed), seed)
 }
 \arguments{
 \item{n}{How many samples to compute per call; see e.g. \link{rnorm}.}
@@ -68,17 +39,15 @@ irunif(
 \item{count}{number of times that the iterator will fire.  If not
 specified, it will fire values forever.}
 
-\item{independent}{If TRUE, this iterator will keep its own RNG
-state, so that its output is reproducible and independent of
-anything else in the program. this comes at some performance
-cost.  generation}
+\item{independent}{If TRUE, this iterator will keep its own private
+random state, so that its output is reproducible and independent
+of anything else in the program; this comes at some performance
+cost. If you do not specify \code{seed} a seed value will be chosen
+for you.}
 
-\item{seed}{Only used if \code{independent=TRUE}: A seed value usable
-by the "L'Ecuyer-CMRG" generator. The default will create a
-pseudo-independent stream for each newly constructed
-iterator. You can specify a specific value for
-reproducibility. To reproduciby create several independent random
-numer iterators see the example under \link{iRNGStream}.}
+\item{seed}{A specific seed value for reproducibility. If given,
+\code{independent=TRUE} is implied. Well separated seed values can be
+obtained from \link{iRNGStream}.}
 
 \item{size}{see e.g. \link{rbinom}.}
 
@@ -117,8 +86,8 @@ nextOr(it)
 nextOr(it)
 nextOr(it, NULL)
 
-# iterators created with `independent=TRUE` will produce reproducible values
-it <- irunif(n=1, seed=314, independent=TRUE)
+# iterators created with a specific seed will produce reproducible values
+it <- irunif(n=1, seed=314)
 nextOr(it) # 0.4936700
 nextOr(it) # 0.5103891
 nextOr(it) # 0.2338745

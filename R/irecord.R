@@ -34,7 +34,7 @@
 #' @param iterable The iterable to record to the file.
 #' @param con A file path or open connection.
 #' @param ... passed along to `iteror(iterable, ...)`
-#' @keywords utilities
+#' @return NULL, invisibly.
 #' @details Originally from the `itertools` package.
 #' @examples
 #'

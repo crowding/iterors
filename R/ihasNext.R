@@ -30,10 +30,10 @@
 #'   element.
 #' @keywords methods
 #' @details A class `ihasNext` was introduced in the `itertools`
-#'   package to try to lessen the boilerplate around extracting the
+#'   package to try to reduce the boilerplate around extracting the
 #'   next value using [iterators::nextElem].  `ihasNext` is included
-#'   in `iterors` for continuity; however, it is not needed for this
-#'   purpose when using the [nextOr] iteration method, as you can
+#'   in `iterors` for backward compatibility with iterator code; however,
+#'   it is less needed when using the [nextOr] iteration method, as you can
 #'   directly give an action to take at end of iteration.
 #' @examples
 #' # The bad old style of consuming an iterator in a loop with `nextElem`:

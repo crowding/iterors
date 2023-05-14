@@ -41,6 +41,9 @@ endian-ness.}
 \item{ipos}{iterable.  If not \code{NULL}, values from this iterable will be
 used to do a seek on the file before calling readBin.}
 }
+\value{
+An \link{iteror} reading binary chunks from the connection.
+}
 \description{
 Create an iterator to read binary data from a connection.
 }
@@ -58,4 +61,3 @@ repeat print(nextOr(it, break))
 unlink("testbin")
 
 }
-\keyword{utilities}

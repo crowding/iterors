@@ -26,4 +26,3 @@ To apply a function of multiple arguments to multiple
 iterators, see \link{i_map}. To split an array over margins (like
 \code{iterators::i_apply} use \code{\link[=iteror.array]{iteror(obj, by=MARGIN}}
 }
-\keyword{utilities}

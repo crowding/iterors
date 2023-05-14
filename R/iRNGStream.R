@@ -17,26 +17,27 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
-#' Iterators over parallel random-number seeds.
+#' Iterators over distant random-number seeds.
 #'
 #' The \code{iRNGStream} creates a sequence of random number seeds
 #' that are very "far apart" (2^127 steps) in the overall random
 #' number sequence, so that each can be used to make a parallel,
-#' psudo-independent random iterator. This uses [nextRNGStream] and
-#' the "L'Ecuyer-CMRG" generator (for more details on this mechanism,
-#' see `vignette("parallel", package="parallel")`.)
+#' psudo-independent random iterator. This uses
+#' [parallel::nextRNGStream] and the "L'Ecuyer-CMRG" generator; for
+#' more details see `vignette("parallel", package="parallel")`.)
 #'
 #' iRNGSubStream creates seeds that are somewhat less far apart (2^76
-#' steps), which can be used as "substream" seeds
+#' steps), which can be used as "substream" seeds.
 #'
 #' @aliases iRNGStream iRNGSubStream
 #' @param seed Either a single number to be passed to \code{set.seed} or a
+#' @return An [iteror] which produces seed values.
 #' vector to be passed to \code{nextRNGStream} or \code{nextRNGSubStream}.
 #' @seealso \code{\link[base]{set.seed}},
 #' \code{\link[parallel]{nextRNGStream}},
 #' \code{\link[parallel]{nextRNGSubStream}}
-#' @keywords utilities
 #' @details Originally from the `itertools` package.
+#' @return An [iteror] which yields successive seed values.
 #' @examples
 #'
 #' global.seed <- .Random.seed
@@ -46,7 +47,7 @@
 #' print(nextOr(rng.seeds))
 #'
 #' # create three pseudo-independent and
-#' # reproducible random number generators
+#' # reproducible random number streams
 #' it1 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
 #' it2 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
 #' it3 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
@@ -59,7 +60,9 @@
 #' # none of this affects the global seed
 #' global.seed == .Random.seed
 #'
-#' \dontrun{
+#' \donttest{
+#' # Compute random numbers in three parallel processes with three
+#' # well-separated seeds. Requires package "foreach"
 #' library(foreach)
 #' foreach(1:3, rseed=iRNGSubStream(1970), .combine='c') %dopar% {
 #'   RNGkind("L'Ecuyer-CMRG") # would be better to initialize workers only once
@@ -102,18 +105,16 @@ iRNGSubStream <- function(seed) {
 convseed <- function(iseed) {
   saveseed <- if (exists('.Random.seed', where=.GlobalEnv, inherits=FALSE))
     get('.Random.seed', pos=.GlobalEnv, inherits=FALSE)
-
   saverng <- RNGkind("L'Ecuyer-CMRG")
 
-  tryCatch({
-    set.seed(iseed)
-    get('.Random.seed', pos=.GlobalEnv, inherits=FALSE)
-  },
-  finally={
-    RNGkind(saverng[1], saverng[2])
+  on.exit({
+    RNGkind(saverng[1])
     if (is.null(saveseed))
       rm('.Random.seed', pos=.GlobalEnv)
     else
       assign('.Random.seed', saveseed, pos=.GlobalEnv)
   })
+
+  set.seed(iseed)
+  get('.Random.seed', pos=.GlobalEnv, inherits=FALSE)
 }

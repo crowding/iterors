@@ -37,4 +37,3 @@ requirement.
 \seealso{
 \code{\link[utils]{read.table}}
 }
-\keyword{utilities}

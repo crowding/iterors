@@ -19,16 +19,14 @@
 
 
 
-#' Create a limited iterator
+#' Limit the length of an iterator.
 #'
-#' Create an iterator that wraps a specified iterable a limited number of
-#' times.
-#'
+#' Create an iterator that limits the specified iterable to a specified number of items.
 #'
 #' @param iterable Iterable to iterate over.
 #' @param n Maximum number of values to return.
 #' @param ... Extra arguments for `iteror(iterable, ...)`
-#' @keywords utilities
+#' @return an [iteror] which will stop after yielding `n` values.
 #' @details Originally from the `itertools` package.
 #' @examples
 #'

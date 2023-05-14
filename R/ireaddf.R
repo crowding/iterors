@@ -18,11 +18,11 @@ cnames <- function(filenames) {
 #'
 #'
 #' @param filenames Names of files contains column data.
-#' @param n Number of elements to read from each column file.
-#' @param start Element to starting reading from.
+#' @param n Maximum number of elements to read from each column file.
+#' @param start Element to start reading from.
 #' @param col.names Names of the columns.
 #' @param chunkSize Number of rows to read at a time.
-#' @keywords utilities
+#' @return An [iteror] yielding [data.frame] objects with up to `n` rows.
 #' @details Originally from the `itertools` package.
 #' @export ireaddf
 ireaddf <- function(filenames, n, start=1, col.names, chunkSize=1000) {

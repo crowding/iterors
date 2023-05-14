@@ -11,7 +11,6 @@
 #' @seealso To apply a function of multiple arguments to multiple
 #'   iterators, see [i_map]. To split an array over margins (like
 #'   `iterators::i_apply` use [`iteror(obj, by=MARGIN`][iteror.array]
-#' @keywords utilities
 #' @export i_apply
 i_apply <- function(obj, f, ...) {
   obj <- iteror(obj, ...)

@@ -43,4 +43,3 @@ for (i in expected) {
 \seealso{
 \code{\link{split}}
 }
-\keyword{utilities}

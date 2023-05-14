@@ -3,9 +3,9 @@
 %   R/iteror_array.R, R/iteror_data_frame.R, R/py.R
 \name{iteror}
 \alias{iteror}
+\alias{iteror.iter}
 \alias{iteror.default}
 \alias{iteror.connection}
-\alias{iteror.array}
 \alias{iteror.matrix}
 \alias{iteror.data.frame}
 \alias{iteror.python.builtin.object}
@@ -13,20 +13,11 @@
 \usage{
 iteror(obj, ...)
 
+\method{iteror}{iter}(obj, ...)
+
 \method{iteror}{default}(obj, ..., recycle = FALSE, chunkSize, chunks)
 
 \method{iteror}{connection}(obj, ...)
-
-\method{iteror}{array}(
-  obj,
-  ...,
-  by = c("cell", "row", "column"),
-  chunkSize,
-  chunks,
-  recycle = FALSE,
-  drop = FALSE,
-  rowMajor = TRUE
-)
 
 \method{iteror}{matrix}(
   obj,
@@ -46,25 +37,29 @@ iteror(obj, ...)
 \arguments{
 \item{obj}{An object to iterate with.}
 
-\item{...}{Different iteror methods may take differetn options
-depending on the class of \code{obj}.#' @return an object of classes
-'iteror' and 'iter'.}
+\item{...}{Different \code{iteror} methods may take additional options
+depending on the class of \code{obj}.}
 
-\item{recycle}{a boolean describing whether the iterator should reset after
-running through all its values.}
+\item{recycle}{a boolean describing whether the iterator should
+reset after running through all its values.}
 
-\item{chunkSize}{the number of elements of \code{by} to return with
-each call to \code{nextOr}.}
+\item{chunkSize}{How many elements (or slices) to include in each
+chunk.}
 
 \item{chunks}{Split the input into this many chunks.}
+}
+\value{
+an object of classes 'iteror' and 'iter'.
 
-\item{by}{how to split up an array or data frame. Can be "cell",
-"row", "column", or numeric dimensions.}
+The method \code{iteror.iter} wraps an \link[iterators:iter]{iterators::iter} object
+and returns an iteror.
 
-\item{drop}{Whether to drop the array dimensions enumerated over.}
+The default method \code{iteror.default} treats \code{obj} as a
+vector to yield values from.
 
-\item{rowMajor}{If TRUE, will return slices in order with the first
-indices varying fastest (same as in \link{i_enumerate}).}
+The method for class \code{python.builtin.object} wraps
+a Python iterable to work as an R iteror. This requires the
+\code{reticulate} package to be installed.
 }
 \description{
 \code{it <- iteror(obj, ...)} is a generic constructor that creates
@@ -78,7 +73,7 @@ page.
 When called, an iteror may either return a new value or stop. The
 way an iteror signals a stop is that it does whatever you write in
 the argument \code{or}. For instance you can write \code{or=break} to exit a
-loop.Summing over an iteror this way looks like:
+loop. Summing over an iteror this way looks like:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{sum <- 0
 it <- iteror(iseq(0, 100, 7))
@@ -87,11 +82,11 @@ repeat \{
 \}
 }\if{html}{\out{</div>}}
 
-Another way to use the "or" argument is to give it a sigil value;
-that is, a special value that will be interpreted as end of
+Another way to use the "or" argument is to give it a signal value;
+that is, a special value that you will interpret as end of
 iteration.  If the result of calling \code{nextOr} is \code{identical()} to
-the sigil value you provided, then you know the iterator has
-ended. This pattern looks like:
+the value you provided, then you know the iterator has ended. This
+pattern looks like:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{sum <- 0
 stopped <- new.env()
@@ -103,19 +98,19 @@ repeat \{
 \}
 }\if{html}{\out{</div>}}
 
-(Note the use of new.env(). In R it is commonplace to use \code{NULL} or
-\code{NA} in the role of a sigil, but that only works until you have an
-iterator that needs to yield NULL itself. A safer alternative is to
-use a one-shot sigil value; \code{new.env()} works well for this, as it
-constructs an object that is not \link{identical} to any other object in
-the R session.)
+(Here I'm using \code{new.env()} as a signal value. In R it is
+commonplace to use \code{NULL} or \code{NA} as a kind of signal value, but
+that only works until you have an iterator that needs to yield NULL
+itself. A safer alternative is to use a local, one-shot sigil value;
+\code{new.env()} is ideal, as it constructs an object that is
+not \link{identical} to any other object in the R session.)
 
 Note that \code{iteror} objects are simply functions with a class
 attribute attached, and all \code{nextOr.iteror} does is call the
 function. So if you were in the mood, you could skip calling
-\code{nextOr} through S3 dispatch and call the function directly. If you
-take this approach, make sure you have called \code{iteror()} first to ensure
-that you have a true \code{iteror} object.
+\code{nextOr} involving S3 dispatch and instead call the iteror
+directly. If you take this approach, make sure you have called
+\code{iteror()} first to ensure that you have a true \code{iteror} object.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{sum <- 0
 it <- iteror(iseq(0, 100, 7))
@@ -128,21 +123,9 @@ To create iterors with custom-defined behavior, see
 \link{iteror.function}.
 }
 \examples{
-l <- iteror(letters, chunkSize=7)
-as.list(l)
-
-a <- array(1:8, c(2, 2, 2))
-
-# iterate over all the slices
-it <- iteror(a, by=3)
-as.list(it)
-
-# iterate over all the columns of each slice
-it <- iteror(a, by=c(2, 3))
-as.list(it)
-
-# iterate over all the rows of each slice
-it <- iteror(a, by=c(1, 3))
-as.list(it)
-
+pit <- py_eval("(n for n in range(1, 25) if n \% 3 == 0)")
+sum(iteror(pit))
+}
+\seealso{
+iteror.array iteror.function iteror.data.frame
 }

@@ -14,6 +14,9 @@ will be forced and returned.}
 
 \item{...}{Other arguments may be used by specific iterors.}
 }
+\value{
+Either the next value of \code{iteror}, or the value of \code{or}.
+}
 \description{
 Retreive the next element from an iteror.
 }

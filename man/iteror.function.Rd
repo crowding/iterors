@@ -25,6 +25,8 @@ give \code{NA} or \code{Inf} to never stop.}
 }
 \value{
 An object of mode "function" and class "iteror".
+
+An \link{iteror} which calls the given function to produce values.
 }
 \description{
 Pass \code{obj} a function that has a first argument named "or".  In

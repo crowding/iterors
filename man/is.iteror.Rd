@@ -10,6 +10,9 @@ is.iteror(x)
 \arguments{
 \item{x}{any object.}
 }
+\value{
+TRUE if the object has class \code{iteror}.
+}
 \description{
 \code{is.iteror} indicates if an object is an iteror.
 }
@@ -22,4 +25,3 @@ repeat {
 }
 
 }
-\keyword{utilities}

@@ -34,7 +34,6 @@
 #' @param \dots passed on to the \code{readLines} function.
 #' @return The line reading iterator.
 #' @seealso \code{\link[base]{readLines}}
-#' @keywords utilities
 #' @details Originally from the `iterators` package.
 #' @examples
 #'
@@ -95,7 +94,6 @@ ireadLines <- function(con, n=1, ...) {
 #' requirement.
 #' @details Originally from the `iterators` package.
 #' @seealso \code{\link[utils]{read.table}}
-#' @keywords utilities
 #' @export iread.table
 iread.table <- function(file, ..., verbose=FALSE) {
   args <- list(...)

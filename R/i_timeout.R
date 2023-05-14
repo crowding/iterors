@@ -29,7 +29,7 @@
 #' @param iterable Iterable to iterate over.
 #' @param time The time interval to iterate for, in seconds.
 #' @param ... passed along to `iteror(iterable, ...)`
-#' @keywords utilities
+#' @return an [iteror] yielding values from underlying [iterable].
 #' @details Originally from the `itertools` package.
 #' @examples
 #'

@@ -27,7 +27,7 @@
 #' @param x The value to return repeatedly.
 #' @param times The number of times to repeat the value.  Default value is
 #' infinity.
-#' @keywords utilities
+#' @return an [iteror].
 #' @details Originally from the `itertools` package.
 #' @examples
 #'

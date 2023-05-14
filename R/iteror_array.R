@@ -1,11 +1,13 @@
-#' @rdname iteror
-#' @param by how to split up an array or data frame. Can be "cell",
+
+#' Constructor method 
+#' @param by for `iteror.array`, how to split up an array or data frame. Can be "cell",
 #'   "row", "column", or numeric dimensions.
 #' @param chunkSize the number of elements of \code{by} to return with
 #'   each call to \code{nextOr}.
 #' @param drop Whether to drop the array dimensions enumerated over.
 #' @param rowMajor If TRUE, will return slices in order with the first
 #'              indices varying fastest (same as in [i_enumerate]).
+#' @return an iteror yielding from `obj` along the specified dimensions.
 #' @examples
 #' l <- iteror(letters, chunkSize=7)
 #' as.list(l)

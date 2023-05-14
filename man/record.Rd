@@ -14,6 +14,9 @@ record(iterable, con, ...)
 
 \item{...}{passed along to \code{iteror(iterable, ...)}}
 }
+\value{
+NULL, invisibly.
+}
 \description{
 The \code{record} function records the values issued by a specified
 iterator to a file or connection object.  The \code{ireplay} function
@@ -50,4 +53,3 @@ all.equal(p, m1 \%*\% m2)
 unlink(c(f1, f2))
 
 }
-\keyword{utilities}

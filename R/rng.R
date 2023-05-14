@@ -36,7 +36,6 @@
 #'   functions.
 #' @return An iterator that is a wrapper around the corresponding
 #'   function.
-#' @keywords utilities
 #' @details Original version appeared in the `iterators` package.
 #' @examples
 #'
@@ -56,14 +55,24 @@ makeIwrapper <- function(FUN) {
     .(quote(`function`))(
       .(as.pairlist(c(formals(FUN),
                       alist(count=Inf,
-                            independent=FALSE,
-                            seed=rng.state$stream())))), # see iterors-package.R
+                            independent=!missing(seed),
+                            seed=)))),
       {
         list(..(lapply(names(formals(FUN)), as.name)))
         if (independent) {
+          ## if (RNGkind()[1] != "L'Ecuyer-CMRG") {
+          ## message("Independent random number stream requested; changing to `RNGkind(\"L'Ecuyer-CMRG\")`. (To suppress this message, run that command yourself.)")
+          ##   RNGkind("L'Ecuyer-CMRG")
+          ## }
+          if (!exists(".Random.seed", where=.GlobalEnv, inherits=FALSE)) {
+            RNGkind("L'Ecuyer-CMRG")
+            set.seed(NULL)
+          }
+
+          if (missing(seed))
+            seed <- rng.state$stream() # see iterors-package.R
           if (length(seed) == 1)
             seed <- convseed(seed)
-
           # Error checking: this will throw an error right away if the
           # seed is bad
           nextRNGStream(seed)
@@ -71,18 +80,12 @@ makeIwrapper <- function(FUN) {
           next_ <- function(or) {
             if (count > 0) {
               count <<- count - 1L
-              if (exists('.Random.seed', where=.GlobalEnv, inherits=FALSE)) {
-                doRm <- FALSE
-                oldSeed <- get(".Random.seed", envir=.GlobalEnv)
-              } else doRm <- TRUE
+              oldSeed <- .Random.seed
               oldKind <- RNGkind("L'Ecuyer-CMRG")[1]
               assign('.Random.seed', seed, envir=.GlobalEnv)
               on.exit({
                 RNGkind(oldKind)
-                if (doRm)
-                  rm('.Random.seed', pos=.GlobalEnv)
-                else
-                  assign('.Random.seed', oldSeed, envir=.GlobalEnv)
+                assign('.Random.seed', oldSeed, envir=.GlobalEnv)
               })
               val <- .(substitute(FUN))(
                 ..(structure(lapply(names(formals(FUN)), as.name),
@@ -122,16 +125,15 @@ makeIwrapper <- function(FUN) {
 #'
 #' @param count number of times that the iterator will fire.  If not
 #'   specified, it will fire values forever.
-#' @param independent If TRUE, this iterator will keep its own RNG
-#'   state, so that its output is reproducible and independent of
-#'   anything else in the program. this comes at some performance
-#'   cost.  generation
-#' @param seed Only used if `independent=TRUE`: A seed value usable
-#'   by the "L'Ecuyer-CMRG" generator. The default will create a
-#'   pseudo-independent stream for each newly constructed
-#'   iterator. You can specify a specific value for
-#'   reproducibility. To reproduciby create several independent random
-#'   numer iterators see the example under [iRNGStream].
+#' @param independent If TRUE, this iterator will keep its own private
+#'   random state, so that its output is reproducible and independent
+#'   of anything else in the program; this comes at some performance
+#'   cost. If you do not specify `seed` a seed value will be chosen
+#'   for you.
+#' @param seed A specific seed value for reproducibility. If given,
+#'   `independent=TRUE` is implied. Well separated seed values can be
+#'   obtained from [iRNGStream].
+#'
 #' @return An iterator that is a wrapper around the corresponding
 #'   random number generator function.
 #' @param n How many samples to compute per call; see e.g. [rnorm].
@@ -156,8 +158,8 @@ makeIwrapper <- function(FUN) {
 #' nextOr(it)
 #' nextOr(it, NULL)
 #'
-#' # iterators created with `independent=TRUE` will produce reproducible values
-#' it <- irunif(n=1, seed=314, independent=TRUE)
+#' # iterators created with a specific seed will produce reproducible values
+#' it <- irunif(n=1, seed=314)
 #' nextOr(it) # 0.4936700
 #' nextOr(it) # 0.5103891
 #' nextOr(it) # 0.2338745
@@ -183,3 +185,4 @@ isample <- makeIwrapper(sample)
 #' @rdname rng
 irunif <- function() NULL
 irunif <- makeIwrapper(runif)
+

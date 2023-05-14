@@ -2,7 +2,7 @@
 % Please edit documentation in R/ichunk.R
 \name{i_chunk}
 \alias{i_chunk}
-\title{Create a chunking iterator}
+\title{Combine an iterator's values into chunks.}
 \usage{
 i_chunk(iterable, size, mode = "list", fill, ...)
 }
@@ -19,6 +19,9 @@ short. If missing, no padding will be done.}
 
 \item{...}{Further arguments will be forwarded to \code{iteror(iterable, ...)}.}
 }
+\value{
+an iteror that yields items of length \code{size} and mode \code{mode}.
+}
 \description{
 Create an iterator that issues lists of values from the underlying iterable.
 This is useful for manually \dQuote{chunking} values from an iterable.
@@ -33,7 +36,7 @@ repeat print(unlist(nextOr(it, break)))
 it <- i_chunk(1:10, 3, mode='integer')
 repeat print(unlist(nextOr(it, break)))
 
-#' it <- i_chunk(iterators::iter(1:5), 2, fill=NA)
+it <- i_chunk(iterators::iter(1:5), 2, fill=NA)
 # List: list(1, 2, 3)
 nextOr(it, NULL)
 # List: list(4, 5, NA)

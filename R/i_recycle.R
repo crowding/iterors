@@ -20,15 +20,15 @@
 #' Create a recycling iterator
 #'
 #' Create an iterator that recycles a specified iterable. On the first
-#' repeat the iterable is buffered into memory until it
-#' finishes, then we repeat the same sequence of values.
+#' repeat the iterable is buffered into memory until it finishes, then
+#' we repeat the same sequence of values.
 #'
 #' @details Originally from the `itertools` package.
 #' @param iterable The iterable to recycle.
-#' @param times integer.  Number of times to recycle the values in the
-#' @param ... Further arguments to be passed to 
-#' iterator.  Default value of \code{NA_integer_} means to recycle forever.
-#' @keywords utilities
+#' @param times integer.  Number of times to recycle the values .
+#'   Default value of \code{Inf} means to recycle indefinitely.
+#' @param ... Further arguments will be passed along to [iteror].
+#' @return an [iteror] recycling the values from the underlying iterable.
 #' @examples
 #'
 #' # Recycle over 'a', 'b', and 'c' three times
@@ -47,50 +47,22 @@
 #' it2 <- i_recycle(1:3, times=2)
 #' as.list(it2)
 #'
-#' # Can return the results from a function.
-#' it3 <- iteror(function() rnorm(1), count=Inf)
-#' nextOr(it, NA)
-#' nextOr(it, NA)
-#' nextOr(it, NA)
-#' nextOr(it, NA)
-#'
 #' @export i_recycle
-i_recycle <- function(iterable, times=NA_integer_, ...) {
-  # Manually check for a missing argument since "inherits" issues
-  # a cryptic error message in that case
-  if (missing(iterable)) {
-    stop('argument "iterable" is missing, with no default')
-  }
-
+i_recycle <- function(iterable, times=Inf, ...) {
   if (!is.numeric(times) || length(times) != 1 || (!is.na(times) && times < 0)) {
     stop('argument "times" must be a non-negative numeric value')
   }
 
-  if (!is.iteror(iterable)) {
-    if (is.function(iterable) && length(formals(iterable)) == 0) {
-      #legacy icycle behavior: a bare function will be called that many times
-      if (is.finite(times)) {
-        n <- times
-        return(iteror_internal(
-          function(or) if (n <= 0) or else {n <<- n - 1; iterable(...)}))
-      } else {
-        return(iteror_internal(function(or) iterable(...)))
-      }
-    }
-  }
+  iterable <- iteror(iterable, ...)
 
-  times <- as.integer(times)
+  if(times == 1) return(iterable)
+  if(times == 0) return(iteror_internal(function(or)or))
 
-  if (is.na(times) || times > 1) {
-    iterable.iter <- iteror(iterable, ...)
-    bsize <- 256  # allocated size of buffer
-    bsize.max <- 2 ^ 31 - 1  # maximum allowable allocated size of buffer
-    buffer <- vector('list', length=bsize)
-    blen <- 0  # number of values currently in buffer
-    buffer.iter <- NULL  # will become an iterator over buffer
-  } else if (times > 0) {
-    iterable.iter <- iteror(iterable, ...)
-  }
+  bsize <- 256  # allocated size of buffer
+  bsize.max <- 2 ^ 31 - 1  # maximum allowable allocated size of buffer
+  buffer <- vector('list', length=bsize)
+  blen <- 0  # number of values currently in buffer
+  buffer.iter <- NULL  # will become an iterator over buffer
 
   # This is used until the underlying iterator runs out
   nextOr.buffering <- function(or) {
@@ -104,11 +76,10 @@ i_recycle <- function(iterable, times=NA_integer_, ...) {
       bsize <<- min(2 * bsize, bsize.max)
       length(buffer) <<- bsize
     }
-    e <- iterable.iter(or = {
+    e <- iterable(or = {
       times <<- times - 1L  # will still be greater than zero
       length(buffer) <<- blen
       iterable <<- NULL
-      iterable.iter <<- NULL
       buffer.iter <<- iteror(buffer)
       nextOr.pointer <<- nextOr.cycling
       return(nextOr.pointer(or))
@@ -122,35 +93,19 @@ i_recycle <- function(iterable, times=NA_integer_, ...) {
   # This will be used once we've run through the underlying iterator
   nextOr.cycling <- function(or) {
     buffer.iter(or = {
-      if (!is.na(times) && times <= 1) {
-        times <<- 0L
+      if (times <= 1) {
+        times <<- 0
         return(or)
       }
-      times <<- times - 1L
+      times <<- times - 1
       buffer.iter <<- iteror(buffer)
       # If this throws 'StopIteration', we're done
       buffer.iter(or = or)
     })
   }
 
-  # This handles the case when "times" is one (pretty useless case)
-  nextOr.one <- function(or) {
-    iterable.iter(or = or)
-  }
-
-  # This handles the case when "times" is zero
-  nextOr.zero <- function(or) {
-    or
-  }
-
   # Set the initial value of nextOr.pointer
-  if (is.na(times) || times > 1) {
-    nextOr.pointer <- if (is.null(buffer.iter)) nextOr.buffering else nextOr.cycling
-  } else if (times == 1) {
-    nextOr.pointer <- nextOr.one
-  } else {
-    nextOr.pointer <- nextOr.zero
-  }
+  nextOr.pointer <- if (is.null(buffer.iter)) nextOr.buffering else nextOr.cycling
 
   # This is the function that will be stored in the iterator object,
   # which will call either nextOr.buffering of nextOr.cycling, depending
@@ -159,5 +114,5 @@ i_recycle <- function(iterable, times=NA_integer_, ...) {
     nextOr.pointer(or)
   }
 
-  iteror(nextOr_)
+  iteror_internal(nextOr_)
 }

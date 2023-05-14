@@ -12,8 +12,9 @@ vignette: >
 ## Basic methods
 
 * [`is.iteror`](../reference/is.iteror.html) -- Check whether a function has class 'iteror'.
-* [`nextOr`](../reference/nextOr.html) -- Obtain the next element from an iteror.
 * [`iteror`](../reference/iteror.html) -- Generic function to convert a given  object into an iteror.
+* [`nextOr`](../reference/nextOr.html) -- Obtain the next element from an iteror.
+* [`r_to_py.iteror`](../reference/r_to_py.iteror.html) -- Make an iteror act as a Python iterator (requires package `reticulate`)
 
 ## Consuming / summarizing an iteror
 
@@ -35,7 +36,7 @@ Most of these functions are S3 generic.
 
 ## Iterate over given data
 
-By convention, in this package functions that _construct_ an iterator have names beginning with "`i`".
+By convention, functions in this package that _construct_ an iterator in terms of basic data or other objects have names beginning with "`i`".
 
 * [`ienum`](../reference/ienumerate.html), [`ienumerate`](../reference/ienumerate.html) -- return the elements of an iterable alongside it  index.
 * [`i_repeat`](../reference/i_repeat.html) -- Return one value over and over again.
@@ -79,11 +80,11 @@ Random number iterators can be made reproducible by specifying `independent=TRUE
 
 ## Higher order iterator functions
 
-By convention, in this package, functions that transform iterators -- creating a new iterator based on one or more underlying iterables -- begin with `i_`, with an underscore.
+By convention, in this package, functions that transform iterators -- creating a new iterator based on one or more underlying iterables -- begin with "`i_`", with an underscore.
 
 ### Iterators as sequences -- Looping, repeating, indexing
 
-* [`i_chunk`](../reference/i_chunk.html) -- collect $n$ adjacent values from an iterable and return a list.
+* [`i_chunk`](../reference/i_chunk.html) -- Collect $n$ adjacent values from an iterable and return a list.
 * [`i_pad`](../reference/i_pad.html) -- After a given iterator ends, return a padding value indefinitely.
 * [`i_recycle`](../reference/i_recycle.html) -- Record the values emitted by the underlying iterator and replay them.
 * [`i_rep`](../reference/i_rep.html) -- Repeat each element of an iterable a given number of times.

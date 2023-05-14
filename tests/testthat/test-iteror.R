@@ -5,7 +5,7 @@ test_that("hasNext", {
   for (j in 1:10) {
     hasNext(i) %is% TRUE
     iterators::nextElem(i) %is% j
-  }
+ }
   hasNext(i) %is% FALSE
   expect_error(iterators::nextElem(i), "StopIteration")
 })

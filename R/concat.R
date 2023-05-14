@@ -6,27 +6,28 @@
 #'
 #' @param obj An iteror.
 #' @param mode The mode of vector to return.
-#' @param n The maximum number of input elements to extract from the
-#'   iteror.
-#' @param length.out The approximate size of the output vector (after
-#'   elements have been pasted together). If the iteror ends (or emits
-#'   N elements) before emitting this many, the result. If the
-#'   iterator does not end early the output will have at least
-#'   `length.out` elements (depending on how large the last chunk
-#'   was.)
+#' @param n The maximum number of times to call `nextOr(obj)`.
+#' @param length.out The target size of the output vector (after
+#'   results have been pasted together). If the iteror ends (or emits
+#'   `n` results) before emitting this many elements, the result will be
+#'   shorter than `length.out`. If the iterator does not end early, the output
+#'   will have at least `length.out` elements, and possibly more,
+#'   as the entire last chunk will be included.
 #' @param ... passed along to [iteror] constructor.
+#' @return a vector with mode `mode`.
 #' @examples
 #'
 #' it <- i_apply(icount(), seq_len) # [1], [1, 2], [1, 2, 3], ...
 #' concat(it, n=4, mode="numeric")  # [1, 1, 2, 1, 2, 3, 1, 2, 3, 4]
+#' concat(it, length.out=4, mode="numeric")  # [1, 1, 2, 1, 2, 3, 1, 2, 3, 4]
 #' @rdname concat
 #' @export
-concat <- function(obj, mode="list", n=as.integer(2^31-1), ...) UseMethod("concat")
+concat <- function(obj, mode = "list", n = Inf, ...) UseMethod("concat")
 
 #' @rdname concat
 #' @exportS3Method
-concat.default <- function(obj, mode="list", n=as.integer(2^31-1), ...) {
-  concat.iteror(iteror(obj, ...), mode=mode, n=n)
+concat.default <- function(obj, mode = "list", n = as.integer(2^31-1), ...) {
+  concat.iteror(iteror(obj, ...), mode=mode, n = n)
 }
 
 #' @rdname concat

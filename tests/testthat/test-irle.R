@@ -11,7 +11,7 @@ test_that("i_rle", {
         i_concat(
           i_apply(
             icount(10),
-            \(x) i_rep.times(x, x))))))
+            \(x) i_rep(x, each=x))))))
 
   result %is% target
 

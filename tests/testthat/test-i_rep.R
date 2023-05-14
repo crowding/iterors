@@ -90,13 +90,13 @@ test_that("test01", {
 
 test_that("test02", {
     x <- as.list(rnorm(10))
-    times <- 2
-    actual <- as.list(i_rep(x, times = times))
-    expected <- rep(x, times = times)
+    each <- 2
+    actual <- as.list(i_rep(x, each = each))
+    expected <- rep(x, each = each)
     expect_equal(expected, actual)
-    times <- rep(2, length(x))
-    actual <- as.list(i_rep(x, times = times))
-    expected <- rep(x, times = times)
+    each <- rep(2, length(x))
+    actual <- as.list(i_rep(x, each = each))
+    expected <- rep(x, times = each) #rep is different here
     expect_equal(expected, actual)
 })
 
@@ -107,7 +107,7 @@ test_that("test03", {
     expected <- rep(x, times)
     expect_equal(expected, actual)
     times <- rep(2, length(x))
-    actual <- as.list(i_rep(x, times))
+    actual <- as.list(i_rep(x, each=times)) #different from rep!
     expected <- rep(x, times)
     expect_equal(expected, actual)
 })
@@ -130,8 +130,8 @@ test_that("test05", {
 
 test_that("test06", {
     x <- as.list(rnorm(10))
-    each <- 2
-    times <- 3
+    times <- 2
+    each <- 3
     actual <- as.list(i_rep(x, each = each, times = times))
     expected <- rep(x, each = each, times = times)
     expect_equal(expected, actual)
@@ -139,10 +139,11 @@ test_that("test06", {
 
 test_that("test07", {
     x <- as.list(rnorm(10))
-    each <- 2
-    times <- seq(length = length(x) * each)
+    times <- 2
+    each <- seq(length = length(x) * times)
     actual <- as.list(i_rep(x, each = each, times = times))
-    expected <- rep(rep(x, each = each), times = times)
+    #! i_rep different from rep here...
+    expected <- rep(rep(x, times=times), times=each)
     expect_equal(expected, actual)
 })
 

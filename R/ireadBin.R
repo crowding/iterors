@@ -43,7 +43,7 @@
 #' endian-ness.
 #' @param ipos iterable.  If not \code{NULL}, values from this iterable will be
 #' used to do a seek on the file before calling readBin.
-#' @keywords utilities
+#' @return An [iteror] reading binary chunks from the connection.
 #' @details Originally from the `itertools` package.
 #' @examples
 #'

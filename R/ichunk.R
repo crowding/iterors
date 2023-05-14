@@ -19,7 +19,7 @@
 
 
 
-#' Create a chunking iterator
+#' Combine an iterator's values into chunks.
 #'
 #' Create an iterator that issues lists of values from the underlying iterable.
 #' This is useful for manually \dQuote{chunking} values from an iterable.
@@ -32,6 +32,7 @@
 #' @param fill Value to use to pad the last chunk to size, if it is
 #'   short. If missing, no padding will be done.
 #' @param ... Further arguments will be forwarded to `iteror(iterable, ...)`.
+#' @return an iteror that yields items of length `size` and mode `mode`.
 #' @seealso \code{iteror.default}
 #'
 #' Argument `size` does not need to be an integer, for instance a
@@ -48,7 +49,7 @@
 #' it <- i_chunk(1:10, 3, mode='integer')
 #' repeat print(unlist(nextOr(it, break)))
 #'
-#' #' it <- i_chunk(iterators::iter(1:5), 2, fill=NA)
+#' it <- i_chunk(iterators::iter(1:5), 2, fill=NA)
 #' # List: list(1, 2, 3)
 #' nextOr(it, NULL)
 #' # List: list(4, 5, NA)

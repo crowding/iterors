@@ -26,7 +26,6 @@
 #' @param chunkSize How many valies to return from each call to nextOr().
 #' @param chunks How many chunks to split the input. Either `chunks` or `chunkSize` may be given but not both.
 #' @return The counting iterator.
-#' @keywords utilities
 #' @details Originally from the `iterators` package.
 #' @seealso For more control over starting number and step size, see
 #'   [iseq].
@@ -66,7 +65,6 @@ icount <- count_template(
 #' This is useful when you know the number of pieces that you want.  If
 #' specified, then \code{chunkSize} should not be.
 #' @return The dividing iterator.
-#' @keywords utilities
 #' @details Originally from the `iterators` package.
 #' @examples
 #'

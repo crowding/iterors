@@ -37,4 +37,3 @@ nextOr(it)
 \seealso{
 \code{\link[base]{readLines}}
 }
-\keyword{utilities}

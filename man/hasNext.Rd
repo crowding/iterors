@@ -26,10 +26,10 @@ iterator has another element.
 }
 \details{
 A class \code{ihasNext} was introduced in the \code{itertools}
-package to try to lessen the boilerplate around extracting the
+package to try to reduce the boilerplate around extracting the
 next value using \link[iterators:nextElem]{iterators::nextElem}.  \code{ihasNext} is included
-in \code{iterors} for continuity; however, it is not needed for this
-purpose when using the \link{nextOr} iteration method, as you can
+in \code{iterors} for backward compatibility with iterator code; however,
+it is less needed when using the \link{nextOr} iteration method, as you can
 directly give an action to take at end of iteration.
 }
 \examples{

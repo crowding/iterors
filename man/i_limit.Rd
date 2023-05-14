@@ -2,7 +2,7 @@
 % Please edit documentation in R/ilimit.R
 \name{i_limit}
 \alias{i_limit}
-\title{Create a limited iterator}
+\title{Limit the length of an iterator.}
 \usage{
 i_limit(iterable, n, ...)
 }
@@ -13,9 +13,11 @@ i_limit(iterable, n, ...)
 
 \item{...}{Extra arguments for \code{iteror(iterable, ...)}}
 }
+\value{
+an \link{iteror} which will stop after yielding \code{n} values.
+}
 \description{
-Create an iterator that wraps a specified iterable a limited number of
-times.
+Create an iterator that limits the specified iterable to a specified number of items.
 }
 \details{
 Originally from the \code{itertools} package.
@@ -26,4 +28,3 @@ Originally from the \code{itertools} package.
 as.list(i_limit(icount(), 3))
 
 }
-\keyword{utilities}

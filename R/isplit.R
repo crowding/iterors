@@ -40,7 +40,6 @@ iwhich <- function(nf, ind) {
 #' @param \dots current ignored.
 #' @return The split iterator.
 #' @seealso \code{\link{split}}
-#' @keywords utilities
 #' @details Originally from the `iterators` package.
 #' @examples
 #'
