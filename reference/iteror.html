@@ -38,7 +38,7 @@ page.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathj
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iteration and tools</a>
-    <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
+    <a class="dropdown-item" href="../articles/benchmarks.html">UNKNOWN TITLE</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
     <a class="dropdown-item" href="../articles/writing.html">Writing Custom Iterators</a>
@@ -141,7 +141,7 @@ loop. Summing over an iteror this way looks like:</p>
 <span><span class="kw">repeat</span> <span class="op">{</span></span>
 <span>  <span class="va">sum</span> <span class="op">&lt;-</span> <span class="va">sum</span> <span class="op">+</span> <span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="kw">break</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre><p></p></div>
-<p>Another way to use the "or" argument is to give it a signal value;
+<p>Another way to use the "or" argument is to give it a sentinel value;
 that is, a special value that you will interpret as end of
 iteration.  If the result of calling <code>nextOr</code> is <code><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical()</a></code> to
 the value you provided, then you know the iterator has ended. This
@@ -154,10 +154,10 @@ pattern looks like:</p>
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">val</span>, <span class="va">stopped</span><span class="op">)</span><span class="op">)</span> <span class="kw">break</span></span>
 <span>  <span class="va">sum</span> <span class="op">&lt;-</span> <span class="va">sum</span> <span class="op">+</span> <span class="va">val</span></span>
 <span><span class="op">}</span></span></code></pre><p></p></div>
-<p>(Here I'm using <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env()</a></code> as a signal value. In R it is
-commonplace to use <code>NULL</code> or <code>NA</code> as a kind of signal value, but
+<p>(Here I'm using <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env()</a></code> as a sentinel value. In R it is
+commonplace to use <code>NULL</code> or <code>NA</code> as a kind of sentinel value, but
 that only works until you have an iterator that needs to yield NULL
-itself. A safer alternative is to use a local, one-shot signal value;
+itself. A safer alternative is to use a local, one-shot sentinel value;
 <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env()</a></code> is ideal, as it constructs an object that is
 not <a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a> to any other object in the R session.)</p>
 <p>Note that <code>iteror</code> objects are simply functions with a class

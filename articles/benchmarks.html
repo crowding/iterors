@@ -6,12 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="iterors">
-<title>Benchmarking Iteration • iterors</title>
+<title> • iterors</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Benchmarking Iteration">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="">
 <meta property="og:description" content="iterors">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -45,7 +45,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iteration and tools</a>
-    <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
+    <a class="dropdown-item" href="../articles/benchmarks.html">UNKNOWN TITLE</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
     <a class="dropdown-item" href="../articles/writing.html">Writing Custom Iterators</a>
@@ -78,7 +78,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>Benchmarking Iteration</h1>
+      <img src="" class="logo" alt=""><h1></h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/crowding/iterors/blob/HEAD/vignettes/benchmarks.Rmd" class="external-link"><code>vignettes/benchmarks.Rmd</code></a></small>
@@ -87,6 +87,29 @@
 
     
     
+<table class="table"><tbody>
+<tr class="odd">
+<td>title: “Benchmarking Iteration”</td>
+</tr>
+<tr class="even">
+<td>output: rmarkdown::html_vignette</td>
+</tr>
+<tr class="odd">
+<td>self_contained: yes</td>
+</tr>
+<tr class="even">
+<td>vignette: &gt;</td>
+</tr>
+<tr class="odd">
+<td>%</td>
+</tr>
+<tr class="even">
+<td>%</td>
+</tr>
+<tr class="odd">
+<td>%</td>
+</tr>
+</tbody></table>
 <p>This document illustrates the differences in performance between
 <code>iterors</code> and previous packages
 <code>iterators</code>/<code>itertools</code>/<code>itertools2</code>.
@@ -102,7 +125,7 @@ built manually and included in the released package statically. The
 vignettes directory to publish. When this document was last built, it
 was under these conditions:</p>
 <ul>
-<li>iterors version 1.0, git revision 584769a8 ()</li>
+<li>iterors version 1.0, git revision 257dc955 ()</li>
 <li>itertools2 version 0.1.1</li>
 <li>itertools version 0.1.3</li>
 <li>OS: Linux 5.4.0-148-generic</li>
@@ -224,18 +247,21 @@ was under these conditions:</p>
 <div class="section level3">
 <h3 id="random-number-generation">Random number generation<a class="anchor" aria-label="anchor" href="#random-number-generation"></a>
 </h3>
-<p>When <code>independent=TRUE</code> there is extra work in saving and
-restoring the random number generator settings.</p>
+<p>When <code>independent=TRUE</code> there is a slight amount of extra
+work in saving and restoring the random number generator settings. The
+difference becomes smaller the larger “n” you pick.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sampling.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
-<span>    iterators <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/irnorm.html" class="external-link">irunif</a></span><span class="op">(</span><span class="fl">100</span>, count<span class="op">=</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    iterors.independent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/rng.html">irunif</a></span><span class="op">(</span><span class="fl">100</span>, count<span class="op">=</span><span class="fl">100</span>, independent<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    iterators <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span><span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/irnorm.html" class="external-link">irunif</a></span><span class="op">(</span><span class="fl">100</span>, count<span class="op">=</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    iterors.independent <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/rng.html">irunif</a></span><span class="op">(</span><span class="fl">100</span>, count<span class="op">=</span><span class="fl">100</span>, independent<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    iterors.dependent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/rng.html">irunif</a></span><span class="op">(</span><span class="fl">100</span>, count<span class="op">=</span><span class="fl">100</span>, independent<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    times <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu">plotit</span><span class="op">(</span><span class="va">sampling.bench</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="static_figure/unnamed-chunk-9-1.png" alt=""><p class="caption">plot of chunk unnamed-chunk-9</p>
 </div>
+<p>What are the costs of speed here? here?</p>
+<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/profvis/" class="external-link">profvis</a></span><span class="op">)</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -244,7 +270,7 @@ restoring the random number generator settings.</p>
 <div class="section level3">
 <h3 id="chaining-iterators-end-to-end">Chaining iterators end-to-end<a class="anchor" aria-label="anchor" href="#chaining-iterators-end-to-end"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">chain.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>  itertools <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/itertools/man/chain.html" class="external-link">chain</a></span>,</span>
@@ -265,7 +291,7 @@ restoring the random number generator settings.</p>
 <div class="section level3">
 <h3 id="keeping-or-dropping-items-according-to-a-criterion">Keeping or dropping items according to a criterion<a class="anchor" aria-label="anchor" href="#keeping-or-dropping-items-according-to-a-criterion"></a>
 </h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">i_keep.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>    iterators <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools/man/ifilter.html" class="external-link">ifilter</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">==</span> <span class="va">x</span>, <span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html" class="external-link">icount</a></span><span class="op">(</span><span class="fl">5000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    iterors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/i_keep.html">i_keep</a></span><span class="op">(</span><span class="fu">iterors</span><span class="fu">::</span><span class="fu"><a href="../reference/icount.html">icount</a></span><span class="op">(</span><span class="fl">5000</span><span class="op">)</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -280,7 +306,7 @@ restoring the random number generator settings.</p>
 </h3>
 <p><code><a href="../reference/i_unique.html">iterors::i_unique</a></code> uses a hash table for better
 performance.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">i_unique.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>       iterators <span class="op">=</span> <span class="op">{</span></span>
 <span>         <span class="va">it</span> <span class="op">&lt;-</span> <span class="fu">itertools2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools2/man/iunique.html" class="external-link">iunique</a></span><span class="op">(</span><span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/makeIwrapper.html" class="external-link">isample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
@@ -302,7 +328,7 @@ performance.</p>
 <p>Note that <code><a href="https://rdrr.io/pkg/itertools2/man/icycle.html" class="external-link">itertools2::icycle</a></code> only works for
 self-contained vector-based iterators, while the other two use a general
 purpose buffer.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">icycle.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>  itertools2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="fu">itertools2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools2/man/icycle.html" class="external-link">icycle</a></span><span class="op">(</span><span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html" class="external-link">icount</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  itertools <span class="op">=</span> <span class="fu">iter_consume</span><span class="op">(</span><span class="fu">itertools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools/man/recycle.html" class="external-link">recycle</a></span><span class="op">(</span><span class="fu">iterators</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/iterators/man/icount.html" class="external-link">icount</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -319,7 +345,7 @@ purpose buffer.</p>
 <p>Note that <code>itertools2::tee</code> only works for vector-based
 iterators it knows how to clone, while <code><a href="../reference/i_tee.html">iterors::i_tee</a></code> uses
 a general purpose buffering mechanism.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">i_tee.bench</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span></span>
 <span>  itertools2<span class="op">=</span><span class="op">{</span></span>
 <span>    <span class="fu">iter_consume</span><span class="op">(</span></span>
@@ -342,7 +368,7 @@ a general purpose buffering mechanism.</p>
 </h3>
 <p><code>iterors</code> uses specialized routines for n=2 and n=3. For
 n=4 and above, a general purpose queue is used.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">marks</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">alist</a></span><span class="op">(</span></span>
 <span>  itertools2.w2<span class="op">=</span><span class="op">{</span><span class="fu">iter_consume</span><span class="op">(</span><span class="fu">itertools2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/itertools2/man/ipairwise.html" class="external-link">ipairwise</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">)</span><span class="op">)</span><span class="op">}</span><span class="op">)</span>,</span>
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"itripletwise"</span>, <span class="fu"><a href="https://rdrr.io/r/base/ns-internal.html" class="external-link">asNamespace</a></span><span class="op">(</span><span class="st">"itertools2"</span><span class="op">)</span>, inherits<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>

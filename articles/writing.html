@@ -45,7 +45,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iteration and tools</a>
-    <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
+    <a class="dropdown-item" href="../articles/benchmarks.html">UNKNOWN TITLE</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
     <a class="dropdown-item" href="../articles/writing.html">Writing Custom Iterators</a>
@@ -221,7 +221,7 @@ its second argument. You can put any code into the <code>or</code>
 argument, which will come in useful below.</p>
 </div>
 <div class="section level3">
-<h3 id="detecting-end-of-iteration-with-a-signal-value">Detecting end of iteration with a signal value<a class="anchor" aria-label="anchor" href="#detecting-end-of-iteration-with-a-signal-value"></a>
+<h3 id="detecting-end-of-iteration-with-a-sentinel-value">Detecting end of iteration with a sentinel value<a class="anchor" aria-label="anchor" href="#detecting-end-of-iteration-with-a-sentinel-value"></a>
 </h3>
 <p>Sometimes a break or return isn’t the right action to take. As we saw
 above, <code>nextOr</code> will return its second argument (whatever
@@ -245,12 +245,12 @@ you provided, and interpret that as the end of iteration.</p>
 <span><span class="co">## [1] 10</span></span></code></pre>
 <p>Here, if <code>nextOr</code> returns <code>NULL</code>, the
 <code>while</code> loop will exit. A special value used like
-<code>NULL</code> is used above, is often called a <em>signal
+<code>NULL</code> is used above, is often called a <em>sentinel
 value</em>.</p>
 <div class="section level4">
-<h4 id="unsafe-signal-values">Unsafe signal values<a class="anchor" aria-label="anchor" href="#unsafe-signal-values"></a>
+<h4 id="unsafe-sentinel-values">Unsafe sentinel values<a class="anchor" aria-label="anchor" href="#unsafe-sentinel-values"></a>
 </h4>
-<p>It’s popular to use <code>NULL</code> as a signal, but it’s worth
+<p>It’s popular to use <code>NULL</code> as a sentinel, but it’s worth
 considering what would happen if there were an iterator that
 legitimately returns <code>NULL</code> as a value. For instance, this
 list contains some tricky values:</p>
@@ -265,7 +265,7 @@ list contains some tricky values:</p>
 <span>  <span class="st">""</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Suppose you iterate over this list using NULL as your
-end-of-iteration signal, like this:</p>
+end-of-iteration sentinel, like this:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/iteror.html">iteror</a></span><span class="op">(</span><span class="va">bad_values</span><span class="op">)</span></span>
 <span><span class="kw">while</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">val</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -275,25 +275,25 @@ end-of-iteration signal, like this:</p>
 <span><span class="co">## [1] NA</span></span></code></pre>
 <p>The enumeration stops early because it mistakes <code>NULL</code>, a
 legitimate value in the list that we are iterating over, for
-<code>NULL</code> the signal value. This is a general problem with the
-signal value scheme in dynamically-typed languages; any value you could
-use to signal a stop, could also be a legitimate value for an iterator
-to emit.</p>
+<code>NULL</code> the sentinel value. This is a general problem with the
+sentinel value scheme in dynamically-typed languages; any value you
+could use to signal a stop, could also be a legitimate value for an
+iterator to emit.</p>
 </div>
 <div class="section level4">
-<h4 id="safe-signal-values">Safe signal values<a class="anchor" aria-label="anchor" href="#safe-signal-values"></a>
+<h4 id="safe-sentinel-values">Safe sentinel values<a class="anchor" aria-label="anchor" href="#safe-sentinel-values"></a>
 </h4>
 <p>A way to escape this problem is to construct a one-shot,
-<em>unique</em> signal value to use locally, just with this iteror, and
-then throw away, not keeping it in your code. One easy way to do this by
-using <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env()</a></code>. Consuming an iterator using a local signal
-value looks like this:</p>
+<em>unique</em> sentinel value to use locally, just with this iteror,
+and then throw away, not keeping it in your code. One easy way to do
+this by using <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env()</a></code>. Consuming an iterator using a
+local sentinel value looks like this:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">end_signal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">end_sentinel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">it</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/iteror.html">iteror</a></span><span class="op">(</span><span class="va">bad_values</span><span class="op">)</span></span>
 <span><span class="kw">repeat</span> <span class="op">{</span></span>
-<span>  <span class="va">val</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="va">end_signal</span><span class="op">)</span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">val</span>, <span class="va">end_signal</span><span class="op">)</span><span class="op">)</span> <span class="kw">break</span></span>
+<span>  <span class="va">val</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nextOr.html">nextOr</a></span><span class="op">(</span><span class="va">it</span>, <span class="va">end_sentinel</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">val</span>, <span class="va">end_sentinel</span><span class="op">)</span><span class="op">)</span> <span class="kw">break</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">val</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## .StopIteration</span></span>
@@ -311,9 +311,9 @@ value looks like this:</p>
 <p>Because environments compare by reference, a newly constructed
 environment is guaranteed not to be <code><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical()</a></code> to any
 other object in the R session, and the check for identity is very fast
-(just a pointer comparison.) By using a locally generated, unique signal
-value you avoid mistaking a legitimate value in your data for the end of
-iteration.</p>
+(just a pointer comparison.) By using a locally generated, unique
+sentinel value you avoid mistaking a legitimate value in your data for
+the end of iteration.</p>
 </div>
 </div>
 </div>
@@ -415,11 +415,12 @@ only used to set variables in the global environment, but that isn’t
 true. I think of it as an &lt;em&gt;inheriting&lt;/em&gt; assignment operator.}&lt;/p&gt;"><sup>3</sup></a> operator, and the rules of lexical
 scoping.</p>
 <p>After enough calls, the inner function will find
-<code>times &lt;= 0</code>, and will return <code>or</code> argument. As
-the author of an iterator this is how you signal end of iteration. When
-implementing an iterator you never need to do anything with
-<code>or</code> other than return it when appropriate; otherwise leave
-it alone, allowing R to be lazy in treating that argument.</p>
+<code>times &lt;= 0</code>, and will return its argument
+<code>or</code>. As the author of an iterator this is how you signal end
+of iteration. When implementing an iterator you never need to do
+anything with <code>or</code> other than return it when appropriate;
+otherwise leave it alone, allowing R to be lazy in treating that
+argument.</p>
 <p>Technically, this kind of function that refers to enclosing variables
 is called a <em>closure</em>, and is a fundamental feature of
 <code>R</code>. The important thing to remember is that

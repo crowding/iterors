@@ -38,7 +38,7 @@ to signal end of iteration, force and immediately return or.'><!-- mathjax --><s
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iteration and tools</a>
-    <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
+    <a class="dropdown-item" href="../articles/benchmarks.html">UNKNOWN TITLE</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
     <a class="dropdown-item" href="../articles/writing.html">Writing Custom Iterators</a>
@@ -80,7 +80,7 @@ to signal end of iteration, force and immediately return <code>or</code>.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for `function`</span></span>
-<span><span class="fu"><a href="iteror.html">iteror</a></span><span class="op">(</span><span class="va">obj</span>, <span class="va">...</span>, <span class="va">catch</span>, <span class="va">signal</span>, <span class="va">count</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="iteror.html">iteror</a></span><span class="op">(</span><span class="va">obj</span>, <span class="va">...</span>, <span class="va">catch</span>, <span class="va">sentinel</span>, <span class="va">count</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -99,10 +99,10 @@ e.g. <code>catch="StopIteration"</code> to interpret that an error with
 that message as end of iteration.</p></dd>
 
 
-<dt>signal</dt>
+<dt>sentinel</dt>
 <dd><p>If <code>obj</code> does not have an <code>or</code> argument, you can specify
 a special value to watch for end of iteration. Stop will be signaled
-if the function result is <code><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical()</a></code> to <code>signal</code>.</p></dd>
+if the function result is <code><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical()</a></code> to <code>sentinel</code>.</p></dd>
 
 
 <dt>count</dt>
@@ -123,7 +123,7 @@ give <code>NA</code> or <code>Inf</code> to never stop.</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>You can also provide <code>obj</code> a simple function of no arguments, as
-long as you specify one of <code>catch</code>, <code>signal</code>, or <code>count</code> to specify
+long as you specify one of <code>catch</code>, <code>sentinel</code>, or <code>count</code> to specify
 how to detect end of iteration.</p>
     </div>
 
@@ -153,34 +153,34 @@ how to detect end of iteration.</p>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="take.html">take</a></span><span class="op">(</span><span class="fu">irand</span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.377534</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6.224605</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.362105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.43818</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.991585</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6.955542</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.125924</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.912807</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6.453639</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.668124</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[6]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.211346</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6.287315</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[7]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.954017</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.766235</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[8]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.871099</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.740346</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[9]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.377936</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.814484</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[10]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.941645</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.722614</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

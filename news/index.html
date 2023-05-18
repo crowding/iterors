@@ -28,7 +28,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/README.html">The iterors package: Fast, compact iteration and tools</a>
-    <a class="dropdown-item" href="../articles/benchmarks.html">Benchmarking Iteration</a>
+    <a class="dropdown-item" href="../articles/benchmarks.html">UNKNOWN TITLE</a>
     <a class="dropdown-item" href="../articles/categories.html">Index of `iteror` functions by task</a>
     <a class="dropdown-item" href="../articles/cross-reference.html">Cross reference from iterarors/itertools to iterors</a>
     <a class="dropdown-item" href="../articles/writing.html">Writing Custom Iterators</a>
@@ -76,8 +76,6 @@
 <li>New iteror methods for <code>as.numeric</code>, <code>as.vector</code>, <code>as.character</code>, and <code>as.logical</code>.</li>
 <li>
 <code><a href="../reference/concat.html">concat()</a></code> pastes chunks from an iterator into a vector.</li>
-<li>
-<code>iteror</code> can make an iterator from Python objects via the <code>reticulate</code> package. In the other direction. <code>py_iteror</code> converts an iteror into a Python iterable.</li>
 </ul><p>New features:</p>
 <ul><li>Memory-backed and counting iterors <code>icount</code>, <code>icountn</code>, <code>idiv</code>, <code>igrid</code>, <code>iseq</code>, <code>i_enumerate.default</code>, <code>iteror.default</code>, <code>iteror.data.frame</code>, <code>iteror.default</code> and <code>i_enumerate.array</code> all have shared logic; all accept options <code>chunks</code>, <code>chunksize</code> and <code>recycle</code> with equivalent behavior.</li>
 <li>
@@ -85,10 +83,10 @@
 <li>Multidimensional iterators <code>icountn</code>, <code>igrid</code>, <code>i_enumerate.array</code> and <code>iteror.array</code> have option <code>rowMajor</code> to control the order of iteration.</li>
 <li>
 <code>i_unique</code> uses a hash table rather than linear scan, for much improved performance; it also now works with any type of R object.</li>
-<li>Random number iterators like <code>irunif</code>, <code>isample</code> and friends accept options <code>independent</code> and <code>seed</code>; if given, the iterator will maintain a private seed value, so that interleaving with other iterators does not affect reproducibility.</li>
+<li>Random number iterators like <code>irunif</code>, <code>isample</code> and friends accept options <code>independent</code>, and <code>seed</code> if given, the iterator will maintain a private seed value, so that interleaving with other iterators does not affect reproducibility. You can use a specific random number generator algorithm by also giving <code>kind</code>, <code>normal.kind</code>, and <code>sample.kind</code>.</li>
 <li>
 <code>i_tee</code> works for any iterator, using a queue, where previously <code>itertools::i_tee</code> only worked for memory-backed iterators.</li>
-<li>Python compatibility: <code>py_iteror</code> wraps an iterator so that it can be used by Python code via package <code>reticulate</code>. Meanwhile <code>iteror</code> has a method for Python objects, allowing Python iterators to be used transparently with iterors code.</li>
+<li>Python compatibility: <code>py_iteror</code> wraps an iterator so that it can be used by Python code via package <code>reticulate</code>. Meanwhile <code>iteror</code> has a method for Python objects, allowing Python iterators to be used transparently with iteror code.</li>
 </ul></div>
   </main></div>
 
