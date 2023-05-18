@@ -1,6 +1,7 @@
----
+--
 title: "Benchmarking Iteration"
 output: rmarkdown::html_vignette
+self_contained: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Benchmarking Iteration}
@@ -13,7 +14,7 @@ This document illustrates the differences in performance between `iterors` and p
 
 Because this is a more computationally intensive vignette, it is built manually and included in the released package statically.  The `Rmd` source is in the Git repo under the `scratch` directory; knit it manually and copy it into the vignettes directory to publish. When this document was last built, it was under these conditions:
 
-* iterors version 1.0,  git revision 584769a8 ()
+* iterors version 1.0,  git revision 257dc955 ()
 * itertools2 version 0.1.1
 * itertools version 0.1.3
 * OS: Linux 5.4.0-148-generic
@@ -130,19 +131,27 @@ plotit(igrid.bench)
 
 ## Random number generation
 
-When `independent=TRUE` there is extra work in saving and restoring the
-random number generator settings.
+When `independent=TRUE` there is a slight amount of extra work in saving and restoring the
+random number generator settings. The difference becomes smaller the larger "n" you pick. 
+
 
 ```r
 sampling.bench <- microbenchmark::microbenchmark(
-    iterators = as.list(iterators::irunif(100, count=100)),
-    iterors.independent = as.list(iterors::irunif(100, count=100, independent=TRUE)),
+    iterators = iter_consume(iterators::irunif(100, count=100)),
+    iterors.independent =  as.list(iterors::irunif(100, count=100, independent=TRUE)),
     iterors.dependent = as.list(iterors::irunif(100, count=100, independent=FALSE)),
     times = 100)
 plotit(sampling.bench)
 ```
 
 ![plot of chunk unnamed-chunk-9](static_figure/unnamed-chunk-9-1.png)
+
+What are the costs of speed here? here?
+
+```
+library(profvis)
+
+```
 
 # Higher order iterators / iterator functions
 

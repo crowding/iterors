@@ -1,6 +1,7 @@
 --
 title: "Benchmarking Iteration"
 output: rmarkdown::html_vignette
+self_contained: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Benchmarking Iteration}
@@ -137,15 +138,23 @@ plotit(igrid.bench)
 
 ## Random number generation
 
-When `independent=TRUE` there is extra work in saving and restoring the
-random number generator settings.
+When `independent=TRUE` there is a slight amount of extra work in saving and restoring the
+random number generator settings. The difference becomes smaller the larger "n" you pick. 
+
 ```{R}
 sampling.bench <- microbenchmark::microbenchmark(
-    iterators = as.list(iterators::irunif(100, count=100)),
-    iterors.independent = as.list(iterors::irunif(100, count=100, independent=TRUE)),
+    iterators = iter_consume(iterators::irunif(100, count=100)),
+    iterors.independent =  as.list(iterors::irunif(100, count=100, independent=TRUE)),
     iterors.dependent = as.list(iterors::irunif(100, count=100, independent=FALSE)),
     times = 100)
 plotit(sampling.bench)
+```
+
+What are the costs of speed here? here?
+
+```
+library(profvis)
+
 ```
 
 # Higher order iterators / iterator functions

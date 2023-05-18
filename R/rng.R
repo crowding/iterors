@@ -55,20 +55,26 @@ makeIwrapper <- function(FUN) {
     .(quote(`function`))(
       .(as.pairlist(c(formals(FUN),
                       list(count=quote(Inf),
-                           independent=quote(!missing(seed)),
-                           seed=quote(expr=))))),
+                           independent=quote(!missing(seed) || !missing(kind)),
+                           seed=NULL,
+                           kind=NULL,
+                           normal.kind=NULL,
+                           sample.kind=NULL)))),
       {
         list(..(lapply(names(formals(FUN)), as.name)))
         if (independent) {
-          check_switch_lecuyer()
-
-          if (missing(seed))
+          if (is.null(seed) && is.null(kind)) {
+            kind <- "L'Ecuyer-CMRG"
             seed <- rng.state$stream() # see iterors-package.R
-          if (length(seed) == 1)
-            seed <- convseed(seed)
-          # Error checking: this will throw an error right away if the
-          # seed is bad
-          nextRNGStream(seed)
+          } else if (is.null(seed)) {
+            seed <- convseed(NULL, kind, normal.kind, sample.kind)
+          } else {
+            if (length(seed) == 1) {
+              seed <- convseed(seed, kind, normal.kind, sample.kind)
+            } else {
+              checkseed(seed, kind, normal.kind, sample.kind)
+            }
+          }
 
           next_ <- function(or) {
             if (count > 0) {
@@ -87,6 +93,7 @@ makeIwrapper <- function(FUN) {
               return(or)
             }
           }
+
           iteror(next_)
         } else {
           next_ <- function(or) {
@@ -106,36 +113,32 @@ makeIwrapper <- function(FUN) {
   eval(def, parent.frame())
 }
 
-check_switch_lecuyer <- function() {
-  if (!exists(".Random.seed", where=.GlobalEnv, inherits=FALSE)) {
-    RNGkind("L'Ecuyer-CMRG")
-    set.seed(NULL)
-  } else {
-    if (RNGkind()[1] != "L'Ecuyer-CMRG") {
-      message("Independent RNG streams requested; changing to `RNGkind(\"L'Ecuyer-CMRG\")`\n(To suppress this message, run that command beforehand.)")
-      RNGkind("L'Ecuyer-CMRG")
-    }
-  }
-}
-
 #' @rdname rng
 #' @title Random Number Iterators
 #'
-#' @description These functions return an iterator that produces random
-#'   numbers of various distributions. Each one is a wrapper around a
-#'   base R function.
+#' @description These functions each construct an iterator that produces
+#'   random numbers of various distributions. Each one is a wrapper
+#'   around a base R function.
 #'
 #' @param count number of times that the iterator will fire.  If not
 #'   specified, it will fire values forever.
 #' @param independent If TRUE, this iterator will keep its own private
 #'   random state, so that its output is reproducible and independent
 #'   of anything else in the program; this comes at some performance
-#'   cost. If you do not specify `seed` a seed value will be chosen
-#'   for you. This will switch R to using the "L'Ecuyer-CMRG" generator,
-#'   printing a message if it is not already so.
+#'   cost. Default is FALSE _unless_ `seed` or `kind` are given.  If
+#'   `independent=TRUE` but neither `seed` nor `kind` are specified,
+#'   we will use the "L'Ecuyer-CMRG" generator with a seed value
+#'   taken from a package-private instance of [iRNGStream].
 #' @param seed A specific seed value for reproducibility. If given,
-#'   `independent=TRUE` is implied. Well separated seed values can be
-#'   obtained from [iRNGStream].
+#'   `independent=TRUE` is implied. This can be a single number (which
+#'   will be passed to [`set.seed(seed, kind, normal.kind,
+#'   sample.kind)`][set.seed]; it can also be a vector containing a
+#'   complete, valid state for [.Random.seed]. If the latter,
+#'   arguments `kind`, etc. are ignored.
+#' @param kind Which random number algorithm to use; passed along to
+#'   [set.seed], If given, `independent=TRUE` is implied.
+#' @param normal.kind Passed along to [set.seed].
+#' @param sample.kind Passed along to [set.seed].
 #'
 #' @return An iterator that is a wrapper around the corresponding
 #'   random number generator function.
@@ -152,9 +155,9 @@ check_switch_lecuyer <- function() {
 #' @param max see [runif].
 #'
 #' @details Originally from the `iterators` package.
-#'
-#' For more details on the L'Ecuyer-CMRG generator, see
-#' `vignette("parallel", package="parallel")`.
+#' @seealso If you are creating multiple independent iterators,
+#'   [iRNGStream] will create well-separated seed values, which may
+#'   help avoid spurious correlations between iterators.
 #' @examples
 #'
 #' # create an iterator that returns three random numbers
@@ -164,11 +167,21 @@ check_switch_lecuyer <- function() {
 #' nextOr(it)
 #' nextOr(it, NULL)
 #'
-#' # iterators created with a specific seed will produce reproducible values
-#' it <- irunif(n=1, seed=314)
+#' # iterators created with a specific seed will make reproducible values
+#' it <- irunif(n=1, seed=314, kind="L'Ecuyer-CMRG")
 #' nextOr(it) # 0.4936700
 #' nextOr(it) # 0.5103891
 #' nextOr(it) # 0.2338745
+#'
+#' # the iRNGStream produces a sequence of well separated seed values,
+#' rng.seeds <- iRNGStream(313)
+#' it1 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
+#' it2 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
+#' it3 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
+#' take(it1, 5, "numeric") # 0 1 0 0 1
+#' take(it2, 5, "numeric") # 0 1 0 0 0
+#' take(it3, 5, "numeric") # 0 0 0 1 1
+#'
 #' @importFrom stats rbinom rnbinom rnorm rpois runif
 #' @export irnorm irbinom irnbinom irpois isample irunif
 #' @aliases irnorm irunif irbinom irnbinom irpois isample

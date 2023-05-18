@@ -3,7 +3,7 @@
 \name{iRNGStream}
 \alias{iRNGStream}
 \alias{iRNGSubStream}
-\title{Iterators over distant random-number seeds.}
+\title{Iterators returning distant random-number seeds.}
 \usage{
 iRNGStream(seed)
 }
@@ -21,12 +21,11 @@ The \code{iRNGStream} creates a sequence of random number seeds
 that are very "far apart" (2^127 steps) in the overall random
 number sequence, so that each can be used to make a parallel,
 psudo-independent random iterator. This uses
-\link[parallel:RngStream]{parallel::nextRNGStream} and the "L'Ecuyer-CMRG" generator; for
-more details see \code{vignette("parallel", package="parallel")}.)
+\link[parallel:RngStream]{parallel::nextRNGStream} and the "L'Ecuyer-CMRG" generator.
 }
 \details{
 iRNGSubStream creates seeds that are somewhat less far apart (2^76
-steps), which can be used as "substream" seeds.
+steps), which might be used as "substream" seeds.
 
 Originally from the \code{itertools} package.
 }
@@ -44,13 +43,13 @@ it1 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
 it2 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
 it3 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
 
-.Random.seed == global.seed
+all(.Random.seed == global.seed)
 take(it1, 5, "numeric") # 0 0 0 1 1
 take(it2, 5, "numeric") # 0 1 1 1 1
 take(it3, 5, "numeric") # 1 1 1 0 0
 
 # none of this affects the global seed
-global.seed == .Random.seed
+all(global.seed == .Random.seed)
 
 \donttest{
 # Compute random numbers in three parallel processes with three
@@ -62,6 +61,10 @@ foreach(1:3, rseed=iRNGSubStream(1970), .combine='c') \%dopar\% {
   runif(1)
 }
 }
+}
+\references{
+For more details on the L'Ecuyer-CMRG generator, see
+\code{vignette("parallel", package="parallel")}.
 }
 \seealso{
 \code{\link[base]{set.seed}},

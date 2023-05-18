@@ -17,17 +17,16 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
 # USA
 
-#' Iterators over distant random-number seeds.
+#' Iterators returning distant random-number seeds.
 #'
 #' The \code{iRNGStream} creates a sequence of random number seeds
 #' that are very "far apart" (2^127 steps) in the overall random
 #' number sequence, so that each can be used to make a parallel,
 #' psudo-independent random iterator. This uses
-#' [parallel::nextRNGStream] and the "L'Ecuyer-CMRG" generator; for
-#' more details see `vignette("parallel", package="parallel")`.)
+#' [parallel::nextRNGStream] and the "L'Ecuyer-CMRG" generator.
 #'
 #' iRNGSubStream creates seeds that are somewhat less far apart (2^76
-#' steps), which can be used as "substream" seeds.
+#' steps), which might be used as "substream" seeds.
 #'
 #' @aliases iRNGStream iRNGSubStream
 #' @param seed Either a single number to be passed to \code{set.seed} or a
@@ -36,6 +35,8 @@
 #' @seealso \code{\link[base]{set.seed}},
 #' \code{\link[parallel]{nextRNGStream}},
 #' \code{\link[parallel]{nextRNGSubStream}}
+#' @references For more details on the L'Ecuyer-CMRG generator, see
+#'   `vignette("parallel", package="parallel")`.
 #' @details Originally from the `itertools` package.
 #' @return An [iteror] which yields successive seed values.
 #' @examples
@@ -52,13 +53,13 @@
 #' it2 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
 #' it3 <- isample(c(0, 1), 1, seed=nextOr(rng.seeds))
 #'
-#' .Random.seed == global.seed
+#' all(.Random.seed == global.seed)
 #' take(it1, 5, "numeric") # 0 0 0 1 1
 #' take(it2, 5, "numeric") # 0 1 1 1 1
 #' take(it3, 5, "numeric") # 1 1 1 0 0
 #'
 #' # none of this affects the global seed
-#' global.seed == .Random.seed
+#' all(global.seed == .Random.seed)
 #'
 #' \donttest{
 #' # Compute random numbers in three parallel processes with three
@@ -73,11 +74,15 @@
 #' @importFrom parallel nextRNGStream nextRNGSubStream
 #' @export iRNGStream iRNGSubStream
 iRNGStream <- function(seed) {
-  check_switch_lecuyer()
 
   # Convert a single number into the appropriate vector for "L'Ecuyer-CMRG"
   if (length(seed) == 1) {
-    seed <- convseed(seed)
+    seed <- convseed(seed, "L'Ecuyer-CMRG")
+  } else {
+    if (checkseed(seed)[1] != "L'Ecuyer-CMRG") {
+      stop("Only \"L'Ecuyer-CMRG\" seed values supported")
+      # TODO: there is also a step-by-2^127 algorithm for Mersenne-Twister...
+    }
   }
 
   # Error checking: this will throw an error right away if the seed is bad
@@ -90,11 +95,15 @@ iRNGStream <- function(seed) {
 }
 
 iRNGSubStream <- function(seed) {
-  check_switch_lecuyer()
 
   # Convert a single number into the appropriate vector for "L'Ecuyer-CMRG"
   if (length(seed) == 1) {
-    seed <- convseed(seed)
+    seed <- convseed(seed, "L'Ecuyer-CMRG")
+  } else {
+    if (checkseed(seed)[1] != "L'Ecuyer-CMRG") {
+      stop("Only \"L'Ecuyer-CMRG\" seed values supported")
+      # TODO: there is also a step-by-2^127 algorithm for Mersenne-Twister.
+    }
   }
 
   # Error checking: this will throw an error right away if the seed is bad
@@ -106,9 +115,30 @@ iRNGSubStream <- function(seed) {
   iteror_internal(nextOr_)
 }
 
-convseed <- function(iseed) {
+convseed <- function(iseed, kind = NULL, normal.kind = NULL, sample.kind = NULL) {
+  if (!exists(".Random.seed", envir=.GlobalEnv)) set.seed()
   saveseed <- .Random.seed
-  on.exit(assign('.Random.seed', saveseed, pos=.GlobalEnv))
-  set.seed(iseed)
+  on.exit({
+    assign('.Random.seed', saveseed, pos=.GlobalEnv)
+  })
+  set.seed(iseed, kind=kind, normal.kind = normal.kind, sample.kind = sample.kind)
   get('.Random.seed', pos=.GlobalEnv, inherits=FALSE)
+}
+
+checkseed <- function(seed, kind = NULL, normal.kind = NULL, sample.kind = NULL) {
+  if (!exists(".Random.seed", envir=.GlobalEnv)) set.seed()
+  saveseed <- .Random.seed
+  on.exit({
+    assign('.Random.seed', saveseed, pos=.GlobalEnv)
+  })
+  assign('.Random.seed', seed, pos = .GlobalEnv)
+  nextSeed <- tryCatch(warning = \(err)stop(conditionMessage(err)),
+                       message = \(err)stop(conditionMessage(err)), {
+    rkind <- RNGkind()
+    runif(1)
+  })
+  if (length(.Random.seed) != length(seed)) {
+    stop("seed does not have the right length")
+  }
+  RNGkind(rkind[1], rkind[2], rkind[3]) # so that it may throw warnings
 }

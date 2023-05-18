@@ -64,7 +64,7 @@
 #' }
 #' ```
 #'
-#' Another way to use the "or" argument is to give it a signal value;
+#' Another way to use the "or" argument is to give it a sentinel value;
 #' that is, a special value that you will interpret as end of
 #' iteration.  If the result of calling `nextOr` is `identical()` to
 #' the value you provided, then you know the iterator has ended. This
@@ -81,10 +81,10 @@
 #' }
 #' ```
 #'
-#' (Here I'm using `new.env()` as a signal value. In R it is
-#' commonplace to use `NULL` or `NA` as a kind of signal value, but
+#' (Here I'm using `new.env()` as a sentinel value. In R it is
+#' commonplace to use `NULL` or `NA` as a kind of sentinel value, but
 #' that only works until you have an iterator that needs to yield NULL
-#' itself. A safer alternative is to use a local, one-shot signal value;
+#' itself. A safer alternative is to use a local, one-shot sentinel value;
 #' `new.env()` is ideal, as it constructs an object that is
 #' not [identical] to any other object in the R session.)
 #'
@@ -142,7 +142,7 @@ iteror.iter <- function(obj, ...) {
 #' to signal end of iteration, force and immediately return `or`.
 #'
 #' You can also provide `obj` a simple function of no arguments, as
-#' long as you specify one of `catch`, `signal`, or `count` to specify
+#' long as you specify one of `catch`, `sentinel`, or `count` to specify
 #' how to detect end of iteration.
 #'
 #' @exportS3Method iteror "function"
@@ -154,9 +154,9 @@ iteror.iter <- function(obj, ...) {
 #' @param catch If `obj` does not have an `or` argument, specify
 #'   e.g. `catch="StopIteration"` to interpret that an error with
 #'   that message as end of iteration.
-#' @param signal If `obj` does not have an `or` argument, you can specify
+#' @param sentinel If `obj` does not have an `or` argument, you can specify
 #'   a special value to watch for end of iteration. Stop will be signaled
-#'   if the function result is [identical()] to `signal`.
+#'   if the function result is [identical()] to `sentinel`.
 #' @param count If `obj` does not have an `or` argument, you can specify
 #'   how many calls before stop iteration, or
 #'   give `NA` or `Inf` to never stop.
@@ -184,16 +184,16 @@ iteror.iter <- function(obj, ...) {
 #'  iteror(function() runif(1, min=min, max=max), count=Inf)
 #' }
 #' take(irand(5, 10), 10)
-iteror.function <- function(obj, ..., catch, signal, count) {
+iteror.function <- function(obj, ..., catch, sentinel, count) {
   stop_unused(...) # reject extra args
   if ("or" %in% names(formals(obj))) {
     fn <- obj
   } else {
-    if (!missing(signal)) {
-      force(signal)
+    if (!missing(sentinel)) {
+      force(sentinel)
       fn <- function(or, ...) {
         x <- obj(...)
-        if (identical(x, signal)) or else x
+        if (identical(x, sentinel)) or else x
       }
     } else if (!missing(catch)) {
       force(catch)
@@ -216,7 +216,7 @@ iteror.function <- function(obj, ..., catch, signal, count) {
         fn <- function(or, ...) obj(...)
       }
     } else {
-      stop("iteror: function must have an 'or' argument, or else specify one of 'catch', 'signal' or 'count'")
+      stop("iteror: function must have an 'or' argument, or else specify one of 'catch', 'sentinel' or 'count'")
     }
   }
   iteror_internal(fn)

@@ -4,7 +4,7 @@
 \alias{iteror.function}
 \title{Construct an iteror object with custom-programmed behavior.}
 \usage{
-\method{iteror}{`function`}(obj, ..., catch, signal, count)
+\method{iteror}{`function`}(obj, ..., catch, sentinel, count)
 }
 \arguments{
 \item{obj}{A function. It should have having an argument named "or"}
@@ -15,9 +15,9 @@
 e.g. \code{catch="StopIteration"} to interpret that an error with
 that message as end of iteration.}
 
-\item{signal}{If \code{obj} does not have an \code{or} argument, you can specify
+\item{sentinel}{If \code{obj} does not have an \code{or} argument, you can specify
 a special value to watch for end of iteration. Stop will be signaled
-if the function result is \code{\link[=identical]{identical()}} to \code{signal}.}
+if the function result is \code{\link[=identical]{identical()}} to \code{sentinel}.}
 
 \item{count}{If \code{obj} does not have an \code{or} argument, you can specify
 how many calls before stop iteration, or
@@ -38,7 +38,7 @@ to signal end of iteration, force and immediately return \code{or}.
 }
 \details{
 You can also provide \code{obj} a simple function of no arguments, as
-long as you specify one of \code{catch}, \code{signal}, or \code{count} to specify
+long as you specify one of \code{catch}, \code{sentinel}, or \code{count} to specify
 how to detect end of iteration.
 }
 \examples{

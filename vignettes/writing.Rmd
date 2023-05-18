@@ -135,7 +135,7 @@ Because the `or` argument is lazily evaluated, the
 second argument. You can put any code into the `or` argument,
 which will come in useful below.
 
-### Detecting end of iteration with a signal value
+### Detecting end of iteration with a sentinel value
 
 Sometimes a break or return isn't the right action to take.  As we saw
 above, `nextOr` will return its second argument (whatever that
@@ -152,11 +152,11 @@ while (!is.null(val <- nextOr(x, NULL))) {
 
 Here, if `nextOr` returns `NULL`, the `while`
 loop will exit. A special value used like `NULL` is used above,
-is often called a _signal value_.
+is often called a _sentinel value_.
 
-#### Unsafe signal values
+#### Unsafe sentinel values
 
-It's popular to use `NULL` as a signal, but it's worth considering what
+It's popular to use `NULL` as a sentinel, but it's worth considering what
 would happen if there were an iterator that legitimately returns
 `NULL` as a value. For instance, this list contains some tricky
 values:
@@ -173,7 +173,7 @@ bad_values <- list(
   numeric(0))
 ```
 
-Suppose you iterate over this list using NULL as your end-of-iteration signal, like this:
+Suppose you iterate over this list using NULL as your end-of-iteration sentinel, like this:
 
 ```{R enum}
 it <- iteror(bad_values)
@@ -183,25 +183,25 @@ while (!is.null(val <- nextOr(it, NULL))) {
 ```
 
 The enumeration stops early because it mistakes `NULL`, a legitimate
-value in the list that we are iterating over, for `NULL` the signal
-value. This is a general problem with the signal value scheme in
+value in the list that we are iterating over, for `NULL` the sentinel
+value. This is a general problem with the sentinel value scheme in
 dynamically-typed languages; any value you could use to signal a stop,
 could also be a legitimate value for an iterator to emit.
 
-#### Safe signal values
+#### Safe sentinel values
 
 A way to escape this problem is to construct a one-shot, _unique_
-signal value to use locally, just with this iteror, and then throw
+sentinel value to use locally, just with this iteror, and then throw
 away, not keeping it in your code. One easy way to do this by using
-`new.env()`. Consuming an iterator using a local signal value looks
+`new.env()`. Consuming an iterator using a local sentinel value looks
 like this:
 
-```{R consuming_signal}
-end_signal <- new.env()
+```{R consuming_sentinel}
+end_sentinel <- new.env()
 it <- iteror(bad_values)
 repeat {
-  val <- nextOr(it, end_signal)
-  if (identical(val, end_signal)) break
+  val <- nextOr(it, end_sentinel)
+  if (identical(val, end_sentinel)) break
   print(val)
 }
 ```
@@ -209,7 +209,7 @@ repeat {
 Because environments compare by reference, a newly constructed
 environment is guaranteed not to be `identical()` to any other object
 in the R session, and the check for identity is very fast (just a
-pointer comparison.) By using a locally generated, unique signal value
+pointer comparison.) By using a locally generated, unique sentinel value
 you avoid mistaking a legitimate value in your data for the end of
 iteration.
 
@@ -319,7 +319,7 @@ variables in the global environment, but that isn't true.  I think of
 it as an _inheriting_ assignment operator.}
 
 After enough calls, the inner function will find `times <= 0`, and
-will return `or` argument. As the author of an iterator this is how
+will return its argument `or`. As the author of an iterator this is how
 you signal end of iteration. When implementing an iterator you never
 need to do anything with `or` other than return it when appropriate;
 otherwise leave it alone, allowing R to be lazy in treating that

@@ -18,8 +18,8 @@
 #' builtins$sum(triangulars) # r_to_py is called automatically
 r_to_py.iteror <- function(x, convert=FALSE, ...) {
   x <- iteror(x, ...)
-  signal <- reticulate::r_to_py(function() NULL)
-  reticulate::py_iterator(function() x(signal), signal)
+  sentinel <- reticulate::r_to_py(function() NULL)
+  reticulate::py_iterator(function() x(sentinel), sentinel)
 }
 
 #' @rdname r_to_py.iteror
@@ -34,11 +34,11 @@ r_to_py.iteror <- function(x, convert=FALSE, ...) {
 iteror.python.builtin.object <- function(obj, ...) {
   stop_unused(...)
   obj <- reticulate::as_iterator(obj)
-  signal <- function() NULL
+  sentinel <- function() NULL
 
   nextOr_ <- function(or) {
-    val <- reticulate::iter_next(obj, signal)
-    if (identical(val, signal)) or else val
+    val <- reticulate::iter_next(obj, sentinel)
+    if (identical(val, sentinel)) or else val
   }
 
   iteror_internal(nextOr_)

@@ -21,10 +21,7 @@ New functions:
   * New iteror methods for `as.numeric`, `as.vector`, `as.character`,
     and `as.logical`.
   * `concat()` pastes chunks from an iterator into a vector.
-  * `iteror` can make an iterator from Python objects via the
-    `reticulate` package. In the other direction. `py_iteror` converts
-    an iteror into a Python iterable.
-
+  
 New features:
 
   * Memory-backed and counting iterors `icount`, `icountn`, `idiv`,
@@ -38,12 +35,13 @@ New features:
   * `i_unique` uses a hash table rather than linear scan, for much improved
     performance; it also now works with any type of R object.
   * Random number iterators like `irunif`, `isample` and friends
-    accept options `independent` and `seed`; if given, the iterator will maintain a
+    accept options `independent`,  and `seed`  if given, the iterator will maintain a
     private seed value, so that interleaving with other iterators does
-    not affect reproducibility.
+    not affect reproducibility. You can use a specific random number
+    generator algorithm by also giving `kind`, `normal.kind`, and `sample.kind`.
   * `i_tee` works for any iterator, using a queue, where previously
     `itertools::i_tee` only worked for memory-backed iterators.
   * Python compatibility: `py_iteror` wraps an iterator so that it can
     be used by Python code via package `reticulate`. Meanwhile
     `iteror` has a method for Python objects, allowing Python
-    iterators to be used transparently with iterors code.
+    iterators to be used transparently with iteror code.

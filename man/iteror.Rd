@@ -59,7 +59,7 @@ repeat \{
 \}
 }\if{html}{\out{</div>}}
 
-Another way to use the "or" argument is to give it a signal value;
+Another way to use the "or" argument is to give it a sentinel value;
 that is, a special value that you will interpret as end of
 iteration.  If the result of calling \code{nextOr} is \code{identical()} to
 the value you provided, then you know the iterator has ended. This
@@ -75,10 +75,10 @@ repeat \{
 \}
 }\if{html}{\out{</div>}}
 
-(Here I'm using \code{new.env()} as a signal value. In R it is
-commonplace to use \code{NULL} or \code{NA} as a kind of signal value, but
+(Here I'm using \code{new.env()} as a sentinel value. In R it is
+commonplace to use \code{NULL} or \code{NA} as a kind of sentinel value, but
 that only works until you have an iterator that needs to yield NULL
-itself. A safer alternative is to use a local, one-shot signal value;
+itself. A safer alternative is to use a local, one-shot sentinel value;
 \code{new.env()} is ideal, as it constructs an object that is
 not \link{identical} to any other object in the R session.)
 
